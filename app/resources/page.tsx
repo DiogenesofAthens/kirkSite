@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { GameSelector } from "@/components/game-selector"
 import { Download, FileText, Video, BookOpen, Coffee, Beer, Heart, Calculator, Mail } from "lucide-react"
 import Link from "next/link"
 import { resourceConfigs } from "@/lib/resource-config"
@@ -177,6 +178,11 @@ export default function Resources() {
                 )
               })}
             </div>
+          </div>
+
+          {/* For Fun Section */}
+          <div className="mb-16">
+            <GameSelector />
           </div>
 
           {/* Contact Me Section */}
