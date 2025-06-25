@@ -71,11 +71,11 @@ export default function Recommendations() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-slate-100 relative overflow-hidden">
+    <div className="min-h-screen gradient-bg relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <FloatingNav />
@@ -84,39 +84,39 @@ export default function Recommendations() {
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Recommendations</h1>
-            <p className="text-lg text-blue-600 font-medium italic mt-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Recommendations</h1>
+            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
               "From smart homes to smart sales — I help people work better with the right tech."
             </p>
           </div>
 
           {/* Stats */}
           <div className="grid md:grid-cols-3 gap-6 mb-16">
-            <Card className="border-0 shadow-lg text-center backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 </div>
-                <div className="text-3xl font-bold text-blue-600 mb-2">9+</div>
-                <div className="text-sm text-slate-600">Professional Recommendations</div>
+                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">9+</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">Professional Recommendations</div>
               </CardContent>
             </Card>
-            <Card className="border-0 shadow-lg text-center backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Award className="w-6 h-6 text-green-600" />
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Award className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
-                <div className="text-3xl font-bold text-green-600 mb-2">3</div>
-                <div className="text-sm text-slate-600">CEO Endorsements</div>
+                <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">3</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">CEO Endorsements</div>
               </CardContent>
             </Card>
-            <Card className="border-0 shadow-lg text-center backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Star className="w-6 h-6 text-purple-600" />
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Star className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                 </div>
-                <div className="text-3xl font-bold text-purple-600 mb-2">100%</div>
-                <div className="text-sm text-slate-600">Positive Feedback</div>
+                <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">100%</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">Positive Feedback</div>
               </CardContent>
             </Card>
           </div>
@@ -124,60 +124,61 @@ export default function Recommendations() {
           {/* Recommendations Grid */}
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             {recommendations.map((rec, index) => (
-              <Card
-                key={index}
-                className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 backdrop-blur-sm"
-              >
+              <Card key={index} className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300">
                 <CardHeader>
                   <div className="flex items-center gap-2 mb-2">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <CardTitle className="text-lg">{rec.name}</CardTitle>
-                  <CardDescription className="text-sm">
+                  <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{rec.name}</CardTitle>
+                  <CardDescription className="text-sm text-slate-600 dark:text-slate-400">
                     {rec.title} • {rec.company}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Quote className="w-6 h-6 text-slate-400 mb-3" />
-                  <p className="text-slate-700 leading-relaxed text-sm">{rec.content}</p>
+                  <Quote className="w-6 h-6 text-slate-400 dark:text-slate-500 mb-3" />
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">{rec.content}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
 
           {/* Featured Article */}
-          <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-50 to-purple-50 backdrop-blur-sm">
+          <Card className="glass border-0 shadow-xl">
             <CardHeader>
               <div className="flex items-center gap-2 mb-2">
-                <Award className="w-5 h-5 text-blue-600" />
-                <span className="text-sm font-medium text-blue-600">Featured Article</span>
+                <Award className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <span className="text-sm font-medium text-blue-600 dark:text-blue-400">Featured Article</span>
               </div>
-              <CardTitle className="text-2xl">DNN Employee Profile: Grant Glazer</CardTitle>
-              <CardDescription className="text-base">Published March 4th, 2016 by Dennis Shiao</CardDescription>
+              <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">
+                DNN Employee Profile: Grant Glazer
+              </CardTitle>
+              <CardDescription className="text-base text-slate-600 dark:text-slate-400">
+                Published March 4th, 2016 by Dennis Shiao
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="prose prose-slate max-w-none">
-                <p className="text-slate-700 leading-relaxed mb-4">
+              <div className="prose prose-slate max-w-none dark:prose-invert">
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
                   <strong>"I consider Grant Glazer an efficiency expert."</strong> When he met with us in 2015, DNN was
                   one of three companies Grant interviewed with that day. Yes, three on-site interviews in one day.
                 </p>
-                <p className="text-slate-700 leading-relaxed mb-4">
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
                   Grant was attracted to the office environment and noticed that the team enjoyed working with one
                   another. Grant found our Evoq products to be "easy-to-use, innovative and useful."
                 </p>
-                <p className="text-slate-700 leading-relaxed mb-4">
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
                   During his first month, Grant found the job to be as expected, except for one thing:{" "}
                   <em>"I didn't know I could have this much fun at work,"</em> he said. Unlike past jobs, Grant noticed
                   that everyone at DNN seems to truly enjoy working with one another.
                 </p>
-                <blockquote className="border-l-4 border-blue-500 pl-4 italic text-slate-600 mb-4">
+                <blockquote className="border-l-4 border-blue-500 pl-4 italic text-slate-600 dark:text-slate-400 mb-4">
                   "As an SDR, I specialize in uncovering and qualifying business opportunities for our account
                   executives. I like to step into their shoes, see what they're thinking and understand what's driving
                   their need for a solution."
                 </blockquote>
-                <p className="text-slate-700 leading-relaxed">
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                   According to Grant, "I feel like I'm actually cared about here. My opinions are valued. If I ask
                   someone a question, they answer it. If they don't know the answer, they'll know whom to get the answer
                   from."
@@ -187,13 +188,13 @@ export default function Recommendations() {
           </Card>
 
           {/* Call to Action */}
-          <div className="mt-16 bg-white rounded-2xl p-8 shadow-lg text-center backdrop-blur-sm">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Ready to Work Together?</h2>
-            <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
+          <div className="mt-16 glass rounded-3xl p-8 shadow-xl text-center">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Ready to Work Together?</h2>
+            <p className="text-slate-700 dark:text-slate-300 mb-6 max-w-2xl mx-auto">
               Join the growing list of satisfied clients and colleagues who have experienced Grant's expertise and
               dedication firsthand.
             </p>
-            <div className="text-sm text-slate-500">
+            <div className="text-sm text-slate-600 dark:text-slate-400">
               <p>Additional references and detailed case studies available upon request</p>
             </div>
           </div>

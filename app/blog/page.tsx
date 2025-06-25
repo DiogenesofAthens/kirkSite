@@ -44,11 +44,11 @@ export default function Blog() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-slate-100 relative overflow-hidden">
+    <div className="min-h-screen gradient-bg relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <FloatingNav />
@@ -57,11 +57,11 @@ export default function Blog() {
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Blog</h1>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Blog</h1>
+            <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-4">
               Insights on business technology, sales optimization, and industry trends
             </p>
-            <p className="text-lg text-blue-600 font-medium italic">
+            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic">
               "Solving business problems with smart processes, strategic thinking, and hands-on tech know-how."
             </p>
           </div>
@@ -70,28 +70,37 @@ export default function Blog() {
             {blogPosts.map((post) => (
               <Card
                 key={post.slug}
-                className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-white/80 backdrop-blur-sm"
+                className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group"
               >
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary">{post.category}</Badge>
-                    <div className="flex items-center text-sm text-slate-500">
+                    <Badge
+                      variant="secondary"
+                      className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                    >
+                      {post.category}
+                    </Badge>
+                    <div className="flex items-center text-sm text-slate-600 dark:text-slate-400">
                       <Calendar className="w-4 h-4 mr-1" />
                       {new Date(post.date).toLocaleDateString()}
                     </div>
                   </div>
-                  <CardTitle className="text-xl group-hover:text-blue-600 transition-colors">{post.title}</CardTitle>
+                  <CardTitle className="text-xl group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-slate-50">
+                    {post.title}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-base leading-relaxed mb-4">{post.excerpt}</CardDescription>
+                  <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
+                    {post.excerpt}
+                  </CardDescription>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center text-sm text-slate-500">
+                    <div className="flex items-center text-sm text-slate-600 dark:text-slate-400">
                       <Clock className="w-4 h-4 mr-1" />
                       {post.readTime}
                     </div>
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="text-blue-600 hover:text-blue-700 font-medium flex items-center"
+                      className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center"
                     >
                       Read More
                       <ArrowRight className="w-4 h-4 ml-1" />
@@ -103,18 +112,20 @@ export default function Blog() {
           </div>
 
           {/* Featured Post */}
-          <div className="mt-16 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+          <div className="mt-16 glass rounded-3xl p-8 shadow-xl">
             <div className="flex items-center gap-2 mb-4">
-              <Badge className="bg-blue-100 text-blue-800">Featured</Badge>
+              <Badge className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300">Featured</Badge>
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Digital Transformation in the Post-Pandemic Era</h2>
-            <p className="text-slate-600 mb-6 leading-relaxed">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">
+              Digital Transformation in the Post-Pandemic Era
+            </h2>
+            <p className="text-slate-700 dark:text-slate-300 mb-6 leading-relaxed">
               How businesses are adapting their technology strategies and sales processes to thrive in the new normal.
               This comprehensive guide covers the key trends, challenges, and opportunities that organizations face when
               implementing digital transformation initiatives.
             </p>
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4 text-sm text-slate-500">
+              <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
                 <div className="flex items-center">
                   <Calendar className="w-4 h-4 mr-1" />
                   January 20, 2024
@@ -126,7 +137,7 @@ export default function Blog() {
               </div>
               <Link
                 href="/blog/digital-transformation-post-pandemic"
-                className="text-blue-600 hover:text-blue-700 font-medium flex items-center"
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center"
               >
                 Read Full Article
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -135,9 +146,9 @@ export default function Blog() {
           </div>
 
           {/* Newsletter Signup */}
-          <div className="mt-16 bg-slate-900/95 backdrop-blur-sm rounded-2xl p-8 text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">Never Miss an Update</h2>
-            <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
+          <div className="mt-16 glass rounded-3xl p-8 text-center">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Never Miss an Update</h2>
+            <p className="text-slate-700 dark:text-slate-300 mb-6 max-w-2xl mx-auto">
               Subscribe to get the latest insights on business technology, sales strategies, and industry trends
               delivered directly to your inbox.
             </p>
@@ -145,7 +156,7 @@ export default function Blog() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/90"
+                className="flex-1 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100"
               />
               <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
                 Subscribe

@@ -34,17 +34,19 @@ export function TimezoneClock() {
   }
 
   return (
-    <div className="fixed top-6 right-6 z-40">
-      <div className="bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-full px-3 py-2 shadow-md flex items-center gap-2">
-        <Clock className="w-4 h-4 text-slate-600" />
-        <span className="text-sm font-medium text-slate-900">{formatTime(time, timezone)}</span>
+    <div className="fixed top-6 right-6 z-40 max-w-[180px]">
+      <div className="glass-nav rounded-full px-4 py-2 shadow-lg shadow-black/5 dark:shadow-black/20 flex items-center gap-3">
+        <Clock className="w-4 h-4 text-slate-600 dark:text-slate-400 flex-shrink-0" />
+        <span className="text-sm font-medium text-slate-900 dark:text-slate-100 whitespace-nowrap">
+          {formatTime(time, timezone)}
+        </span>
         <select
           value={timezone}
           onChange={(e) => setTimezone(e.target.value)}
-          className="text-xs bg-transparent border-none outline-none text-slate-600"
+          className="text-xs bg-transparent border-none outline-none text-slate-600 dark:text-slate-400 cursor-pointer min-w-0"
         >
           {timezones.map((tz) => (
-            <option key={tz.value} value={tz.value}>
+            <option key={tz.value} value={tz.value} className="bg-white dark:bg-slate-800">
               {tz.label}
             </option>
           ))}

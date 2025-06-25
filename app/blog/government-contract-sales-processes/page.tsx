@@ -169,7 +169,7 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-slate-100 relative overflow-hidden">
+    <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
@@ -191,7 +191,7 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
             </Button>
           </div>
 
-          <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm mb-8">
+          <Card className="glass border-0 shadow-xl mb-8">
             <CardContent className="p-8">
               <div className="mb-6">
                 <Badge variant="secondary" className="mb-4">
@@ -202,14 +202,16 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                     type="text"
                     value={content.title}
                     onChange={(e) => setContent((prev) => ({ ...prev, title: e.target.value }))}
-                    className="w-full text-3xl font-bold text-slate-900 bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500"
+                    className="w-full text-3xl font-bold text-slate-900 bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
                   />
                 ) : (
-                  <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{content.title}</h1>
+                  <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 dark:text-gray-100">
+                    {content.title}
+                  </h1>
                 )}
               </div>
 
-              <div className="flex items-center gap-6 text-sm text-slate-600 mb-6">
+              <div className="flex items-center gap-6 text-sm text-slate-600 mb-6 dark:text-gray-400">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   {isEditing ? (
@@ -217,7 +219,7 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                       type="date"
                       value={content.publishDate}
                       onChange={(e) => setContent((prev) => ({ ...prev, publishDate: e.target.value }))}
-                      className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500"
+                      className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
                     />
                   ) : (
                     new Date(content.publishDate).toLocaleDateString()
@@ -230,7 +232,7 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                       type="text"
                       value={content.readTime}
                       onChange={(e) => setContent((prev) => ({ ...prev, readTime: e.target.value }))}
-                      className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500"
+                      className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
                     />
                   ) : (
                     content.readTime
@@ -240,7 +242,7 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
 
               <div className="mb-6">
                 {isEditing ? (
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 dark:border-gray-700">
                     <input
                       type="file"
                       accept="image/*"
@@ -251,9 +253,11 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                           setContent((prev) => ({ ...prev, heroImage: imageUrl }))
                         }
                       }}
-                      className="mb-2"
+                      className="mb-2 dark:text-gray-100"
                     />
-                    <p className="text-sm text-gray-500">Upload hero image (recommended: 800x400px)</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Upload hero image (recommended: 800x400px)
+                    </p>
                   </div>
                 ) : null}
                 <Image
@@ -269,27 +273,27 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                 <textarea
                   value={content.excerpt}
                   onChange={(e) => setContent((prev) => ({ ...prev, excerpt: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                   rows={3}
                   placeholder="Article excerpt..."
                 />
               ) : (
-                <p className="text-lg text-slate-600 leading-relaxed">{content.excerpt}</p>
+                <p className="text-lg text-slate-600 leading-relaxed dark:text-gray-400">{content.excerpt}</p>
               )}
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm mb-8">
+          <Card className="glass border-0 shadow-xl mb-8">
             <CardContent className="p-8">
               {isEditing ? (
                 <textarea
                   value={content.content}
                   onChange={(e) => setContent((prev) => ({ ...prev, content: e.target.value }))}
-                  className="w-full h-96 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+                  className="w-full h-96 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                   placeholder="Write your article content in Markdown..."
                 />
               ) : (
-                <div className="prose prose-lg max-w-none">
+                <div className="prose prose-lg max-w-none dark:text-gray-400 dark:prose-invert">
                   {content.content.split("\n").map((paragraph, index) => {
                     if (paragraph.startsWith("# ")) {
                       return (
@@ -333,10 +337,10 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm mb-8">
+          <Card className="glass border-0 shadow-xl mb-8">
             <CardContent className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold">Article Images</h3>
+                <h3 className="text-xl font-bold dark:text-gray-100">Article Images</h3>
                 {isEditing && (
                   <Button onClick={addNewImage} variant="outline" size="sm">
                     <Upload className="w-4 h-4 mr-2" />
@@ -350,7 +354,7 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                   <div key={image.id} className="space-y-3">
                     {isEditing && (
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">Image {image.id}</span>
+                        <span className="text-sm font-medium dark:text-gray-100">Image {image.id}</span>
                         <Button onClick={() => removeImage(image.id)} variant="outline" size="sm">
                           <X className="w-4 h-4" />
                         </Button>
@@ -358,7 +362,7 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                     )}
 
                     {isEditing ? (
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 dark:border-gray-700">
                         <input
                           type="file"
                           accept="image/*"
@@ -366,9 +370,11 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                             const file = e.target.files?.[0]
                             if (file) handleImageUpload(image.id, file)
                           }}
-                          className="mb-2"
+                          className="mb-2 dark:text-gray-100"
                         />
-                        <p className="text-xs text-gray-500">Upload image (recommended: 600x300px)</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          Upload image (recommended: 600x300px)
+                        </p>
                       </div>
                     ) : null}
 
@@ -394,7 +400,7 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                             }))
                           }
                           placeholder="Image caption"
-                          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                         />
                         <input
                           type="text"
@@ -408,11 +414,11 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
                             }))
                           }
                           placeholder="Alt text for accessibility"
-                          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                         />
                       </div>
                     ) : (
-                      <p className="text-sm text-gray-600 italic">{image.caption}</p>
+                      <p className="text-sm text-gray-600 italic dark:text-gray-400">{image.caption}</p>
                     )}
                   </div>
                 ))}
@@ -424,7 +430,7 @@ Remember: in government sales, your reputation is everything. Focus on deliverin
             <Link href="/blog" className="text-blue-600 hover:text-blue-700">
               ← Back to all posts
             </Link>
-            <div className="text-sm text-gray-500">Share this post</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">Share this post</div>
           </div>
         </div>
       </div>
