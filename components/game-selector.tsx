@@ -72,9 +72,11 @@ export function GameSelector() {
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4 flex items-center justify-center gap-2">
           <Gamepad2 className="w-6 h-6" />
-          Choose Your Game
+          Fun Zone
         </h2>
-        <p className="text-slate-700 dark:text-slate-300">Select a game to play in full screen mode</p>
+        <p className="text-slate-700 dark:text-slate-300">
+          Take a break and play a game! Sometimes the best solutions come when you step away from the problem.
+        </p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
