@@ -7,15 +7,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { GameSelector } from "@/components/game-selector"
-import { Download, FileText, Video, BookOpen, Coffee, Beer, Heart, Calculator, Mail } from "lucide-react"
+import { FileText, Coffee, Beer, Heart, Calculator, Mail } from "lucide-react"
 import Link from "next/link"
-import { resourceConfigs } from "@/lib/resource-config"
 import { submitContactForm } from "@/app/actions/contact"
 import { useState, useEffect } from "react"
 
 const iconMap = {
   FileText,
-  BookOpen,
   Calculator,
 }
 
@@ -67,26 +65,24 @@ export default function Resources() {
     }
   }
 
-  const guides = Object.values(resourceConfigs).map((resource) => ({
-    id: resource.id,
-    title: resource.title,
-    description: resource.description,
-    funText: resource.funText,
-    icon: resource.id === "roi-calculator" ? "Calculator" : "FileText",
-    donationIcon: resource.funText.includes("coffee") ? "Coffee" : resource.funText.includes("beer") ? "Beer" : "Heart",
-    link: `/downloads/${resource.id}/confirm`,
-  }))
-
-  const freeResources = [
+  const guides = [
     {
-      title: "Website Optimization Checklist",
-      description: "Essential steps for improving website performance and user experience",
-      icon: Video,
+      id: "sdr-process-guide",
+      title: "SDR Process Guide",
+      description: "Complete guide to qualifying leads, Salesforce best practices, and SDR workflows",
+      funText: "Buy me a coffee ☕",
+      icon: "FileText",
+      donationIcon: "Coffee",
+      link: "/downloads/sdr-process-guide/confirm",
     },
     {
-      title: "Process Optimization Framework",
-      description: "Step-by-step approach to identifying and improving business processes",
-      icon: BookOpen,
+      id: "media-server-guide",
+      title: "Complete Media Server Setup Guide",
+      description: "Step-by-step guide to building your own Unraid media server with Plex",
+      funText: "Buy me a pizza 🍕",
+      icon: "FileText",
+      donationIcon: "Heart",
+      link: "/downloads/media-server-guide/confirm",
     },
   ]
 
@@ -112,8 +108,8 @@ export default function Resources() {
 
           {/* Guides Section */}
           <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Guides</h2>
-            <div className="grid md:grid-cols-2 gap-8">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Premium Guides</h2>
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {guides.map((guide) => {
                 const Icon = iconMap[guide.icon as keyof typeof iconMap]
                 const DonationIcon = donationIconMap[guide.donationIcon as keyof typeof donationIconMap]
@@ -143,38 +139,6 @@ export default function Resources() {
                       </CardContent>
                     </Card>
                   </Link>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Free Resources */}
-          <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Free Resources</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              {freeResources.map((resource, index) => {
-                const Icon = resource.icon
-                return (
-                  <Card
-                    key={index}
-                    className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group"
-                  >
-                    <CardHeader>
-                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <Icon className="w-6 h-6 text-green-600 dark:text-green-400" />
-                      </div>
-                      <CardTitle className="text-xl text-slate-900 dark:text-slate-50">{resource.title}</CardTitle>
-                      <CardDescription className="text-slate-700 dark:text-slate-300">
-                        {resource.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <Button className="w-full" variant="outline">
-                        <Download className="w-4 h-4 mr-2" />
-                        Download Free
-                      </Button>
-                    </CardContent>
-                  </Card>
                 )
               })}
             </div>
