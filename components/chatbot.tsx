@@ -156,6 +156,9 @@ export function Chatbot() {
       return
     }
 
+    // Add source to form data
+    formData.append("source", "AI Chatbot")
+
     setIsSubmitting(true)
 
     try {
