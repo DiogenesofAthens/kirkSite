@@ -158,11 +158,11 @@ export default function Resume() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-slate-100 relative overflow-hidden">
+    <div className="min-h-screen gradient-bg relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <FloatingNav />
@@ -171,36 +171,36 @@ export default function Resume() {
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Resume</h1>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Resume</h1>
+            <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Over 10 years of experience in sales engineering, business development, and technology consulting
             </p>
           </div>
 
           {/* Key Stats */}
           <div className="grid md:grid-cols-4 gap-6 mb-16">
-            <Card className="border-0 shadow-lg text-center bg-white/80 backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
-                <div className="text-3xl font-bold text-blue-600 mb-2">$41M+</div>
-                <div className="text-sm text-slate-600">Revenue Generated</div>
+                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">$41M+</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">Revenue Generated</div>
               </CardContent>
             </Card>
-            <Card className="border-0 shadow-lg text-center bg-white/80 backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
-                <div className="text-3xl font-bold text-green-600 mb-2">90+</div>
-                <div className="text-sm text-slate-600">Enterprise Customers</div>
+                <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">90+</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">Enterprise Customers</div>
               </CardContent>
             </Card>
-            <Card className="border-0 shadow-lg text-center bg-white/80 backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
-                <div className="text-3xl font-bold text-purple-600 mb-2">7+ Years</div>
-                <div className="text-sm text-slate-600">At Conga</div>
+                <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">7+ Years</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">At Conga</div>
               </CardContent>
             </Card>
-            <Card className="border-0 shadow-lg text-center bg-white/80 backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
-                <div className="text-3xl font-bold text-orange-600 mb-2">2x</div>
-                <div className="text-sm text-slate-600">SE of the Year</div>
+                <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">2x</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">SE of the Year</div>
               </CardContent>
             </Card>
           </div>
@@ -208,15 +208,15 @@ export default function Resume() {
           {/* Experience Timeline */}
           <div className="space-y-8">
             {experiences.map((company, companyIndex) => (
-              <Card key={companyIndex} className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+              <Card key={companyIndex} className="glass border-0 shadow-xl">
                 <CardHeader>
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                       <span className="text-white font-bold text-sm">{company.logo}</span>
                     </div>
                     <div>
-                      <CardTitle className="text-2xl">{company.company}</CardTitle>
-                      <CardDescription className="text-lg">
+                      <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">{company.company}</CardTitle>
+                      <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
                         {company.positions.length > 1
                           ? `${company.positions.length} positions · ${company.positions[0].duration.split(" - ")[0]} - ${company.positions[company.positions.length - 1].duration.includes("Present") ? "Present" : company.positions[company.positions.length - 1].duration.split(" - ")[1]?.split(" ·")[0]}`
                           : company.positions[0].duration}
@@ -227,11 +227,16 @@ export default function Resume() {
                 <CardContent>
                   <div className="space-y-8">
                     {company.positions.map((position, positionIndex) => (
-                      <div key={positionIndex} className={`${positionIndex > 0 ? "border-t pt-8" : ""}`}>
+                      <div
+                        key={positionIndex}
+                        className={`${positionIndex > 0 ? "border-t border-slate-200 dark:border-slate-700 pt-8" : ""}`}
+                      >
                         <div className="flex flex-col md:flex-row md:items-start gap-4 mb-4">
                           <div className="flex-1">
-                            <h3 className="text-xl font-semibold text-slate-900">{position.title}</h3>
-                            <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 mt-1">
+                            <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
+                              {position.title}
+                            </h3>
+                            <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mt-1">
                               <div className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4" />
                                 {position.duration}
@@ -242,21 +247,30 @@ export default function Resume() {
                                   {position.location}
                                 </div>
                               )}
-                              <Badge variant="secondary">{position.type}</Badge>
+                              <Badge
+                                variant="secondary"
+                                className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                              >
+                                {position.type}
+                              </Badge>
                             </div>
                           </div>
                         </div>
 
                         {position.description && (
-                          <p className="text-slate-700 mb-4 leading-relaxed">{position.description}</p>
+                          <p className="text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
+                            {position.description}
+                          </p>
                         )}
 
                         {position.responsibilities && (
                           <div className="mb-4">
-                            <h4 className="font-semibold text-slate-900 mb-2">Key Responsibilities:</h4>
+                            <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">
+                              Key Responsibilities:
+                            </h4>
                             <ul className="space-y-1">
                               {position.responsibilities.map((resp, respIndex) => (
-                                <li key={respIndex} className="text-slate-700 text-sm">
+                                <li key={respIndex} className="text-slate-700 dark:text-slate-300 text-sm">
                                   • {resp}
                                 </li>
                               ))}
@@ -266,13 +280,13 @@ export default function Resume() {
 
                         {position.achievements && (
                           <div className="mb-4">
-                            <h4 className="font-semibold text-slate-900 mb-2 flex items-center gap-2">
-                              <Award className="w-4 h-4 text-yellow-600" />
+                            <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2 flex items-center gap-2">
+                              <Award className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
                               Key Achievements:
                             </h4>
                             <ul className="space-y-1">
                               {position.achievements.map((achievement, achIndex) => (
-                                <li key={achIndex} className="text-slate-700 text-sm">
+                                <li key={achIndex} className="text-slate-700 dark:text-slate-300 text-sm">
                                   • {achievement}
                                 </li>
                               ))}
@@ -282,10 +296,14 @@ export default function Resume() {
 
                         {position.certifications && (
                           <div>
-                            <h4 className="font-semibold text-slate-900 mb-2">Certifications:</h4>
+                            <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">Certifications:</h4>
                             <div className="flex flex-wrap gap-2">
                               {position.certifications.map((cert, certIndex) => (
-                                <Badge key={certIndex} variant="outline" className="text-xs">
+                                <Badge
+                                  key={certIndex}
+                                  variant="outline"
+                                  className="text-xs border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300"
+                                >
                                   {cert}
                                 </Badge>
                               ))}
@@ -301,38 +319,70 @@ export default function Resume() {
           </div>
 
           {/* Education & Early Experience */}
-          <Card className="border-0 shadow-lg mt-8 bg-white/80 backdrop-blur-sm">
+          <Card className="glass border-0 shadow-xl mt-8">
             <CardHeader>
-              <CardTitle className="text-2xl">Education & Early Experience</CardTitle>
+              <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">Education & Early Experience</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900">California State University, Sacramento</h3>
-                  <p className="text-slate-600">Bachelor of Science in Business Administration</p>
-                  <p className="text-sm text-slate-500">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50">
+                    California State University, Sacramento
+                  </h3>
+                  <p className="text-slate-700 dark:text-slate-300">Bachelor of Science in Business Administration</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">
                     Concentrations: Marketing, General Management, and Entrepreneurship
                   </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6 pt-4 border-t">
+                <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-slate-200 dark:border-slate-700">
                   <div>
-                    <h4 className="font-semibold text-slate-900 mb-2">Early Career Highlights:</h4>
-                    <ul className="space-y-1 text-sm text-slate-700">
+                    <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">Early Career Highlights:</h4>
+                    <ul className="space-y-1 text-sm text-slate-700 dark:text-slate-300">
                       <li>• CED - Management Trainee Intern (2014)</li>
                       <li>• Staples - Easy Tech Specialist (2013)</li>
                       <li>• Various sales and technical roles (2009-2015)</li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-slate-900 mb-2">Core Competencies:</h4>
+                    <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">Core Competencies:</h4>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="secondary">Sales Engineering</Badge>
-                      <Badge variant="secondary">Enterprise Sales</Badge>
-                      <Badge variant="secondary">Technical Consulting</Badge>
-                      <Badge variant="secondary">Team Leadership</Badge>
-                      <Badge variant="secondary">SaaS Solutions</Badge>
-                      <Badge variant="secondary">Salesforce</Badge>
+                      <Badge
+                        variant="secondary"
+                        className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                      >
+                        Sales Engineering
+                      </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                      >
+                        Enterprise Sales
+                      </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                      >
+                        Technical Consulting
+                      </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                      >
+                        Team Leadership
+                      </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                      >
+                        SaaS Solutions
+                      </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                      >
+                        Salesforce
+                      </Badge>
                     </div>
                   </div>
                 </div>

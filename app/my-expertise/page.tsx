@@ -5,11 +5,11 @@ import { TimezoneClock } from "@/components/timezone-clock"
 
 export default function AreasOfExpertise() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-slate-100 relative overflow-hidden">
+    <div className="min-h-screen gradient-bg relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <FloatingNav />
@@ -18,20 +18,25 @@ export default function AreasOfExpertise() {
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">My Expertise</h1>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">My Expertise</h1>
+            <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Comprehensive business technology and process consulting across multiple domains
             </p>
-            <p className="text-lg text-blue-600 font-medium italic mt-4">
+            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
               "Bridging the gap between sales, tech, and process — with proven results."
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white/80 backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group">
               <CardHeader>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <svg
+                    className="w-6 h-6 text-green-600 dark:text-green-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -40,26 +45,51 @@ export default function AreasOfExpertise() {
                     />
                   </svg>
                 </div>
-                <CardTitle className="text-xl">Sales & Marketing Knowledge</CardTitle>
+                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Sales & Marketing Knowledge</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-base leading-relaxed mb-4">
+                <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
                   Extensive experience sourcing and closing sales of consumer goods and software solutions, both
                   on-premise and cloud-based. Proven methodologies to drive your bottom line.
                 </CardDescription>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">SaaS Sales</Badge>
-                  <Badge variant="secondary">Enterprise Solutions</Badge>
-                  <Badge variant="secondary">Lead Generation</Badge>
-                  <Badge variant="secondary">Cold Calling</Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    SaaS Sales
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    Enterprise Solutions
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    Lead Generation
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    Cold Calling
+                  </Badge>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white/80 backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group">
               <CardHeader>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <svg
+                    className="w-6 h-6 text-blue-600 dark:text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -68,26 +98,53 @@ export default function AreasOfExpertise() {
                     />
                   </svg>
                 </div>
-                <CardTitle className="text-xl">Website Design & Implementation</CardTitle>
+                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">
+                  Website Design & Implementation
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-base leading-relaxed mb-4">
+                <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
                   Deployed and customized websites using .NET and PHP content management systems including DNN and
                   WordPress. Expert consultation for your web presence needs.
                 </CardDescription>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">.NET</Badge>
-                  <Badge variant="secondary">PHP</Badge>
-                  <Badge variant="secondary">WordPress</Badge>
-                  <Badge variant="secondary">DNN</Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    .NET
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    PHP
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    WordPress
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    DNN
+                  </Badge>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white/80 backdrop-blur-sm">
+            <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group">
               <CardHeader>
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <svg
+                    className="w-6 h-6 text-purple-600 dark:text-purple-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -96,30 +153,52 @@ export default function AreasOfExpertise() {
                     />
                   </svg>
                 </div>
-                <CardTitle className="text-xl">Technology Consulting</CardTitle>
+                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Technology Consulting</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-base leading-relaxed mb-4">
+                <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
                   From mobile device optimization to custom computer builds, servers, and home automation systems.
                   Comprehensive technology implementation and consulting services.
                 </CardDescription>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">System Integration</Badge>
-                  <Badge variant="secondary">Home Automation</Badge>
-                  <Badge variant="secondary">Server Setup</Badge>
-                  <Badge variant="secondary">Mobile Optimization</Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    System Integration
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    Home Automation
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    Server Setup
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                  >
+                    Mobile Optimization
+                  </Badge>
                 </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Detailed Skills Section */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">Core Competencies</h2>
+          <div className="glass rounded-3xl p-8 shadow-xl">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-6">Core Competencies</h2>
             <div className="grid md:grid-cols-2 gap-8">
               <div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-4">Sales & Business Development</h3>
-                <ul className="space-y-2 text-slate-700">
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
+                  Sales & Business Development
+                </h3>
+                <ul className="space-y-2 text-slate-700 dark:text-slate-300">
                   <li>• Sales Solution Consulting</li>
                   <li>• Account Management</li>
                   <li>• Customer Support Excellence</li>
@@ -128,8 +207,10 @@ export default function AreasOfExpertise() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-4">Technology & Operations</h3>
-                <ul className="space-y-2 text-slate-700">
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
+                  Technology & Operations
+                </h3>
+                <ul className="space-y-2 text-slate-700 dark:text-slate-300">
                   <li>• Technical Troubleshooting</li>
                   <li>• Computer Analytics</li>
                   <li>• Team Management</li>
