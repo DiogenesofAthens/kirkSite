@@ -150,7 +150,7 @@ export default function Resources() {
 
           {/* Free Resources */}
           <div className="mb-16">
-            
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Free Resources</h2>
             <div className="grid md:grid-cols-2 gap-8">
               {freeResources.map((resource, index) => {
                 const Icon = resource.icon
@@ -159,8 +159,21 @@ export default function Resources() {
                     key={index}
                     className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group"
                   >
-                    
-                    
+                    <CardHeader>
+                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <Icon className="w-6 h-6 text-green-600 dark:text-green-400" />
+                      </div>
+                      <CardTitle className="text-xl text-slate-900 dark:text-slate-50">{resource.title}</CardTitle>
+                      <CardDescription className="text-slate-700 dark:text-slate-300">
+                        {resource.description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button className="w-full" variant="outline">
+                        <Download className="w-4 h-4 mr-2" />
+                        Download Free
+                      </Button>
+                    </CardContent>
                   </Card>
                 )
               })}
