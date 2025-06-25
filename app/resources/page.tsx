@@ -4,9 +4,13 @@ import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Download, FileText, Video, BookOpen, Coffee, Beer, Heart, Calculator } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Download, FileText, Video, BookOpen, Coffee, Beer, Heart, Calculator, Mail } from "lucide-react"
 import Link from "next/link"
 import { resourceConfigs } from "@/lib/resource-config"
+import { submitContactForm } from "@/app/actions/contact"
+import { useState, useEffect } from "react"
 
 const iconMap = {
   FileText,
@@ -21,6 +25,47 @@ const donationIconMap = {
 }
 
 export default function Resources() {
+  const [captchaQuestion, setCaptchaQuestion] = useState({ question: "", answer: 0 })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const generateCaptcha = () => {
+    const num1 = Math.floor(Math.random() * 10) + 1
+    const num2 = Math.floor(Math.random() * 10) + 1
+    setCaptchaQuestion({
+      question: `What is ${num1} + ${num2}?`,
+      answer: num1 + num2,
+    })
+  }
+
+  useEffect(() => {
+    generateCaptcha()
+  }, [])
+
+  const handleContactSubmit = async (formData: FormData) => {
+    const captchaAnswer = formData.get("captcha") as string
+
+    if (Number.parseInt(captchaAnswer) !== captchaQuestion.answer) {
+      alert("Please solve the captcha correctly.")
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const result = await submitContactForm(formData)
+      alert(result.message)
+      // Reset form
+      const form = document.querySelector("form") as HTMLFormElement
+      form?.reset()
+      generateCaptcha() // Generate new captcha
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      alert("There was an error sending your message. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   const guides = Object.values(resourceConfigs).map((resource) => ({
     id: resource.id,
     title: resource.title,
@@ -134,20 +179,81 @@ export default function Resources() {
             </div>
           </div>
 
-          {/* Newsletter Signup */}
-          <div className="glass rounded-3xl p-8 shadow-xl text-center">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Stay Updated</h2>
-            <p className="text-slate-700 dark:text-slate-300 mb-6 max-w-2xl mx-auto">
-              Get the latest resources, insights, and best practices delivered to your inbox monthly.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/80 dark:bg-slate-800/80 text-slate-900 dark:text-slate-100"
-              />
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">Subscribe</Button>
+          {/* Contact Me Section */}
+          <div className="glass rounded-3xl p-8 shadow-xl">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Get In Touch</h2>
+              <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
+                Have questions about business technology, sales optimization, or need consulting help? I'd love to hear
+                from you and discuss how I can help solve your challenges.
+              </p>
             </div>
+
+            <form action={handleContactSubmit} className="max-w-md mx-auto space-y-4">
+              <div>
+                <Input
+                  name="name"
+                  placeholder="Your Name *"
+                  required
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
+                />
+              </div>
+
+              <div>
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder="Your Email *"
+                  required
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
+                />
+              </div>
+
+              <div>
+                <Input
+                  name="company"
+                  placeholder="Company (Optional)"
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
+                />
+              </div>
+
+              <div>
+                <Textarea
+                  name="message"
+                  placeholder="How can I help you? *"
+                  required
+                  rows={4}
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium block mb-2 text-slate-700 dark:text-slate-300">
+                  Security Check: {captchaQuestion.question}
+                </label>
+                <Input
+                  name="captcha"
+                  type="number"
+                  placeholder="Answer"
+                  required
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
+                />
+              </div>
+
+              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                    Sending Message...
+                  </>
+                ) : (
+                  <>
+                    <Mail className="w-4 h-4 mr-2" />
+                    Send Message
+                  </>
+                )}
+              </Button>
+            </form>
           </div>
         </div>
       </div>

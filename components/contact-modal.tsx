@@ -1,38 +1,22 @@
 "use client"
-
-import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { X, Mail, CheckCircle } from "lucide-react"
+import { submitContactForm } from "@/app/actions/contact"
 
 interface ContactModalProps {
   isOpen: boolean
   onClose: () => void
 }
 
-interface ContactFormData {
-  name: string
-  email: string
-  company: string
-  message: string
-  captcha: string
-}
-
 export function ContactModal({ isOpen, onClose }: ContactModalProps) {
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: "",
-    email: "",
-    company: "",
-    message: "",
-    captcha: "",
-  })
   const [captchaQuestion, setCaptchaQuestion] = useState({ question: "", answer: 0 })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState("")
 
   const generateCaptcha = () => {
     const num1 = Math.floor(Math.random() * 10) + 1
@@ -43,44 +27,49 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (formData: FormData) => {
+    const captchaAnswer = formData.get("captcha") as string
 
-    if (Number.parseInt(formData.captcha) !== captchaQuestion.answer) {
+    if (Number.parseInt(captchaAnswer) !== captchaQuestion.answer) {
       alert("Please solve the captcha correctly.")
       return
     }
 
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const result = await submitContactForm(formData)
+      setSubmitMessage(result.message)
+      setIsSubmitted(true)
 
-    // Here you would typically send the form data to your backend
-    console.log("Contact form submitted:", formData)
-
-    setIsSubmitted(true)
-    setIsSubmitting(false)
-
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({ name: "", email: "", company: "", message: "", captcha: "" })
-      onClose()
-    }, 3000)
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setIsSubmitted(false)
+        setSubmitMessage("")
+        onClose()
+      }, 3000)
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      alert("There was an error sending your message. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
-  const handleInputChange = (field: keyof ContactFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+  // Generate captcha when modal opens
+  useEffect(() => {
+    if (isOpen && captchaQuestion.question === "") {
+      generateCaptcha()
+    }
+  }, [isOpen, captchaQuestion.question])
 
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md glass">
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <CardTitle className="text-xl">Contact Grant</CardTitle>
+          <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Contact Grant</CardTitle>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>
@@ -90,63 +79,58 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
           {isSubmitted ? (
             <div className="text-center py-8">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Message Sent!</h3>
-              <p className="text-gray-600">Thank you for reaching out. Grant will get back to you within 24 hours.</p>
+              <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-slate-50">Message Sent!</h3>
+              <p className="text-slate-600 dark:text-slate-400">{submitMessage}</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form action={handleSubmit} className="space-y-4">
               <div>
                 <Input
+                  name="name"
                   placeholder="Your Name *"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
                   required
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
                 />
               </div>
 
               <div>
                 <Input
+                  name="email"
                   type="email"
                   placeholder="Your Email *"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
                   required
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
                 />
               </div>
 
               <div>
                 <Input
+                  name="company"
                   placeholder="Company (Optional)"
-                  value={formData.company}
-                  onChange={(e) => handleInputChange("company", e.target.value)}
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
                 />
               </div>
 
               <div>
                 <Textarea
+                  name="message"
                   placeholder="How can Grant help you? *"
-                  value={formData.message}
-                  onChange={(e) => handleInputChange("message", e.target.value)}
                   required
                   rows={4}
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
                 />
               </div>
 
               <div>
-                <label className="text-sm font-medium block mb-2">
-                  Security Check:{" "}
-                  {captchaQuestion.question ||
-                    (() => {
-                      generateCaptcha()
-                      return captchaQuestion.question
-                    })()}
+                <label className="text-sm font-medium block mb-2 text-slate-700 dark:text-slate-300">
+                  Security Check: {captchaQuestion.question}
                 </label>
                 <Input
+                  name="captcha"
                   type="number"
                   placeholder="Answer"
-                  value={formData.captcha}
-                  onChange={(e) => handleInputChange("captcha", e.target.value)}
                   required
+                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
                 />
               </div>
 
