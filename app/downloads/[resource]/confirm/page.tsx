@@ -44,8 +44,13 @@ export default function ResourceConfirm() {
   const handleDownload = () => {
     // Use the actual PDF file from the repository
     const link = document.createElement("a")
-    link.href = "/downloads/sdr-process-guide.pdf"
-    link.download = "sdr-process-guide.pdf"
+    if (resourceId === "sdr-process-guide") {
+      link.href = "/downloads/sdr-process-guide.pdf"
+      link.download = "sdr-process-guide.pdf"
+    } else if (resourceId === "media-server-guide") {
+      link.href = "/downloads/How I Built My Personal Media Server.pdf"
+      link.download = "media-server-guide.pdf"
+    }
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -306,7 +311,11 @@ export default function ResourceConfirm() {
           </Card>
         </div>
       </div>
-      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
+      <ContactModal
+        isOpen={showContactModal}
+        onClose={() => setShowContactModal(false)}
+        source={`${resource.title} Download Page`}
+      />
     </div>
   )
 }

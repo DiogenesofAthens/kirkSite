@@ -48,6 +48,9 @@ export default function Resources() {
       return
     }
 
+    // Add source to form data
+    formData.append("source", "Resources Page")
+
     setIsSubmitting(true)
 
     try {

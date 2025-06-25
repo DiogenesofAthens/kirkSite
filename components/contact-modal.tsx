@@ -10,9 +10,10 @@ import { submitContactForm } from "@/app/actions/contact"
 interface ContactModalProps {
   isOpen: boolean
   onClose: () => void
+  source?: string
 }
 
-export function ContactModal({ isOpen, onClose }: ContactModalProps) {
+export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: ContactModalProps) {
   const [captchaQuestion, setCaptchaQuestion] = useState({ question: "", answer: 0 })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -34,6 +35,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       alert("Please solve the captcha correctly.")
       return
     }
+
+    // Add source to form data
+    formData.append("source", source)
 
     setIsSubmitting(true)
 

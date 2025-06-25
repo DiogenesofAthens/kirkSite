@@ -37,6 +37,9 @@ export default function Blog() {
       return
     }
 
+    // Add source to form data
+    formData.append("source", "Blog Page")
+
     setIsSubmitting(true)
 
     try {
