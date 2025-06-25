@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Download, Heart, AlertTriangle, DollarSign, ExternalLink, CheckCircle, Star, FileText } from "lucide-react"
 import { resourceConfigs } from "@/lib/resource-config"
+import { ContactModal } from "@/components/contact-modal"
 
 export default function ResourceConfirm() {
   const params = useParams()
@@ -19,6 +20,7 @@ export default function ResourceConfirm() {
   const [isEditing, setIsEditing] = useState(false)
   const [pdfFile, setPdfFile] = useState<string | null>(resource?.filePath || null)
   const [fileName, setFileName] = useState(resource?.fileName || "resource.pdf")
+  const [showContactModal, setShowContactModal] = useState(false)
 
   if (!resource) {
     return <div>Resource not found</div>
@@ -126,7 +128,7 @@ export default function ResourceConfirm() {
                     className="border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
                   >
                     <Download className="w-4 h-4 mr-2" />
-                    Just give it to me already!
+                    Download This File
                   </Button>
 
                   <p className="text-xs text-slate-500 dark:text-slate-500 mt-3 italic">
@@ -222,7 +224,8 @@ export default function ResourceConfirm() {
                     size="lg"
                     className="bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600"
                   >
-                    <Download className="w-4 h-4 mr-2" />I Donated - Download Now
+                    <Download className="w-4 h-4 mr-2" />
+                    Download This File
                   </Button>
                 </div>
 
@@ -291,18 +294,19 @@ export default function ResourceConfirm() {
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-500">
                   Questions?{" "}
-                  <a
-                    href="mailto:grant@grantglazer.com"
-                    className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500"
+                  <button
+                    onClick={() => setShowContactModal(true)}
+                    className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 underline"
                   >
                     Contact Grant
-                  </a>
+                  </button>
                 </p>
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
     </div>
   )
 }

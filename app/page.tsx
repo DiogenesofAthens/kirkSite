@@ -1,9 +1,7 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import { ArrowRight, Mail, Upload, User } from "lucide-react"
+import { ArrowRight, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { FloatingNav } from "@/components/floating-nav"
 import { ContactModal } from "@/components/contact-modal"
@@ -13,15 +11,6 @@ import Image from "next/image"
 
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false)
-  const [profileImage, setProfileImage] = useState<string | null>(null)
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file && file.type.startsWith("image/")) {
-      const imageUrl = URL.createObjectURL(file)
-      setProfileImage(imageUrl)
-    }
-  }
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -89,26 +78,18 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row items-center gap-8">
               {/* Profile Image Section */}
               <div className="flex-shrink-0">
-                <div className="relative group">
+                <div className="relative">
                   <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
                     <div className="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden">
-                      {profileImage ? (
-                        <Image
-                          src={profileImage || "/placeholder.svg"}
-                          alt="Grant Glazer Profile"
-                          width={120}
-                          height={120}
-                          className="w-full h-full object-cover rounded-full"
-                        />
-                      ) : (
-                        <User className="w-16 h-16 text-slate-400 dark:text-slate-500" />
-                      )}
+                      <Image
+                        src="/images/grant-profile.jpg"
+                        alt="Grant Glazer Profile"
+                        width={120}
+                        height={120}
+                        className="w-full h-full object-cover rounded-full"
+                      />
                     </div>
                   </div>
-                  <label className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                    <Upload className="w-6 h-6 text-white" />
-                    <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                  </label>
                 </div>
               </div>
 
