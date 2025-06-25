@@ -193,8 +193,8 @@ export default function Resume() {
             </Card>
             <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
-                <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">7+ Years</div>
-                <div className="text-sm text-slate-600 dark:text-slate-400">At Conga</div>
+                <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">10+ Years</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">Experience</div>
               </CardContent>
             </Card>
             <Card className="glass border-0 shadow-xl text-center">
@@ -217,9 +217,11 @@ export default function Resume() {
                     <div>
                       <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">{company.company}</CardTitle>
                       <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
-                        {company.positions.length > 1
-                          ? `${company.positions.length} positions · ${company.positions[0].duration.split(" - ")[0]} - ${company.positions[company.positions.length - 1].duration.includes("Present") ? "Present" : company.positions[company.positions.length - 1].duration.split(" - ")[1]?.split(" ·")[0]}`
-                          : company.positions[0].duration}
+                        {company.company === "Conga"
+                          ? "Sept 2017 - Present"
+                          : company.company === "DNN Corp."
+                            ? "Sept 2015 - Jun 2017"
+                            : company.positions[0].title}
                       </CardDescription>
                     </div>
                   </div>

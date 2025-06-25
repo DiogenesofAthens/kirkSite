@@ -104,21 +104,20 @@ export default function AreasOfExpertise() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
-                  Deployed and customized websites using .NET and PHP content management systems including DNN and
-                  WordPress. Expert consultation for your web presence needs.
+                  Experienced in deploying scalable web apps using Next.js and Vercel, and have used LLM-powered interface building. Also familiar with legacy CMS systems like WordPress and DNN for migration or integration projects.
                 </CardDescription>
                 <div className="flex flex-wrap gap-2">
                   <Badge
                     variant="secondary"
                     className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                   >
-                    .NET
+                    Next.js
                   </Badge>
                   <Badge
                     variant="secondary"
                     className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                   >
-                    PHP
+                    {"Vercel"}
                   </Badge>
                   <Badge
                     variant="secondary"
@@ -157,8 +156,7 @@ export default function AreasOfExpertise() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
-                  From mobile device optimization to custom computer builds, servers, and home automation systems.
-                  Comprehensive technology implementation and consulting services.
+                  From device optimization to custom computer builds, servers, and home automation systems. Comprehensive technology implementation and consulting services.
                 </CardDescription>
                 <div className="flex flex-wrap gap-2">
                   <Badge
@@ -183,7 +181,7 @@ export default function AreasOfExpertise() {
                     variant="secondary"
                     className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                   >
-                    Mobile Optimization
+                    Device Optimization
                   </Badge>
                 </div>
               </CardContent>
@@ -203,7 +201,7 @@ export default function AreasOfExpertise() {
                   <li>• Account Management</li>
                   <li>• Customer Support Excellence</li>
                   <li>• Lead Generation Strategies</li>
-                  <li>• Government & Enterprise Sales</li>
+                  <li>• Commercial &amp; Enterprise Sales</li>
                 </ul>
               </div>
               <div>
