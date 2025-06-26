@@ -161,12 +161,6 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
             Back to Blog
           </Link>
 
-          <div className="mb-6 flex justify-end">
-            <Button onClick={() => setIsEditing(!isEditing)} variant={isEditing ? "default" : "outline"}>
-              {isEditing ? "Save Changes" : "Edit Post"}
-            </Button>
-          </div>
-
           <Card className="glass border-0 shadow-xl mb-8">
             <CardContent className="p-8">
               <div className="mb-6">
