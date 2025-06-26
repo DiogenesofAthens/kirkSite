@@ -83,15 +83,6 @@ export default function Blog() {
       category: "Government Sales",
       slug: "government-contract-sales-processes",
     },
-    {
-      title: "How I Built My Personal Media Server (And How You Can Too)",
-      excerpt:
-        "A complete guide to setting up your own media server using Unraid, Plex, and automated content management.",
-      date: "2024-01-01",
-      readTime: "12 min read",
-      category: "Technology",
-      slug: "personal-media-server-guide",
-    },
   ]
 
   return (
@@ -160,40 +151,6 @@ export default function Blog() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-
-          {/* Featured Post */}
-          <div className="mt-16 glass rounded-3xl p-8 shadow-xl">
-            <div className="flex items-center gap-2 mb-4">
-              <Badge className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300">Featured</Badge>
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">
-              Digital Transformation in the Post-Pandemic Era
-            </h2>
-            <p className="text-slate-700 dark:text-slate-300 mb-6 leading-relaxed">
-              How businesses are adapting their technology strategies and sales processes to thrive in the new normal.
-              This comprehensive guide covers the key trends, challenges, and opportunities that organizations face when
-              implementing digital transformation initiatives.
-            </p>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-                <div className="flex items-center">
-                  <Calendar className="w-4 h-4 mr-1" />
-                  January 20, 2024
-                </div>
-                <div className="flex items-center">
-                  <Clock className="w-4 h-4 mr-1" />
-                  12 min read
-                </div>
-              </div>
-              <Link
-                href="/blog/digital-transformation-post-pandemic"
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center"
-              >
-                Read Full Article
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
-            </div>
           </div>
 
           {/* Contact Me Section */}
