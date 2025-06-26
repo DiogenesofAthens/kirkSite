@@ -43,7 +43,7 @@ export default function Home() {
             <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 mb-8 max-w-3xl mx-auto">
               Business Technology & Process Consultant
             </p>
-            <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 max-w-2xl mx-auto font-medium italic">
+            <p className="text-lg text-blue-600 dark:text-blue-400 mb-6 max-w-2xl mx-auto font-medium italic">
               "Sales engineer by day, smart home architect by night — solving problems in business and life"
             </p>
 
