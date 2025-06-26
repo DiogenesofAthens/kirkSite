@@ -34,7 +34,7 @@ export function TimezoneClock() {
   }
 
   return (
-    <div className="fixed top-6 right-6 z-40 max-w-[180px]">
+    <div className="fixed top-6 right-6 z-40 max-w-[180px] hidden md:block">
       <div className="glass-nav rounded-full px-4 py-2 shadow-lg shadow-black/5 dark:shadow-black/20 flex items-center gap-3">
         <Clock className="w-4 h-4 text-slate-600 dark:text-slate-400 flex-shrink-0" />
         <span className="text-sm font-medium text-slate-900 dark:text-slate-100 whitespace-nowrap">

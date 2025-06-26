@@ -175,6 +175,10 @@ export default function Resume() {
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Over 10 years of experience in sales engineering, business development, and technology consulting
             </p>
+            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
+              "Sales engineer with a builder's mindset — helping teams improve processes through smart tech and
+              strategy."
+            </p>
           </div>
 
           {/* Key Stats */}

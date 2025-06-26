@@ -107,6 +107,9 @@ export default function Resources() {
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-4">
               Helpful tools, guides, and insights for business technology and sales optimization
             </p>
+            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
+              "Engineer. Consultant. Tinkerer. I turn complexity into solutions."
+            </p>
           </div>
 
           {/* Guides Section */}
