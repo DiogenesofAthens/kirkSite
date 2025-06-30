@@ -18,7 +18,7 @@ export default function BlogPost() {
     category: "Technology",
     readTime: "8 min read",
     publishDate: "2024-01-10",
-    heroImage: "/images/Optimizing Ent Tech Implementations.png",
+    heroImage: "/images/optimizing-Ent-Tech-Implementations.png.png",
     content: `
 # Optimizing Enterprise Technology Implementations
 
