@@ -12,7 +12,7 @@ import Image from "next/image"
 
 export default function BlogPost() {
   const [isEditing, setIsEditing] = useState(false)
-  const [modalImage, setModalImage] = useState<null | { url: string; alt: string }> (null)
+  const [modalImage, setModalImage] = useState<null | { url: string; alt: string }>(null)
   const [content, setContent] = useState({
     title: "The Future of SaaS Sales: Trends to Watch in 2024",
     excerpt:
@@ -261,14 +261,23 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                       Upload hero image (recommended: 800x400px)
                     </p>
                   </div>
-                ) : null}
-                <Image
-                  src={content.heroImage || "/placeholder.svg"}
-                  alt={content.title}
-                  width={800}
-                  height={400}
-                  className="w-full h-64 object-cover rounded-lg"
-                />
+                ) : (
+                  <button
+                    type="button"
+                    className="w-full"
+                    style={{ background: "none", border: 0, padding: 0, cursor: "pointer" }}
+                    onClick={() => setModalImage({ url: content.heroImage, alt: content.title })}
+                    aria-label="View hero image"
+                  >
+                    <Image
+                      src={content.heroImage || "/placeholder.svg"}
+                      alt={content.title}
+                      width={800}
+                      height={400}
+                      className="w-full h-64 object-cover rounded-lg transition-transform hover:scale-105 duration-200"
+                    />
+                  </button>
+                )}
               </div>
 
               {/* Excerpt */}
