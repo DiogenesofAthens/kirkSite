@@ -95,7 +95,7 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
       {
         id: 1,
         url: "/images/Scrum.png",
-        caption: "Enterprise implementation timeline",
+        caption: "Example SCRUM Implementation",
         alt: "Project timeline showing implementation phases",
       },
       {
