@@ -88,7 +88,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
       },
       {
         id: 2,
-        url: "public/images/plg-fun.png",
+        url: "/images/plg-fun.png",
         caption: "Product-led growth funnel visualization",
         alt: "PLG funnel diagram",
       },
