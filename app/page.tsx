@@ -162,7 +162,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-slate-600 dark:text-slate-400 mb-4 md:mb-0">
-              © 2024 Grant Glazer. All rights reserved.
+              © 2025 Grant Glazer. All rights reserved.
             </div>
             <div className="text-slate-500 dark:text-slate-500 text-sm">GrantGlazer.com</div>
           </div>
