@@ -12,7 +12,6 @@ export default function MediaServerGuideConfirm() {
   const [showContactModal, setShowContactModal] = useState(false)
 
   const handleDownload = () => {
-    // Use the actual PDF file from the repository
     const link = document.createElement("a")
     link.href = "/downloads/How I Built My Personal Media Server.pdf"
     link.download = "media-server-guide.pdf"
@@ -79,7 +78,7 @@ export default function MediaServerGuideConfirm() {
                   <Button
                     onClick={() => window.open(paypalLink, "_blank")}
                     size="lg"
-                    className="bg-orange-600 hover:bg-orange-700 text-white font-semibold mb-4 dark:bg-orange-500 dark:hover:bg-orange-600"
+                    className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold mb-4 dark:bg-orange-500 dark:hover:bg-orange-600"
                   >
                     <DollarSign className="w-4 h-4 mr-2" />
                     Donate $12 via PayPal
@@ -96,7 +95,7 @@ export default function MediaServerGuideConfirm() {
                     onClick={handleDownload}
                     variant="outline"
                     size="lg"
-                    className="border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                    className="w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download This File
@@ -167,7 +166,7 @@ export default function MediaServerGuideConfirm() {
                 <Button
                   onClick={() => window.open(paypalLink, "_blank")}
                   size="lg"
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold text-lg px-12 py-4 mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-green-500 dark:hover:bg-green-600"
+                  className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-green-600 hover:bg-green-700 text-white font-bold text-lg mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-green-500 dark:hover:bg-green-600"
                 >
                   <Heart className="w-5 h-5 mr-3" />
                   Donate $12 via PayPal
@@ -193,7 +192,7 @@ export default function MediaServerGuideConfirm() {
                   <Button
                     onClick={handleDownload}
                     size="lg"
-                    className="bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600"
+                    className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download This File
@@ -213,7 +212,7 @@ export default function MediaServerGuideConfirm() {
                     onClick={handleFreeRequest}
                     variant="outline"
                     size="lg"
-                    className="border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                    className="w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
                   >
                     No, I'm special and I deserve it for free
                   </Button>
