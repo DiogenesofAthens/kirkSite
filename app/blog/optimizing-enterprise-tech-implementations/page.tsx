@@ -100,7 +100,7 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
       },
       {
         id: 2,
-        url: "/images/stake-matrix.png?height=400&width=600",
+        url: "/images/stake-matrix.png",
         caption: "Stakeholder communication matrix",
         alt: "Communication plan diagram",
       },
