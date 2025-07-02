@@ -170,14 +170,15 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
         >
           <X className="w-6 h-6 text-black" />
         </button>
-        <Image
-          src={image.url}
-          alt={image.alt}
-          width={1200}
-          height={800}
-          className="w-full max-h-[80vh] object-contain rounded-lg bg-slate-100"
-          priority
-        />
+        <div className="relative w-full h-[60vh]">
+          <Image
+            src={image.url}
+            alt={image.alt}
+            fill
+            className="object-contain rounded-lg bg-slate-100"
+            priority
+          />
+        </div>
         {image.caption && (
           <div className="text-center text-white mt-2 text-sm italic drop-shadow">
             {image.caption}
@@ -275,23 +276,25 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
                     </p>
                   </div>
                 ) : null}
-                <Image
-                  src={content.heroImage || "/placeholder.svg"}
-                  alt={content.title}
-                  width={800}
-                  height={400}
-                  className="w-full h-64 object-contain rounded-lg cursor-pointer bg-slate-100"
-                  onClick={
-                    isEditing
-                      ? undefined
-                      : () =>
-                          setModalImage({
-                            url: content.heroImage || "/placeholder.svg",
-                            alt: content.title,
-                            caption: "",
-                          })
-                  }
-                />
+                {/* HERO IMAGE */}
+                <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96">
+                  <Image
+                    src={content.heroImage || "/placeholder.svg"}
+                    alt={content.title}
+                    fill
+                    className="w-full h-full object-cover rounded-lg cursor-pointer bg-slate-100"
+                    onClick={
+                      isEditing
+                        ? undefined
+                        : () =>
+                            setModalImage({
+                              url: content.heroImage || "/placeholder.svg",
+                              alt: content.title,
+                              caption: "",
+                            })
+                    }
+                  />
+                </div>
               </div>
 
               {isEditing ? (
@@ -402,24 +405,25 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
                         </p>
                       </div>
                     ) : null}
-
-                    <Image
-                      src={image.url || "/placeholder.svg"}
-                      alt={image.alt}
-                      width={600}
-                      height={300}
-                      className={`w-full h-48 object-contain rounded-lg bg-slate-100 ${!isEditing ? "cursor-pointer" : ""}`}
-                      onClick={
-                        isEditing
-                          ? undefined
-                          : () =>
-                              setModalImage({
-                                url: image.url || "/placeholder.svg",
-                                alt: image.alt,
-                                caption: image.caption,
-                              })
-                      }
-                    />
+                    {/* ARTICLE IMAGE */}
+                    <div className="relative w-full h-40 sm:h-56 md:h-72 lg:h-80">
+                      <Image
+                        src={image.url || "/placeholder.svg"}
+                        alt={image.alt}
+                        fill
+                        className={`w-full h-full object-cover rounded-lg bg-slate-100 ${!isEditing ? "cursor-pointer" : ""}`}
+                        onClick={
+                          isEditing
+                            ? undefined
+                            : () =>
+                                setModalImage({
+                                  url: image.url || "/placeholder.svg",
+                                  alt: image.alt,
+                                  caption: image.caption,
+                                })
+                        }
+                      />
+                    </div>
 
                     {isEditing ? (
                       <div className="space-y-2">
