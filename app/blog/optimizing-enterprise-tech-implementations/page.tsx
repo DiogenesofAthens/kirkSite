@@ -106,9 +106,9 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
       },
       {
         id: 3,
-        url: "/images/success-dashboard.png?height=300&width=600",
-        caption: "Success metrics dashboard",
-        alt: "KPI dashboard for implementation tracking",
+        url: "/images/success-dashboard.png",
+        caption: "Success Metrics Dashboard",
+        alt: "A dashboard displaying key performance indicators for tracking implementation success",
       },
     ],
   })
