@@ -19,7 +19,7 @@ export default function BlogPost() {
     category: "Sales",
     readTime: "5 min read",
     publishDate: "2024-01-15",
-    heroImage: "/placeholder.svg?height=400&width=800",
+    heroImage: "/images/ai-sales.png",
     content: `
 # The Future of SaaS Sales: Trends to Watch in 2024
 
@@ -82,13 +82,13 @@ The future belongs to sales teams that combine technology, empathy, and agility 
     images: [
       {
         id: 1,
-        url: "/placeholder.svg?height=300&width=600",
+        url: "/images/sales-dash.png",
         caption: "AI-powered sales dashboard example",
         alt: "Sales dashboard showing AI insights",
       },
       {
         id: 2,
-        url: "/placeholder.svg?height=300&width=600",
+        url: "public/images/plg-fun.png",
         caption: "Product-led growth funnel visualization",
         alt: "PLG funnel diagram",
       },
