@@ -18,7 +18,7 @@ export default function BlogPost() {
     excerpt: "Best practices for successful technology rollouts in large organizations, from planning to execution.",
     category: "Technology",
     readTime: "8 min read",
-    publishDate: "2024-01-10",
+    publishDate: "2024-01-09",
     heroImage: "/images/implement-banner.png",
     content: `
 # Optimizing Enterprise Technology Implementations
