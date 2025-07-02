@@ -12,13 +12,14 @@ import Image from "next/image"
 
 export default function BlogPost() {
   const [isEditing, setIsEditing] = useState(false)
+  const [modalImage, setModalImage] = useState<null | { url: string; alt: string }>(null)
   const [content, setContent] = useState({
     title: "Selling Enterprise Contract Management Software: Strategy, Discovery, and Results",
     excerpt: "How to uncover pain, match solutions to problems, and deliver ROI with modern CLM platforms.",
     category: "Enterprise Sales",
     readTime: "6 min read",
     publishDate: "2024-01-05",
-    heroImage: "/placeholder.svg?height=400&width=800",
+    heroImage: "/images/clm-hero.png",
     content: `
 # Selling Enterprise Contract Management Software: Strategy, Discovery, and Results
 
@@ -134,15 +135,15 @@ In this space, you’re not just selling automation—you’re helping teams reg
     images: [
       {
         id: 1,
-        url: "/placeholder.svg?height=300&width=600",
-        caption: "Government procurement process flow",
-        alt: "Flowchart showing government buying process",
+        url: "/images/clm-process.png",
+        caption: "CLM Project process flow",
+        alt: "Flowchart showing CLM selling process",
       },
       {
         id: 2,
-        url: "/placeholder.svg?height=300&width=600",
-        caption: "Stakeholder mapping for government sales",
-        alt: "Diagram of government decision makers",
+        url: "/images/clm-roi.png",
+        caption: "ROI examples of a CLM solution",
+        alt: "Value that CLM brings",
       },
     ],
   })
@@ -178,6 +179,39 @@ In this space, you’re not just selling automation—you’re helping teams reg
     }))
   }
 
+  // Modal component
+  function ImageModal({ image, onClose }: { image: { url: string; alt: string }, onClose: () => void }) {
+    return (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 transition-all"
+        onClick={onClose}
+        aria-modal="true"
+        role="dialog"
+      >
+        <div
+          className="relative max-w-3xl max-h-[90vh] w-full flex items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={onClose}
+            className="absolute top-2 right-2 text-white bg-black/50 hover:bg-black/80 rounded-full p-2 z-10"
+            aria-label="Close image modal"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <Image
+            src={image.url}
+            alt={image.alt}
+            width={1200}
+            height={800}
+            className="rounded shadow-xl max-h-[80vh] w-auto object-contain bg-white"
+            priority
+          />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -187,6 +221,10 @@ In this space, you’re not just selling automation—you’re helping teams reg
 
       <FloatingNav />
       <TimezoneClock />
+
+      {modalImage && (
+        <ImageModal image={modalImage} onClose={() => setModalImage(null)} />
+      )}
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
@@ -269,14 +307,23 @@ In this space, you’re not just selling automation—you’re helping teams reg
                       Upload hero image (recommended: 800x400px)
                     </p>
                   </div>
-                ) : null}
-                <Image
-                  src={content.heroImage || "/placeholder.svg"}
-                  alt={content.title}
-                  width={800}
-                  height={400}
-                  className="w-full h-64 object-cover rounded-lg"
-                />
+                ) : (
+                  <button
+                    type="button"
+                    className="w-full"
+                    style={{ background: "none", border: 0, padding: 0, cursor: "pointer" }}
+                    onClick={() => setModalImage({ url: content.heroImage, alt: content.title })}
+                    aria-label="View hero image"
+                  >
+                    <Image
+                      src={content.heroImage || "/placeholder.svg"}
+                      alt={content.title}
+                      width={800}
+                      height={400}
+                      className="w-full h-64 object-cover rounded-lg transition-transform hover:scale-105 duration-200"
+                    />
+                  </button>
+                )}
               </div>
 
               {isEditing ? (
@@ -386,15 +433,23 @@ In this space, you’re not just selling automation—you’re helping teams reg
                           Upload image (recommended: 600x300px)
                         </p>
                       </div>
-                    ) : null}
-
-                    <Image
-                      src={image.url || "/placeholder.svg"}
-                      alt={image.alt}
-                      width={600}
-                      height={300}
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
+                    ) : (
+                      <button
+                        type="button"
+                        className="w-full"
+                        style={{ background: "none", border: 0, padding: 0, cursor: "pointer" }}
+                        onClick={() => setModalImage({ url: image.url, alt: image.alt })}
+                        aria-label={`View image: ${image.caption}`}
+                      >
+                        <Image
+                          src={image.url || "/placeholder.svg"}
+                          alt={image.alt}
+                          width={600}
+                          height={300}
+                          className="w-full h-48 object-cover rounded-lg transition-transform hover:scale-105 duration-200"
+                        />
+                      </button>
+                    )}
 
                     {isEditing ? (
                       <div className="space-y-2">
