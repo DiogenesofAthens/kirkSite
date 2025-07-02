@@ -12,6 +12,7 @@ import Image from "next/image"
 
 export default function BlogPost() {
   const [isEditing, setIsEditing] = useState(false)
+  const [modalImage, setModalImage] = useState<null | { url: string; alt: string; caption: string }>(null)
   const [content, setContent] = useState({
     title: "Optimizing Enterprise Technology Implementations",
     excerpt: "Best practices for successful technology rollouts in large organizations, from planning to execution.",
@@ -144,6 +145,48 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
     }))
   }
 
+  // MODAL COMPONENT
+  const Modal = ({
+    image,
+    onClose,
+  }: {
+    image: { url: string; alt: string; caption: string }
+    onClose: () => void
+  }) => (
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 cursor-zoom-out"
+      aria-modal="true"
+      tabIndex={-1}
+    >
+      <div
+        className="relative max-w-3xl w-full mx-4"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking image area
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 bg-white bg-opacity-70 rounded-full p-1 hover:bg-opacity-100 transition"
+          aria-label="Close"
+        >
+          <X className="w-6 h-6 text-black" />
+        </button>
+        <Image
+          src={image.url}
+          alt={image.alt}
+          width={1200}
+          height={800}
+          className="w-full max-h-[80vh] object-contain rounded-lg"
+          priority
+        />
+        {image.caption && (
+          <div className="text-center text-white mt-2 text-sm italic drop-shadow">
+            {image.caption}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -153,6 +196,8 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
 
       <FloatingNav />
       <TimezoneClock />
+
+      {modalImage && <Modal image={modalImage} onClose={() => setModalImage(null)} />}
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
@@ -235,7 +280,17 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
                   alt={content.title}
                   width={800}
                   height={400}
-                  className="w-full h-64 object-cover rounded-lg"
+                  className="w-full h-64 object-cover rounded-lg cursor-pointer"
+                  onClick={
+                    isEditing
+                      ? undefined
+                      : () =>
+                          setModalImage({
+                            url: content.heroImage || "/placeholder.svg",
+                            alt: content.title,
+                            caption: "",
+                          })
+                  }
                 />
               </div>
 
@@ -353,7 +408,17 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
                       alt={image.alt}
                       width={600}
                       height={300}
-                      className="w-full h-48 object-cover rounded-lg"
+                      className={`w-full h-48 object-cover rounded-lg ${!isEditing ? "cursor-pointer" : ""}`}
+                      onClick={
+                        isEditing
+                          ? undefined
+                          : () =>
+                              setModalImage({
+                                url: image.url || "/placeholder.svg",
+                                alt: image.alt,
+                                caption: image.caption,
+                              })
+                      }
                     />
 
                     {isEditing ? (
