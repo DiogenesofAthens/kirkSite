@@ -175,7 +175,7 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
           alt={image.alt}
           width={1200}
           height={800}
-          className="w-full max-h-[80vh] object-contain rounded-lg"
+          className="w-full max-h-[80vh] object-contain rounded-lg bg-slate-100"
           priority
         />
         {image.caption && (
@@ -280,7 +280,7 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
                   alt={content.title}
                   width={800}
                   height={400}
-                  className="w-full h-64 object-cover rounded-lg cursor-pointer"
+                  className="w-full h-64 object-contain rounded-lg cursor-pointer bg-slate-100"
                   onClick={
                     isEditing
                       ? undefined
@@ -408,7 +408,7 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
                       alt={image.alt}
                       width={600}
                       height={300}
-                      className={`w-full h-48 object-cover rounded-lg ${!isEditing ? "cursor-pointer" : ""}`}
+                      className={`w-full h-48 object-contain rounded-lg bg-slate-100 ${!isEditing ? "cursor-pointer" : ""}`}
                       onClick={
                         isEditing
                           ? undefined
