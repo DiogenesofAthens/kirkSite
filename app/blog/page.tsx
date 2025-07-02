@@ -76,12 +76,12 @@ export default function Blog() {
       slug: "optimizing-enterprise-tech-implementations",
     },
     {
-      title: "Building Effective Sales Processes for Government Contracts",
-      excerpt: "Navigate the complexities of government sales with proven strategies and compliance considerations.",
+      title: "Selling Enterprise Contract Management Software: Strategy, Discovery, and Results",
+      excerpt: "How to uncover pain, match solutions to problems, and deliver ROI with modern CLM platforms.",
       date: "2024-01-05",
       readTime: "6 min read",
-      category: "Government Sales",
-      slug: "government-contract-sales-processes",
+      category: "Enterprise Sales",
+      slug: "enterprise-contract-sales-processes",
     },
   ]
 
