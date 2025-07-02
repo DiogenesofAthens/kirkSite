@@ -12,6 +12,7 @@ import Image from "next/image"
 
 export default function BlogPost() {
   const [isEditing, setIsEditing] = useState(false)
+  const [modalImage, setModalImage] = useState<null | { url: string; alt: string }> (null)
   const [content, setContent] = useState({
     title: "The Future of SaaS Sales: Trends to Watch in 2024",
     excerpt:
@@ -127,6 +128,39 @@ The future belongs to sales teams that combine technology, empathy, and agility 
     }))
   }
 
+  // Modal component
+  function ImageModal({ image, onClose }: { image: { url: string; alt: string }, onClose: () => void }) {
+    return (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 transition-all"
+        onClick={onClose}
+        aria-modal="true"
+        role="dialog"
+      >
+        <div
+          className="relative max-w-3xl max-h-[90vh] w-full flex items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={onClose}
+            className="absolute top-2 right-2 text-white bg-black/50 hover:bg-black/80 rounded-full p-2 z-10"
+            aria-label="Close image modal"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <Image
+            src={image.url}
+            alt={image.alt}
+            width={1200}
+            height={800}
+            className="rounded shadow-xl max-h-[80vh] w-auto object-contain bg-white"
+            priority
+          />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -137,6 +171,10 @@ The future belongs to sales teams that combine technology, empathy, and agility 
 
       <FloatingNav />
       <TimezoneClock />
+
+      {modalImage && (
+        <ImageModal image={modalImage} onClose={() => setModalImage(null)} />
+      )}
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
@@ -338,13 +376,31 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                       </div>
                     ) : null}
 
-                    <Image
-                      src={image.url || "/placeholder.svg"}
-                      alt={image.alt}
-                      width={600}
-                      height={300}
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
+                    {!isEditing ? (
+                      <button
+                        type="button"
+                        className="w-full"
+                        style={{ background: "none", border: 0, padding: 0, cursor: "pointer" }}
+                        onClick={() => setModalImage({ url: image.url, alt: image.alt })}
+                        aria-label={`View image: ${image.caption}`}
+                      >
+                        <Image
+                          src={image.url || "/placeholder.svg"}
+                          alt={image.alt}
+                          width={600}
+                          height={300}
+                          className="w-full h-48 object-cover rounded-lg transition-transform hover:scale-105 duration-200"
+                        />
+                      </button>
+                    ) : (
+                      <Image
+                        src={image.url || "/placeholder.svg"}
+                        alt={image.alt}
+                        width={600}
+                        height={300}
+                        className="w-full h-48 object-cover rounded-lg"
+                      />
+                    )}
 
                     {isEditing ? (
                       <div className="space-y-2">
