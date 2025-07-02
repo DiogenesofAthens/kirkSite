@@ -168,9 +168,7 @@ export default function MediaServerGuideConfirm() {
                   size="lg"
                   className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-green-600 hover:bg-green-700 text-white font-bold text-lg mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-green-500 dark:hover:bg-green-600"
                 >
-                  <Heart className="w-5 h-5 mr-3" />
                   Donate $12 via PayPal
-                  <ExternalLink className="w-5 h-5 ml-3" />
                 </Button>
 
                 <p className="text-sm text-slate-500 dark:text-slate-500 italic">
