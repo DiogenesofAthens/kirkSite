@@ -94,7 +94,7 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
     images: [
       {
         id: 1,
-        url: "/placeholder.svg?height=300&width=600",
+        url: "/images/Scrum.png",
         caption: "Enterprise implementation timeline",
         alt: "Project timeline showing implementation phases",
       },
