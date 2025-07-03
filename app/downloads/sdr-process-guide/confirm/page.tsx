@@ -5,10 +5,12 @@ import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Download, Heart, AlertTriangle, DollarSign, CheckCircle } from "lucide-react"
+import { Download, Heart, AlertTriangle, ExternalLink, CheckCircle } from "lucide-react"
 
 export default function ConfirmDownload() {
   const [showSecondChance, setShowSecondChance] = useState(false)
+  const [hasDonated, setHasDonated] = useState(false)
+  const [showFreeDownload, setShowFreeDownload] = useState(false)
 
   const handleDownload = () => {
     const link = document.createElement("a")
@@ -30,6 +32,12 @@ export default function ConfirmDownload() {
 
   const paypalLink = "https://paypal.me/grantglazer/10"
 
+  const handleDonate = () => {
+    window.open(paypalLink, "_blank")
+    setHasDonated(true)
+  }
+
+  // LAST CHANCE SCREEN (I'm special flow)
   if (showSecondChance) {
     return (
       <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -55,7 +63,7 @@ export default function ConfirmDownload() {
                 </p>
               </CardHeader>
               <CardContent className="text-center space-y-6">
-                <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-lg p-6 dark:bg-gradient-to-r dark:from-orange-900 dark:to-red-900 dark:border-orange-700">
+                <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-8 dark:bg-gradient-to-r dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-3">
                     Your Support Makes a Difference
                   </h3>
@@ -69,29 +77,40 @@ export default function ConfirmDownload() {
                     <li>• Maintain this website and platform</li>
                   </ul>
                   <Button
-                    onClick={() => window.open(paypalLink, "_blank")}
+                    onClick={handleDonate}
                     size="lg"
-                    className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold mb-4 dark:bg-orange-500 dark:hover:bg-orange-600"
+                    className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
                   >
-                    <DollarSign className="w-4 h-4 mr-2" />
                     Donate $10 via PayPal
+                    <ExternalLink className="w-4 h-4 ml-2" />
                   </Button>
-                </div>
-                <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-900 dark:border-slate-700">
-                  <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
-                    I understand everyone's situation is different. If you truly can't donate right now, that's okay.
-                  </p>
-                  <Button
-                    onClick={handleDownload}
-                    variant="outline"
-                    size="lg"
-                    className="w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download This File
-                  </Button>
-                  <p className="text-xs text-slate-500 dark:text-slate-500 mt-3 italic">
-                    Please consider sharing this resource with others who might find it valuable.
+                  <div className="flex flex-col items-center mt-4">
+                    <Button
+                      onClick={() => setShowFreeDownload(true)}
+                      variant="outline"
+                      size="lg"
+                      className="w-full sm:w-auto border-slate-300 text-blue-700 hover:bg-blue-100 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-900 font-semibold"
+                    >
+                      Just give it to me already!
+                    </Button>
+                  </div>
+                  {showFreeDownload && (
+                    <div className="mt-6">
+                      <Button
+                        onClick={handleDownload}
+                        size="lg"
+                        className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Download This File
+                      </Button>
+                      <p className="text-xs text-slate-500 dark:text-slate-500 mt-3 italic">
+                        Thank you for your interest! Please consider sharing this resource with others who might find it valuable.
+                      </p>
+                    </div>
+                  )}
+                  <p className="text-sm text-slate-500 dark:text-slate-500 italic mt-3">
+                    Opens PayPal in a new tab - then return here to download
                   </p>
                 </div>
                 <div className="text-center">
@@ -107,6 +126,7 @@ export default function ConfirmDownload() {
     )
   }
 
+  // MAIN SCREEN
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -131,7 +151,7 @@ export default function ConfirmDownload() {
               </p>
             </CardHeader>
             <CardContent className="text-center space-y-8">
-              <div className="bg-gradient-to-r from-blue-50 to-green-50 border-2 border-blue-200 rounded-xl p-8 dark:bg-gradient-to-r dark:from-blue-900 dark:to-green-900 dark:border-blue-700">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-8 dark:bg-gradient-to-r dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <Heart className="w-8 h-8 text-red-500" />
                   <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Support This Work</h2>
@@ -142,11 +162,12 @@ export default function ConfirmDownload() {
                 </p>
 
                 <Button
-                  onClick={() => window.open(paypalLink, "_blank")}
+                  onClick={handleDonate}
                   size="lg"
                   className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
                 >
                   Donate $10 via PayPal
+                  <ExternalLink className="w-4 h-4 ml-2" />
                 </Button>
 
                 <p className="text-sm text-slate-500 dark:text-slate-500 italic">
@@ -154,45 +175,44 @@ export default function ConfirmDownload() {
                 </p>
               </div>
 
-              {/* Download Options */}
-              <div className="space-y-4">
+              {/* GREEN BOX: Only show after donation */}
+              {hasDonated && (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-6 dark:bg-green-900 dark:border-green-700">
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-3 flex items-center justify-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-600" />
-                    Already donated? Download now!
+                    Thanks for downloading!
                   </h3>
                   <p className="text-slate-700 dark:text-slate-300 mb-4 text-sm">
-                    If you completed your PayPal donation, click below to download your guide.
+                    You can now download your SDR Process Guide below.
                   </p>
-
                   <Button
                     onClick={handleDownload}
                     size="lg"
-                    className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-800 dark:hover:bg-green-900"
+                    className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download This File
                   </Button>
                 </div>
+              )}
 
-                <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-900 dark:border-slate-700">
-                  <div className="flex items-center justify-center gap-2 mb-3">
-                    <AlertTriangle className="w-5 h-5 text-amber-600" />
-                    <h3 className="font-semibold text-slate-900 dark:text-slate-50">Can't donate right now?</h3>
-                  </div>
-                  <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
-                    That's okay! Everyone's situation is different.
-                  </p>
-
-                  <Button
-                    onClick={handleFreeRequest}
-                    variant="outline"
-                    size="lg"
-                    className="w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-                  >
-                    No, I'm special and I deserve it for free
-                  </Button>
+              {/* I'm special button always available */}
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-900 dark:border-slate-700">
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <AlertTriangle className="w-5 h-5 text-amber-600" />
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-50">Can't donate right now?</h3>
                 </div>
+                <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
+                  That's okay! Everyone's situation is different.
+                </p>
+                <Button
+                  onClick={handleFreeRequest}
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                >
+                  No, I'm special and I deserve it for free
+                </Button>
               </div>
 
               {/* What's Included Preview */}
