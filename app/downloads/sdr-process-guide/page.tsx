@@ -5,7 +5,7 @@ import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, FileText, DollarSign } from "lucide-react"
+import { FileText, DollarSign } from "lucide-react"
 
 export default function SDRProcessGuide() {
   const [pdfFile, setPdfFile] = useState<string | null>(null)
@@ -14,7 +14,6 @@ export default function SDRProcessGuide() {
   const handleDonateClick = () => {
     // Open PayPal in new tab
     window.open("https://paypal.me/grantglazer/10", "_blank")
-
     // Open confirmation page in another new tab
     window.open("/downloads/sdr-process-guide/confirm", "_blank")
   }
@@ -49,7 +48,7 @@ export default function SDRProcessGuide() {
             <CardContent className="text-center space-y-6">
               {/* Price and Donation */}
               <div className="bg-slate-50 rounded-lg p-6 dark:bg-slate-800 dark:border dark:border-slate-700">
-                <div className="flex items-center justify-center gap-2 mb-4">
+                <div className="flex flex-col items-center justify-center gap-2 mb-4 sm:flex-row">
                   <DollarSign className="w-5 h-5 text-green-600 dark:text-green-500" />
                   <span className="text-2xl font-bold text-slate-900 dark:text-slate-200">$10</span>
                   <span className="text-slate-600 dark:text-slate-400">suggested donation</span>
