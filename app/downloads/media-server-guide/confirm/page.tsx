@@ -10,6 +10,7 @@ import { ContactModal } from "@/components/contact-modal"
 export default function MediaServerGuideConfirm() {
   const [showSecondChance, setShowSecondChance] = useState(false)
   const [showContactModal, setShowContactModal] = useState(false)
+  const [hasDonated, setHasDonated] = useState(false) // NEW STATE
 
   const handleDownload = () => {
     const link = document.createElement("a")
@@ -31,6 +32,11 @@ export default function MediaServerGuideConfirm() {
   }
 
   const paypalLink = `https://paypal.me/grantglazer/12`
+
+  const handleDonate = () => {
+    window.open(paypalLink, "_blank")
+    setHasDonated(true)
+  }
 
   if (showSecondChance) {
     return (
@@ -60,7 +66,6 @@ export default function MediaServerGuideConfirm() {
               </CardHeader>
 
               <CardContent className="text-center space-y-6">
-                {/* BLUE donation section */}
                 <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-8 dark:bg-gradient-to-r dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-3">
                     Your Support Makes a Difference
@@ -77,7 +82,7 @@ export default function MediaServerGuideConfirm() {
                   </ul>
 
                   <Button
-                    onClick={() => window.open(paypalLink, "_blank")}
+                    onClick={handleDonate}
                     size="lg"
                     className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
                   >
@@ -85,7 +90,20 @@ export default function MediaServerGuideConfirm() {
                     Donate $12 via PayPal
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </Button>
-                  <p className="text-sm text-slate-500 dark:text-slate-500 italic">
+
+                  {/* Only show download after Donate is clicked */}
+                  {hasDonated && (
+                    <Button
+                      onClick={handleDownload}
+                      size="lg"
+                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600 mt-4"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      Download This File
+                    </Button>
+                  )}
+
+                  <p className="text-sm text-slate-500 dark:text-slate-500 italic mt-3">
                     Opens PayPal in a new tab - then return here to download
                   </p>
                 </div>
@@ -162,14 +180,28 @@ export default function MediaServerGuideConfirm() {
                 </p>
 
                 <Button
-                  onClick={() => window.open(paypalLink, "_blank")}
+                  onClick={handleDonate}
                   size="lg"
                   className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
                 >
+                  <DollarSign className="w-4 h-4 mr-2" />
                   Donate $12 via PayPal
+                  <ExternalLink className="w-4 h-4 ml-2" />
                 </Button>
 
-                <p className="text-sm text-slate-500 dark:text-slate-500 italic">
+                {/* Only show download after Donate is clicked */}
+                {hasDonated && (
+                  <Button
+                    onClick={handleDownload}
+                    size="lg"
+                    className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600 mt-4"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download This File
+                  </Button>
+                )}
+
+                <p className="text-sm text-slate-500 dark:text-slate-500 italic mt-3">
                   Opens PayPal in a new tab - then return here to download
                 </p>
               </div>
@@ -185,14 +217,21 @@ export default function MediaServerGuideConfirm() {
                     If you completed your PayPal donation, click below to download your Media Server Guide.
                   </p>
 
-                  <Button
+                  {/* Download button is not shown here, only appears above after donation */}
+                  {!hasDonated && (
+                    <div className="text-slate-500 dark:text-slate-500 text-sm italic">
+                      Please donate to unlock download.
+                    </div>
+                  )}
+                  {/* If you want to allow download here as well (for people who already donated), restore the button below: */}
+                  {/* <Button
                     onClick={handleDownload}
                     size="lg"
                     className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download This File
-                  </Button>
+                  </Button> */}
                 </div>
 
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-900 dark:border-slate-700">
