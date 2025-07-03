@@ -62,7 +62,7 @@ export default function Blog() {
       title: "From Scripts to Speedtest Tracker: How I Monitor My Internet Like a Pro (2025 Edition)",
       excerpt:
         "From using a Raspberry Pi, IFTTT and Google sheets in 2017 to using Docker and Unraid today. Here's how you can log your internet speeds too.",
-      date: "2024-01-15",
+      date: "2025-05-24",
       readTime: "9 min read",
       category: "Home Networking",
       slug: "speedtest-tracker",
