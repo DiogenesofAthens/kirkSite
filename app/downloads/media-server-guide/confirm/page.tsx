@@ -27,6 +27,7 @@ export default function MediaServerGuideConfirm() {
     )
     if (confirmed) {
       setShowSecondChance(true)
+      setTimeout(handleDownload, 100) // Download triggers after modal closes
     }
   }
 
@@ -94,6 +95,25 @@ export default function MediaServerGuideConfirm() {
                   </p>
                 </div>
 
+                {/* Download message and manual download option */}
+                <div className="bg-green-50 border border-green-200 rounded-lg p-6 dark:bg-green-900 dark:border-green-700">
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-3 flex items-center justify-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    Thanks for downloading!
+                  </h3>
+                  <p className="text-slate-700 dark:text-slate-300 mb-4 text-sm">
+                    Your download should begin automatically. If it didn't, click below.
+                  </p>
+                  <Button
+                    onClick={handleDownload}
+                    size="lg"
+                    className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download This File
+                  </Button>
+                </div>
+
                 {/* I'm special button always available */}
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-900 dark:border-slate-700">
                   <div className="flex items-center justify-center gap-2 mb-3">
@@ -103,7 +123,6 @@ export default function MediaServerGuideConfirm() {
                   <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
                     That's okay! Everyone's situation is different.
                   </p>
-
                   <Button
                     onClick={handleFreeRequest}
                     variant="outline"
@@ -209,7 +228,6 @@ export default function MediaServerGuideConfirm() {
                 <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
                   That's okay! Everyone's situation is different.
                 </p>
-
                 <Button
                   onClick={handleFreeRequest}
                   variant="outline"
