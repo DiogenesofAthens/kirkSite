@@ -20,7 +20,7 @@ export default function BlogPost() {
     category: "Home Networking",
     readTime: "9 min read",
     publishDate: "2025-07-02",
-    heroImage: "/placeholder.svg?height=400&width=800",
+    heroImage: "/images/speed-hero.png",
     content: `
 # From Scripts to Speedtest Tracker: How I Monitor My Internet Like a Pro (2025 Edition)
 
@@ -142,21 +142,9 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
     images: [
       {
         id: 1,
-        url: "/images/speedtest-tracker-dashboard.png",
-        caption: "Speedtest Tracker dashboard running on Unraid",
-        alt: "Speedtest Tracker dashboard showing speed graphs and test history",
-      },
-      {
-        id: 2,
-        url: "/images/pi-ifttt-2017.png",
-        caption: "My original 2017 Raspberry Pi + IFTTT solution",
-        alt: "Raspberry Pi project logging speed tests to Google Sheets",
-      },
-      {
-        id: 3,
-        url: "/images/speedtest-data-usage.png",
-        caption: "Data usage per speed test session",
-        alt: "Bar graph of estimated download/upload usage per test",
+        url: "/images/test-log.png",
+        caption: "Speedtest Tracker log running on Unraid",
+        alt: "Speedtest Tracker log showing test history",
       },
     ],
   })
