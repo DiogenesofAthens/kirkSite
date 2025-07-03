@@ -263,16 +263,16 @@ In this space, you’re not just selling automation—you’re helping teams reg
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   {isEditing ? (
-                    <input
-                      type="date"
-                      value={content.publishDate}
-                      onChange={(e) => setContent((prev) => ({ ...prev, publishDate: e.target.value }))}
-                      className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
-                    />
-                  ) : (
-                    new Date(content.publishDate).toLocaleDateString()
-                  )}
-                </div>
+                  <input
+                  type="date"
+                  value={content.publishDate}
+                  onChange={(e) => setContent((prev) => ({ ...prev, publishDate: e.target.value }))}
+                  className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
+                />
+              ) : (
+                new Date(content.publishDate + "T12:00:00").toLocaleDateString()
+              )}
+            </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4" />
                   {isEditing ? (
