@@ -237,7 +237,7 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
                       className="bg-transparent border-b border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 text-slate-900 dark:text-slate-100"
                     />
                   ) : (
-                    new Date(content.publishDate).toLocaleDateString()
+                    new Date(content.publishDate + "T12:00:00").toLocaleDateString()
                   )}
                 </div>
                 <div className="flex items-center gap-2">
