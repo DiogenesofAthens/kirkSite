@@ -94,24 +94,24 @@ export default function MediaServerGuideConfirm() {
                   </p>
                 </div>
 
+                {/* I'm special button always available */}
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-900 dark:border-slate-700">
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <AlertTriangle className="w-5 h-5 text-amber-600" />
+                    <h3 className="font-semibold text-slate-900 dark:text-slate-50">Can't donate right now?</h3>
+                  </div>
                   <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
-                    I understand everyone's situation is different. If you truly can't donate right now, that's okay.
+                    That's okay! Everyone's situation is different.
                   </p>
 
                   <Button
-                    onClick={handleDownload}
+                    onClick={handleFreeRequest}
                     variant="outline"
                     size="lg"
                     className="w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
                   >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download This File
+                    No, I'm special and I deserve it for free
                   </Button>
-
-                  <p className="text-xs text-slate-500 dark:text-slate-500 mt-3 italic">
-                    Please consider sharing this resource with others who might find it valuable.
-                  </p>
                 </div>
 
                 <div className="text-center">
@@ -154,7 +154,7 @@ export default function MediaServerGuideConfirm() {
             </CardHeader>
 
             <CardContent className="text-center space-y-8">
-              {/* PROMINENT DONATION SECTION */}
+              {/* Blue Donate Section */}
               <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-8 dark:bg-gradient-to-r dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <Heart className="w-8 h-8 text-red-500" />
@@ -199,6 +199,26 @@ export default function MediaServerGuideConfirm() {
                   </Button>
                 </div>
               )}
+
+              {/* I'm special button always available */}
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-900 dark:border-slate-700">
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <AlertTriangle className="w-5 h-5 text-amber-600" />
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-50">Can't donate right now?</h3>
+                </div>
+                <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
+                  That's okay! Everyone's situation is different.
+                </p>
+
+                <Button
+                  onClick={handleFreeRequest}
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                >
+                  No, I'm special and I deserve it for free
+                </Button>
+              </div>
 
               {/* What's Included Preview */}
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-left dark:bg-blue-900 dark:border-blue-700">
