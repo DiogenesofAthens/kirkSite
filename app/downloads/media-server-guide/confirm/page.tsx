@@ -60,7 +60,8 @@ export default function MediaServerGuideConfirm() {
               </CardHeader>
 
               <CardContent className="text-center space-y-6">
-                <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-lg p-6 dark:bg-gradient-to-r dark:from-orange-900 dark:to-red-900 dark:border-orange-700">
+                {/* BLUE donation section */}
+                <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-8 dark:bg-gradient-to-r dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-3">
                     Your Support Makes a Difference
                   </h3>
@@ -78,12 +79,15 @@ export default function MediaServerGuideConfirm() {
                   <Button
                     onClick={() => window.open(paypalLink, "_blank")}
                     size="lg"
-                    className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold mb-4 dark:bg-orange-500 dark:hover:bg-orange-600"
+                    className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
                   >
                     <DollarSign className="w-4 h-4 mr-2" />
                     Donate $12 via PayPal
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </Button>
+                  <p className="text-sm text-slate-500 dark:text-slate-500 italic">
+                    Opens PayPal in a new tab - then return here to download
+                  </p>
                 </div>
 
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-900 dark:border-slate-700">
@@ -147,7 +151,7 @@ export default function MediaServerGuideConfirm() {
 
             <CardContent className="text-center space-y-8">
               {/* PROMINENT DONATION SECTION */}
-              <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 rounded-xl p-8 dark:bg-gradient-to-r dark:from-green-900 dark:to-blue-900 dark:border-green-700">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-8 dark:bg-gradient-to-r dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <Heart className="w-8 h-8 text-red-500" />
                   <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Support This Work</h2>
@@ -157,16 +161,10 @@ export default function MediaServerGuideConfirm() {
                   This 6-page resource represents hours of research and real-world experience. Buy me a pizza 🍕
                 </p>
 
-                <div className="flex items-center justify-center gap-2 mb-6">
-                  <DollarSign className="w-6 h-6 text-green-600" />
-                  <span className="text-3xl font-bold text-slate-900 dark:text-slate-50">$12</span>
-                  <span className="text-slate-600 dark:text-slate-400 text-lg">suggested donation</span>
-                </div>
-
                 <Button
                   onClick={() => window.open(paypalLink, "_blank")}
                   size="lg"
-                  className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-green-600 hover:bg-green-700 text-white font-bold text-lg mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-green-500 dark:hover:bg-green-600"
+                  className="w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
                 >
                   Donate $12 via PayPal
                 </Button>
