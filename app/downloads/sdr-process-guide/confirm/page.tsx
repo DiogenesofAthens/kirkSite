@@ -141,12 +141,6 @@ export default function ConfirmDownload() {
                   This comprehensive 25+ page guide represents hours of research and real-world experience. Your support helps me create more valuable resources like this.
                 </p>
 
-                <div className="flex items-center justify-center gap-2 mb-6">
-                  <DollarSign className="w-6 h-6 text-green-600" />
-                  <span className="text-3xl font-bold text-slate-900 dark:text-slate-50">$10</span>
-                  <span className="text-slate-600 dark:text-slate-400 text-lg">suggested donation</span>
-                </div>
-
                 <Button
                   onClick={() => window.open(paypalLink, "_blank")}
                   size="lg"
