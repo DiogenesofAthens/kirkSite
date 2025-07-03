@@ -132,7 +132,7 @@ export default function Blog() {
                       </Badge>
                       <div className="flex items-center text-sm text-slate-600 dark:text-slate-400">
                         <Calendar className="w-4 h-4 mr-1" />
-                        {new Date(post.date).toLocaleDateString()}
+                        {new Date(post.date + "T12:00:00").toLocaleDateString()}
                       </div>
                     </div>
                     {/* Blog title as a link */}
