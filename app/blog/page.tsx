@@ -59,6 +59,14 @@ export default function Blog() {
 
   const blogPosts = [
     {
+      title: "From Scripts to Speedtest Tracker: How I Monitor My Internet Like a Pro (2025 Edition)",
+      excerpt:
+        "I started logging my internet speeds in 2017 with a Raspberry Pi and IFTTT. Today, I use Docker and Unraid for beautiful dashboards, better reliability, and total control. Here's how you can too.",
+      date: "2024-01-15",
+      readTime: "9 min read",
+      category: "Home Networking",
+    },
+    {
       title: "The Future of SaaS Sales: Trends to Watch in 2024",
       excerpt:
         "Exploring emerging trends in software sales and how businesses can adapt to changing customer expectations.",
