@@ -192,14 +192,247 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
     }))
   }
 
-  // Modal and rendering logic same as your example...
+  const Modal = ({
+    image,
+    onClose,
+  }: {
+    image: { url: string; alt: string; caption: string }
+    onClose: () => void
+  }) => (
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 cursor-zoom-out"
+      aria-modal="true"
+      tabIndex={-1}
+    >
+      <div
+        className="relative max-w-3xl w-full mx-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 bg-white bg-opacity-70 rounded-full p-1 hover:bg-opacity-100 transition"
+          aria-label="Close"
+        >
+          <X className="w-6 h-6 text-black" />
+        </button>
+        <Image
+          src={image.url}
+          alt={image.alt}
+          width={1200}
+          height={800}
+          className="w-full max-h-[80vh] object-contain rounded-lg"
+          priority
+        />
+        {image.caption && (
+          <div className="text-center text-white mt-2 text-sm italic drop-shadow">
+            {image.caption}
+          </div>
+        )}
+      </div>
+    </div>
+  )
 
-  // (Paste the rest of your rendering logic here, unchanged from your template!)
+  return (
+    <div className="min-h-screen gradient-bg relative overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-800/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-800/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
 
-  // ----
-  // For brevity, keep the render logic identical to your sample file.
-  // Just update title, excerpt, category, readTime, publishDate, heroImage, content, and images as above.
-  // ----
+      <FloatingNav />
+      <TimezoneClock />
 
-  // ... (rest of your component code follows)
+      {modalImage && <Modal image={modalImage} onClose={() => setModalImage(null)} />}
+
+      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-4xl mx-auto">
+          <Link href="/blog" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Blog
+          </Link>
+
+          <Card className="glass border-0 shadow-xl mb-8">
+            <CardContent className="p-8">
+              <div className="mb-6">
+                <Badge variant="secondary" className="mb-4">
+                  {content.category}
+                </Badge>
+                <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+                  {content.title}
+                </h1>
+              </div>
+
+              <div className="flex items-center gap-6 text-sm text-slate-600 dark:text-slate-400 mb-6">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  {new Date(content.publishDate).toLocaleDateString()}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  {content.readTime}
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <Image
+                  src={content.heroImage || "/placeholder.svg"}
+                  alt={content.title}
+                  width={800}
+                  height={400}
+                  className="w-full h-64 object-cover rounded-lg cursor-pointer"
+                  onClick={
+                    isEditing
+                      ? undefined
+                      : () =>
+                          setModalImage({
+                            url: content.heroImage || "/placeholder.svg",
+                            alt: content.title,
+                            caption: "",
+                          })
+                  }
+                />
+              </div>
+
+              <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">{content.excerpt}</p>
+            </CardContent>
+          </Card>
+
+          <Card className="glass border-0 shadow-xl mb-8">
+            <CardContent className="p-8">
+              <div className="prose prose-lg max-w-none dark:prose-invert">
+                {content.content.split("\n").map((paragraph, index) => {
+                  if (paragraph.startsWith("# ")) {
+                    return (
+                      <h1 key={index} className="text-3xl font-bold mt-8 mb-4">
+                        {paragraph.slice(2)}
+                      </h1>
+                    )
+                  }
+                  if (paragraph.startsWith("## ")) {
+                    return (
+                      <h2 key={index} className="text-2xl font-bold mt-6 mb-3">
+                        {paragraph.slice(3)}
+                      </h2>
+                    )
+                  }
+                  if (paragraph.startsWith("### ")) {
+                    return (
+                      <h3 key={index} className="text-xl font-bold mt-4 mb-2">
+                        {paragraph.slice(4)}
+                      </h3>
+                    )
+                  }
+                  if (paragraph.startsWith("- ")) {
+                    return (
+                      <li key={index} className="ml-4">
+                        {paragraph.slice(2)}
+                      </li>
+                    )
+                  }
+                  if (paragraph.trim() === "") {
+                    return <br key={index} />
+                  }
+                  return (
+                    <p key={index} className="mb-4 leading-relaxed">
+                      {paragraph}
+                    </p>
+                  )
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="glass border-0 shadow-xl mb-8">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">Article Images</h3>
+                {isEditing && (
+                  <Button onClick={addNewImage} variant="outline" size="sm">
+                    <Upload className="w-4 h-4 mr-2" />
+                    Add Image
+                  </Button>
+                )}
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                {content.images.map((image) => (
+                  <div key={image.id} className="space-y-3">
+                    {isEditing && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-slate-900 dark:text-slate-100">Image {image.id}</span>
+                        <Button onClick={() => removeImage(image.id)} variant="outline" size="sm">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    )}
+
+                    <Image
+                      src={image.url || "/placeholder.svg"}
+                      alt={image.alt}
+                      width={600}
+                      height={300}
+                      className={`w-full h-48 object-cover rounded-lg ${!isEditing ? "cursor-pointer" : ""}`}
+                      onClick={
+                        isEditing
+                          ? undefined
+                          : () =>
+                              setModalImage({
+                                url: image.url || "/placeholder.svg",
+                                alt: image.alt,
+                                caption: image.caption,
+                              })
+                      }
+                    />
+
+                    {isEditing ? (
+                      <div className="space-y-2">
+                        <input
+                          type="text"
+                          value={image.caption}
+                          onChange={(e) =>
+                            setContent((prev) => ({
+                              ...prev,
+                              images: prev.images.map((img) =>
+                                img.id === image.id ? { ...img, caption: e.target.value } : img,
+                              ),
+                            }))
+                          }
+                          placeholder="Image caption"
+                          className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 text-slate-900 dark:text-slate-100 bg-transparent"
+                        />
+                        <input
+                          type="text"
+                          value={image.alt}
+                          onChange={(e) =>
+                            setContent((prev) => ({
+                              ...prev,
+                              images: prev.images.map((img) =>
+                                img.id === image.id ? { ...img, alt: e.target.value } : img,
+                              ),
+                            }))
+                          }
+                          placeholder="Alt text for accessibility"
+                          className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 text-slate-900 dark:text-slate-100 bg-transparent"
+                        />
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-600 dark:text-gray-400 italic">{image.caption}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="flex justify-between items-center">
+            <Link href="/blog" className="text-blue-600 hover:text-blue-700">
+              ← Back to all posts
+            </Link>
+            <div className="text-sm text-gray-500 dark:text-gray-400">Share this post</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
