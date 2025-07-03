@@ -11,6 +11,7 @@ export default function MediaServerGuideConfirm() {
   const [showSecondChance, setShowSecondChance] = useState(false)
   const [showContactModal, setShowContactModal] = useState(false)
   const [hasDonated, setHasDonated] = useState(false)
+  const [showFreeDownload, setShowFreeDownload] = useState(false)
 
   const handleDownload = () => {
     const link = document.createElement("a")
@@ -27,7 +28,6 @@ export default function MediaServerGuideConfirm() {
     )
     if (confirmed) {
       setShowSecondChance(true)
-      setTimeout(handleDownload, 100) // Download triggers after modal closes
     }
   }
 
@@ -38,6 +38,7 @@ export default function MediaServerGuideConfirm() {
     setHasDonated(true)
   }
 
+  // LAST CHANCE SCREEN
   if (showSecondChance) {
     return (
       <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -90,47 +91,36 @@ export default function MediaServerGuideConfirm() {
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </Button>
 
+                  <div className="flex flex-col items-center mt-4">
+                    <Button
+                      onClick={() => setShowFreeDownload(true)}
+                      variant="outline"
+                      size="lg"
+                      className="w-full sm:w-auto border-slate-300 text-blue-700 hover:bg-blue-100 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-900 font-semibold"
+                    >
+                      Just give it to me already!
+                    </Button>
+                  </div>
+
+                  {showFreeDownload && (
+                    <div className="mt-6">
+                      <Button
+                        onClick={handleDownload}
+                        size="lg"
+                        className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Download This File
+                      </Button>
+                      <p className="text-xs text-slate-500 dark:text-slate-500 mt-3 italic">
+                        Thank you for your interest! Please consider sharing this resource with others who might find it valuable.
+                      </p>
+                    </div>
+                  )}
+
                   <p className="text-sm text-slate-500 dark:text-slate-500 italic mt-3">
                     Opens PayPal in a new tab - then return here to download
                   </p>
-                </div>
-
-                {/* Download message and manual download option */}
-                <div className="bg-green-50 border border-green-200 rounded-lg p-6 dark:bg-green-900 dark:border-green-700">
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-3 flex items-center justify-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    Thanks for downloading!
-                  </h3>
-                  <p className="text-slate-700 dark:text-slate-300 mb-4 text-sm">
-                    Your download should begin automatically. If it didn't, click below.
-                  </p>
-                  <Button
-                    onClick={handleDownload}
-                    size="lg"
-                    className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-500 dark:hover:bg-green-600"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download This File
-                  </Button>
-                </div>
-
-                {/* I'm special button always available */}
-                <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 dark:bg-slate-900 dark:border-slate-700">
-                  <div className="flex items-center justify-center gap-2 mb-3">
-                    <AlertTriangle className="w-5 h-5 text-amber-600" />
-                    <h3 className="font-semibold text-slate-900 dark:text-slate-50">Can't donate right now?</h3>
-                  </div>
-                  <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
-                    That's okay! Everyone's situation is different.
-                  </p>
-                  <Button
-                    onClick={handleFreeRequest}
-                    variant="outline"
-                    size="lg"
-                    className="w-full sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-                  >
-                    No, I'm special and I deserve it for free
-                  </Button>
                 </div>
 
                 <div className="text-center">
@@ -146,6 +136,7 @@ export default function MediaServerGuideConfirm() {
     )
   }
 
+  // MAIN SCREEN
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -192,7 +183,6 @@ export default function MediaServerGuideConfirm() {
                   Donate $12 via PayPal
                   <ExternalLink className="w-4 h-4 ml-2" />
                 </Button>
-
                 <p className="text-sm text-slate-500 dark:text-slate-500 italic mt-3">
                   Opens PayPal in a new tab - then return here to download
                 </p>
