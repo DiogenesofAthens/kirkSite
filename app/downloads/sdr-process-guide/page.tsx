@@ -58,12 +58,9 @@ export default function SDRProcessGuide() {
                 <Button
                   onClick={handleDonateClick}
                   size="lg"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 mb-4 dark:bg-blue-700 dark:hover:bg-blue-800"
+                  className="w-full max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 mb-4 dark:bg-blue-700 dark:hover:bg-blue-800 text-base md:text-lg rounded-lg transition-colors duration-200 mx-auto block"
                 >
-                  <span className="inline-flex items-center gap-2">
-                    Donate via PayPal
-                    <ExternalLink className="w-4 h-4" />
-                  </span>
+                  Donate $10 via PayPal
                 </Button>
 
                 <p className="text-sm text-slate-500 italic dark:text-slate-400">
