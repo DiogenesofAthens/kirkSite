@@ -19,7 +19,7 @@ export default function BlogPost() {
       "I started logging my internet speeds in 2017 with a Raspberry Pi and IFTTT. Today, I use Docker and Unraid for beautiful dashboards, better reliability, and total control. Here's how you can too.",
     category: "Home Networking",
     readTime: "9 min read",
-    publishDate: "2025-07-02",
+    publishDate: "2025-05-24",
     heroImage: "/images/speed-hero.png",
     content: `
 # From Scripts to Speedtest Tracker: How I Monitor My Internet Like a Pro (2025 Edition)
