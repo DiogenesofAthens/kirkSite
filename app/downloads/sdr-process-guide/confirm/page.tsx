@@ -5,7 +5,7 @@ import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Download, Heart, AlertTriangle, DollarSign, ExternalLink, CheckCircle } from "lucide-react"
+import { Download, Heart, AlertTriangle, DollarSign, CheckCircle } from "lucide-react"
 
 export default function ConfirmDownload() {
   const [showSecondChance, setShowSecondChance] = useState(false)
@@ -25,7 +25,6 @@ export default function ConfirmDownload() {
     const confirmed = window.confirm(
       "Are you sure you want to skip the donation? This resource took significant time and effort to create. Your support helps me create more valuable content.",
     )
-
     if (confirmed) {
       setShowSecondChance(true)
     }
@@ -72,15 +71,12 @@ export default function ConfirmDownload() {
                     <li>• Develop new guides and tools</li>
                     <li>• Maintain this website and platform</li>
                   </ul>
-
                   <Button
                     onClick={() => window.open("https://paypal.me/grantglazer/10", "_blank")}
                     size="lg"
-                    className="bg-orange-600 hover:bg-orange-700 text-white font-semibold mb-4 dark:bg-orange-800 dark:hover:bg-orange-900"
+                    className="w-full max-w-xs mx-auto block bg-orange-600 hover:bg-orange-700 text-white font-semibold mb-4 dark:bg-orange-800 dark:hover:bg-orange-900 text-base md:text-lg rounded-lg px-8 py-3 transition-colors duration-200"
                   >
-                    <DollarSign className="w-4 h-4 mr-2" />
                     Donate $10 via PayPal
-                    <ExternalLink className="w-4 h-4 ml-2" />
                   </Button>
                 </div>
 
@@ -89,17 +85,15 @@ export default function ConfirmDownload() {
                   <p className="text-slate-600 mb-4 text-sm dark:text-slate-400">
                     I understand everyone's situation is different. If you truly can't donate right now, that's okay.
                   </p>
-
                   <Button
                     onClick={handleDownload}
                     variant="outline"
                     size="lg"
-                    className="border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-50"
+                    className="w-full max-w-xs mx-auto block border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-50 text-base md:text-lg rounded-lg px-8 py-3 transition-colors duration-200"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Just give it to me already!
                   </Button>
-
                   <p className="text-xs text-slate-500 mt-3 italic dark:text-slate-500">
                     Please consider sharing this resource with others who might find it valuable.
                   </p>
@@ -151,28 +145,21 @@ export default function ConfirmDownload() {
                   <Heart className="w-8 h-8 text-red-500" />
                   <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Support This Work</h2>
                 </div>
-
                 <p className="text-slate-700 mb-6 text-lg leading-relaxed dark:text-slate-300">
-                  This comprehensive 25+ page guide represents hours of research and real-world experience. Your support
-                  helps me create more valuable resources like this.
+                  This comprehensive 25+ page guide represents hours of research and real-world experience. Your support helps me create more valuable resources like this.
                 </p>
-
                 <div className="flex items-center justify-center gap-2 mb-6">
                   <DollarSign className="w-6 h-6 text-green-600" />
                   <span className="text-3xl font-bold text-slate-900 dark:text-slate-50">$10</span>
                   <span className="text-slate-600 text-lg dark:text-slate-400">suggested donation</span>
                 </div>
-
                 <Button
                   onClick={() => window.open("https://paypal.me/grantglazer/10", "_blank")}
                   size="lg"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-12 py-4 mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900"
+                  className="w-full max-w-xs mx-auto block bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-12 py-4 mb-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
                 >
-                  <Heart className="w-5 h-5 mr-3" />
                   Donate $10 via PayPal
-                  <ExternalLink className="w-5 h-5 ml-3" />
                 </Button>
-
                 <p className="text-sm text-slate-500 italic dark:text-slate-500">
                   Opens PayPal in a new tab - then return here to download
                 </p>
@@ -189,11 +176,10 @@ export default function ConfirmDownload() {
                   <p className="text-slate-700 mb-4 text-sm dark:text-slate-300">
                     If you completed your PayPal donation, click below to download your guide.
                   </p>
-
                   <Button
                     onClick={handleDownload}
                     size="lg"
-                    className="bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-800 dark:hover:bg-green-900"
+                    className="w-full max-w-xs mx-auto block bg-green-600 hover:bg-green-700 text-white font-semibold dark:bg-green-800 dark:hover:bg-green-900 text-base md:text-lg rounded-lg px-8 py-3 transition-colors duration-200"
                   >
                     <Download className="w-4 h-4 mr-2" />I Donated - Download Now
                   </Button>
@@ -208,12 +194,11 @@ export default function ConfirmDownload() {
                   <p className="text-slate-600 mb-4 text-sm dark:text-slate-400">
                     That's okay! Everyone's situation is different.
                   </p>
-
                   <Button
                     onClick={handleFreeRequest}
                     variant="outline"
                     size="lg"
-                    className="border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-50"
+                    className="w-full max-w-xs mx-auto block border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-50 text-base md:text-lg rounded-lg px-8 py-3 transition-colors duration-200"
                   >
                     No, I'm special and I deserve it for free
                   </Button>
