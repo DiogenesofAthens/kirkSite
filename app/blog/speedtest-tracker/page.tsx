@@ -254,7 +254,7 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
               <div className="flex items-center gap-6 text-sm text-slate-600 dark:text-slate-400 mb-6">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
-                  {new Date(content.publishDate).toLocaleDateString()}
+                  {new Date(content.publishDate + "T12:00:00").toLocaleDateString()}
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4" />
