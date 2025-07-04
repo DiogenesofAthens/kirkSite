@@ -1,37 +1,48 @@
-// app/not-found.tsx
 "use client";
 
-import { useTheme } from "next-themes"; // If you use next-themes for dark/light
+import { useTheme } from "next-themes";
 import Lottie from "lottie-react";
 import Link from "next/link";
-import { FloatingNav } from "@/components/floating-nav"; // Adjust if your nav path is different
+import { FloatingNav } from "@/components/floating-nav";
 import { useEffect, useState } from "react";
 
 export default function NotFound() {
-  const { theme } = useTheme(); // Only if you use next-themes
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [lottieData, setLottieData] = useState<any>(null);
 
+  // Ensure dark mode/theme only renders after hydration to prevent mismatch
   useEffect(() => {
-    // Dynamically import the Lottie JSON to avoid SSR issues
+    setMounted(true);
+  }, []);
+
+  // Dynamically fetch Lottie JSON (avoids SSR issues)
+  useEffect(() => {
     fetch("/images/404.json")
       .then((res) => res.json())
       .then(setLottieData);
   }, []);
 
+  if (!mounted) return null; // Prevents initial theme mismatch flash
+
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center transition-colors duration-500 ${
-      theme === "dark"
-        ? "bg-slate-900 text-slate-100"
-        : "bg-white text-slate-900"
-    }`}>
+    <div
+      className={`relative min-h-screen flex flex-col transition-colors duration-500 ${
+        resolvedTheme === "dark"
+          ? "bg-slate-900 text-slate-100"
+          : "bg-white text-slate-900"
+      }`}
+    >
+      {/* If FloatingNav should not affect centering, give it fixed/absolute position */}
       <FloatingNav />
-      <div className="flex-1 flex flex-col items-center justify-center pt-24">
-        <div className="w-full max-w-md mb-8">
-          {lottieData && (
-            <Lottie animationData={lottieData} loop={true} />
-          )}
+
+      <main className="flex-1 flex flex-col items-center justify-center px-4">
+        <div className="w-full max-w-md mb-8 mx-auto">
+          {lottieData && <Lottie animationData={lottieData} loop={true} />}
         </div>
-        <h1 className="text-4xl font-bold mb-2">Houston, we have a 404...</h1>
+        <h1 className="text-4xl font-bold mb-2 text-center">
+          Houston, we have a 404...
+        </h1>
         <p className="mb-6 text-lg text-center max-w-xl">
           It’s full of stars... and 0 content.
         </p>
@@ -41,7 +52,7 @@ export default function NotFound() {
         >
           Abort Mission
         </Link>
-      </div>
+      </main>
     </div>
   );
 }
