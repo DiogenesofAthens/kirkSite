@@ -31,15 +31,15 @@ export default function NotFound() {
             <Lottie animationData={lottieData} loop={true} />
           )}
         </div>
-        <h1 className="text-4xl font-bold mb-2">Page Not Found</h1>
+        <h1 className="text-4xl font-bold mb-2">Houston, we have a 404...</h1>
         <p className="mb-6 text-lg text-center max-w-xl">
-          Oops! The page you’re looking for doesn’t exist.
+          It’s full of stars... and 0 content.
         </p>
         <Link
           href="/"
           className="px-6 py-3 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
         >
-          Go Home
+          Abort Mission
         </Link>
       </div>
     </div>
