@@ -1,4 +1,4 @@
-  "use client"
+"use client"
 
 import { useEffect, useState } from "react"
 import { ArrowRight, Mail } from "lucide-react"
@@ -39,12 +39,12 @@ export default function Home() {
           <div className="text-center">
             <div className="mb-8">
               {animationData && (
-                <div className="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden flex items-center justify-center">
+                <div className="w-40 h-40 sm:w-52 sm:h-52 mx-auto mb-6">
                   <Lottie
                     animationData={animationData}
                     loop
                     autoplay
-                    style={{ width: 96, height: 96 }}
+                    style={{ width: "100%", height: "100%" }}
                   />
                 </div>
               )}
