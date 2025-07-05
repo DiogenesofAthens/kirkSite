@@ -122,7 +122,7 @@ export default function AreasOfExpertise() {
               <div>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Technology & Operations</h3>
                 <ul className="space-y-2 text-slate-700 dark:text-slate-300">
-                  <li>• Technical Diagnostics & Troubleshooting</li>
+                  <li>• Technical Diagnostics</li>
                   <li>• Data-Driven Systems Analysis</li>
                   <li>• Cross-Functional Team Leadership</li>
                   <li>• Workflow Design & Optimization</li>
