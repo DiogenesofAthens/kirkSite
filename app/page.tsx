@@ -98,7 +98,8 @@ export default function Resume() {
                         <div
                           key={positionIndex}
                           className={`${
-                            positionIndex > 0 ? "border-t border-slate-200 dark:border-slate-700 pt-8" : ""\                          }`}>
+                            positionIndex > 0 ? "border-t border-slate-200 dark:border-slate-700 pt-8" : ""
+                          }`}>
                           <div className="flex flex-col md:flex-row md:items-start gap-4 mb-4">
                             <div className="flex-1">
                               <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
