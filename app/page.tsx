@@ -34,11 +34,11 @@ export default function Home() {
       <TimezoneClock />
 
       {/* Hero Section */}
-      <section className="pt-40 sm:pt-48 pb-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-6xl mx-auto">
+      <section className="pt-28 sm:pt-32 pb-16 px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-5xl mx-auto">
           <div className="flex flex-col items-center text-center">
             {animationData && (
-              <div className="w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 mb-12">
+              <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mb-6">
                 <Lottie
                   animationData={animationData}
                   loop
@@ -47,11 +47,11 @@ export default function Home() {
                 />
               </div>
             )}
-            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-slate-50 mb-5">Grant Glazer</h1>
-            <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 mb-5 max-w-3xl">
+            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 mb-3">Grant Glazer</h1>
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-4 max-w-2xl">
               Business Technology & Process Consultant
             </p>
-            <p className="text-lg text-blue-600 dark:text-blue-400 mb-10 max-w-2xl font-medium italic">
+            <p className="text-base text-blue-600 dark:text-blue-400 mb-6 max-w-xl font-medium italic">
               "Sales engineer by day, smart home architect by night — solving problems in business and life"
             </p>
 
@@ -99,6 +99,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+
               <div className="flex-1 text-center lg:text-left">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Grant</h2>
                 <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
