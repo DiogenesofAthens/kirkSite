@@ -34,11 +34,11 @@ export default function Home() {
       <TimezoneClock />
 
       {/* Hero Section */}
-      <section className="pt-28 sm:pt-36 pb-20 px-4 sm:px-6 lg:px-8 relative">
+      <section className="pt-40 sm:pt-48 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col items-center text-center">
             {animationData && (
-              <div className="w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 mb-10">
+              <div className="w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 mb-12">
                 <Lottie
                   animationData={animationData}
                   loop
@@ -47,11 +47,11 @@ export default function Home() {
                 />
               </div>
             )}
-            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-slate-50 mb-4">Grant Glazer</h1>
-            <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 mb-6 max-w-3xl">
+            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-slate-50 mb-5">Grant Glazer</h1>
+            <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 mb-5 max-w-3xl">
               Business Technology & Process Consultant
             </p>
-            <p className="text-lg text-blue-600 dark:text-blue-400 mb-8 max-w-2xl font-medium italic">
+            <p className="text-lg text-blue-600 dark:text-blue-400 mb-10 max-w-2xl font-medium italic">
               "Sales engineer by day, smart home architect by night — solving problems in business and life"
             </p>
 
@@ -99,29 +99,20 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-
               <div className="flex-1 text-center lg:text-left">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Grant</h2>
                 <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
                   <p>
-                    Driven by curiosity and a love of well-designed systems—both digital and physical—I bring structure
-                    and clarity to complex enterprise challenges.
+                    Driven by curiosity and a love of well-designed systems—both digital and physical—I bring structure and clarity to complex enterprise challenges.
                   </p>
                   <p>
                     I hold a <strong className="text-slate-900 dark:text-slate-100">Bachelor of Science in Business Administration</strong> from California State University, Sacramento, with concentrations in <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>, <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
                   </p>
                   <p>
-                    I'm a value-focused solutions consultant who helps enterprise organizations translate complex needs
-                    into actionable, scalable SaaS solutions. I bring deep expertise across CRM, Configure–Price–Quote
-                    (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management, e-Signature, Document
-                    Generation, Approval Workflows, AI integrations, and Digital Asset Management. I specialize in
-                    aligning product capabilities to real-world business outcomes—accelerating revenue, streamlining
-                    operations, and reducing risk.
+                    I'm a value-focused solutions consultant who helps enterprise organizations translate complex needs into actionable, scalable SaaS solutions. I bring deep expertise across CRM, Configure–Price–Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management, e-Signature, Document Generation, Approval Workflows, AI integrations, and Digital Asset Management. I specialize in aligning product capabilities to real-world business outcomes—accelerating revenue, streamlining operations, and reducing risk.
                   </p>
                   <p>
-                    Outside of work, I enjoy building things—from home automation systems to hands-on DIY projects.
-                    That same maker mindset fuels my approach to consulting: curious, systems-oriented, and always
-                    looking for elegant, scalable solutions.
+                    Outside of work, I enjoy building things—from home automation systems to hands-on DIY projects. That same maker mindset fuels my approach to consulting: curious, systems-oriented, and always looking for elegant, scalable solutions.
                   </p>
                 </div>
                 <div className="mt-8">
@@ -145,13 +136,11 @@ export default function Home() {
 
           <div className="glass rounded-3xl p-8 max-w-2xl mx-auto">
             <p className="text-slate-700 dark:text-slate-300 mb-8 leading-relaxed">
-              Ready to drive your business forward with proven technology solutions and sales expertise? Let's discuss
-              how I can help your organization achieve its goals.
+              Ready to drive your business forward with proven technology solutions and sales expertise? Let's discuss how I can help your organization achieve its goals.
             </p>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 italic">
               "Solving business problems with smart processes, strategic thinking, and hands-on tech know-how."
             </p>
-
             <div className="flex justify-center">
               <Button
                 size="lg"
