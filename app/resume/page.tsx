@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useState } from "react"
 import { FloatingNav } from "@/components/floating-nav"
@@ -12,7 +12,44 @@ import laptopAnimation from "@/public/images/man-laptop-ani.json"
 export default function Resume() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
-  const experiences = [/* full data object remains unchanged */]
+  const experiences = [
+    {
+      company: "Conga",
+      logo: "CG",
+      positions: [
+        {
+          title: "Principal Sales Engineer",
+          duration: "Mar 2024 - Present · 1 yr 4 mos",
+          location: "San Francisco Bay Area",
+          type: "Full-time",
+          description:
+            "Being a technical resource for our Sales team here at Conga (formerly Apttus), I help with the discovery process as well as demonstrating the value of our Quote-to-Cash and Procure-to-Pay solutions to help transform the revenue lifecycle at each of my clients.",
+          responsibilities: [
+            "Building and delivering custom product demonstrations to strategic & enterprise customers",
+            "Executing intensive qualification and discovery calls",
+            "Configuring and utilizing Salesforce.com and AWS platforms",
+            "Conducting Technical Security Calls",
+            "Assisting Professional Services with scoping/implementation",
+            "Completing technical RFP/RFI responses"
+          ],
+          achievements: [
+            "Personally helped close over $50 million in business across 100+ customers",
+            "Top performing SE by revenue FY 2022",
+            "Awarded SE of the Year in both FY 2022 and 2023",
+            "Overachieved quota in FY 2020, 2021, 2022, 2023",
+            "SKO Mainstage Presenter 2023, 2024",
+            "Conga Connect Mainstage Presenter 2024 (Over 600 people in audience)",
+            "SE Summit 2024 - Awarded for Best Innovation Demo of the year",
+            "Promoted to support the Strategic Sales team Feb 2025"
+          ],
+          certifications: [
+            "Conga / Apttus CPQ, CLM, Approvals, Order Management & Billing Certified",
+            "CongaSign, Composer, & Conga Grid Certified"
+          ]
+        }
+      ]
+    }
+  ]
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -79,11 +116,7 @@ export default function Resume() {
                     <div>
                       <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">{company.company}</CardTitle>
                       <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
-                        {company.company === "Conga"
-                          ? "Sept 2017 - Present"
-                          : company.company === "DNN Corp."
-                          ? "Sept 2015 - Jun 2017"
-                          : company.positions[0].title}
+                        {company.positions[0].duration}
                       </CardDescription>
                     </div>
                   </div>
@@ -95,10 +128,7 @@ export default function Resume() {
                   <CardContent className="pt-0">
                     <div className="space-y-8">
                       {company.positions.map((position, positionIndex) => (
-                        <div
-                          key={positionIndex}
-                          className={`${
-                            positionIndex > 0 ? "border-t border-slate-200 dark:border-slate-700 pt-8" : ""\                          }`}>
+                        <div key={positionIndex} className={`${positionIndex > 0 ? "border-t border-slate-200 dark:border-slate-700 pt-8" : ""}`}>
                           <div className="flex flex-col md:flex-row md:items-start gap-4 mb-4">
                             <div className="flex-1">
                               <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
@@ -121,13 +151,11 @@ export default function Resume() {
                               </div>
                             </div>
                           </div>
-
                           {position.description && (
                             <p className="text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
                               {position.description}
                             </p>
                           )}
-
                           {position.responsibilities && (
                             <div className="mb-4">
                               <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">
@@ -142,7 +170,6 @@ export default function Resume() {
                               </ul>
                             </div>
                           )}
-
                           {position.achievements && (
                             <div className="mb-4">
                               <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2 flex items-center gap-2">
@@ -158,7 +185,6 @@ export default function Resume() {
                               </ul>
                             </div>
                           )}
-
                           {position.certifications && (
                             <div>
                               <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">Certifications:</h4>
