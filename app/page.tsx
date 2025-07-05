@@ -1,4 +1,4 @@
-"use client"
+  "use client"
 
 import { useState } from "react"
 import { ArrowRight, Mail } from "lucide-react"
@@ -31,7 +31,7 @@ export default function Home() {
             <div className="mb-8">
               <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center">
                 <Image
-                  src="/images/g-logo.png"
+                  src="/images/pc-coffee-ani.json"
                   alt="Grant Glazer Logo"
                   width={80}
                   height={80}
@@ -98,22 +98,24 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Grant</h2>
                 <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
                   <p>
-                    A San Diego native now living in the San Francisco Bay area, I earned my
-                    <strong className="text-slate-900 dark:text-slate-100">
-                      {" "}
-                      Bachelor of Science in Business Administration
-                    </strong>{" "}
-                    at California State University, Sacramento, with dedicated concentrations in{" "}
-                    <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>,{" "}
-                    <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and{" "}
-                    <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
-                  </p>
-                  <p>
-                    I've worked at a variety of organizations selling SaaS technologies, helping drive business
-                    opportunities and overall revenue. My experience spans Contract Management, e-Signature, Quoting,
-                    Content Management, and Digital Asset management solutions for governments and enterprise
-                    organizations globally.
-                  </p>
+  Driven by curiosity and a love of well-designed systems—both digital and physical—I bring structure and clarity to complex enterprise challenges.
+</p>
+<p>
+  I hold a
+  <strong className="text-slate-900 dark:text-slate-100">
+    Bachelor of Science in Business Administration
+  </strong>{" "}
+  from California State University, Sacramento, with concentrations in{" "}
+  <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>,{" "}
+  <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and{" "}
+  <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
+</p>
+<p>
+  I'm a value-focused solutions consultant who helps enterprise organizations translate complex needs into actionable, scalable SaaS solutions. I bring deep expertise across CRM, Configure–Price–Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management, e-Signature, Document Generation, Approval Workflows, AI integrations, and Digital Asset Management. I specialize in aligning product capabilities to real-world business outcomes—accelerating revenue, streamlining operations, and reducing risk.
+</p>
+<p>
+  Outside of work, I enjoy building things—from home automation systems to hands-on DIY projects. That same maker mindset fuels my approach to consulting: curious, systems-oriented, and always looking for elegant, scalable solutions.
+</p>
                 </div>
                 <div className="mt-8">
                   <Link href="/my-expertise">
