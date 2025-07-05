@@ -1,6 +1,6 @@
-"use client"
+  "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ArrowRight, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { FloatingNav } from "@/components/floating-nav"
@@ -9,10 +9,17 @@ import { TimezoneClock } from "@/components/timezone-clock"
 import Link from "next/link"
 import Image from "next/image"
 import Lottie from "lottie-react"
-import pcCoffeeAnimation from "@/public/animations/pc-coffee-ani.json"
 
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false)
+  const [animationData, setAnimationData] = useState<any>(null)
+
+  useEffect(() => {
+    fetch("/images/pc-coffee-ani.json")
+      .then((res) => res.json())
+      .then(setAnimationData)
+      .catch((err) => console.error("Failed to load Lottie animation:", err))
+  }, [])
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -31,14 +38,16 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center">
             <div className="mb-8">
-              <div className="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden flex items-center justify-center">
-                <Lottie
-                  animationData={pcCoffeeAnimation}
-                  loop
-                  autoplay
-                  style={{ width: 96, height: 96 }}
-                />
-              </div>
+              {animationData && (
+                <div className="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden flex items-center justify-center">
+                  <Lottie
+                    animationData={animationData}
+                    loop
+                    autoplay
+                    style={{ width: 96, height: 96 }}
+                  />
+                </div>
+              )}
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-slate-50 mb-6">Grant Glazer</h1>
             <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 mb-8 max-w-3xl mx-auto">
@@ -103,14 +112,7 @@ export default function Home() {
                     and clarity to complex enterprise challenges.
                   </p>
                   <p>
-                    I hold a {" "}
-                    <strong className="text-slate-900 dark:text-slate-100">
-                      Bachelor of Science in Business Administration
-                    </strong>{" "}
-                    from California State University, Sacramento, with concentrations in{" "}
-                    <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>,{" "}
-                    <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and{" "}
-                    <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
+                    I hold a <strong className="text-slate-900 dark:text-slate-100">Bachelor of Science in Business Administration</strong> from California State University, Sacramento, with concentrations in <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>, <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
                   </p>
                   <p>
                     I'm a value-focused solutions consultant who helps enterprise organizations translate complex needs
