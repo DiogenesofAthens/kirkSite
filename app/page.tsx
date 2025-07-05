@@ -34,26 +34,24 @@ export default function Home() {
       <TimezoneClock />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
+      <section className="pt-28 sm:pt-36 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center">
-            <div className="mb-8">
-              {animationData && (
-                <div className="w-40 h-40 sm:w-52 sm:h-52 mx-auto mb-6">
-                  <Lottie
-                    animationData={animationData}
-                    loop
-                    autoplay
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                </div>
-              )}
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-slate-50 mb-6">Grant Glazer</h1>
-            <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 mb-8 max-w-3xl mx-auto">
+          <div className="flex flex-col items-center text-center">
+            {animationData && (
+              <div className="w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 mb-10">
+                <Lottie
+                  animationData={animationData}
+                  loop
+                  autoplay
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </div>
+            )}
+            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-slate-50 mb-4">Grant Glazer</h1>
+            <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 mb-6 max-w-3xl">
               Business Technology & Process Consultant
             </p>
-            <p className="text-lg text-blue-600 dark:text-blue-400 mb-6 max-w-2xl mx-auto font-medium italic">
+            <p className="text-lg text-blue-600 dark:text-blue-400 mb-8 max-w-2xl font-medium italic">
               "Sales engineer by day, smart home architect by night — solving problems in business and life"
             </p>
 
@@ -86,7 +84,6 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="glass rounded-3xl p-8 md:p-12 shadow-xl">
             <div className="flex flex-col lg:flex-row items-center gap-8">
-              {/* Profile Image Section */}
               <div className="flex-shrink-0">
                 <div className="relative">
                   <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
@@ -103,7 +100,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Content */}
               <div className="flex-1 text-center lg:text-left">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Grant</h2>
                 <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
