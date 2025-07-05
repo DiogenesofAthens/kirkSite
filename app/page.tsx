@@ -1,4 +1,4 @@
-  "use client"
+"use client"
 
 import { useState } from "react"
 import { ArrowRight, Mail } from "lucide-react"
@@ -8,6 +8,8 @@ import { ContactModal } from "@/components/contact-modal"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Link from "next/link"
 import Image from "next/image"
+import Lottie from "lottie-react"
+import pcCoffeeAnimation from "@/public/animations/pc-coffee-ani.json"
 
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false)
@@ -29,13 +31,12 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center">
             <div className="mb-8">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center">
-                <Image
-                  src="/images/pc-coffee-ani.json"
-                  alt="Grant Glazer Logo"
-                  width={80}
-                  height={80}
-                  className="rounded-full"
+              <div className="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden flex items-center justify-center">
+                <Lottie
+                  animationData={pcCoffeeAnimation}
+                  loop
+                  autoplay
+                  style={{ width: 96, height: 96 }}
                 />
               </div>
             </div>
@@ -98,24 +99,32 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Grant</h2>
                 <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
                   <p>
-  Driven by curiosity and a love of well-designed systems—both digital and physical—I bring structure and clarity to complex enterprise challenges.
-</p>
-<p>
-  I hold a
-  <strong className="text-slate-900 dark:text-slate-100">
-    Bachelor of Science in Business Administration
-  </strong>{" "}
-  from California State University, Sacramento, with concentrations in{" "}
-  <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>,{" "}
-  <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and{" "}
-  <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
-</p>
-<p>
-  I'm a value-focused solutions consultant who helps enterprise organizations translate complex needs into actionable, scalable SaaS solutions. I bring deep expertise across CRM, Configure–Price–Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management, e-Signature, Document Generation, Approval Workflows, AI integrations, and Digital Asset Management. I specialize in aligning product capabilities to real-world business outcomes—accelerating revenue, streamlining operations, and reducing risk.
-</p>
-<p>
-  Outside of work, I enjoy building things—from home automation systems to hands-on DIY projects. That same maker mindset fuels my approach to consulting: curious, systems-oriented, and always looking for elegant, scalable solutions.
-</p>
+                    Driven by curiosity and a love of well-designed systems—both digital and physical—I bring structure
+                    and clarity to complex enterprise challenges.
+                  </p>
+                  <p>
+                    I hold a {" "}
+                    <strong className="text-slate-900 dark:text-slate-100">
+                      Bachelor of Science in Business Administration
+                    </strong>{" "}
+                    from California State University, Sacramento, with concentrations in{" "}
+                    <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>,{" "}
+                    <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and{" "}
+                    <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
+                  </p>
+                  <p>
+                    I'm a value-focused solutions consultant who helps enterprise organizations translate complex needs
+                    into actionable, scalable SaaS solutions. I bring deep expertise across CRM, Configure–Price–Quote
+                    (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management, e-Signature, Document
+                    Generation, Approval Workflows, AI integrations, and Digital Asset Management. I specialize in
+                    aligning product capabilities to real-world business outcomes—accelerating revenue, streamlining
+                    operations, and reducing risk.
+                  </p>
+                  <p>
+                    Outside of work, I enjoy building things—from home automation systems to hands-on DIY projects.
+                    That same maker mindset fuels my approach to consulting: curious, systems-oriented, and always
+                    looking for elegant, scalable solutions.
+                  </p>
                 </div>
                 <div className="mt-8">
                   <Link href="/my-expertise">
