@@ -34,47 +34,47 @@ export default function Home() {
       <TimezoneClock />
 
       {/* Hero Section */}
-      <section className="pt-28 sm:pt-32 pb-16 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col items-center text-center">
-            {animationData && (
-              <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mb-6">
-                <Lottie
-                  animationData={animationData}
-                  loop
-                  autoplay
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </div>
-            )}
-            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 mb-3">Grant Glazer</h1>
-            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-4 max-w-2xl">
-              Business Technology & Process Consultant
-            </p>
-            <p className="text-base text-blue-600 dark:text-blue-400 mb-6 max-w-xl font-medium italic">
-              "Sales engineer by day, smart home architect by night — solving problems in business and life"
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-                onClick={() => setShowContactForm(true)}
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Contact Me
-              </Button>
-              <Link href="/my-expertise">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
-                >
-                  View My Expertise
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
+      <section className="pt-24 sm:pt-28 pb-14 px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
+          {animationData && (
+            <div className="w-40 sm:w-48 md:w-56 lg:w-64 xl:w-72 mb-4 sm:mb-6 md:mb-8">
+              <Lottie
+                animationData={animationData}
+                loop
+                autoplay
+                style={{ width: "100%", height: "100%" }}
+              />
             </div>
+          )}
+          <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 dark:text-slate-50 mb-2">
+            Grant Glazer
+          </h1>
+          <p className="text-base sm:text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-3 max-w-2xl">
+            Business Technology & Process Consultant
+          </p>
+          <p className="text-sm sm:text-base text-blue-600 dark:text-blue-400 mb-6 max-w-xl font-medium italic">
+            "Sales engineer by day, smart home architect by night — solving problems in business and life"
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white min-w-[12rem]"
+              onClick={() => setShowContactForm(true)}
+            >
+              <Mail className="w-4 h-4 mr-2" />
+              Contact Me
+            </Button>
+            <Link href="/my-expertise">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 min-w-[12rem]"
+              >
+                View My Expertise
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -84,6 +84,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="glass rounded-3xl p-8 md:p-12 shadow-xl">
             <div className="flex flex-col lg:flex-row items-center gap-8">
+              {/* Profile Image Section */}
               <div className="flex-shrink-0">
                 <div className="relative">
                   <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
@@ -100,6 +101,7 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Content */}
               <div className="flex-1 text-center lg:text-left">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Grant</h2>
                 <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -107,7 +109,12 @@ export default function Home() {
                     Driven by curiosity and a love of well-designed systems—both digital and physical—I bring structure and clarity to complex enterprise challenges.
                   </p>
                   <p>
-                    I hold a <strong className="text-slate-900 dark:text-slate-100">Bachelor of Science in Business Administration</strong> from California State University, Sacramento, with concentrations in <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>, <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
+                    I hold a
+                    <strong className="text-slate-900 dark:text-slate-100"> Bachelor of Science in Business Administration </strong>
+                    from California State University, Sacramento, with concentrations in
+                    <strong className="text-slate-900 dark:text-slate-100"> Marketing</strong>,
+                    <strong className="text-slate-900 dark:text-slate-100"> General Management</strong>, and
+                    <strong className="text-slate-900 dark:text-slate-100"> Entrepreneurship</strong>.
                   </p>
                   <p>
                     I'm a value-focused solutions consultant who helps enterprise organizations translate complex needs into actionable, scalable SaaS solutions. I bring deep expertise across CRM, Configure–Price–Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management, e-Signature, Document Generation, Approval Workflows, AI integrations, and Digital Asset Management. I specialize in aligning product capabilities to real-world business outcomes—accelerating revenue, streamlining operations, and reducing risk.
@@ -118,39 +125,12 @@ export default function Home() {
                 </div>
                 <div className="mt-8">
                   <Link href="/my-expertise">
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">Learn More About My Expertise</Button>
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                      Learn More About My Expertise
+                    </Button>
                   </Link>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">
-            Ready to Get Started?
-          </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 mb-10">I welcome your interest!</p>
-
-          <div className="glass rounded-3xl p-8 max-w-2xl mx-auto">
-            <p className="text-slate-700 dark:text-slate-300 mb-8 leading-relaxed">
-              Ready to drive your business forward with proven technology solutions and sales expertise? Let's discuss how I can help your organization achieve its goals.
-            </p>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 italic">
-              "Solving business problems with smart processes, strategic thinking, and hands-on tech know-how."
-            </p>
-            <div className="flex justify-center">
-              <Button
-                size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-                onClick={() => setShowContactForm(true)}
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Contact Me
-              </Button>
             </div>
           </div>
         </div>
