@@ -104,14 +104,14 @@ export default function Blog() {
 <TimezoneClock />
 
 {/* Blog Animation */}
-<div className="pt-16 pb-0 flex justify-center">
+<div className="pt-28 pb-2 flex justify-center">
   <div className="w-40 sm:w-48 md:w-56">
     <Lottie animationData={require("@/public/images/blog-ani.json")} loop autoplay />
   </div>
 </div>
 <div className="pt-8 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mt-2 mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Blog</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-4">
               Insights on business technology, sales optimization, and industry trends
