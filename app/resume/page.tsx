@@ -234,8 +234,7 @@ const collapseAll = () => setOpenCompanyIndex(-1);
           </div>
 
           <div className="max-w-6xl mx-auto space-y-6">
-  <div className="flex justify-center gap-4 mt-12 mb-10">$1</div>
-  {experiences.map((company, companyIndex) => {
+    {experiences.map((company, companyIndex) => {
               const isCompanyOpen = openCompanyIndex === null || openCompanyIndex === companyIndex;
 
               return (
@@ -362,9 +361,22 @@ const collapseAll = () => setOpenCompanyIndex(-1);
                 </Card>
               );
             })}
-          </div>
-        </div>
-      </div>
-    </>
+          <div className="flex justify-center gap-4 mt-12 mb-10">
+  <button
+    onClick={expandAll}
+    className="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
+  >
+    Expand All
+  </button>
+  <button
+    onClick={collapseAll}
+    className="px-6 py-2 rounded-md bg-gray-500 hover:bg-gray-600 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
+  >
+    Collapse All
+  </button>
+</div>
+</div>
+</div>
+</>
   );
 }
