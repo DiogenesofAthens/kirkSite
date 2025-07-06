@@ -213,27 +213,19 @@ export default function Resume() {
     </CardContent>
   </Card>
 </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-4">Resume</h1>
-            <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
-              Over 10 years of experience in sales engineering, business development, and technology consulting
-            </p>
-            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
-              "Sales engineer with a builder's mindset — helping teams improve processes through smart tech and strategy."
-            </p>
+            <div className="mb-8">
+  <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-2 text-center md:text-left">Resume</h1>
+  <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl text-center md:text-left">
+    Over 10 years of experience in sales engineering, business development, and technology consulting
+  </p>
+  <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-2 text-center md:text-left">
+    "Sales engineer with a builder's mindset — helping teams improve processes through smart tech and strategy."
+  </p>
+</div>
           </div>
 
           {/* Timeline */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-center gap-4 mb-16 overflow-x-auto py-6 border-y border-slate-200 dark:border-slate-700">
-            {experiences.map((company, companyIndex) =>
-              company.positions.map((position, positionIndex) => (
-                <button
-                  key={`${companyIndex}-${positionIndex}`}
-                  onClick={() => scrollToPosition(companyIndex, positionIndex)}
-                  className="flex flex-col items-center min-w-[120px] hover:text-blue-600 text-sm text-slate-600 dark:text-slate-300"
-                >
-                  <div className="w-12 h-12 mb-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white flex items-center justify-center font-bold text-xs">
-                    {company.logo}
-                  </div>
+          
                   <span className="font-semibold text-xs text-center">
                     {position.title}
                   </span>
@@ -254,7 +246,7 @@ export default function Resume() {
                     onClick={() => setOpenCompanyIndex(isCompanyOpen ? null : companyIndex)}
                     className="cursor-pointer flex justify-between items-center"
                   >
-                    <div className="flex items-center gap-4 text-left">
+                    <div className="flex items-center gap-4 text-left w-full" style={{ justifyContent: 'flex-start' }}>
                       <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                         <span className="text-white font-bold text-sm">{company.logo}</span>
                       </div>
