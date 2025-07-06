@@ -185,8 +185,7 @@ export default function Resume() {
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          $1
-
+          
 <div className="grid md:grid-cols-4 gap-6 mb-16">
   <Card className="glass border-0 shadow-xl text-center">
     <CardContent className="pt-6">
@@ -376,3 +375,4 @@ export default function Resume() {
     </div>
   );
 }
+
