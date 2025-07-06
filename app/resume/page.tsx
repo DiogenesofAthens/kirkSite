@@ -189,7 +189,7 @@ const collapseAll = () => setOpenCompanyIndex(-1);
 
         <div className="pt-20 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto text-center">
-            <div className=\"w-40 md:w-52 mx-auto mb-12 pt-4\">
+            <div className="w-40 md:w-52 mx-auto mb-12 pt-4">
               <Lottie animationData={laptopAnimation} loop={true} />
             </div>
 
@@ -233,7 +233,7 @@ const collapseAll = () => setOpenCompanyIndex(-1);
             
           </div>
 
-          <div className=\"flex justify-center gap-4 mt-12 mb-10\">
+          <div className="flex justify-center gap-4 mt-12 mb-10">
   <button
     onClick={expandAll}
     className=\"px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition duration-300 shadow-md hover:shadow-lg\"
@@ -248,7 +248,6 @@ const collapseAll = () => setOpenCompanyIndex(-1);
   </button>
 </div>
 
-$1
             {experiences.map((company, companyIndex) => {
               const isCompanyOpen = openCompanyIndex === null || openCompanyIndex === companyIndex;
 const shouldShowCompany = openCompanyIndex === null || openCompanyIndex === companyIndex;
