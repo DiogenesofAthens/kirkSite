@@ -374,7 +374,6 @@ export default function Resume() {
         </div>
       </div>
     </div>
-    </div>
     </>
   );
 }
