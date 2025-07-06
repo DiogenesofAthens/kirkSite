@@ -86,15 +86,15 @@ export default function Recommendations() {
       <TimezoneClock />
 
       {/* Lottie Animation - Refined Placement & Sizing */}
-      <div className="pt-28 pb-12 flex justify-center">
+      <div className="pt-20 pb-6 flex justify-center">
         <div className="w-40 sm:w-48 md:w-56">
           <Lottie animationData={animationData} loop autoplay />
         </div>
       </div>
 
-      <div className="pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Recommendations</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               A few friendly words about Grant from his past colleagues
