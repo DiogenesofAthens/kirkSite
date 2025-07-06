@@ -179,6 +179,7 @@ export default function Resume() {
   };
 
   return (
+    <>
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <FloatingNav />
       <TimezoneClock />
@@ -373,5 +374,6 @@ export default function Resume() {
         </div>
       </div>
     </div>
+    </>
   );
 }
