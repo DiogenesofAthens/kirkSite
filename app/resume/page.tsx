@@ -167,8 +167,7 @@ export default function Resume() {
         ],
       },
     ],
-  }
-
+  },
   ];
 
   const scrollRefs = useRef<any>({});
