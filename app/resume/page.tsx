@@ -250,7 +250,7 @@ const collapseAll = () => setOpenCompanyIndex(-1);
 
             {experiences.map((company, companyIndex) => {
               const isCompanyOpen = openCompanyIndex === null || openCompanyIndex === companyIndex;
-const shouldShowCompany = openCompanyIndex === null || openCompanyIndex === companyIndex;
+
               return (
                 <Card key={companyIndex} className="glass border-0 shadow-xl">
                   <CardHeader
