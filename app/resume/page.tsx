@@ -148,7 +148,8 @@ export default function Resume() {
         ],
       },
     ],
-  } , {
+  },
+  {
     company: "Canto",
     logo: "CA",
     positions: [
