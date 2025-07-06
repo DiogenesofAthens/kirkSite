@@ -93,7 +93,7 @@ export default function Recommendations() {
       </div>
 
       <div className="pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Recommendations</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
@@ -138,7 +138,10 @@ export default function Recommendations() {
           {/* Recommendations Grid */}
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             {recommendations.map((rec, index) => (
-              <Card key={index} className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <Card
+                key={index}
+                className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 h-full flex flex-col"
+              >
                 <CardHeader>
                   <div className="flex items-center gap-2 mb-2">
                     {[...Array(5)].map((_, i) => (
@@ -150,7 +153,7 @@ export default function Recommendations() {
                     {rec.title} • {rec.company}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-1">
                   <Quote className="w-6 h-6 text-slate-400 dark:text-slate-500 mb-3" />
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">{rec.content}</p>
                 </CardContent>
