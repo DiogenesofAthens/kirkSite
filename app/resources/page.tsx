@@ -11,6 +11,8 @@ import { FileText, Coffee, Beer, Heart, Calculator, Mail } from "lucide-react"
 import Link from "next/link"
 import { submitContactForm } from "@/app/actions/contact"
 import { useState, useEffect } from "react"
+import Lottie from "lottie-react"
+import animationData from "@/public/images/resources-ani.json"
 
 const iconMap = {
   FileText,
@@ -48,18 +50,15 @@ export default function Resources() {
       return
     }
 
-    // Add source to form data
     formData.append("source", "Resources Page")
-
     setIsSubmitting(true)
 
     try {
       const result = await submitContactForm(formData)
       alert(result.message)
-      // Reset form
       const form = document.querySelector("form") as HTMLFormElement
       form?.reset()
-      generateCaptcha() // Generate new captcha
+      generateCaptcha()
     } catch (error) {
       console.error("Error submitting form:", error)
       alert("There was an error sending your message. Please try again.")
@@ -100,9 +99,16 @@ export default function Resources() {
       <FloatingNav />
       <TimezoneClock />
 
-      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
+      {/* Resources Animation */}
+      <div className="pt-28 pb-2 flex justify-center">
+        <div className="w-40 sm:w-48 md:w-56">
+          <Lottie animationData={animationData} loop autoplay />
+        </div>
+      </div>
+
+      <div className="pt-8 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mt-2 mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Resources</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-4">
               Helpful tools, guides, and insights for business technology and sales optimization
