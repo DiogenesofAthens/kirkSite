@@ -375,8 +375,7 @@ const collapseAll = () => setOpenCompanyIndex(-1);
     Collapse All
   </button>
 </div>
-</div>
-</div>
-</>
+      </div>
+    </>
   );
 }
