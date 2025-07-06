@@ -80,7 +80,7 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
         <CardContent>
           {isSubmitted ? (
             <div className="text-center py-8">
-              <div className="w-64 h-64 mx-auto mb-4">
+              <div className="max-w-full w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 mx-auto mb-4">
                 <Lottie animationData={planeAnimation} loop={false} />
               </div>
               <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-slate-50">Message Sent!</h3>
@@ -158,4 +158,3 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
     </div>
   )
 }
-
