@@ -85,14 +85,14 @@ export default function Recommendations() {
       <FloatingNav />
       <TimezoneClock />
 
-      {/* Lottie Animation */}
-      <div className="w-full flex justify-center mt-12 mb-4">
-        <div className="w-[300px] md:w-[400px]">
+      {/* Lottie Animation - Refined Placement & Sizing */}
+      <div className="pt-28 pb-12 flex justify-center">
+        <div className="w-40 sm:w-48 md:w-56">
           <Lottie animationData={animationData} loop autoplay />
         </div>
       </div>
 
-      <div className="pt-16 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Recommendations</h1>
@@ -173,4 +173,3 @@ export default function Recommendations() {
     </div>
   )
 }
-
