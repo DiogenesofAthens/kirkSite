@@ -233,10 +233,10 @@ export default function Resume() {
                     <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                       <span className="text-white font-bold text-sm">{company.logo}</span>
                     </div>
-                    <div className="text-left">
+                    <div className="text-left flex flex-col justify-start">
                       <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">{company.company}</CardTitle>
                       <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
-                        {company.company === "Conga" ? "Sep 2017 - Present · 7 yrs 10 mos" : company.positions[0].duration}
+                        {company.company === "Conga" ? `${company.positions[company.positions.length - 1].duration.split(" - ")[0]} - Present · ${Math.floor((new Date().getFullYear() - 2017) * 12 + (new Date().getMonth() - 8)) / 12} yrs` : company.positions[0].duration}
                       </CardDescription>
                     </div>
                   </div>
