@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FloatingNav } from "@/components/floating-nav";
 import {
   Card,
@@ -17,7 +17,6 @@ import laptopAnimation from "@/public/images/man-laptop-ani.json";
 
 export default function Resume() {
   const [openCompanyIndex, setOpenCompanyIndex] = useState<number | null>(0);
-  const [openPositionIndex, setOpenPositionIndex] = useState<{ [key: number]: number | null }>({});
 
   const experiences = [
   {
@@ -169,18 +168,51 @@ export default function Resume() {
       },
     ],
   }
-]; // keep your full data here (unchanged)
+]; // keep full experience data here as-is
+
+  const scrollRefs = useRef<any>({});
+
+  const scrollToPosition = (companyIndex: number, positionIndex: number) => {
+    const key = `${companyIndex}-${positionIndex}`;
+    scrollRefs.current[key]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setOpenCompanyIndex(companyIndex);
+  };
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <FloatingNav />
       <TimezoneClock />
+
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="w-40 md:w-52 mx-auto mb-8">
-              <Lottie animationData={laptopAnimation} loop={true} />
-            </div>
+          $1
+
+<div className="grid md:grid-cols-4 gap-6 mb-16">
+  <Card className="glass border-0 shadow-xl text-center">
+    <CardContent className="pt-6">
+      <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">$50M+</div>
+      <div className="text-sm text-slate-600 dark:text-slate-400">Revenue Generated</div>
+    </CardContent>
+  </Card>
+  <Card className="glass border-0 shadow-xl text-center">
+    <CardContent className="pt-6">
+      <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">100+</div>
+      <div className="text-sm text-slate-600 dark:text-slate-400">Enterprise Customers</div>
+    </CardContent>
+  </Card>
+  <Card className="glass border-0 shadow-xl text-center">
+    <CardContent className="pt-6">
+      <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">10+ Years</div>
+      <div className="text-sm text-slate-600 dark:text-slate-400">Experience</div>
+    </CardContent>
+  </Card>
+  <Card className="glass border-0 shadow-xl text-center">
+    <CardContent className="pt-6">
+      <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">2x</div>
+      <div className="text-sm text-slate-600 dark:text-slate-400">SE of the Year</div>
+    </CardContent>
+  </Card>
+</div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-4">Resume</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Over 10 years of experience in sales engineering, business development, and technology consulting
@@ -188,6 +220,29 @@ export default function Resume() {
             <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
               "Sales engineer with a builder's mindset — helping teams improve processes through smart tech and strategy."
             </p>
+          </div>
+
+          {/* Timeline */}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-center gap-4 mb-16 overflow-x-auto py-6 border-y border-slate-200 dark:border-slate-700">
+            {experiences.map((company, companyIndex) =>
+              company.positions.map((position, positionIndex) => (
+                <button
+                  key={`${companyIndex}-${positionIndex}`}
+                  onClick={() => scrollToPosition(companyIndex, positionIndex)}
+                  className="flex flex-col items-center min-w-[120px] hover:text-blue-600 text-sm text-slate-600 dark:text-slate-300"
+                >
+                  <div className="w-12 h-12 mb-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white flex items-center justify-center font-bold text-xs">
+                    {company.logo}
+                  </div>
+                  <span className="font-semibold text-xs text-center">
+                    {position.title}
+                  </span>
+                  <span className="text-xs text-center">
+                    {position.duration.split("·")[0].trim()}
+                  </span>
+                </button>
+              ))
+            )}
           </div>
 
           <div className="space-y-6">
@@ -210,9 +265,7 @@ export default function Resume() {
                             ? (() => {
                                 const start = new Date(2017, 8);
                                 const now = new Date();
-                                const totalMonths =
-                                  (now.getFullYear() - start.getFullYear()) * 12 +
-                                  (now.getMonth() - start.getMonth());
+                                const totalMonths = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
                                 const years = Math.floor(totalMonths / 12);
                                 const months = totalMonths % 12;
                                 return `Sep 2017 - Present · ${years} yrs${months > 0 ? ` ${months} mos` : ""}`;
@@ -228,103 +281,89 @@ export default function Resume() {
 
                   {isCompanyOpen && (
                     <CardContent className="pt-0">
-                      <div className="space-y-4">
-                        {company.positions.map((position, positionIndex) => {
-                          const isPositionOpen = openPositionIndex[companyIndex] === positionIndex;
-                          return (
-                            <div
-                              key={positionIndex}
-                              className="border rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                            >
-                              <div
-                                onClick={() =>
-                                  setOpenPositionIndex(prev => ({
-                                    ...prev,
-                                    [companyIndex]: isPositionOpen ? null : positionIndex,
-                                  }))
-                                }
-                                className="p-4 cursor-pointer flex justify-between items-center"
-                              >
-                                <div>
-                                  <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200">
-                                    {position.title}
-                                  </h3>
-                                  <p className="text-sm text-slate-600 dark:text-slate-400">{position.duration}</p>
-                                </div>
-                                <ChevronDown
-                                  className={`w-4 h-4 text-slate-600 dark:text-slate-300 transition-transform duration-300 ${
-                                    isPositionOpen ? "rotate-180" : "rotate-0"
-                                  }`}
-                                />
-                              </div>
-
-                              {isPositionOpen && (
-                                <div className="px-4 pb-4">
+                      <div className="space-y-8">
+                        {company.positions.map((position, positionIndex) => (
+                          <div
+                            key={positionIndex}
+                            ref={el => (scrollRefs.current[`${companyIndex}-${positionIndex}`] = el)}
+                            className={`${positionIndex > 0 ? "border-t border-slate-200 dark:border-slate-700 pt-8" : ""}`}
+                          >
+                            <div className="flex flex-col md:flex-row md:items-start gap-4 mb-4">
+                              <div className="flex-1">
+                                <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
+                                  {position.title}
+                                </h3>
+                                <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mt-1">
+                                  <div className="flex items-center gap-1">
+                                    <Calendar className="w-4 h-4" />
+                                    {position.duration}
+                                  </div>
                                   {position.location && (
-                                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                                      📍 {position.location} · {position.type}
-                                    </p>
-                                  )}
-                                  {position.description && (
-                                    <p className="text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
-                                      {position.description}
-                                    </p>
-                                  )}
-
-                                  {position.responsibilities && (
-                                    <div className="mb-4">
-                                      <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">
-                                        Key Responsibilities:
-                                      </h4>
-                                      <ul className="space-y-1">
-                                        {position.responsibilities.map((resp, i) => (
-                                          <li key={i} className="text-slate-700 dark:text-slate-300 text-sm">
-                                            • {resp}
-                                          </li>
-                                        ))}
-                                      </ul>
+                                    <div className="flex items-center gap-1">
+                                      <MapPin className="w-4 h-4" />
+                                      {position.location}
                                     </div>
                                   )}
-
-                                  {position.achievements && (
-                                    <div className="mb-4">
-                                      <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2 flex items-center gap-2">
-                                        <Award className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
-                                        Key Achievements:
-                                      </h4>
-                                      <ul className="space-y-1">
-                                        {position.achievements.map((achievement, i) => (
-                                          <li key={i} className="text-slate-700 dark:text-slate-300 text-sm">
-                                            • {achievement}
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  )}
-
-                                  {position.certifications && (
-                                    <div>
-                                      <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">
-                                        Certifications:
-                                      </h4>
-                                      <div className="flex flex-wrap gap-2">
-                                        {position.certifications.map((cert, i) => (
-                                          <Badge
-                                            key={i}
-                                            variant="outline"
-                                            className="text-xs border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300"
-                                          >
-                                            {cert}
-                                          </Badge>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  )}
+                                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                                    {position.type}
+                                  </Badge>
                                 </div>
-                              )}
+                              </div>
                             </div>
-                          );
-                        })}
+
+                            {position.description && (
+                              <p className="text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
+                                {position.description}
+                              </p>
+                            )}
+
+                            {position.responsibilities && (
+                              <div className="mb-4">
+                                <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">Key Responsibilities:</h4>
+                                <ul className="space-y-1">
+                                  {position.responsibilities.map((resp, respIndex) => (
+                                    <li key={respIndex} className="text-slate-700 dark:text-slate-300 text-sm">
+                                      • {resp}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {position.achievements && (
+                              <div className="mb-4">
+                                <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2 flex items-center gap-2">
+                                  <Award className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
+                                  Key Achievements:
+                                </h4>
+                                <ul className="space-y-1">
+                                  {position.achievements.map((achievement, achIndex) => (
+                                    <li key={achIndex} className="text-slate-700 dark:text-slate-300 text-sm">
+                                      • {achievement}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {position.certifications && (
+                              <div>
+                                <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">Certifications:</h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {position.certifications.map((cert, certIndex) => (
+                                    <Badge
+                                      key={certIndex}
+                                      variant="outline"
+                                      className="text-xs border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300"
+                                    >
+                                      {cert}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </div>
                     </CardContent>
                   )}
