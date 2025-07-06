@@ -167,8 +167,28 @@ export default function Resume() {
         ],
       },
     ],
+  }],
+  },
+  {
+    company: "Canto",
+    logo: "CA",
+    positions: [
+      {
+        title: "Account Executive / Product Support Specialist",
+        duration: "Mar 2015 - Sep 2015 · 7 mos",
+        location: "San Francisco",
+        type: "Full-time",
+        achievements: [
+          "Led 5-8 new business demos per week of Digital Asset Management Platform",
+          "Closed over $60k in SaaS deals with average deal size of $4k",
+          "Researched and called 40-50 clients each day",
+          "Used ToutApp to manage outbound lists with 5000+ contacts",
+          "Solved issues for 2-3 current clients each week as first level support",
+        ],
+      },
+    ],
   }
-]; // keep full experience data here as-is
+];
 
   const scrollRefs = useRef<any>({});
 
