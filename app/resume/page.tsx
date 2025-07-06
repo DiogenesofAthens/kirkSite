@@ -236,7 +236,14 @@ export default function Resume() {
                     <div className="text-left flex flex-col justify-start">
                       <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">{company.company}</CardTitle>
                       <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
-                        {company.company === "Conga" ? `${company.positions[company.positions.length - 1].duration.split(" - ")[0]} - Present · ${Math.floor((new Date().getFullYear() - 2017) * 12 + (new Date().getMonth() - 8)) / 12} yrs` : company.positions[0].duration}
+                        {company.company === "Conga" ? (() => {
+  const start = new Date(2017, 8); // September 2017
+  const now = new Date();
+  const totalMonths = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  return `Sep 2017 - Present · ${years} yrs${months > 0 ? ` ${months} mos` : ""}`;
+})() : company.positions[0].duration}
                       </CardDescription>
                     </div>
                   </div>
