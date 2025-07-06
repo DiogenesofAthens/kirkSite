@@ -148,8 +148,7 @@ export default function Resume() {
         ],
       },
     ],
-  }],
-  {
+  } , {
     company: "Canto",
     logo: "CA",
     positions: [
@@ -375,4 +374,3 @@ export default function Resume() {
     </div>
   );
 }
-
