@@ -37,18 +37,15 @@ export default function Blog() {
       return
     }
 
-    // Add source to form data
     formData.append("source", "Blog Page")
-
     setIsSubmitting(true)
 
     try {
       const result = await submitContactForm(formData)
       alert(result.message)
-      // Reset form
       const form = document.querySelector("form") as HTMLFormElement
       form?.reset()
-      generateCaptcha() // Generate new captcha
+      generateCaptcha()
     } catch (error) {
       console.error("Error submitting form:", error)
       alert("There was an error sending your message. Please try again.")
@@ -135,7 +132,6 @@ export default function Blog() {
                         {new Date(post.date + "T12:00:00").toLocaleDateString()}
                       </div>
                     </div>
-                    {/* Blog title as a link */}
                     <CardTitle className="text-xl group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-slate-50">
                       <Link
                         href={`/blog/${post.slug}`}
@@ -156,7 +152,6 @@ export default function Blog() {
                         <Clock className="w-4 h-4 mr-1" />
                         {post.readTime}
                       </div>
-                      {/* "Read More" button */}
                       <Link
                         href={`/blog/${post.slug}`}
                         className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center"
@@ -167,7 +162,6 @@ export default function Blog() {
                     </div>
                   </CardContent>
                 </Card>
-                {/* Absolute overlay link makes the whole card clickable (except interactive elements inside) */}
                 <Link
                   href={`/blog/${post.slug}`}
                   className="absolute inset-0 z-10"
