@@ -89,10 +89,10 @@ export default function Home() {
                     I hold a <strong className="text-slate-900 dark:text-slate-100">Bachelor of Science in Business Administration</strong> from California State University, Sacramento, with concentrations in <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>, <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
                   </p>
                   <p>
-                    My expertise spans Customer Relationship Management (CRM), Configure–Price–Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management (OM), Document Generation, Approval Workflows, e-Signature, AI integrations, and Digital Asset Management. I focus on aligning software capabilities with real business goals—reducing cycle times, improving quote accuracy, and unlocking data for smarter decisions.
+                    My expertise spans Customer Relationship Management (CRM), Configure Price Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management (OM), Document Generation, Approval Workflows, e-Signature, AI integrations, and Digital Asset Management. I focus on aligning software capabilities with real business goals, reducing cycle times, improving quote accuracy, and unlocking data for smarter decisions.
                   </p>
                   <p>
-                    Outside of work, I enjoy building—whether automating my home or taking on hands-on DIY projects. That same mindset shows up in client work: practical, curious, and always focused on results.
+                    Outside of work, I enjoy building, whether automating my home or taking on hands-on DIY projects. That same mindset shows up in client work: practical, curious, and always focused on results.
                   </p>
                 </div>
                 <div className="mt-8">
