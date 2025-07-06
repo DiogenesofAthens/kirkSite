@@ -5,55 +5,14 @@ import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Calendar, Clock, ArrowRight, Mail } from "lucide-react"
 import Link from "next/link"
-import { submitContactForm } from "@/app/actions/contact"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Lottie from "lottie-react"
+import { ContactModal } from "@/components/contact-modal"
 
 export default function Blog() {
-  const [captchaQuestion, setCaptchaQuestion] = useState({ question: "", answer: 0 })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const generateCaptcha = () => {
-    const num1 = Math.floor(Math.random() * 10) + 1
-    const num2 = Math.floor(Math.random() * 10) + 1
-    setCaptchaQuestion({
-      question: `What is ${num1} + ${num2}?`,
-      answer: num1 + num2,
-    })
-  }
-
-  useEffect(() => {
-    generateCaptcha()
-  }, [])
-
-  const handleContactSubmit = async (formData: FormData) => {
-    const captchaAnswer = formData.get("captcha") as string
-
-    if (Number.parseInt(captchaAnswer) !== captchaQuestion.answer) {
-      alert("Please solve the captcha correctly.")
-      return
-    }
-
-    formData.append("source", "Blog Page")
-    setIsSubmitting(true)
-
-    try {
-      const result = await submitContactForm(formData)
-      alert(result.message)
-      const form = document.querySelector("form") as HTMLFormElement
-      form?.reset()
-      generateCaptcha()
-    } catch (error) {
-      console.error("Error submitting form:", error)
-      alert("There was an error sending your message. Please try again.")
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
+  const [showContactForm, setShowContactForm] = useState(false)
 
   const blogPosts = [
     {
@@ -94,22 +53,21 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
-      {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <FloatingNav />
-<TimezoneClock />
+      <TimezoneClock />
 
-{/* Blog Animation */}
-<div className="pt-28 pb-2 flex justify-center">
-  <div className="w-40 sm:w-48 md:w-56">
-    <Lottie animationData={require("@/public/images/blog-ani.json")} loop autoplay />
-  </div>
-</div>
-<div className="pt-8 pb-20 px-4 sm:px-6 lg:px-8 relative">
+      <div className="pt-28 pb-2 flex justify-center">
+        <div className="w-40 sm:w-48 md:w-56">
+          <Lottie animationData={require("@/public/images/blog-ani.json")} loop autoplay />
+        </div>
+      </div>
+
+      <div className="pt-8 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mt-2 mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Blog</h1>
@@ -121,7 +79,6 @@ export default function Blog() {
             </p>
           </div>
 
-          {/* Blog Posts Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post) => (
               <div key={post.slug} className="relative group">
@@ -179,7 +136,6 @@ export default function Blog() {
             ))}
           </div>
 
-          {/* Contact Me Section */}
           <div className="mt-16 glass rounded-3xl p-8">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Let's Connect</h2>
@@ -188,75 +144,21 @@ export default function Blog() {
                 I'd love to discuss how these concepts can be applied to your specific business challenges.
               </p>
             </div>
-
-            <form action={handleContactSubmit} className="max-w-md mx-auto space-y-4">
-              <div>
-                <Input
-                  name="name"
-                  placeholder="Your Name *"
-                  required
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <div>
-                <Input
-                  name="email"
-                  type="email"
-                  placeholder="Your Email *"
-                  required
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <div>
-                <Input
-                  name="company"
-                  placeholder="Company (Optional)"
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <div>
-                <Textarea
-                  name="message"
-                  placeholder="What would you like to discuss? *"
-                  required
-                  rows={4}
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium block mb-2 text-slate-700 dark:text-slate-300">
-                  Security Check: {captchaQuestion.question}
-                </label>
-                <Input
-                  name="captcha"
-                  type="number"
-                  placeholder="Answer"
-                  required
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                    Sending Message...
-                  </>
-                ) : (
-                  <>
-                    <Mail className="w-4 h-4 mr-2" />
-                    Start the Conversation
-                  </>
-                )}
+            <div className="flex justify-center">
+              <Button
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+                onClick={() => setShowContactForm(true)}
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Contact Me
               </Button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
+
+      <ContactModal isOpen={showContactForm} onClose={() => setShowContactForm(false)} />
     </div>
   )
 }
