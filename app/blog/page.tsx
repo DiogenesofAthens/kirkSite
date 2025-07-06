@@ -107,9 +107,6 @@ export default function Blog() {
 <div className="pt-20 pb-6 flex justify-center">
   <div className="w-40 sm:w-48 md:w-56">
     <Lottie animationData={require("@/public/images/blog-ani.json")} loop autoplay />
-  </div>
-</div>
-      </div>
 
       <div className="pt-16 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
