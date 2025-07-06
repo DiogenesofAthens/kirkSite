@@ -169,6 +169,8 @@ export default function Resume() {
   }
 ];
 
+  ];
+
   const scrollRefs = useRef<any>({});
 
   const scrollToPosition = (companyIndex: number, positionIndex: number) => {
