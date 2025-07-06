@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { X, Mail, CheckCircle } from "lucide-react"
 import { submitContactForm } from "@/app/actions/contact"
+import Lottie from "lottie-react"
+import planeAnimation from "@/public/images/plane-ani.json"
 
 interface ContactModalProps {
   isOpen: boolean
@@ -36,9 +38,7 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
       return
     }
 
-    // Add source to form data
     formData.append("source", source)
-
     setIsSubmitting(true)
 
     try {
@@ -46,12 +46,11 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
       setSubmitMessage(result.message)
       setIsSubmitted(true)
 
-      // Reset form after 3 seconds
       setTimeout(() => {
         setIsSubmitted(false)
         setSubmitMessage("")
         onClose()
-      }, 3000)
+      }, 6000)
     } catch (error) {
       console.error("Error submitting form:", error)
       alert("There was an error sending your message. Please try again.")
@@ -60,7 +59,6 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
     }
   }
 
-  // Generate captcha when modal opens
   useEffect(() => {
     if (isOpen && captchaQuestion.question === "") {
       generateCaptcha()
@@ -82,7 +80,9 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
         <CardContent>
           {isSubmitted ? (
             <div className="text-center py-8">
-              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+              <div className="w-32 h-32 mx-auto mb-4">
+                <Lottie animationData={planeAnimation} loop={false} />
+              </div>
               <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-slate-50">Message Sent!</h3>
               <p className="text-slate-600 dark:text-slate-400">{submitMessage}</p>
             </div>
@@ -158,3 +158,4 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
     </div>
   )
 }
+
