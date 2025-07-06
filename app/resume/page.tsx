@@ -184,6 +184,10 @@ export default function Resume() {
       <FloatingNav />
       <TimezoneClock />
 
+          <div className="w-40 md:w-52 mx-auto mb-12">
+            <Lottie animationData={laptopAnimation} loop={true} />
+          </div>
+
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           
@@ -222,19 +226,6 @@ export default function Resume() {
     "Sales engineer with a builder's mindset — helping teams improve processes through smart tech and strategy."
   </p>
 </div>
-          </div>
-
-          {/* Timeline */}
-          
-                  <span className="font-semibold text-xs text-center">
-                    {position.title}
-                  </span>
-                  <span className="text-xs text-center">
-                    {position.duration.split("·")[0].trim()}
-                  </span>
-                </button>
-              ))
-            )}
           </div>
 
           <div className="space-y-6">
