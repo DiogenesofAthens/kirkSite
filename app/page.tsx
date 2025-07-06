@@ -79,17 +79,24 @@ export default function Home() {
               <div className="flex-1 text-center lg:text-left">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Grant</h2>
                 <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
-                  <p>
-                    I'm driven by curiosity and a love of well-designed systems, both digital and physical. Whether it's streamlining enterprise workflows or building out a smart home, I look for patterns, reduce friction, and create elegant solutions.
+                  <p className="text-xl font-semibold">
+                    Helping enterprise teams shorten sales cycles and scale revenue through smart, consultative SaaS solutions.
                   </p>
                   <p>
-                    I hold a <strong className="text-slate-900 dark:text-slate-100">B.S. in Business Administration</strong> from California State University, Sacramento, with concentrations in <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>, <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
+                    Driven by curiosity and a love of well-designed systems—both digital and physical—I bring structure and clarity to complex enterprise challenges. I started my career in outbound sales, which gave me a strong foundation in communication, customer empathy, and strategic thinking. Over time, I transitioned into more technical roles where I now operate as a solutions consultant, partnering with enterprise clients to design and deliver scalable, value-driven technology strategies.
                   </p>
                   <p>
-                    As a solutions consultant, I help enterprise teams turn complexity into clarity. My focus includes customer relationship management (CRM), configure–price–quote (CPQ), contract lifecycle management (CLM), billing, workflow automation, document generation, and AI integrations. Everything I do is geared toward helping companies grow faster, work smarter, and reduce risk.
+                    I hold a <strong className="text-slate-900 dark:text-slate-100">Bachelor of Science in Business Administration</strong> from California State University, Sacramento, with concentrations in <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>, <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
                   </p>
                   <p>
-                    Outside of work, I like to build. Whether it's a DIY project or an integrated smart home, I bring the same mindset: curious, systems-oriented, and always aiming for clean, scalable results.
+                    My core expertise spans CRM, Configure–Price–Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management, e-Signature, Document Generation, Approval Workflows, AI integrations, and Digital Asset Management. But more than technical implementation, I specialize in aligning software capabilities with real business outcomes—whether that means reducing cycle times, improving quote accuracy, or unlocking data-driven decisions for revenue teams.
+                  </p>
+                  <p>
+                    Outside of work, I enjoy building things—from home automation systems to hands-on DIY projects. That same systems mindset and builder mentality shows up in my client work: curious, resourceful, and always focused on practical, scalable outcomes.
+                  </p>
+                  <p className="mt-4">
+                    👉 <em>Looking to collaborate or learn more about my work?</em>{" "}
+                    <a href="/contact" className="underline">Let’s connect.</a>
                   </p>
                 </div>
                 <div className="mt-8">
@@ -139,3 +146,4 @@ export default function Home() {
     </div>
   )
 }
+
