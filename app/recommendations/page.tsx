@@ -1,3 +1,5 @@
+"use client"
+
 import { FloatingNav } from "@/components/floating-nav"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Star, Quote, Award, Users } from "lucide-react"
