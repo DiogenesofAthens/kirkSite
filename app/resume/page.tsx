@@ -236,13 +236,13 @@ const collapseAll = () => setOpenCompanyIndex(-1);
           <div className="flex justify-center gap-4 mt-12 mb-10">
   <button
     onClick={expandAll}
-    className=\"px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition duration-300 shadow-md hover:shadow-lg\"
+    className="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
   >
     Expand All
   </button>
   <button
     onClick={collapseAll}
-    className=\"px-6 py-2 rounded-md bg-gray-500 hover:bg-gray-600 text-white font-medium transition duration-300 shadow-md hover:shadow-lg\"
+    className="px-6 py-2 rounded-md bg-gray-500 hover:bg-gray-600 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
   >
     Collapse All
   </button>
