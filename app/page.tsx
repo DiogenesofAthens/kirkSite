@@ -83,25 +83,23 @@ export default function Home() {
                     Helping enterprise teams shorten sales cycles and scale revenue through smart, consultative SaaS solutions.
                   </p>
                   <p>
-                    Driven by curiosity and a love of well-designed systems—both digital and physical—I bring structure and clarity to complex enterprise challenges. I started my career in outbound sales, which gave me a strong foundation in communication, customer empathy, and strategic thinking. Over time, I transitioned into more technical roles where I now operate as a solutions consultant, partnering with enterprise clients to design and deliver scalable, value-driven technology strategies.
+                    Driven by curiosity and a love of well-designed systems, both digital and physical, I’m passionate about creating structured, scalable solutions to complex enterprise challenges. Starting in outbound sales gave me a strong foundation in communication and strategy, which I later built upon in technical roles as a solutions consultant.
                   </p>
                   <p>
                     I hold a <strong className="text-slate-900 dark:text-slate-100">Bachelor of Science in Business Administration</strong> from California State University, Sacramento, with concentrations in <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>, <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
                   </p>
                   <p>
-                    My core expertise spans CRM, Configure–Price–Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management, e-Signature, Document Generation, Approval Workflows, AI integrations, and Digital Asset Management. But more than technical implementation, I specialize in aligning software capabilities with real business outcomes—whether that means reducing cycle times, improving quote accuracy, or unlocking data-driven decisions for revenue teams.
+                    My expertise spans Customer Relationship Management (CRM), Configure–Price–Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management (OM), Document Generation, Approval Workflows, e-Signature, AI integrations, and Digital Asset Management. I focus on aligning software capabilities with real business goals—reducing cycle times, improving quote accuracy, and unlocking data for smarter decisions.
                   </p>
                   <p>
-                    Outside of work, I enjoy building things—from home automation systems to hands-on DIY projects. That same systems mindset and builder mentality shows up in my client work: curious, resourceful, and always focused on practical, scalable outcomes.
-                  </p>
-                  <p className="mt-4">
-                    👉 <em>Looking to collaborate or learn more about my work?</em>{" "}
-                    <a href="/contact" className="underline">Let’s connect.</a>
+                    Outside of work, I enjoy building—whether automating my home or taking on hands-on DIY projects. That same mindset shows up in client work: practical, curious, and always focused on results.
                   </p>
                 </div>
                 <div className="mt-8">
-                  <Link href="/my-expertise">
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">Learn More About My Expertise</Button>
+                  <Link href="/resume">
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                      View Grant's Resume
+                    </Button>
                   </Link>
                 </div>
               </div>
@@ -146,4 +144,3 @@ export default function Home() {
     </div>
   )
 }
-
