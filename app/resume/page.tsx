@@ -187,7 +187,7 @@ const collapseAll = () => setOpenCompanyIndex(-1);
         <FloatingNav />
         <TimezoneClock />
 
-        <div className="pt-20 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto text-center">
             <div className="w-40 md:w-52 mx-auto mb-12 pt-4">
               <Lottie animationData={laptopAnimation} loop={true} />
