@@ -54,7 +54,7 @@ export default function Home() {
               </Button>
               <Link href="/my-expertise">
                 <Button variant="outline" size="lg" className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-                  View My Expertise
+                  My Experience
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
@@ -119,7 +119,7 @@ export default function Home() {
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 italic">
               "Solving business problems with smart processes, strategic thinking, and hands-on tech know-how."
             </p>
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-6">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setShowContactForm(true)}>
                 <Mail className="w-4 h-4 mr-2" />
                 Contact Me
