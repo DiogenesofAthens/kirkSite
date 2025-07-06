@@ -11,6 +11,7 @@ import { Calendar, Clock, ArrowRight, Mail } from "lucide-react"
 import Link from "next/link"
 import { submitContactForm } from "@/app/actions/contact"
 import { useState, useEffect } from "react"
+import Lottie from "lottie-react"
 
 export default function Blog() {
   const [captchaQuestion, setCaptchaQuestion] = useState({ question: "", answer: 0 })
@@ -100,11 +101,19 @@ export default function Blog() {
       </div>
 
       <FloatingNav />
-      <TimezoneClock />
+<TimezoneClock />
 
-      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
+{/* Blog Animation */}
+<div className="pt-20 pb-6 flex justify-center">
+  <div className="w-40 sm:w-48 md:w-56">
+    <Lottie animationData={require("@/public/images/blog-ani.json")} loop autoplay />
+  </div>
+</div>
+      </div>
+
+      <div className="pt-16 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Blog</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-4">
               Insights on business technology, sales optimization, and industry trends
