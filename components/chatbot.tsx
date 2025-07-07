@@ -17,15 +17,14 @@ interface Message {
 
 const KNOWLEDGE_BASE: Record<string, string> = {
   "achievements": "Grant has been recognized as SE of the Year at Conga for both FY22 and FY23, top-performing SE by revenue in FY22, and awarded Best Innovation Demo at SE Summit 2024. He's also presented on the main stage at SKO and Conga Connect.",
-  "background": "Grant has 10+ years of experience across technical sales and engineering roles. He’s worked at Canto, DNN Corp, and most notably Conga, where he’s held 6 different roles over nearly 8 years, helping close $41M+ in enterprise business and delivering innovative custom demos. See his [resume](https://grantglazer.com/resume) for full details.",
-  "tech": "This site is built with Vercel’s V0 and GPT-4o, deployed using GitHub. Grant regularly writes about his favorite tools and technologies. See his [blog](https://grantglazer.com/blog) for full insights.",
+  "background": "Grant has 10+ years of experience in sales engineering, technical consulting, and enterprise software. He's held six progressive roles at Conga alone, where he’s helped close over $41M in business, delivered hundreds of tailored demos, and supported strategic sales across multiple verticals. Earlier in his career, he held sales and leadership roles at DNN Corp and Canto. You can view his full [resume](https://grantglazer.com/resume).",
+  "tech": "Grant's personal site is built using Vercel’s V0 with GPT-4o integration and deployed through GitHub. He shares regular updates and deep dives on his [blog](https://grantglazer.com/blog) about the tools and tech stacks he uses.",
   "media server": "Grant created a comprehensive walkthrough on building an Unraid-based media server with Plex, Radarr, Sonarr, and more. View the guide here: [Media Server Guide](https://grantglazer.com/downloads/media-server-guide/confirm)",
-  "sdr": "Grant built and managed SDR teams, consistently overachieved quota by 150%, and authored a full methodology guide based on real results. View it here: [SDR Process Guide](https://grantglazer.com/downloads/sdr-process-guide/confirm)",
-  "career history": "Grant has held roles at Conga, DNN Corp, and Canto, steadily progressing through technical and leadership positions. See his [resume](https://grantglazer.com/resume) for complete history.",
-  "clients": "Grant has supported large enterprise clients, including multiple Fortune 100 companies, helping drive digital transformation at scale. Learn more at his [expertise page](https://grantglazer.com/my-expertise)",
-  "skills": "Grant specializes in technical discovery, solution consulting, custom demos, CPQ, CLM, Salesforce configuration, RFPs, and AWS. He also has experience with MS Dynamics and is certified in Conga CPQ, CLM, Approvals, Billing, Composer, Sign, and Grid.",
-  "certifications": "Grant holds certifications in Conga CPQ, CLM, Approvals, Billing, Sign, Composer, and Grid. He’s also well-versed in Salesforce, AWS, and MS Dynamics.",
-  "contact": "Use the contact button at the bottom of the chat window to message Grant directly about consulting, collaboration, or business opportunities.",
+  "sdr": "Grant built and led SDR teams, consistently achieving 150%+ of quota and generating over $8M in qualified pipeline. He also authored a detailed SDR methodology. Read it here: [SDR Process Guide](https://grantglazer.com/downloads/sdr-process-guide/confirm)",
+  "career history": "Grant has held progressive roles at Conga, DNN Corp, and Canto. He began as an SDR and has advanced to Principal Sales Engineer, supporting strategic sales and driving innovation. For more details, view his [resume](https://grantglazer.com/resume).",
+  "clients": "Grant has supported digital transformation initiatives at multiple Fortune 100 companies, delivering technical solutions at scale. Explore more at his [expertise page](https://grantglazer.com/my-expertise)",
+  "skills": "Grant specializes in technical discovery, solution engineering, demo creation, and consultative selling. He works across Salesforce, AWS, and Microsoft Dynamics platforms and frequently leads RFPs and security reviews.",
+  "certifications": "Grant is certified in Conga CPQ, CLM, Approvals, Order Management, Billing, Composer, Sign, and Grid. He also has experience with Salesforce, AWS, and Microsoft Dynamics.",
   "default": "I'm here to help with info about Grant’s background, career, tech, or projects. If I can't answer your question, you can use the contact button below to reach him directly."
 }
 
@@ -68,7 +67,7 @@ export function Chatbot() {
     }
     setMessages((prev) => [...prev, userMessage])
 
-    const keyword = input.toLowerCase().split(" ").find(k => KNOWLEDGE_BASE[k]) || "default"
+    const keyword = Object.keys(KNOWLEDGE_BASE).find(key => input.toLowerCase().includes(key)) || "default"
     const response = KNOWLEDGE_BASE[keyword] || KNOWLEDGE_BASE["default"]
 
     const botMessage: Message = {
@@ -101,7 +100,7 @@ export function Chatbot() {
 
   return (
     <>
-      <Card className="fixed bottom-6 right-6 w-96 h-[540px] shadow-xl z-50 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800">
+      <Card className="fixed bottom-6 right-6 w-96 h-[540px] shadow-xl z-50 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800 backdrop-blur-md bg-white/70 dark:bg-slate-900/70">
         <CardHeader className="flex flex-row items-center justify-between bg-blue-600 text-white rounded-t-2xl px-4 py-3">
           <CardTitle className="text-lg">Chat with Grant's AI</CardTitle>
           <div className="flex gap-2">
@@ -114,7 +113,7 @@ export function Chatbot() {
           </div>
         </CardHeader>
         <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 dark:bg-slate-900">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message) => (
               <div key={message.id} className={cn("flex gap-2", message.isBot ? "justify-start" : "justify-end")}> 
                 {message.isBot && (
@@ -148,7 +147,7 @@ export function Chatbot() {
               </select>
             </div>
           </div>
-          <div className="border-t border-slate-200 dark:border-slate-600 p-4 bg-white dark:bg-slate-800">
+          <div className="border-t border-slate-200 dark:border-slate-600 p-4">
             <Button variant="outline" size="icon" onClick={() => setShowContactModal(true)} className="w-full">
               <Mail className="h-4 w-4 mr-2" /> Contact Grant
             </Button>
