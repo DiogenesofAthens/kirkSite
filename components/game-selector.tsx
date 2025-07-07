@@ -3,23 +3,23 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { SnakeGame } from "@/components/snake-game"
+import SimonSays from "@/components/ui/simon-game"
 import { TowerOfHanoi } from "@/components/tower-of-hanoi"
 import { MemoryGame } from "@/components/memory-game"
 import { ArrowLeft, Gamepad2 } from "lucide-react"
 
-type GameType = "snake" | "hanoi" | "memory" | null
+type GameType = "simon" | "hanoi" | "memory" | null
 
 export function GameSelector() {
   const [selectedGame, setSelectedGame] = useState<GameType>(null)
 
   const games = [
     {
-      id: "snake" as const,
-      title: "Snake Game",
-      description: "Classic snake game - eat food and grow longer without hitting walls or yourself",
-      color: "bg-green-500 hover:bg-green-600",
-      emoji: "🐍",
+      id: "simon" as const,
+      title: "Simon Says",
+      description: "Classic memory game with lights and colors — repeat the sequence!",
+      color: "bg-blue-500 hover:bg-blue-600",
+      emoji: "🔵",
     },
     {
       id: "hanoi" as const,
@@ -39,8 +39,8 @@ export function GameSelector() {
 
   const renderGame = () => {
     switch (selectedGame) {
-      case "snake":
-        return <SnakeGame />
+      case "simon":
+        return <SimonSays />
       case "hanoi":
         return <TowerOfHanoi />
       case "memory":
