@@ -1,127 +1,113 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
 
-const colors = [
-  { id: 0, label: "Green", base: "bg-green-600", glow: "shadow-green-300" },
-  { id: 1, label: "Red", base: "bg-red-600", glow: "shadow-red-300" },
-  { id: 2, label: "Yellow", base: "bg-yellow-400", glow: "shadow-yellow-200" },
-  { id: 3, label: "Blue", base: "bg-blue-600", glow: "shadow-blue-300" },
-]
+type Color = "red" | "green" | "blue" | "yellow"
+const COLORS: Color[] = ["green", "red", "yellow", "blue"]
 
-const getRandomSequence = (length: number) => {
-  return Array.from({ length }, () => Math.floor(Math.random() * 4))
+const COLOR_MAP: Record<Color, string> = {
+  red: "bg-red-600",
+  green: "bg-green-600",
+  yellow: "bg-yellow-400",
+  blue: "bg-blue-500",
+}
+
+const LIGHT_MAP: Record<Color, string> = {
+  red: "bg-red-300",
+  green: "bg-green-300",
+  yellow: "bg-yellow-200",
+  blue: "bg-blue-300",
 }
 
 export default function SimonSays() {
-  const [sequence, setSequence] = useState<number[]>([])
-  const [userInput, setUserInput] = useState<number[]>([])
+  const [sequence, setSequence] = useState<Color[]>([])
+  const [playerIndex, setPlayerIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [showIndex, setShowIndex] = useState(-1)
-  const [level, setLevel] = useState(1)
-  const [status, setStatus] = useState("Click Start to Begin")
-  const [score, setScore] = useState(0)
-  const [isGameOver, setIsGameOver] = useState(false)
+  const [highlight, setHighlight] = useState<Color | null>(null)
+  const [strict, setStrict] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
+  const [level, setLevel] = useState(0)
+
+  // Start new game
+  const startGame = () => {
+    setSequence([])
+    setPlayerIndex(0)
+    setIsPlaying(true)
+    setGameOver(false)
+    setLevel(0)
+    setTimeout(() => {
+      addColorToSequence()
+    }, 500)
+  }
+
+  const addColorToSequence = () => {
+    const newColor = COLORS[Math.floor(Math.random() * COLORS.length)]
+    setSequence((prev) => [...prev, newColor])
+    setPlayerIndex(0)
+    setLevel((prev) => prev + 1)
+  }
+
+  const playSequence = async () => {
+    for (let i = 0; i < sequence.length; i++) {
+      const color = sequence[i]
+      setHighlight(color)
+      await new Promise((res) => setTimeout(res, 500))
+      setHighlight(null)
+      await new Promise((res) => setTimeout(res, 200))
+    }
+  }
+
+  const handlePlayerInput = (color: Color) => {
+    if (gameOver || !isPlaying) return
+    if (color === sequence[playerIndex]) {
+      if (playerIndex + 1 === sequence.length) {
+        setTimeout(() => {
+          addColorToSequence()
+        }, 1000)
+      }
+      setPlayerIndex((prev) => prev + 1)
+    } else {
+      setGameOver(true)
+      setIsPlaying(false)
+    }
+  }
 
   useEffect(() => {
-    if (isPlaying && showIndex < sequence.length && showIndex !== -1) {
-      const timer = setTimeout(() => {
-        setShowIndex(showIndex + 1)
-      }, 600)
-      return () => clearTimeout(timer)
-    } else if (isPlaying && showIndex !== -1) {
-      setTimeout(() => setShowIndex(-1), 600)
+    if (isPlaying && sequence.length > 0) {
+      playSequence()
     }
-  }, [isPlaying, showIndex])
-
-  const startGame = () => {
-    const newSequence = getRandomSequence(level)
-    setSequence(newSequence)
-    setUserInput([])
-    setShowIndex(0)
-    setIsPlaying(true)
-    setStatus(`Level ${level}`)
-    setIsGameOver(false)
-  }
-
-  const handleClick = (index: number) => {
-    if (!isPlaying || showIndex !== -1) return
-    const newInput = [...userInput, index]
-    setUserInput(newInput)
-
-    if (sequence[newInput.length - 1] !== index) {
-      setStatus("Wrong! Game Over.")
-      setIsGameOver(true)
-      setIsPlaying(false)
-      return
-    }
-
-    if (newInput.length === sequence.length) {
-      const newScore = score + level * 10
-      setScore(newScore)
-      setStatus("Correct! Next level coming up...")
-      setTimeout(() => {
-        setLevel(level + 1)
-        startGame()
-      }, 1000)
-    }
-  }
-
-  const resetGame = () => {
-    setSequence([])
-    setUserInput([])
-    setIsPlaying(false)
-    setShowIndex(-1)
-    setLevel(1)
-    setScore(0)
-    setStatus("Click Start to Begin")
-    setIsGameOver(false)
-  }
+  }, [sequence])
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-black text-white">
       <h1 className="text-4xl font-extrabold mb-4 tracking-wide">Simon Says</h1>
       <p className="mb-2 text-lg italic">Repeat the sequence to level up</p>
-      <p className="mb-4 text-sm">{status} | Score: {score}</p>
+      <p className="mb-6 text-md text-slate-400">Level: {level}</p>
 
-      <div className="grid grid-cols-2 gap-6 sm:gap-8 mb-6">
-        {colors.map((color) => (
-          <button
-            key={color.id}
-            onClick={() => handleClick(color.id)}
-            className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white shadow-inner transform transition-all duration-300 scale-100 hover:scale-105 ${
-              showIndex === color.id ? `${color.base} ${color.glow} shadow-xl` : color.base
+      <div className="grid grid-cols-2 gap-4 w-[320px] h-[320px]">
+        {COLORS.map((color) => (
+          <div
+            key={color}
+            onClick={() => handlePlayerInput(color)}
+            className={`rounded-full transition-all duration-200 cursor-pointer ${
+              highlight === color ? LIGHT_MAP[color] : COLOR_MAP[color]
             }`}
-            aria-label={color.label}
-          ></button>
+          />
         ))}
       </div>
 
-      {!isGameOver ? (
-        <div className="flex gap-4">
-          <button
-            onClick={startGame}
-            className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded shadow"
-          >
-            {sequence.length ? "Restart" : "Start"}
-          </button>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center gap-4">
-          <p className="text-xl">Final Score: {score}</p>
-          <button
-            onClick={resetGame}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow"
-          >
-            Play Again
-          </button>
-          <button
-            onClick={() => window.history.back()}
-            className="text-sm underline text-slate-300 hover:text-white"
-          >
-            Back to Menu
-          </button>
-        </div>
+      <div className="mt-8 flex gap-4">
+        <Button onClick={startGame} className="bg-blue-600 hover:bg-blue-700 text-white">
+          {gameOver ? "Play Again" : sequence.length === 0 ? "Start Game" : "Restart"}
+        </Button>
+        <Button variant="outline" onClick={() => setStrict((s) => !s)}>
+          Strict: {strict ? "On" : "Off"}
+        </Button>
+      </div>
+
+      {gameOver && (
+        <p className="text-red-400 mt-6 text-lg font-semibold">Game Over! Try again?</p>
       )}
     </div>
   )
