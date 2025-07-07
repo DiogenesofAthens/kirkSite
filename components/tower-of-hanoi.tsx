@@ -8,12 +8,12 @@ import { RotateCcw, Play, Trophy } from "lucide-react"
 import { motion } from "framer-motion"
 
 const RING_COLORS = [
-  "bg-gradient-to-r from-red-400 to-yellow-300",
-  "bg-gradient-to-r from-orange-300 to-pink-500",
-  "bg-gradient-to-r from-yellow-400 to-amber-500",
-  "bg-gradient-to-r from-green-300 to-emerald-400",
-  "bg-gradient-to-r from-blue-400 to-sky-500",
-  "bg-gradient-to-r from-purple-300 to-fuchsia-400"
+  "bg-red-500",
+  "bg-orange-400",
+  "bg-yellow-300",
+  "bg-lime-400",
+  "bg-cyan-400",
+  "bg-blue-600"
 ]
 
 const getMinMoves = (rings: number) => Math.pow(2, rings) - 1
@@ -55,7 +55,7 @@ export function TowerOfHanoi() {
       rings.push({
         id: i,
         size: difficulty - i,
-        color: RING_COLORS[i % RING_COLORS.length],
+        color: RING_COLORS[i % RING_COLORS.length]
       })
     }
     setPegs([rings, [], []])
@@ -144,30 +144,30 @@ export function TowerOfHanoi() {
                     left: `${Math.random() * 100}%`,
                     top: `${Math.random() * 100}%`,
                     animationDelay: `${Math.random() * 2}s`,
-                    animationDuration: `${1 + Math.random()}s`,
+                    animationDuration: `${1 + Math.random()}s`
                   }}
                 />
               ))}
             </div>
           )}
 
-          <div className="flex justify-center items-end gap-8 h-[300px] sm:h-[360px]">
+          <div className="flex justify-center items-end gap-6 h-[320px] sm:h-[380px]">
             {pegs.map((peg, index) => (
               <div
                 key={index}
                 onClick={() => handlePegClick(index)}
                 className={`relative flex flex-col-reverse items-center w-24 sm:w-28 min-h-full cursor-pointer transition-all duration-300 ${selectedPeg === index ? "scale-105" : "hover:scale-105"}`}
               >
-                <div className="w-20 h-2 bg-amber-600 rounded-full shadow-sm" />
-                <div className="w-1 flex-1 bg-amber-700 rounded-full" />
-                <div className="absolute -bottom-4 flex flex-col-reverse items-center gap-0.5">
+                <div className="w-20 h-2 bg-[burlywood] rounded-full shadow-inner" />
+                <div className="w-1 flex-1 bg-[saddlebrown] rounded-full" />
+                <div className="absolute bottom-2 flex flex-col-reverse items-center gap-1">
                   {peg.map((ring, idx) => (
                     <motion.div
                       key={ring.id}
                       className={`${ring.color} rounded-full shadow-md border border-white ${selectedPeg === index && idx === peg.length - 1 ? "scale-105 ring-2 ring-white" : ""}`}
                       style={{
                         width: `${ring.size * 14 + 24}px`,
-                        height: "20px",
+                        height: "20px"
                       }}
                       animate={{ y: 0, opacity: 1 }}
                       initial={{ y: 10, opacity: 0 }}
@@ -175,7 +175,7 @@ export function TowerOfHanoi() {
                     />
                   ))}
                 </div>
-                <div className="absolute -bottom-8 text-xs font-semibold text-white bg-amber-700 px-2 py-0.5 rounded-full shadow">
+                <div className="absolute -bottom-5 text-xs font-semibold text-white bg-amber-700 px-2 py-0.5 rounded-full shadow">
                   {String.fromCharCode(65 + index)}
                 </div>
               </div>
@@ -185,15 +185,15 @@ export function TowerOfHanoi() {
           {isWon && (
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center rounded-xl">
               <motion.div
-                className="text-center text-white bg-gradient-to-r from-green-500 to-emerald-600 p-8 rounded-xl shadow-2xl"
+                className="text-center text-white bg-gradient-to-br from-green-500 to-emerald-700 p-10 rounded-2xl shadow-2xl border border-white/20"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
               >
-                <h3 className="text-2xl font-bold mb-2">🎉 Victory!</h3>
-                <p>Completed in {moves} moves</p>
+                <h3 className="text-3xl font-bold mb-3">🎉 You Won!</h3>
+                <p className="text-lg mb-2">You completed the puzzle in <strong>{moves}</strong> moves.</p>
                 {moves === minMoves && <p className="text-yellow-300 font-bold">Perfect Score! ⭐</p>}
-                <Button onClick={initializeGame} className="mt-4 bg-white text-green-600 hover:bg-slate-100">
+                <Button onClick={initializeGame} className="mt-4 bg-white text-green-700 hover:bg-green-100">
                   <Play className="w-4 h-4 mr-2" /> Play Again
                 </Button>
               </motion.div>
