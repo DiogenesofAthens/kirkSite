@@ -11,6 +11,24 @@ const colors = [
 
 const getNextColor = () => Math.floor(Math.random() * 4)
 
+const playTone = (index: number) => {
+  const context = new (window.AudioContext || (window as any).webkitAudioContext)()
+  const osc = context.createOscillator()
+  const gain = context.createGain()
+
+  const frequencies = [329.63, 261.63, 220.00, 164.81] // Simon tones
+  osc.frequency.value = frequencies[index]
+  osc.type = "sine"
+
+  gain.gain.setValueAtTime(0.2, context.currentTime)
+  gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.4)
+
+  osc.connect(gain)
+  gain.connect(context.destination)
+  osc.start()
+  osc.stop(context.currentTime + 0.4)
+}
+
 export default function SimonSays() {
   const [sequence, setSequence] = useState<number[]>([])
   const [userInput, setUserInput] = useState<number[]>([])
@@ -21,12 +39,13 @@ export default function SimonSays() {
   const [score, setScore] = useState(0)
   const [isGameOver, setIsGameOver] = useState(false)
   const [activeButton, setActiveButton] = useState<number | null>(null)
-  const [leaderboard, setLeaderboard] = useState<number[]>([])
+  const [scoreHistory, setScoreHistory] = useState<{ score: number; date: string }[]>([])
 
+  // Load past attempts from localStorage
   useEffect(() => {
     const stored = localStorage.getItem("simon-leaderboard")
     if (stored) {
-      setLeaderboard(JSON.parse(stored))
+      setScoreHistory(JSON.parse(stored))
     }
   }, [])
 
@@ -35,15 +54,14 @@ export default function SimonSays() {
       const timeout = setTimeout(() => {
         const current = sequence[showIndex]
         vibrate()
+        playTone(current)
         setActiveButton(current)
         setTimeout(() => setActiveButton(null), 400)
         setShowIndex(showIndex + 1)
       }, 600)
       return () => clearTimeout(timeout)
     } else if (isPlaying && showIndex !== -1) {
-      setTimeout(() => {
-        setShowIndex(-1)
-      }, 600)
+      setTimeout(() => setShowIndex(-1), 600)
     }
   }, [showIndex, isPlaying])
 
@@ -72,17 +90,18 @@ export default function SimonSays() {
     setStatus(`Level ${level + 1}`)
   }
 
-  const updateLeaderboard = (finalScore: number) => {
-    const updated = [...leaderboard, finalScore]
-      .sort((a, b) => b - a)
-      .slice(0, 5)
-    setLeaderboard(updated)
+  const updateScoreHistory = (finalScore: number) => {
+    const newEntry = { score: finalScore, date: new Date().toLocaleDateString() }
+    const updated = [...scoreHistory, newEntry].slice(-5)
+    setScoreHistory(updated)
     localStorage.setItem("simon-leaderboard", JSON.stringify(updated))
   }
 
   const handleClick = (index: number) => {
     if (!isPlaying || showIndex !== -1) return
+
     vibrate()
+    playTone(index)
     setActiveButton(index)
     setTimeout(() => setActiveButton(null), 150)
 
@@ -93,7 +112,7 @@ export default function SimonSays() {
       setStatus("Wrong! Game Over.")
       setIsGameOver(true)
       setIsPlaying(false)
-      updateLeaderboard(score)
+      updateScoreHistory(score)
       return
     }
 
@@ -133,7 +152,6 @@ export default function SimonSays() {
             aria-label={color.label}
           />
         ))}
-
         <div className="absolute top-1/2 left-1/2 w-24 h-24 -translate-x-1/2 -translate-y-1/2 bg-white/10 text-white rounded-full border-4 border-white flex items-center justify-center text-center font-bold backdrop-blur-lg shadow-xl">
           {isGameOver ? "Game Over" : `Lvl ${level}`}
         </div>
@@ -158,18 +176,19 @@ export default function SimonSays() {
         </div>
       )}
 
-      {/* Leaderboard */}
+      {/* Score History */}
       <div className="mt-10 w-full max-w-xs text-center">
-        <h2 className="text-lg font-semibold mb-2 underline">🏆 Leaderboard</h2>
+        <h2 className="text-lg font-semibold mb-2 underline">🧠 Your Past Attempts</h2>
         <ul className="space-y-1">
-          {leaderboard.length > 0 ? (
-            leaderboard.map((s, idx) => (
-              <li key={idx} className="bg-white/10 rounded px-3 py-1 shadow text-sm">
-                #{idx + 1} — {s} pts
+          {scoreHistory.length > 0 ? (
+            scoreHistory.map((entry, idx) => (
+              <li key={idx} className="bg-white/10 rounded px-3 py-1 shadow text-sm flex justify-between">
+                <span>{entry.date}</span>
+                <span className="font-semibold">{entry.score} pts</span>
               </li>
             ))
           ) : (
-            <li className="text-gray-400 text-sm">No scores yet</li>
+            <li className="text-gray-400 text-sm">No attempts yet</li>
           )}
         </ul>
       </div>
