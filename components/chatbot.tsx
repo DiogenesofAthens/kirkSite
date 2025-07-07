@@ -39,11 +39,18 @@ const FAQ_QUESTIONS = Object.keys(KNOWLEDGE_BASE).map((key) =>
   key === "certifications" ? "What certifications does Grant have?" : ""
 ).filter(Boolean)
 
+function getGreeting(): string {
+  const hour = new Date().getHours()
+  if (hour < 12) return "Good morning! I'm Grant's AI assistant."
+  if (hour < 18) return "Good afternoon! I'm Grant's AI assistant."
+  return "Good evening! I'm Grant's AI assistant."
+}
+
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([{
     id: "1",
-    content: getGreetingMessage(),
+    content: `${getGreeting()} Select a question from the list to learn more about his work, background, or expertise.`,
     isBot: true,
     timestamp: new Date(),
   }])
@@ -55,13 +62,6 @@ export function Chatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages, isTyping])
 
-  function getGreetingMessage() {
-    const hour = new Date().getHours()
-    if (hour < 12) return "Good morning! I'm Grant's AI assistant. Select a question from the list to learn more about his work, background, or expertise."
-    if (hour < 18) return "Good afternoon! I'm Grant's AI assistant. Select a question from the list to learn more about his work, background, or expertise."
-    return "Good evening! I'm Grant's AI assistant. Select a question from the list to learn more about his work, background, or expertise."
-  }
-
   const handleSendMessage = (input: string) => {
     if (!input.trim()) return
 
@@ -72,7 +72,6 @@ export function Chatbot() {
       timestamp: new Date(),
     }
     setMessages((prev) => [...prev, userMessage])
-
     setIsTyping(true)
 
     setTimeout(() => {
@@ -89,13 +88,13 @@ export function Chatbot() {
       }
       setMessages((prev) => [...prev, botMessage])
       setIsTyping(false)
-    }, 1000)
+    }, 400)
   }
 
   const handleReset = () => {
     setMessages([{
       id: "1",
-      content: getGreetingMessage(),
+      content: `${getGreeting()} Select a question from the list to learn more about his work, background, or expertise.`,
       isBot: true,
       timestamp: new Date(),
     }])
