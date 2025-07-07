@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { MessageCircle, X, Send, User, Bot, RefreshCw } from "lucide-react"
+import { MessageCircle, X, Send, User, Bot, RefreshCw, Mail } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ContactModal } from "@/components/contact-modal"
 
@@ -22,10 +22,10 @@ const KNOWLEDGE_BASE: Record<string, string> = {
   "education": "Grant earned a Bachelor of Science in Business Administration from CSU Sacramento, specializing in Marketing, Management, and Entrepreneurship.",
   "skills": "His expertise includes sales engineering, CPQ, CLM, Quote-to-Cash solutions, Salesforce, technical discovery, and custom demo builds. Grant is also proficient in full-stack development and smart home integrations.",
   "recommendations": "Grant is praised as dependable, innovative, and driven. Leaders from Canto, DNN, and Conga commend his intelligence, work ethic, and consistent overachievement.",
-  "media server": "Grant has built Unraid-based media servers with Plex, Sonarr, Radarr, and Cloudflared for secure tunnels. Access his full guide here: https://grantglazer.com/downloads/media-server-guide/confirm",
-  "tech": "This site was designed and built by Grant using Vercel's V0 and GPT-4o. It's deployed on Vercel's Hobby plan and managed via GitHub. See more about Grant’s stack and tools on his blog: https://grantglazer.com/blog",
-  "sdr": "If you have questions about SDR onboarding or strategy, Grant created a detailed SDR Process Guide based on real sales experience. Check it out here: https://grantglazer.com/downloads/sdr-process-guide/confirm",
-  "default": "I can help with Grant's career, achievements, skills, certifications, and technical projects. You can also use the contact button below to get in touch directly."
+  "media server": "Grant has built Unraid-based media servers with Plex, Sonarr, Radarr, and Cloudflared for secure tunnels. Access his full guide here: [Media Server Guide](https://grantglazer.com/downloads/media-server-guide/confirm)",
+  "tech": "This site was designed and built by Grant using Vercel's V0 and GPT-4o. It's deployed on Vercel's Hobby plan and managed via GitHub. You can explore more about the tools and technologies he uses on his [blog](https://grantglazer.com/blog).",
+  "sdr": "Grant created an in-depth SDR Process Guide based on real-world sales experience. Read it here: [SDR Process Guide](https://grantglazer.com/downloads/sdr-process-guide/confirm)",
+  "default": "I'm here to assist with insights about Grant’s experience, projects, and expertise. If you have a unique or detailed inquiry, feel free to click the contact button below to reach out directly."
 }
 
 const PROMPT_SUGGESTIONS = [
@@ -56,6 +56,7 @@ export function Chatbot() {
     for (const keyword in KNOWLEDGE_BASE) {
       if (lower.includes(keyword)) return KNOWLEDGE_BASE[keyword]
     }
+    setShowContactModal(true)
     return KNOWLEDGE_BASE["default"]
   }
 
@@ -157,6 +158,9 @@ export function Chatbot() {
               />
               <Button onClick={() => handleSendMessage(inputValue)} size="icon">
                 <Send className="h-4 w-4" />
+              </Button>
+              <Button variant="outline" size="icon" onClick={() => setShowContactModal(true)}>
+                <Mail className="h-4 w-4" />
               </Button>
             </div>
           </div>
