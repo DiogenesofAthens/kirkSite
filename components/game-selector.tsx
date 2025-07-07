@@ -93,7 +93,7 @@ export function GameSelector() {
             </CardHeader>
             <CardContent>
               <Button
-                className={w-full text-white font-semibold ${game.color}}
+                className={`w-full text-white font-semibold ${game.color}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setSelectedGame(game.id)
