@@ -9,11 +9,11 @@ import { motion } from "framer-motion"
 
 const RING_COLORS = [
   "bg-red-500",
-  "bg-orange-400",
-  "bg-yellow-300",
-  "bg-lime-400",
-  "bg-cyan-400",
-  "bg-blue-600"
+  "bg-yellow-400",
+  "bg-orange-500",
+  "bg-lime-500",
+  "bg-sky-400",
+  "bg-blue-700"
 ]
 
 const getMinMoves = (rings: number) => Math.pow(2, rings) - 1
@@ -135,17 +135,17 @@ export function TowerOfHanoi() {
       <CardContent>
         <div className="relative">
           {showConfetti && (
-            <div className="absolute inset-0 z-10 pointer-events-none">
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
               {[...Array(50)].map((_, i) => (
-                <div
+                <motion.div
                   key={i}
-                  className="absolute w-2 h-2 bg-yellow-400 rounded-full animate-bounce"
+                  className="absolute w-2 h-2 bg-yellow-400 rounded-full"
                   style={{
                     left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    animationDelay: `${Math.random() * 2}s`,
-                    animationDuration: `${1 + Math.random()}s`
+                    top: `${Math.random() * 100}%`
                   }}
+                  animate={{ y: [0, 200], opacity: [1, 0] }}
+                  transition={{ duration: 2, ease: "easeOut", delay: i * 0.05 }}
                 />
               ))}
             </div>
@@ -164,7 +164,7 @@ export function TowerOfHanoi() {
                   {peg.map((ring, idx) => (
                     <motion.div
                       key={ring.id}
-                      className={`${ring.color} rounded-full shadow-md border border-white ${selectedPeg === index && idx === peg.length - 1 ? "scale-105 ring-2 ring-white" : ""}`}
+                      className={`${ring.color} rounded-full shadow ring-1 ring-black/10 border border-white ${selectedPeg === index && idx === peg.length - 1 ? "scale-105 ring-2 ring-white" : ""}`}
                       style={{
                         width: `${ring.size * 14 + 24}px`,
                         height: "20px"
@@ -175,7 +175,7 @@ export function TowerOfHanoi() {
                     />
                   ))}
                 </div>
-                <div className="absolute -bottom-5 text-xs font-semibold text-white bg-amber-700 px-2 py-0.5 rounded-full shadow">
+                <div className="absolute bottom-[-26px] text-xs font-semibold text-white bg-amber-700 px-2 py-0.5 rounded-full shadow">
                   {String.fromCharCode(65 + index)}
                 </div>
               </div>
@@ -183,7 +183,7 @@ export function TowerOfHanoi() {
           </div>
 
           {isWon && (
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center rounded-xl">
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center rounded-xl z-10">
               <motion.div
                 className="text-center text-white bg-gradient-to-br from-green-500 to-emerald-700 p-10 rounded-2xl shadow-2xl border border-white/20"
                 initial={{ scale: 0.8, opacity: 0 }}
