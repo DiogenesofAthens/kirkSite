@@ -6,7 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { RotateCcw, Play, Trophy } from "lucide-react"
 
-const RING_COLORS = ["bg-red-500", "bg-orange-400", "bg-yellow-400", "bg-green-500", "bg-blue-500", "bg-purple-500"]
+const RING_COLORS = [
+  "bg-gradient-to-r from-red-500 to-yellow-500",
+  "bg-gradient-to-r from-orange-400 to-red-400",
+  "bg-gradient-to-r from-yellow-300 to-yellow-500",
+  "bg-gradient-to-r from-green-400 to-emerald-500",
+  "bg-gradient-to-r from-blue-400 to-indigo-500",
+  "bg-gradient-to-r from-purple-400 to-fuchsia-500"
+]
 
 const getMinMoves = (rings: number) => Math.pow(2, rings) - 1
 
@@ -150,13 +157,13 @@ export function TowerOfHanoi() {
                 onClick={() => handlePegClick(index)}
                 className={`relative flex flex-col-reverse items-center w-20 min-h-full cursor-pointer transition-all duration-300 ${selectedPeg === index ? "scale-105" : "hover:scale-105"}`}
               >
-                <div className="w-16 h-2 bg-neutral-300 rounded-full mb-1 shadow-md" />
-                <div className="w-1 flex-1 bg-neutral-400 rounded-full" />
+                <div className="w-16 h-2 bg-amber-600 rounded-full shadow-sm" />
+                <div className="w-1 flex-1 bg-amber-700 rounded-full" />
                 <div className="absolute bottom-4 flex flex-col-reverse items-center gap-0.5">
                   {peg.map((ring, idx) => (
                     <div
                       key={ring.id}
-                      className={`${ring.color} rounded-full transition-all duration-300 border border-black shadow ${selectedPeg === index && idx === peg.length - 1 ? "scale-105" : ""}`}
+                      className={`${ring.color} rounded-full transition-all duration-300 shadow-md border border-white ${selectedPeg === index && idx === peg.length - 1 ? "scale-105 ring-2 ring-white" : ""}`}
                       style={{
                         width: `${ring.size * 10 + 20}px`,
                         height: "16px",
@@ -164,7 +171,7 @@ export function TowerOfHanoi() {
                     />
                   ))}
                 </div>
-                <div className="absolute bottom-0 text-xs font-semibold text-neutral-600 bg-neutral-200 px-2 py-0.5 rounded-full">
+                <div className="absolute bottom-0 text-xs font-semibold text-white bg-amber-700 px-2 py-0.5 rounded-full shadow">
                   {String.fromCharCode(65 + index)}
                 </div>
               </div>
