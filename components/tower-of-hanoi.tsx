@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { RotateCcw, Play, Trophy } from "lucide-react"
 
-const RING_COLORS = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500", "bg-purple-500", "bg-pink-500"]
+const RING_COLORS = ["bg-red-500", "bg-orange-400", "bg-yellow-400", "bg-green-500", "bg-blue-500", "bg-purple-500"]
 
 const getMinMoves = (rings: number) => Math.pow(2, rings) - 1
 
@@ -98,7 +98,7 @@ export function TowerOfHanoi() {
   const best = bestScores[difficulty]
 
   return (
-    <Card className="bg-white dark:bg-black text-black dark:text-white shadow-2xl rounded-2xl max-w-3xl mx-auto p-4">
+    <Card className="bg-transparent shadow-none max-w-3xl mx-auto p-4">
       <CardHeader className="text-center space-y-3">
         <CardTitle className="text-4xl font-bold">Tower of Hanoi</CardTitle>
         <div className="text-sm">Difficulty: {difficulty} rings</div>
@@ -143,28 +143,28 @@ export function TowerOfHanoi() {
             </div>
           )}
 
-          <div className="flex justify-center items-end gap-6 h-[300px] sm:h-[360px] p-6 bg-gradient-to-b from-slate-100 dark:from-slate-800 to-transparent rounded-xl">
+          <div className="flex justify-center items-end gap-6 h-[300px] sm:h-[360px] p-6">
             {pegs.map((peg, index) => (
               <div
                 key={index}
                 onClick={() => handlePegClick(index)}
-                className={`relative flex flex-col-reverse items-center w-20 min-h-full cursor-pointer rounded-lg p-2 transition-colors duration-300 ${selectedPeg === index ? "bg-blue-100 dark:bg-blue-900" : "hover:bg-slate-200 dark:hover:bg-slate-700"}`}
+                className={`relative flex flex-col-reverse items-center w-20 min-h-full cursor-pointer transition-all duration-300 ${selectedPeg === index ? "scale-105" : "hover:scale-105"}`}
               >
-                <div className="w-16 h-2 bg-slate-400 dark:bg-slate-600 rounded-full mb-1" />
-                <div className="w-1 flex-1 bg-slate-400 dark:bg-slate-600 rounded-full" />
+                <div className="w-16 h-2 bg-neutral-300 rounded-full mb-1 shadow-md" />
+                <div className="w-1 flex-1 bg-neutral-400 rounded-full" />
                 <div className="absolute bottom-4 flex flex-col-reverse items-center gap-0.5">
                   {peg.map((ring, idx) => (
                     <div
                       key={ring.id}
-                      className={`${ring.color} rounded-full transition-all duration-300 border-2 border-white dark:border-slate-900 ${selectedPeg === index && idx === peg.length - 1 ? "scale-105 shadow-md" : ""}`}
+                      className={`${ring.color} rounded-full transition-all duration-300 border border-black shadow ${selectedPeg === index && idx === peg.length - 1 ? "scale-105" : ""}`}
                       style={{
                         width: `${ring.size * 10 + 20}px`,
-                        height: "14px",
+                        height: "16px",
                       }}
                     />
                   ))}
                 </div>
-                <div className="absolute bottom-0 text-xs font-medium bg-slate-300 dark:bg-slate-700 text-slate-800 dark:text-white px-1.5 py-0.5 rounded-full">
+                <div className="absolute bottom-0 text-xs font-semibold text-neutral-600 bg-neutral-200 px-2 py-0.5 rounded-full">
                   {String.fromCharCode(65 + index)}
                 </div>
               </div>
@@ -172,7 +172,7 @@ export function TowerOfHanoi() {
           </div>
 
           {isWon && (
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center rounded-xl">
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center rounded-xl">
               <div className="text-center text-white bg-green-600 p-6 rounded-lg space-y-2 shadow-2xl">
                 <h3 className="text-xl font-bold">🎉 You Won!</h3>
                 <p>Completed in {moves} moves</p>
@@ -185,7 +185,7 @@ export function TowerOfHanoi() {
           )}
         </div>
 
-        <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
+        <div className="mt-6 text-center text-sm text-neutral-600 dark:text-neutral-400">
           <p>Click a peg to select, then another to move a ring</p>
           <p>Goal: Move all rings to peg C (largest to smallest)</p>
         </div>
