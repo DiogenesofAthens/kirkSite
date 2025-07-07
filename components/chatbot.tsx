@@ -75,7 +75,7 @@ export function Chatbot() {
     setIsTyping(true)
 
     setTimeout(() => {
-      const matchedKey = Object.keys(KNOWLEDGE_BASE).find(key => input.toLowerCase().includes(key))
+      const matchedKey = Object.keys(KNOWLEDGE_BASE).find(key => input.toLowerCase().includes(key.toLowerCase()))
       const response = matchedKey
         ? KNOWLEDGE_BASE[matchedKey]
         : "I'm not sure about that. Would you like me to send your question to Grant? Use the button below."
