@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { MessageCircle, X, Send, User, Bot, RefreshCw, Mail } from "lucide-react"
+import { MessageCircle, X, RefreshCw, User, Bot, Mail } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ContactModal } from "@/components/contact-modal"
 
@@ -17,29 +17,27 @@ interface Message {
 
 const KNOWLEDGE_BASE: Record<string, string> = {
   "achievements": "Grant has been recognized as SE of the Year at Conga for both FY22 and FY23, top-performing SE by revenue in FY22, and awarded Best Innovation Demo at SE Summit 2024. He's also presented on the main stage at SKO and Conga Connect.",
-  "background": "Grant has 10+ years of experience in sales engineering, technical consulting, and enterprise software. He's held six progressive roles at Conga alone, where he’s helped close over $41M in business, delivered hundreds of tailored demos, and supported strategic sales across multiple verticals. Earlier in his career, he held sales and leadership roles at DNN Corp and Canto. You can view his full [resume](https://grantglazer.com/resume).",
-  "tech": "Grant's personal site is built using Vercel’s V0 with GPT-4o integration and deployed through GitHub. He shares regular updates and deep dives on his [blog](https://grantglazer.com/blog) about the tools and tech stacks he uses.",
-  "media server": "Grant created a comprehensive walkthrough on building an Unraid-based media server with Plex, Radarr, Sonarr, and more. View the guide here: [Media Server Guide](https://grantglazer.com/downloads/media-server-guide/confirm)",
-  "sdr": "Grant built and led SDR teams, consistently achieving 150%+ of quota and generating over $8M in qualified pipeline. He also authored a detailed SDR methodology. Read it here: [SDR Process Guide](https://grantglazer.com/downloads/sdr-process-guide/confirm)",
-  "career history": "Grant has held progressive roles at Conga, DNN Corp, and Canto. He began as an SDR and has advanced to Principal Sales Engineer, supporting strategic sales and driving innovation. For more details, view his [resume](https://grantglazer.com/resume).",
-  "clients": "Grant has supported digital transformation initiatives at multiple Fortune 100 companies, delivering technical solutions at scale. Explore more at his [expertise page](https://grantglazer.com/my-expertise)",
-  "skills": "Grant specializes in technical discovery, solution engineering, demo creation, and consultative selling. He works across Salesforce, AWS, and Microsoft Dynamics platforms and frequently leads RFPs and security reviews.",
-  "certifications": "Grant is certified in Conga CPQ, CLM, Approvals, Order Management, Billing, Composer, Sign, and Grid. He also has experience with Salesforce, AWS, and Microsoft Dynamics.",
-  "default": "I'm here to help with info about Grant’s background, career, tech, or projects. If I can't answer your question, you can use the contact button below to reach him directly."
+  "background": "Grant has 10+ years of experience in sales engineering, technical consulting, and enterprise software. He’s held six progressive roles at Conga, advancing from Sr. BDR to Principal Sales Engineer. At Conga, he supported strategic sales efforts, built custom demos, and helped close over $41M in enterprise business. Prior to Conga, he held sales and leadership roles at DNN Corp and Canto. See his full <a href='https://grantglazer.com/resume' target='_blank'>resume</a>.",
+  "tech": "Grant is highly skilled in Salesforce, AWS, Microsoft Dynamics, and modern web development. He designed and built this site himself using cutting-edge tools like Vercel v0 and GPT-4o. For a deeper dive, read his insights on the <a href='https://grantglazer.com/blog' target='_blank'>blog</a>.",
+  "media server": "Grant created a comprehensive walkthrough on building an Unraid-based media server with Plex, Radarr, Sonarr, and more. View the guide here: <a href='https://grantglazer.com/downloads/media-server-guide/confirm' target='_blank'>Media Server Guide</a>",
+  "sdr": "Grant built and led SDR teams, consistently achieving 150%+ of quota and generating over $8M in qualified pipeline. He also authored a detailed SDR methodology. Read it here: <a href='https://grantglazer.com/downloads/sdr-process-guide/confirm' target='_blank'>SDR Process Guide</a>",
+  "career history": "Grant has worked across a range of enterprise roles—from SDR to Principal Sales Engineer—primarily at Conga, with prior experience at DNN Corp and Canto. He’s driven success in technical sales, process improvement, and solution engineering. See full <a href='https://grantglazer.com/resume' target='_blank'>resume</a>.",
+  "clients": "Grant has supported digital transformation initiatives at multiple Fortune 100 companies, delivering technical solutions at scale. Explore more on his <a href='https://grantglazer.com/my-expertise' target='_blank'>expertise page</a>.",
+  "skills": "Grant specializes in technical discovery, solution engineering, demo creation, and consultative selling. He is proficient in Salesforce, AWS, and Microsoft Dynamics platforms and frequently leads RFPs and security reviews.",
+  "certifications": "Grant is certified in Conga CPQ, CLM, Approvals, Order Management, Billing, Composer, Sign, and Grid. He also has experience with Salesforce, AWS, and Microsoft Dynamics."
 }
 
-const FAQ_QUESTIONS = [
-  "What are Grant’s most notable achievements?",
-  "What’s Grant’s background?",
-  "What technology does Grant use?",
-  "Can I view Grant’s media server setup?",
-  "What is Grant’s experience with SDR teams?",
-  "Where has Grant worked previously?",
-  "What industries or clients has Grant supported?",
-  "What are Grant’s technical skills?",
-  "What certifications does Grant have?",
-  "How can I contact Grant?"
-]
+const FAQ_QUESTIONS = Object.keys(KNOWLEDGE_BASE).map((key) =>
+  key === "tech" ? "What technology does Grant use?" :
+  key === "background" ? "What’s Grant’s background?" :
+  key === "achievements" ? "What are Grant’s most notable achievements?" :
+  key === "media server" ? "Can I view Grant’s media server setup?" :
+  key === "sdr" ? "What is Grant’s experience with SDR teams?" :
+  key === "career history" ? "Where has Grant worked previously?" :
+  key === "clients" ? "What industries or clients has Grant supported?" :
+  key === "skills" ? "What are Grant’s technical skills?" :
+  key === "certifications" ? "What certifications does Grant have?" : ""
+).filter(Boolean)
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false)
@@ -67,8 +65,8 @@ export function Chatbot() {
     }
     setMessages((prev) => [...prev, userMessage])
 
-    const keyword = Object.keys(KNOWLEDGE_BASE).find(key => input.toLowerCase().includes(key)) || "default"
-    const response = KNOWLEDGE_BASE[keyword] || KNOWLEDGE_BASE["default"]
+    const matchedKey = Object.keys(KNOWLEDGE_BASE).find(key => input.toLowerCase().includes(key))
+    const response = matchedKey ? KNOWLEDGE_BASE[matchedKey] : "I'm not sure about that. Feel free to contact Grant using the button below."
 
     const botMessage: Message = {
       id: (Date.now() + 1).toString(),
@@ -77,8 +75,6 @@ export function Chatbot() {
       timestamp: new Date(),
     }
     setMessages((prev) => [...prev, botMessage])
-
-    if (keyword === "default") setShowContactModal(true)
   }
 
   const handleReset = () => {
@@ -154,7 +150,7 @@ export function Chatbot() {
           </div>
         </CardContent>
       </Card>
-      <ContactModal open={showContactModal} onOpenChange={setShowContactModal} />
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
     </>
   )
 }
