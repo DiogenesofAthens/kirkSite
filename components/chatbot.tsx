@@ -16,22 +16,23 @@ interface Message {
 }
 
 const KNOWLEDGE_BASE: Record<string, string> = {
-  "conga": "Grant is a Principal Sales Engineer at Conga with over 7 years of experience. He has closed over $41M in business, won SE of the Year (2022, 2023), and presented at major events like Conga Connect and SKO.",
-  "achievements": "Grant's achievements include SE of the Year (2022, 2023), top SE by revenue in FY 2022, SKO mainstage presenter (2023, 2024), and creator of award-winning demo at SE Summit 2024.",
-  "experience": "Grant has over a decade of experience in business development and sales engineering. From leading SDR teams to creating award-winning sales demos, his journey spans Canto, DNN, and Conga.",
-  "education": "Grant earned a Bachelor of Science in Business Administration from CSU Sacramento, specializing in Marketing, Management, and Entrepreneurship.",
-  "skills": "His expertise includes sales engineering, CPQ, CLM, Quote-to-Cash solutions, Salesforce, technical discovery, and custom demo builds. Grant is also proficient in full-stack development and smart home integrations.",
-  "recommendations": "Grant is praised as dependable, innovative, and driven. Leaders from Canto, DNN, and Conga commend his intelligence, work ethic, and consistent overachievement.",
-  "media server": "Grant has built Unraid-based media servers with Plex, Sonarr, Radarr, and Cloudflared for secure tunnels. Access his full guide here: [Media Server Guide](https://grantglazer.com/downloads/media-server-guide/confirm)",
-  "tech": "This site was designed and built by Grant using Vercel's V0 and GPT-4o. It's deployed on Vercel's Hobby plan and managed via GitHub. You can explore more about the tools and technologies he uses on his [blog](https://grantglazer.com/blog).",
-  "sdr": "Grant created an in-depth SDR Process Guide based on real-world sales experience. Read it here: [SDR Process Guide](https://grantglazer.com/downloads/sdr-process-guide/confirm)",
-  "default": "I'm here to assist with insights about Grant’s experience, projects, and expertise. If you have a unique or detailed inquiry, feel free to click the contact button below to reach out directly."
+  "conga": "Grant is a Principal Sales Engineer at Conga with nearly 8 years of experience, progressing through 6 roles. He has closed $41M+ in business, supported 90+ customers, and led strategic demos for some of the world’s largest companies. He has presented at Conga Connect (600+ audience) and SKO (2023, 2024).",
+  "achievements": "SE of the Year (2022 & 2023), top SE by revenue FY 2022, quota overachievement FY 2020–2023, SKO & Conga Connect mainstage presenter, and SE Summit 2024 Innovation Demo Award winner. Promoted to support Strategic Sales in 2025.",
+  "experience": "Grant's career began in technical sales at Canto and DNN Corp, where he rose to SDR Manager and then Enterprise AE. At Conga, he moved from Sr. BDR to AE, then quickly into technical Sales Engineering. He’s consistently led the field in performance, innovation, and enablement.",
+  "education": "Grant earned a Bachelor of Science in Business Administration from CSU Sacramento, with concentrations in Marketing, Management, and Entrepreneurship. Originally from San Diego, he now resides in the SF Bay Area.",
+  "skills": "Grant's expertise includes technical discovery, solution consulting, custom demos, CPQ, CLM, Salesforce configuration, RFPs, AWS, and full-stack web dev. He’s certified in Conga CPQ, CLM, Approvals, Billing, Composer, Sign, and Grid.",
+  "recommendations": "Colleagues and execs praise Grant as sharp, dependable, and innovative. CEOs like Navin Nagiah and Jack McGannon highlight his work ethic, attention to detail, and tenacity. Tony Mai called him ‘top talent you want on your team.’",
+  "media server": "Grant built a high-performance Unraid-based media server running Plex, Radarr, Sonarr, and secure Cloudflared tunnels. See the [Media Server Guide](https://grantglazer.com/downloads/media-server-guide/confirm) for the full write-up.",
+  "tech": "This site was designed by Grant using Vercel's V0, GPT-4o, and is deployed on the Hobby tier via GitHub. For tools, platforms, and coding stacks he actively uses, check out his [blog](https://grantglazer.com/blog).",
+  "sdr": "Grant authored a full SDR Process Guide from his experience leading enterprise BDR teams and building $8M+ pipeline. Read the full methodology here: [SDR Process Guide](https://grantglazer.com/downloads/sdr-process-guide/confirm)",
+  "default": "I'm here to help with info about Grant’s background, career, tech, or projects. If I can't answer your question, you can use the contact button below to reach him directly."
 }
 
 const PROMPT_SUGGESTIONS = [
   "Tell me about Grant's achievements",
   "What’s Grant’s background?",
-  "What tech does Grant use?"
+  "What tech does Grant use?",
+  "Where can I find Grant's media guide?"
 ]
 
 export function Chatbot() {
@@ -127,7 +128,7 @@ export function Chatbot() {
                 <div className={cn("max-w-[75%] rounded-lg px-3 py-2 text-sm break-words",
                   message.isBot ? "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100" : "bg-blue-600 text-white")}
                 >
-                  <div className="whitespace-pre-wrap">{message.content}</div>
+                  <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: message.content.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" class="underline text-blue-600 dark:text-blue-400">$1</a>') }} />
                 </div>
                 {!message.isBot && (
                   <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center flex-shrink-0">
