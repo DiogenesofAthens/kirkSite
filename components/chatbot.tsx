@@ -16,35 +16,40 @@ interface Message {
 }
 
 const KNOWLEDGE_BASE: Record<string, string> = {
-  "conga": "Grant is a Principal Sales Engineer at Conga with nearly 8 years of experience, progressing through 6 roles. He has closed $41M+ in business, supported 90+ customers, and led strategic demos for some of the world’s largest companies. He has presented at Conga Connect (600+ audience) and SKO (2023, 2024).",
-  "achievements": "SE of the Year (2022 & 2023), top SE by revenue FY 2022, quota overachievement FY 2020–2023, SKO & Conga Connect mainstage presenter, and SE Summit 2024 Innovation Demo Award winner. Promoted to support Strategic Sales in 2025.",
-  "experience": "Grant's career began in technical sales at Canto and DNN Corp, where he rose to SDR Manager and then Enterprise AE. At Conga, he moved from Sr. BDR to AE, then quickly into technical Sales Engineering. He’s consistently led the field in performance, innovation, and enablement.",
-  "education": "Grant earned a Bachelor of Science in Business Administration from CSU Sacramento, with concentrations in Marketing, Management, and Entrepreneurship. Originally from San Diego, he now resides in the SF Bay Area.",
-  "skills": "Grant's expertise includes technical discovery, solution consulting, custom demos, CPQ, CLM, Salesforce configuration, RFPs, AWS, and full-stack web dev. He’s certified in Conga CPQ, CLM, Approvals, Billing, Composer, Sign, and Grid.",
-  "recommendations": "Colleagues and execs praise Grant as sharp, dependable, and innovative. CEOs like Navin Nagiah and Jack McGannon highlight his work ethic, attention to detail, and tenacity. Tony Mai called him ‘top talent you want on your team.’",
-  "media server": "Grant built a high-performance Unraid-based media server running Plex, Radarr, Sonarr, and secure Cloudflared tunnels. See the [Media Server Guide](https://grantglazer.com/downloads/media-server-guide/confirm) for the full write-up.",
-  "tech": "This site was designed by Grant using Vercel's V0, GPT-4o, and is deployed on the Hobby tier via GitHub. For tools, platforms, and coding stacks he actively uses, check out his [blog](https://grantglazer.com/blog).",
-  "sdr": "Grant authored a full SDR Process Guide from his experience leading enterprise BDR teams and building $8M+ pipeline. Read the full methodology here: [SDR Process Guide](https://grantglazer.com/downloads/sdr-process-guide/confirm)",
+  "achievements": "Grant has been recognized as SE of the Year at Conga for both FY22 and FY23, top-performing SE by revenue in FY22, and awarded Best Innovation Demo at SE Summit 2024. He's also presented on the main stage at SKO and Conga Connect.",
+  "background": "Grant has 10+ years of experience across technical sales and engineering roles. He’s worked at Canto, DNN Corp, and most notably Conga, where he’s held 6 different roles over nearly 8 years, helping close $41M+ in enterprise business and delivering innovative custom demos. See his [resume](https://grantglazer.com/resume) for full details.",
+  "tech": "This site is built with Vercel’s V0 and GPT-4o, deployed using GitHub. Grant regularly writes about his favorite tools and technologies. See his [blog](https://grantglazer.com/blog) for full insights.",
+  "media server": "Grant created a comprehensive walkthrough on building an Unraid-based media server with Plex, Radarr, Sonarr, and more. View the guide here: [Media Server Guide](https://grantglazer.com/downloads/media-server-guide/confirm)",
+  "sdr": "Grant built and managed SDR teams, consistently overachieved quota by 150%, and authored a full methodology guide based on real results. View it here: [SDR Process Guide](https://grantglazer.com/downloads/sdr-process-guide/confirm)",
+  "career history": "Grant has held roles at Conga, DNN Corp, and Canto, steadily progressing through technical and leadership positions. See his [resume](https://grantglazer.com/resume) for complete history.",
+  "clients": "Grant has supported large enterprise clients, including multiple Fortune 100 companies, helping drive digital transformation at scale. Learn more at his [expertise page](https://grantglazer.com/my-expertise)",
+  "skills": "Grant specializes in technical discovery, solution consulting, custom demos, CPQ, CLM, Salesforce configuration, RFPs, and AWS. He also has experience with MS Dynamics and is certified in Conga CPQ, CLM, Approvals, Billing, Composer, Sign, and Grid.",
+  "certifications": "Grant holds certifications in Conga CPQ, CLM, Approvals, Billing, Sign, Composer, and Grid. He’s also well-versed in Salesforce, AWS, and MS Dynamics.",
+  "contact": "Use the contact button at the bottom of the chat window to message Grant directly about consulting, collaboration, or business opportunities.",
   "default": "I'm here to help with info about Grant’s background, career, tech, or projects. If I can't answer your question, you can use the contact button below to reach him directly."
 }
 
-const PROMPT_SUGGESTIONS = [
-  "Tell me about Grant's achievements",
+const FAQ_QUESTIONS = [
+  "What are Grant’s most notable achievements?",
   "What’s Grant’s background?",
-  "What tech does Grant use?",
-  "Where can I find Grant's media guide?"
+  "What technology does Grant use?",
+  "Can I view Grant’s media server setup?",
+  "What is Grant’s experience with SDR teams?",
+  "Where has Grant worked previously?",
+  "What industries or clients has Grant supported?",
+  "What are Grant’s technical skills?",
+  "What certifications does Grant have?",
+  "How can I contact Grant?"
 ]
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([{
     id: "1",
-    content: "Hi! I'm Grant's AI assistant. Ask me anything about his work, background, or expertise.",
+    content: "Hi! I'm Grant's AI assistant. Select a question from the list to learn more about his work, background, or expertise.",
     isBot: true,
     timestamp: new Date(),
   }])
-  const [inputValue, setInputValue] = useState("")
-  const [promptsVisible, setPromptsVisible] = useState(true)
   const [showContactModal, setShowContactModal] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -52,16 +57,7 @@ export function Chatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const findResponse = (msg: string): string => {
-    const lower = msg.toLowerCase()
-    for (const keyword in KNOWLEDGE_BASE) {
-      if (lower.includes(keyword)) return KNOWLEDGE_BASE[keyword]
-    }
-    setShowContactModal(true)
-    return KNOWLEDGE_BASE["default"]
-  }
-
-  const handleSendMessage = async (input: string) => {
+  const handleSendMessage = (input: string) => {
     if (!input.trim()) return
 
     const userMessage: Message = {
@@ -71,10 +67,10 @@ export function Chatbot() {
       timestamp: new Date(),
     }
     setMessages((prev) => [...prev, userMessage])
-    setInputValue("")
-    setPromptsVisible(false)
 
-    const response = findResponse(input)
+    const keyword = input.toLowerCase().split(" ").find(k => KNOWLEDGE_BASE[k]) || "default"
+    const response = KNOWLEDGE_BASE[keyword] || KNOWLEDGE_BASE["default"]
+
     const botMessage: Message = {
       id: (Date.now() + 1).toString(),
       content: response,
@@ -82,16 +78,17 @@ export function Chatbot() {
       timestamp: new Date(),
     }
     setMessages((prev) => [...prev, botMessage])
+
+    if (keyword === "default") setShowContactModal(true)
   }
 
   const handleReset = () => {
     setMessages([{
       id: "1",
-      content: "Hi! I'm Grant's AI assistant. Ask me anything about his work, background, or expertise.",
+      content: "Hi! I'm Grant's AI assistant. Select a question from the list to learn more about his work, background, or expertise.",
       isBot: true,
       timestamp: new Date(),
     }])
-    setPromptsVisible(true)
   }
 
   if (!isOpen) {
@@ -138,32 +135,23 @@ export function Chatbot() {
               </div>
             ))}
             <div ref={messagesEndRef} />
-            {promptsVisible && (
-              <div className="flex flex-wrap gap-2 pt-2">
-                {PROMPT_SUGGESTIONS.map((text) => (
-                  <Button key={text} size="sm" variant="secondary" className="text-xs" onClick={() => handleSendMessage(text)}>
-                    {text}
-                  </Button>
+            <div className="pt-4">
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Select a question:</label>
+              <select
+                className="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm"
+                onChange={(e) => handleSendMessage(e.target.value)}
+              >
+                <option value="">-- Choose a question --</option>
+                {FAQ_QUESTIONS.map((q, idx) => (
+                  <option key={idx} value={q}>{q}</option>
                 ))}
-              </div>
-            )}
+              </select>
+            </div>
           </div>
           <div className="border-t border-slate-200 dark:border-slate-600 p-4 bg-white dark:bg-slate-800">
-            <div className="flex gap-2">
-              <Input
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ask about Grant's experience..."
-                onKeyPress={(e) => e.key === "Enter" && handleSendMessage(inputValue)}
-                className="flex-1 bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600"
-              />
-              <Button onClick={() => handleSendMessage(inputValue)} size="icon">
-                <Send className="h-4 w-4" />
-              </Button>
-              <Button variant="outline" size="icon" onClick={() => setShowContactModal(true)}>
-                <Mail className="h-4 w-4" />
-              </Button>
-            </div>
+            <Button variant="outline" size="icon" onClick={() => setShowContactModal(true)} className="w-full">
+              <Mail className="h-4 w-4 mr-2" /> Contact Grant
+            </Button>
           </div>
         </CardContent>
       </Card>
