@@ -29,7 +29,6 @@ export default function SimonSays() {
   const [gameOver, setGameOver] = useState(false)
   const [level, setLevel] = useState(0)
 
-  // Start new game
   const startGame = () => {
     setSequence([])
     setPlayerIndex(0)
@@ -90,7 +89,7 @@ export default function SimonSays() {
           <div
             key={color}
             onClick={() => handlePlayerInput(color)}
-            className={`rounded-full transition-all duration-200 cursor-pointer ${
+            className={`rounded-full transition-all duration-200 cursor-pointer w-full h-full ${
               highlight === color ? LIGHT_MAP[color] : COLOR_MAP[color]
             }`}
           />
