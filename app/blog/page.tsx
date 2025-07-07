@@ -157,7 +157,7 @@ export default function Blog() {
           </div>
         </div>
       </div>
-
+      
       <ContactModal isOpen={showContactForm} onClose={() => setShowContactForm(false)} />
     </div>
   )
