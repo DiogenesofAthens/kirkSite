@@ -9,7 +9,7 @@ const colors = [
   { id: 3, label: "Blue", base: "bg-blue-600", glow: "shadow-blue-400", position: "bottom-0 right-0 rounded-br-full" },
 ]
 
-const frequencies = [329.63, 261.63, 220.00, 164.81] // Simon tones
+const frequencies = [329.63, 261.63, 220.00, 164.81] // Classic Simon tones
 
 export default function SimonSays() {
   const [sequence, setSequence] = useState<number[]>([])
@@ -144,12 +144,12 @@ export default function SimonSays() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">
+    <div className="flex flex-col items-center justify-start min-h-screen px-4 py-10 bg-white text-black dark:bg-black dark:text-white transition-colors duration-300">
       <h1 className="text-5xl font-extrabold mb-2 drop-shadow-lg">Simon Says</h1>
       <p className="italic text-lg mb-2">Repeat the sequence to level up</p>
       <p className="text-sm mb-4">{status} | Score: {score}</p>
 
-      <div className="relative w-72 h-72 sm:w-80 sm:h-80 mb-8">
+      <div className="relative aspect-square w-full max-w-[20rem] sm:max-w-sm mb-8">
         {colors.map((color) => (
           <button
             key={color.id}
@@ -160,12 +160,12 @@ export default function SimonSays() {
             aria-label={color.label}
           />
         ))}
-        <div className="absolute top-1/2 left-1/2 w-24 h-24 -translate-x-1/2 -translate-y-1/2 bg-white/10 text-white rounded-full border-4 border-white flex items-center justify-center text-center font-bold backdrop-blur-lg shadow-xl">
+        <div className="absolute top-1/2 left-1/2 w-24 h-24 -translate-x-1/2 -translate-y-1/2 bg-white/10 text-white dark:text-white rounded-full border-4 border-white flex items-center justify-center text-center font-bold backdrop-blur-lg shadow-xl">
           {isGameOver ? "Game Over" : `Lvl ${level}`}
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4 mb-8">
         {!isGameOver ? (
           <button
             onClick={startGame}
@@ -192,7 +192,7 @@ export default function SimonSays() {
       </div>
 
       {/* Score History */}
-      <div className="mt-10 w-full max-w-xs text-center">
+      <div className="w-full max-w-xs text-center">
         <h2 className="text-lg font-semibold mb-2 underline">🧠 Your Past Attempts</h2>
         <ul className="space-y-1">
           {scoreHistory.length > 0 ? (
