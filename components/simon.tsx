@@ -9,7 +9,7 @@ const colors = [
   { id: 3, label: "Blue", base: "bg-blue-600", glow: "shadow-blue-400", position: "bottom-0 right-0 rounded-br-full" },
 ]
 
-const frequencies = [329.63, 261.63, 220.00, 164.81] // Classic Simon tones
+const frequencies = [329.63, 261.63, 220.00, 164.81]
 
 export default function SimonSays() {
   const [sequence, setSequence] = useState<number[]>([])
@@ -144,69 +144,68 @@ export default function SimonSays() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-12">
-      <div className="flex flex-col items-center bg-slate-800 rounded-2xl shadow-lg p-6 sm:p-10 w-full">
-        <h1 className="text-3xl font-bold text-white mb-2">Simon Says</h1>
-        <p className="text-slate-300 mb-6 italic">Repeat the sequence to level up</p>
+    <div className="flex flex-col items-center justify-start min-h-screen px-4 py-10 text-black dark:text-white transition-colors duration-300">
+      <h1 className="text-4xl sm:text-5xl font-extrabold mb-2 drop-shadow-lg text-center">Simon Says</h1>
+      <p className="italic text-base sm:text-lg mb-2 text-center">Repeat the sequence to level up</p>
+      <p className="text-sm mb-4">{status} | Score: {score}</p>
 
-        <div className="relative aspect-square w-full max-w-[20rem] sm:max-w-sm mb-8">
-          {colors.map((color) => (
-            <button
-              key={color.id}
-              onClick={() => handleClick(color.id)}
-              className={`absolute w-1/2 h-1/2 ${color.position} 
-                ${activeButton === color.id ? `${color.base} ${color.glow} scale-110 shadow-2xl` : color.base}
-                border-4 border-black transition-all duration-200 ease-in-out transform focus:outline-none`}
-              aria-label={color.label}
-            />
-          ))}
-          <div className="absolute top-1/2 left-1/2 w-24 h-24 -translate-x-1/2 -translate-y-1/2 bg-white/10 text-white dark:text-white rounded-full border-4 border-white flex items-center justify-center text-center font-bold backdrop-blur-lg shadow-xl">
-            {isGameOver ? "Game Over" : `Lvl ${level}`}
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-4 mb-8">
-          {!isGameOver ? (
-            <button
-              onClick={startGame}
-              className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105"
-            >
-              {sequence.length ? "Restart" : "Start"}
-            </button>
-          ) : (
-            <button
-              onClick={resetGame}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105"
-            >
-              Play Again
-            </button>
-          )}
-
+      <div className="relative aspect-square w-full max-w-[20rem] sm:max-w-sm mb-8">
+        {colors.map((color) => (
           <button
-            onClick={() => setIsMuted(!isMuted)}
-            className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full shadow transition"
+            key={color.id}
+            onClick={() => handleClick(color.id)}
+            className={`absolute w-1/2 h-1/2 ${color.position} 
+              ${activeButton === color.id ? `${color.base} ${color.glow} scale-110 shadow-2xl` : color.base}
+              border-4 border-black transition-all duration-200 ease-in-out transform focus:outline-none`}
+            aria-label={color.label}
+          />
+        ))}
+        <div className="absolute top-1/2 left-1/2 w-24 h-24 -translate-x-1/2 -translate-y-1/2 bg-white/10 text-white dark:text-white rounded-full border-4 border-white flex items-center justify-center text-center font-bold backdrop-blur-lg shadow-xl">
+          {isGameOver ? "Game Over" : `Lvl ${level}`}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4 mb-8">
+        {!isGameOver ? (
+          <button
+            onClick={startGame}
+            className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105"
           >
-            {isMuted ? "Unmute" : "Mute"}
+            {sequence.length ? "Restart" : "Start"}
           </button>
-        </div>
+        ) : (
+          <button
+            onClick={resetGame}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105"
+          >
+            Play Again
+          </button>
+        )}
 
-        <p className="text-white text-lg mb-4">{status} | Score: {score}</p>
+        {/* Mute Toggle */}
+        <button
+          onClick={() => setIsMuted(!isMuted)}
+          className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full shadow transition"
+        >
+          {isMuted ? "Unmute" : "Mute"}
+        </button>
+      </div>
 
-        <div className="w-full max-w-md text-center mt-6">
-          <h2 className="text-pink-400 font-semibold underline mb-2">🧠 Your Past Attempts</h2>
-          <ul className="text-slate-200 space-y-1">
-            {scoreHistory.length > 0 ? (
-              scoreHistory.map((entry, idx) => (
-                <li key={idx} className="bg-white/10 rounded px-3 py-1 shadow text-sm flex justify-between">
-                  <span>{entry.date}</span>
-                  <span className="font-semibold">{entry.score} pts</span>
-                </li>
-              ))
-            ) : (
-              <li className="text-gray-400 text-sm">No attempts yet</li>
-            )}
-          </ul>
-        </div>
+      {/* Score History */}
+      <div className="w-full max-w-xs text-center">
+        <h2 className="text-lg font-semibold mb-2 underline">🧠 Your Past Attempts</h2>
+        <ul className="space-y-1">
+          {scoreHistory.length > 0 ? (
+            scoreHistory.map((entry, idx) => (
+              <li key={idx} className="bg-white/10 rounded px-3 py-1 shadow text-sm flex justify-between">
+                <span>{entry.date}</span>
+                <span className="font-semibold">{entry.score} pts</span>
+              </li>
+            ))
+          ) : (
+            <li className="text-gray-400 text-sm">No attempts yet</li>
+          )}
+        </ul>
       </div>
     </div>
   )
