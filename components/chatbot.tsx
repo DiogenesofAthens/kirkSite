@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { MessageCircle, X, Send, User, Bot } from "lucide-react"
+import { MessageCircle, X, Send, User, Bot, RefreshCw } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ContactModal } from "@/components/contact-modal"
 
@@ -23,8 +23,9 @@ const KNOWLEDGE_BASE: Record<string, string> = {
   "skills": "His expertise includes sales engineering, CPQ, CLM, Quote-to-Cash solutions, Salesforce, technical discovery, and custom demo builds. Grant is also proficient in full-stack development and smart home integrations.",
   "recommendations": "Grant is praised as dependable, innovative, and driven. Leaders from Canto, DNN, and Conga commend his intelligence, work ethic, and consistent overachievement.",
   "media server": "Grant has built Unraid-based media servers with Plex, Sonarr, Radarr, and Cloudflared for secure tunnels. Access his full guide here: https://grantglazer.com/downloads/media-server-guide/confirm",
-  "tech": "This site was designed and built by Grant using Vercel's V0 and GPT-4o. It's deployed on Vercel's Hobby plan and managed via GitHub.",
-  "default": "I can help with Grant's career, achievements, skills, or certifications. Ask about his media server, his work at Conga, or what tools he uses."
+  "tech": "This site was designed and built by Grant using Vercel's V0 and GPT-4o. It's deployed on Vercel's Hobby plan and managed via GitHub. See more about Grant’s stack and tools on his blog: https://grantglazer.com/blog",
+  "sdr": "If you have questions about SDR onboarding or strategy, Grant created a detailed SDR Process Guide based on real sales experience. Check it out here: https://grantglazer.com/downloads/sdr-process-guide/confirm",
+  "default": "I can help with Grant's career, achievements, skills, certifications, and technical projects. You can also use the contact button below to get in touch directly."
 }
 
 const PROMPT_SUGGESTIONS = [
@@ -42,8 +43,8 @@ export function Chatbot() {
     timestamp: new Date(),
   }])
   const [inputValue, setInputValue] = useState("")
-  const [showContactModal, setShowContactModal] = useState(false)
   const [promptsVisible, setPromptsVisible] = useState(true)
+  const [showContactModal, setShowContactModal] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -81,6 +82,16 @@ export function Chatbot() {
     setMessages((prev) => [...prev, botMessage])
   }
 
+  const handleReset = () => {
+    setMessages([{
+      id: "1",
+      content: "Hi! I'm Grant's AI assistant. Ask me anything about his work, background, or expertise.",
+      isBot: true,
+      timestamp: new Date(),
+    }])
+    setPromptsVisible(true)
+  }
+
   if (!isOpen) {
     return (
       <Button onClick={() => setIsOpen(true)} className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg z-50" size="icon">
@@ -91,15 +102,20 @@ export function Chatbot() {
 
   return (
     <>
-      <Card className="fixed bottom-6 right-6 w-96 h-[520px] shadow-xl z-50 flex flex-col glass">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-blue-600 text-white rounded-t-lg">
+      <Card className="fixed bottom-6 right-6 w-96 h-[540px] shadow-xl z-50 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800">
+        <CardHeader className="flex flex-row items-center justify-between bg-blue-600 text-white rounded-t-2xl px-4 py-3">
           <CardTitle className="text-lg">Chat with Grant's AI</CardTitle>
-          <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-white hover:bg-blue-700">
-            <X className="h-4 w-4" />
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="ghost" size="icon" onClick={handleReset} className="text-white hover:bg-blue-700">
+              <RefreshCw className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-white hover:bg-blue-700">
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 dark:bg-slate-900">
             {messages.map((message) => (
               <div key={message.id} className={cn("flex gap-2", message.isBot ? "justify-start" : "justify-end")}> 
                 {message.isBot && (
@@ -123,21 +139,21 @@ export function Chatbot() {
             {promptsVisible && (
               <div className="flex flex-wrap gap-2 pt-2">
                 {PROMPT_SUGGESTIONS.map((text) => (
-                  <Button key={text} size="sm" variant="outline" className="text-xs" onClick={() => handleSendMessage(text)}>
+                  <Button key={text} size="sm" variant="secondary" className="text-xs" onClick={() => handleSendMessage(text)}>
                     {text}
                   </Button>
                 ))}
               </div>
             )}
           </div>
-          <div className="border-t border-slate-200 dark:border-slate-600 p-4 bg-white/50 dark:bg-slate-800/50">
+          <div className="border-t border-slate-200 dark:border-slate-600 p-4 bg-white dark:bg-slate-800">
             <div className="flex gap-2">
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask about Grant's experience..."
                 onKeyPress={(e) => e.key === "Enter" && handleSendMessage(inputValue)}
-                className="flex-1 bg-white/50 dark:bg-slate-700/50 border-slate-300 dark:border-slate-600"
+                className="flex-1 bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600"
               />
               <Button onClick={() => handleSendMessage(inputValue)} size="icon">
                 <Send className="h-4 w-4" />
