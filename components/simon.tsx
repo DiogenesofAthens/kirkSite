@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 
 const colors = [
   { id: 0, label: "Green", base: "bg-green-600", glow: "shadow-green-400", position: "top-0 left-0 rounded-tl-full" },
@@ -9,25 +9,7 @@ const colors = [
   { id: 3, label: "Blue", base: "bg-blue-600", glow: "shadow-blue-400", position: "bottom-0 right-0 rounded-br-full" },
 ]
 
-const getNextColor = () => Math.floor(Math.random() * 4)
-
-const playTone = (index: number) => {
-  const context = new (window.AudioContext || (window as any).webkitAudioContext)()
-  const osc = context.createOscillator()
-  const gain = context.createGain()
-
-  const frequencies = [329.63, 261.63, 220.00, 164.81] // Simon tones
-  osc.frequency.value = frequencies[index]
-  osc.type = "sine"
-
-  gain.gain.setValueAtTime(0.2, context.currentTime)
-  gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.4)
-
-  osc.connect(gain)
-  gain.connect(context.destination)
-  osc.start()
-  osc.stop(context.currentTime + 0.4)
-}
+const frequencies = [329.63, 261.63, 220.00, 164.81] // Simon tones
 
 export default function SimonSays() {
   const [sequence, setSequence] = useState<number[]>([])
@@ -40,8 +22,10 @@ export default function SimonSays() {
   const [isGameOver, setIsGameOver] = useState(false)
   const [activeButton, setActiveButton] = useState<number | null>(null)
   const [scoreHistory, setScoreHistory] = useState<{ score: number; date: string }[]>([])
+  const [isMuted, setIsMuted] = useState(false)
 
-  // Load past attempts from localStorage
+  const audioContextRef = useRef<AudioContext | null>(null)
+
   useEffect(() => {
     const stored = localStorage.getItem("simon-leaderboard")
     if (stored) {
@@ -54,7 +38,7 @@ export default function SimonSays() {
       const timeout = setTimeout(() => {
         const current = sequence[showIndex]
         vibrate()
-        playTone(current)
+        if (!isMuted) playTone(current)
         setActiveButton(current)
         setTimeout(() => setActiveButton(null), 400)
         setShowIndex(showIndex + 1)
@@ -67,6 +51,30 @@ export default function SimonSays() {
 
   const vibrate = () => {
     if (navigator.vibrate) navigator.vibrate(100)
+  }
+
+  const getNextColor = () => Math.floor(Math.random() * 4)
+
+  const playTone = (index: number) => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
+    }
+
+    const context = audioContextRef.current
+    const osc = context.createOscillator()
+    const gain = context.createGain()
+
+    osc.frequency.value = frequencies[index]
+    osc.type = "sine"
+
+    gain.gain.setValueAtTime(0.2, context.currentTime)
+    gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.4)
+
+    osc.connect(gain)
+    gain.connect(context.destination)
+
+    osc.start()
+    osc.stop(context.currentTime + 0.4)
   }
 
   const startGame = () => {
@@ -101,7 +109,7 @@ export default function SimonSays() {
     if (!isPlaying || showIndex !== -1) return
 
     vibrate()
-    playTone(index)
+    if (!isMuted) playTone(index)
     setActiveButton(index)
     setTimeout(() => setActiveButton(null), 150)
 
@@ -139,7 +147,7 @@ export default function SimonSays() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">
       <h1 className="text-5xl font-extrabold mb-2 drop-shadow-lg">Simon Says</h1>
       <p className="italic text-lg mb-2">Repeat the sequence to level up</p>
-      <p className="text-sm mb-6">{status} | Score: {score}</p>
+      <p className="text-sm mb-4">{status} | Score: {score}</p>
 
       <div className="relative w-72 h-72 sm:w-80 sm:h-80 mb-8">
         {colors.map((color) => (
@@ -157,24 +165,31 @@ export default function SimonSays() {
         </div>
       </div>
 
-      {!isGameOver ? (
-        <button
-          onClick={startGame}
-          className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105"
-        >
-          {sequence.length ? "Restart" : "Start"}
-        </button>
-      ) : (
-        <div className="flex flex-col items-center gap-4">
-          <p className="text-xl">Final Score: {score}</p>
+      <div className="flex flex-wrap items-center gap-4">
+        {!isGameOver ? (
+          <button
+            onClick={startGame}
+            className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105"
+          >
+            {sequence.length ? "Restart" : "Start"}
+          </button>
+        ) : (
           <button
             onClick={resetGame}
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105"
           >
             Play Again
           </button>
-        </div>
-      )}
+        )}
+
+        {/* Mute Toggle */}
+        <button
+          onClick={() => setIsMuted(!isMuted)}
+          className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full shadow transition"
+        >
+          {isMuted ? "Unmute" : "Mute"}
+        </button>
+      </div>
 
       {/* Score History */}
       <div className="mt-10 w-full max-w-xs text-center">
