@@ -10,7 +10,6 @@ import {
   Download,
   Heart,
   ExternalLink,
-  AlertTriangle,
   CheckCircle,
   Star,
   FileText,
@@ -50,36 +49,6 @@ export default function SalesPlaybookPage() {
       setShowSecondChance(true)
     }
   }
-
-  const testimonials = [
-    {
-      quote:
-        "Used Campaign #4 for competitor takeaway — got a meeting in 2 hours. This thing works.",
-      author: "Maya S.",
-      title: "Enterprise AE",
-    },
-    {
-      quote:
-        "I’ve paid for playbooks before. None hit this level of tone, precision, and flexibility.",
-      author: "Sean D.",
-      title: "Growth Lead, Series B SaaS",
-    },
-    {
-      quote:
-        "Every SDR on my team is using this. It’s the new standard for cold email here.",
-      author: "Christina L.",
-      title: "SDR Manager",
-    },
-  ]
-
-  const previewTopics = [
-    "• Cold Prospecting",
-    "• Demo No-Show Recovery",
-    "• Upsell & Expansion",
-    "• Post-Event Follow-Up",
-    "• Breakup Emails",
-    "• Industry: SaaS, Healthcare, Manufacturing",
-  ]
 
   if (showSecondChance) {
     return (
@@ -123,7 +92,7 @@ export default function SalesPlaybookPage() {
                   <>
                     <Button
                       onClick={handleDownload}
-                      className="bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white w-full sm:w-auto"
+                      className="bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white w-full sm:w-auto mt-4"
                     >
                       <Download className="w-4 h-4 mr-2" />
                       Download Playbook
@@ -161,23 +130,23 @@ export default function SalesPlaybookPage() {
               </p>
             </CardHeader>
 
-            <CardContent className="text-center space-y-6">
+            <CardContent className="text-center space-y-8">
+              {/* PayPal Donation */}
               <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 border-2 border-blue-200 dark:border-blue-700 rounded-xl p-8">
                 <Heart className="w-8 h-8 text-red-500 mx-auto mb-3" />
                 <p className="text-lg text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
                   This playbook took serious time, testing, and enterprise polish. If it helps you win deals — why not support?
                 </p>
-
                 <Button onClick={handleDonate} className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900 text-white font-semibold px-6 py-3">
                   Donate $20 via PayPal
                   <ExternalLink className="w-4 h-4 ml-2" />
                 </Button>
-
                 <p className="text-sm text-slate-500 dark:text-slate-400 italic mt-2">
                   PayPal opens in a new tab. Come back here to download.
                 </p>
               </div>
 
+              {/* Download Unlock */}
               {hasDonated && (
                 <div className="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-6">
                   <h3 className="text-slate-900 dark:text-white font-semibold mb-3 flex items-center justify-center gap-2">
@@ -194,9 +163,49 @@ export default function SalesPlaybookPage() {
                 </div>
               )}
 
-              <div className="border border-slate-200 dark:border-slate-700 p-6 rounded-lg bg-slate-50 dark:bg-slate-900">
-                <AlertTriangle className="w-5 h-5 text-amber-600 mb-2" />
-                <p className="text-slate-700 dark:text-slate-300 text-sm mb-3">
+              {/* What’s Inside Section */}
+              <div className="bg-gradient-to-br from-purple-700 to-purple-800 text-white p-6 rounded-xl border border-purple-600 shadow-inner">
+                <h3 className="text-2xl font-semibold mb-4 text-center">What’s Inside</h3>
+                <p className="text-sm text-purple-100 text-center max-w-lg mx-auto mb-4">
+                  This 25-page playbook includes 20 sequenced B2B email campaigns, each with 5 ready-to-send messages. Proven formats for cold outreach, upsell, renewal saves, referrals, Q4 closes, and more.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm font-medium text-purple-100">
+                  <ul className="space-y-1">
+                    <li>• Cold Prospecting</li>
+                    <li>• Upsell & Expansion</li>
+                    <li>• Demo No-Show Recovery</li>
+                  </ul>
+                  <ul className="space-y-1">
+                    <li>• Post-Event Follow-Up</li>
+                    <li>• Breakup & Referral Plays</li>
+                    <li>• Industry: SaaS, Healthcare, Manufacturing</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Single Testimonial */}
+              <div className="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 p-6 rounded-lg text-center">
+                <div className="flex justify-center mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <blockquote className="italic text-slate-800 dark:text-slate-200 text-base mb-3 max-w-xl mx-auto">
+                  “Used Campaign #4 for a competitor takeaway — got a meeting in 2 hours. This thing works.”
+                </blockquote>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  — <strong>Maya S.</strong>, Enterprise AE
+                </p>
+              </div>
+
+              {/* Can't Donate Section */}
+              <div className="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 p-6 rounded-lg text-center">
+                <img
+                  src="/images/emoji-sigh.png"
+                  alt="Support optional"
+                  className="w-8 h-8 mx-auto mb-3"
+                />
+                <p className="text-sm text-slate-700 dark:text-slate-300 mb-3">
                   Can’t donate right now? Totally fine.
                 </p>
                 <Button variant="outline" onClick={handleFreeRequest}>
@@ -204,39 +213,8 @@ export default function SalesPlaybookPage() {
                 </Button>
               </div>
 
-              <div className="bg-purple-50 dark:bg-purple-900 border border-purple-200 dark:border-purple-700 p-6 rounded-xl">
-                <h3 className="text-slate-900 dark:text-white font-semibold mb-3">
-                  What’s Inside
-                </h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700 dark:text-slate-300 text-left mx-auto max-w-md">
-                  {previewTopics.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="overflow-x-auto snap-x flex gap-4 pt-6 pb-4">
-                {testimonials.map((t, i) => (
-                  <div
-                    key={i}
-                    className="min-w-[300px] snap-center border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm"
-                  >
-                    <div className="flex gap-1 mb-2 justify-center">
-                      {[...Array(5)].map((_, s) => (
-                        <Star key={s} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                    <blockquote className="italic text-slate-700 dark:text-slate-300">
-                      “{t.quote}”
-                    </blockquote>
-                    <div className="text-xs mt-3 text-slate-500 dark:text-slate-400">
-                      — <strong>{t.author}</strong>, {t.title}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="text-center space-y-2">
+              {/* Contact */}
+              <div className="text-center space-y-2 pt-4">
                 <p className="text-xs text-slate-500 dark:text-slate-400">
                   Want help using the playbook?{" "}
                   <button
