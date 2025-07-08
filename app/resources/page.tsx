@@ -44,7 +44,7 @@ const guides = [
     funText: "Buy me a sandwich 🥪",
     icon: "FileText",
     donationIcon: "Heart",
-    link: "/sales-playbook/confirm",
+    link: "/sales-playbook",
   },
 ]
 
