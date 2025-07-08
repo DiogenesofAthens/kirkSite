@@ -33,7 +33,7 @@ const FAQ_QUESTIONS = Object.keys(KNOWLEDGE_BASE).map((key) =>
   key === "achievements" ? "What are Grant’s most notable achievements?" :
   key === "media server" ? "Can I view Grant’s media server setup?" :
   key === "sdr" ? "What is Grant’s experience with SDR teams?" :
-  key === "career history" ? "Where has Grant worked previously?" :
+  key === "career history" ? "What is Grant’s career history?" :
   key === "clients" ? "What industries or clients has Grant supported?" :
   key === "skills" ? "What are Grant’s technical skills?" :
   key === "certifications" ? "What certifications does Grant have?" : ""
@@ -75,10 +75,10 @@ export function Chatbot() {
     setIsTyping(true)
 
     setTimeout(() => {
-      const matchedKey = Object.keys(KNOWLEDGE_BASE).find(key => input.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(input.toLowerCase()))
-      const response = matchedKey
-        ? KNOWLEDGE_BASE[matchedKey]
-        : "I'm not sure about that. Would you like me to send your question to Grant? Use the button below."
+      const matchedKey = Object.keys(KNOWLEDGE_BASE).find(key =>
+        input.toLowerCase().includes(key.toLowerCase())
+      )
+      const response = matchedKey ? KNOWLEDGE_BASE[matchedKey] : ""
 
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -125,7 +125,7 @@ export function Chatbot() {
         <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message) => (
-              <div key={message.id} className={cn("flex gap-2", message.isBot ? "justify-start" : "justify-end")}> 
+              <div key={message.id} className={cn("flex gap-2", message.isBot ? "justify-start" : "justify-end")}>
                 {message.isBot && (
                   <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
                     <Bot className="w-4 h-4 text-blue-600" />
