@@ -1,9 +1,6 @@
-// app/sales-playbook/page.tsx
-
 "use client"
 
-import { useEffect, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useState } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { ContactModal } from "@/components/contact-modal"
@@ -18,19 +15,6 @@ import {
   Star,
   FileText,
 } from "lucide-react"
-
-export const metadata = {
-  title: "Enterprise Sales Email Playbook – Gated Download",
-  description:
-    "20 high-performing B2B sales campaigns. 100 enterprise-ready emails. Real replies, sharp tone, and zero fluff.",
-  openGraph: {
-    title: "Enterprise Sales Email Playbook – Gated Download",
-    description:
-      "Download 20 sequenced campaigns designed for SDRs, AEs, and revenue teams. Sharp, witty, and built for conversion.",
-    url: "https://yourdomain.com/sales-playbook",
-    images: ["/images/sales-playbook-og.png"],
-  },
-}
 
 export default function SalesPlaybookPage() {
   const [hasDonated, setHasDonated] = useState(false)
