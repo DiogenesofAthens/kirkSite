@@ -18,26 +18,35 @@ const donationIconMap = { Coffee, Beer, Heart }
 export default function Resources() {
   const [showContactForm, setShowContactForm] = useState(false)
 
-  const guides = [
-    {
-      id: "sdr-process-guide",
-      title: "SDR Process Guide",
-      description: "Complete guide to qualifying leads, Salesforce best practices, and SDR workflows",
-      funText: "Buy me a coffee ☕",
-      icon: "FileText",
-      donationIcon: "Coffee",
-      link: "/downloads/sdr-process-guide/confirm",
-    },
-    {
-      id: "media-server-guide",
-      title: "Complete Media Server Setup Guide",
-      description: "Step-by-step guide to building your own Unraid media server with Plex",
-      funText: "Buy me a pizza 🍕",
-      icon: "FileText",
-      donationIcon: "Heart",
-      link: "/downloads/media-server-guide/confirm",
-    },
-  ]
+const guides = [
+  {
+    id: "sdr-process-guide",
+    title: "SDR Process Guide",
+    description: "Complete guide to qualifying leads, Salesforce best practices, and SDR workflows",
+    funText: "Buy me a coffee ☕",
+    icon: "FileText",
+    donationIcon: "Coffee",
+    link: "/downloads/sdr-process-guide/confirm",
+  },
+  {
+    id: "media-server-guide",
+    title: "Complete Media Server Setup Guide",
+    description: "Step-by-step guide to building your own Unraid media server with Plex",
+    funText: "Buy me a pizza 🍕",
+    icon: "FileText",
+    donationIcon: "Heart",
+    link: "/downloads/media-server-guide/confirm",
+  },
+  {
+    id: "sales-email-playbook",
+    title: "Enterprise Sales Email Playbook",
+    description: "Proven outbound campaigns to cut through noise and drive enterprise pipeline.",
+    funText: "Buy me a sandwich 🥪",
+    icon: "FileText",
+    donationIcon: "Heart",
+    link: "/sales-playbook/confirm",
+  },
+]
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
