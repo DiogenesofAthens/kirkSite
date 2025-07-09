@@ -1,123 +1,80 @@
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
 import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
-import { ContactModal } from "@/components/contact-modal"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
-  Download,
-  Heart,
-  ExternalLink,
-  CheckCircle,
-  Star,
   FileText,
+  Heart,
+  Download,
+  CheckCircle,
+  Users,
+  Shield,
+  Star,
 } from "lucide-react"
+import Link from "next/link"
 
 export default function SalesPlaybookPage() {
-  const [hasDonated, setHasDonated] = useState(false)
-  const [showContactModal, setShowContactModal] = useState(false)
-
-  const fileUrl = "/downloads/Enterprise Sales Email Playbook.pdf"
-  const paypalLink = "https://paypal.me/grantglazer/20"
-
-  const handleDownload = () => {
-    const link = document.createElement("a")
-    link.href = fileUrl
-    link.download = "Enterprise Sales Email Playbook.pdf"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
-
-  const handleDonate = () => {
-    const newTab = window.open(paypalLink, "_blank")
-    if (newTab) {
-      newTab.focus()
-      setHasDonated(true)
-    }
-  }
-
   return (
-    <div className="min-h-screen gradient-bg relative">
+    <div className="min-h-screen gradient-bg relative overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse dark:bg-blue-800/20"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000 dark:bg-purple-800/20"></div>
+      </div>
+
       <FloatingNav />
       <TimezoneClock />
 
-      <div className="pt-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto">
-          <Card className="bg-white/90 dark:bg-slate-800/90 border-0 shadow-xl backdrop-blur-sm">
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FileText className="w-8 h-8 text-white" />
+      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-4xl mx-auto">
+          <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm dark:bg-slate-800/90 dark:border dark:border-slate-700">
+            <CardHeader className="text-center pb-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <FileText className="w-10 h-10 text-white" />
               </div>
-              <CardTitle className="text-3xl font-bold dark:text-white">
+              <CardTitle className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-4">
                 Enterprise Sales Email Playbook
               </CardTitle>
-              <p className="text-slate-600 dark:text-slate-400 text-lg mt-2">
+              <CardDescription className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
                 20 campaigns. 100 emails. Zero fluff. Built for real replies and real revenue.
-              </p>
+              </CardDescription>
             </CardHeader>
 
-            <CardContent className="text-center space-y-8">
+            <CardContent className="space-y-8">
               {/* Donation CTA */}
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 border-2 border-blue-200 dark:border-blue-700 rounded-xl p-8">
+              <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-700">
                 <Heart className="w-8 h-8 text-red-500 mx-auto mb-3" />
-                <p className="text-lg text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
+                <p className="text-slate-700 dark:text-slate-300 text-base leading-relaxed mb-4 max-w-xl mx-auto">
                   This playbook took serious time, testing, and enterprise polish. If it helps you win deals — why not buy me a sandwich 🥪?
                 </p>
-
-                <Button
-                  onClick={handleDonate}
-                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900 text-white font-semibold px-6 py-3"
-                >
-                  Donate $20 via PayPal
-                  <ExternalLink className="w-4 h-4 ml-2" />
-                </Button>
-
-                <p className="text-sm text-slate-500 dark:text-slate-400 italic mt-2">
+                <Link href="/sales-playbook/confirm">
+                  <Button
+                    size="lg"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-10 py-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-500 dark:hover:bg-blue-600"
+                  >
+                    <Download className="w-5 h-5 mr-3" />
+                    Donate $20 via PayPal
+                  </Button>
+                </Link>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-3">
                   Opens PayPal in a new tab. Return here to unlock your download.
                 </p>
               </div>
 
-              {/* Download after donation */}
-              {hasDonated && (
-                <div className="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-6">
-                  <h3 className="text-slate-900 dark:text-white font-semibold mb-3 flex items-center justify-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    Thanks for supporting!
-                  </h3>
-                  <Button
-                    onClick={handleDownload}
-                    className="bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download Playbook
-                  </Button>
-                </div>
-              )}
-
-              {/* Confirm Fallback Link */}
-              {!hasDonated && (
-                <div className="text-center">
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900"
-                  >
-                    <Link href="/sales-playbook/confirm">Just give it to me already!</Link>
-                  </Button>
-                </div>
-              )}
-
-              {/* What's Inside */}
-              <div className="bg-gradient-to-br from-purple-700 to-purple-800 text-white p-6 rounded-xl border border-purple-600 shadow-inner">
-                <h3 className="text-2xl font-semibold mb-4 text-center">What’s Inside</h3>
-                <p className="text-sm text-purple-100 text-center max-w-lg mx-auto mb-4">
+              {/* What’s Inside */}
+              <div className="bg-fuchsia-800/90 text-white rounded-xl p-6">
+                <h3 className="text-2xl font-bold text-center mb-3">What’s Inside</h3>
+                <p className="text-sm text-purple-100 text-center max-w-2xl mx-auto mb-4">
                   This 25-page playbook includes 20 sequenced B2B email campaigns, each with 5 ready-to-send messages. Proven formats for cold outreach, upsell, renewal saves, referrals, Q4 closes, and more.
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm font-medium text-purple-100">
+                <div className="grid md:grid-cols-2 gap-4 text-sm text-purple-100 font-medium">
                   <ul className="space-y-1">
                     <li>• Cold Prospecting</li>
                     <li>• Upsell & Expansion</li>
@@ -131,40 +88,38 @@ export default function SalesPlaybookPage() {
                 </div>
               </div>
 
-              {/* Single Testimonial */}
-              <div className="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 p-6 rounded-lg text-center">
-                <div className="flex justify-center mb-3">
+              {/* Testimonial */}
+              <div className="bg-slate-900/80 text-white p-6 rounded-xl border border-slate-700 text-center">
+                <div className="flex justify-center gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <blockquote className="italic text-slate-800 dark:text-slate-200 text-base mb-3 max-w-xl mx-auto">
+                <blockquote className="text-base italic max-w-xl mx-auto mb-2">
                   “Used Campaign #4 for a competitor takeaway — got a meeting in 2 hours. This thing works.”
                 </blockquote>
-                <p className="text-sm text-slate-600 dark:text-slate-400">
-                  — <strong>Maya S.</strong>, Enterprise AE
-                </p>
+                <p className="text-sm text-slate-400">— Maya S., Enterprise AE</p>
               </div>
 
-              {/* Contact */}
-              <div className="text-center space-y-2 pt-4">
+              {/* Footer */}
+              <div className="text-center space-y-2 pt-4 border-t border-slate-200 dark:border-slate-700">
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Want help using the playbook?{" "}
-                  <button
-                    onClick={() => setShowContactModal(true)}
-                    className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700"
-                    aria-label="Contact Grant"
+                  This resource includes proven messaging tested in real enterprise sales cycles.
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Questions?{" "}
+                  <Link
+                    href="/"
+                    className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 underline"
                   >
                     Contact Grant
-                  </button>
+                  </Link>
                 </p>
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
-
-      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
     </div>
   )
 }
