@@ -70,7 +70,7 @@ export default function SalesPlaybookConfirmPage() {
                   size="lg"
                   className="mt-6 w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
                 >
-                  Buy me a sandwich 🥪 – $20 via PayPal
+                  Donate $20 via PayPal
                   <ExternalLink className="w-4 h-4 ml-2" />
                 </Button>
 
