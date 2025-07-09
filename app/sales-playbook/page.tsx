@@ -10,7 +10,13 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Download, FileText, Star, CheckCircle, AlertTriangle } from "lucide-react"
+import {
+  Download,
+  FileText,
+  Star,
+  CheckCircle,
+  AlertTriangle,
+} from "lucide-react"
 import Link from "next/link"
 
 export default function SalesPlaybookPage() {
@@ -60,6 +66,13 @@ export default function SalesPlaybookPage() {
                 <p className="text-xs text-slate-400 mt-3">
                   Opens PayPal in a new tab. Return here to unlock your download.
                 </p>
+              </div>
+
+              {/* Fallback Message */}
+              <div className="text-center p-6 bg-slate-900/80 text-white rounded-xl border border-slate-700">
+                <AlertTriangle className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
+                <p className="text-sm mb-2">Can’t donate right now? That’s okay! Everyone’s situation is different.</p>
+                <p className="text-sm">You’ll still get full access.</p>
               </div>
 
               {/* What's Inside */}
@@ -136,4 +149,3 @@ export default function SalesPlaybookPage() {
     </div>
   )
 }
-
