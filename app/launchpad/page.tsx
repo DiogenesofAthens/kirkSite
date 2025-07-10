@@ -44,7 +44,7 @@ export default function LaunchpadPage() {
       }, 500)
 
       setTimeout(() => {
-        router.refresh()
+        window.location.reload()
       }, 10000)
     } else {
       alert("There was a problem submitting your request. Please try again.")
@@ -115,10 +115,10 @@ export default function LaunchpadPage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 mb-10">
-              <a href="https://www.paypal.com/paypalme/grantglazer/1000" target="_blank" rel="noopener noreferrer">
+              <a href="https://ko-fi.com/s/c8409694f8" target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700 text-white">Base Package – $1000</Button>
               </a>
-              <a href="https://www.paypal.com/paypalme/grantglazer/2500" target="_blank" rel="noopener noreferrer">
+              <a href="https://ko-fi.com/s/cbee7f8511" target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white">Premium Package – $2500</Button>
               </a>
             </div>
