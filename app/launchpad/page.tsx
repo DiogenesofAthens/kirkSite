@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { CheckCircle, FileText, PenTool, Rocket } from "lucide-react"
 import Lottie from "lottie-react"
 import rocketAnimation from "@/public/images/rocket-ani.json"
 
@@ -27,7 +28,7 @@ export default function LaunchpadPage() {
         },
         body: JSON.stringify({
           from: "Grant Glazer <launchpad@grantglazer.com>",
-          to: "gglazer@conga.com",
+          to: "rockwellwildhorse@gmail.com",
           subject: "New Launchpad Submission",
           html: `<p><strong>Name:</strong> ${formData.get("name")}</p>
                  <p><strong>Email:</strong> ${formData.get("email")}</p>
@@ -56,8 +57,8 @@ export default function LaunchpadPage() {
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 dark:bg-blue-800/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 dark:bg-purple-800/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <FloatingNav />
@@ -73,11 +74,35 @@ export default function LaunchpadPage() {
             Launch your professional presence with a website just like this one — designed, built, and powered by Grant.
           </p>
 
+          <div className="grid md:grid-cols-3 gap-6 text-left mb-10">
+            <Card className="glass border-0 shadow-xl text-center">
+              <CardContent className="pt-6">
+                <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">4 Pages</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Homepage, Resources, Blog, Contact</p>
+              </CardContent>
+            </Card>
+            <Card className="glass border-0 shadow-xl text-center">
+              <CardContent className="pt-6">
+                <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">2 Sample Blog Posts</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Jumpstart your content strategy</p>
+              </CardContent>
+            </Card>
+            <Card className="glass border-0 shadow-xl text-center">
+              <CardContent className="pt-6">
+                <PenTool className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">Custom Setup</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Styled with your content, name & domain</p>
+              </CardContent>
+            </Card>
+          </div>
+
           <Card className="glass mb-10">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">Base Package – $1000</CardTitle>
               <CardDescription className="text-slate-600 dark:text-slate-400">
-                Custom clone of this site with your name, details, and content:
+                Custom clone of this site with your name, details, and content. Includes setup and domain configuration help.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -87,23 +112,41 @@ export default function LaunchpadPage() {
                 <li>Blog with 2 sample posts</li>
                 <li>Includes setup, styling, and domain help</li>
               </ul>
+              <div className="pt-4">
+                <a
+                  href="https://www.paypal.com/donate/?business=launchpad@grantglazer.com&amount=1000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button className="bg-green-600 hover:bg-green-700 text-white">Pay $1000 Now via PayPal</Button>
+                </a>
+              </div>
             </CardContent>
           </Card>
 
           <Card className="glass mb-10">
             <CardHeader>
-              <CardTitle className="text-xl font-bold text-slate-900 dark:text-slate-50">Optional Add-Ons</CardTitle>
+              <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">Premium Package – $2500</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">
+                Includes all base features, plus 2 paid resource guides and 3 blog posts written & integrated by Grant.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               <ul className="text-left text-slate-700 dark:text-slate-300 list-disc list-inside">
-                <li>Each Paid Resource Guide: <strong>$500</strong></li>
-                <li>Blog Post Creation: <strong>$100</strong></li>
-                <li>Change Orders: <strong>$250</strong> each</li>
-                <li>
-                  Discounts available if you provide your own content/images. <br />
-                  Please share any public folders with your images / content, or you can send to me via email after payment is sent.
-                </li>
+                <li>Everything in the Base Package</li>
+                <li>2 Paid Resource Guide Creations</li>
+                <li>3 Custom Blog Posts</li>
+                <li>Tailored support and enhancements</li>
               </ul>
+              <div className="pt-4">
+                <a
+                  href="https://www.paypal.com/donate/?business=launchpad@grantglazer.com&amount=2500"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">Pay $2500 Now via PayPal</Button>
+                </a>
+              </div>
             </CardContent>
           </Card>
 
