@@ -49,9 +49,9 @@ export default function SalesPlaybookPage() {
 
             <CardContent className="space-y-8">
               {/* Donation Box */}
-              <div className="text-center p-6 bg-blue-600 text-white rounded-xl border border-blue-700">
+              <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/20 text-slate-900 dark:text-white rounded-xl border border-blue-200 dark:border-blue-700">
                 <div className="flex justify-center mb-3">
-                  <span className="text-red-300 text-2xl">❤️</span>
+                  <span className="text-red-500 text-2xl">❤️</span>
                 </div>
                 <h3 className="text-xl font-bold mb-2">Support This Work</h3>
                 <p className="text-base mb-4">
@@ -60,13 +60,13 @@ export default function SalesPlaybookPage() {
                 <Link href="https://www.paypal.com/donate/?hosted_button_id=Y7K2F2F6T8T3W" target="_blank">
                   <Button
                     size="lg"
-                    className="bg-white text-blue-600 font-bold text-lg px-8 py-3 shadow-md hover:shadow-xl transition-all"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-3 shadow-md hover:shadow-xl transition-all"
                   >
                     <Download className="w-5 h-5 mr-3" />
                     Donate $20 via PayPal
                   </Button>
                 </Link>
-                <p className="text-sm text-blue-100 mt-3 italic">
+                <p className="text-sm text-blue-500 mt-3 italic">
                   Opens PayPal in a new tab – then return here to download
                 </p>
               </div>
