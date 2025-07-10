@@ -45,7 +45,7 @@ export default function LaunchpadPage() {
 
       setTimeout(() => {
         router.refresh()
-      }, 11000)
+      }, 10000)
     } else {
       alert("There was a problem submitting your request. Please try again.")
     }
@@ -71,7 +71,7 @@ export default function LaunchpadPage() {
               <div className={`w-40 sm:w-52 md:w-64 transition-transform duration-[10000ms] ${launching ? "animate-rocket" : ""}`}>
                 <Lottie animationData={rocketAnimation} loop={false} autoplay />
               </div>
-              <Button onClick={() => router.refresh()} className="mt-8 bg-blue-600 hover:bg-blue-700 text-white">
+              <Button onClick={() => window.location.reload()} className="mt-8 bg-blue-600 hover:bg-blue-700 text-white">
                 Back to Launchpad
               </Button>
             </div>
