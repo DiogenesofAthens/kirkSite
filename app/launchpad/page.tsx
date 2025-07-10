@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -16,9 +16,22 @@ export default function LaunchpadPage() {
   const [formVisible, setFormVisible] = useState(false)
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [launching, setLaunching] = useState(false)
+  const [captchaQuestion, setCaptchaQuestion] = useState({ question: '', answer: 0 })
   const router = useRouter()
 
+  useEffect(() => {
+    const num1 = Math.floor(Math.random() * 10) + 1
+    const num2 = Math.floor(Math.random() * 10) + 1
+    setCaptchaQuestion({ question: `What is ${num1} + ${num2}?`, answer: num1 + num2 })
+  }, [])
+
   const handleSubmit = async (formData: FormData) => {
+    const captchaAnswer = formData.get("captcha") as string
+    if (Number.parseInt(captchaAnswer) !== captchaQuestion.answer) {
+      alert("Please solve the captcha correctly.")
+      return
+    }
+
     const result = await submitLaunchForm(formData)
 
     if (result.success) {
@@ -44,12 +57,12 @@ export default function LaunchpadPage() {
       <div className="pt-24 pb-10 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto relative">
           {formSubmitted && (
-            <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center text-center px-4">
+            <div className="absolute inset-0 z-50 flex flex-col items-center justify-center text-center px-4 bg-transparent">
               <h2 className="text-4xl font-bold text-white mb-4">Thank you!</h2>
               <p className="text-lg text-slate-300 mb-6">
                 Grant will be in touch soon to start your launch journey 🚀
               </p>
-              <div className="w-40 sm:w-52 md:w-64 transition-transform duration-[10000ms]" style={{ transform: launching ? "translateY(-200vh)" : "translateY(0)" }}>
+              <div className="w-52 sm:w-64 md:w-72 transition-transform duration-[10000ms] transform translate-y-0 animate-rocket-launch">
                 <Lottie animationData={rocketAnimation} loop={false} autoplay />
               </div>
             </div>
@@ -110,13 +123,19 @@ export default function LaunchpadPage() {
             )}
 
             {formVisible && !formSubmitted && (
-              <form action={handleSubmit} className="max-w-xl mx-auto bg-white/60 dark:bg-slate-800/70 backdrop-blur-md p-6 rounded-xl shadow-lg space-y-4">
-                <Input name="name" placeholder="Your Name *" required />
-                <Input name="email" type="email" placeholder="Your Email *" required />
-                <Input name="linkedin" placeholder="LinkedIn Profile" />
-                <Input name="domain" placeholder="Preferred Domain Name (if any)" />
-                <Textarea name="info" placeholder="Tell me what you'd like on your site *" rows={4} required />
-                <Textarea name="notes" placeholder="Please share any public folders with your images / content, or you can send to me via email after payment is sent." rows={3} />
+              <form action={handleSubmit} className="max-w-xl mx-auto bg-white/60 dark:bg-slate-800/70 backdrop-blur-md p-6 rounded-xl shadow-lg space-y-4 text-center">
+                <Input name="name" placeholder="Your Name *" required className="text-center" />
+                <Input name="email" type="email" placeholder="Your Email *" required className="text-center" />
+                <Input name="linkedin" placeholder="LinkedIn Profile" className="text-center" />
+                <Input name="domain" placeholder="Preferred Domain Name (if any)" className="text-center" />
+                <Textarea name="info" placeholder="Tell me what you'd like on your site *" rows={4} required className="text-center" />
+                <Textarea name="notes" placeholder="Please share any public folders with your images / content, or you can send to me via email after payment is sent." rows={3} className="text-center" />
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">
+                    Security Check: {captchaQuestion.question}
+                  </label>
+                  <Input name="captcha" type="number" placeholder="Answer" required className="text-center" />
+                </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 italic">
                   Work begins after full payment is received. Turnaround time: ~1 month. You’ll receive progress updates throughout.
                 </p>
