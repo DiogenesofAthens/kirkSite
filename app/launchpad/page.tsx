@@ -20,23 +20,19 @@ export default function LaunchpadPage() {
     const formData = new FormData(form)
 
     try {
-      const response = await fetch("https://api.resend.com/emails", {
+      const response = await fetch("/api/submit-launch", {
         method: "POST",
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          linkedin: formData.get("linkedin"),
+          domain: formData.get("domain"),
+          info: formData.get("info"),
+          notes: formData.get("notes"),
+        }),
         headers: {
-          Authorization: "Bearer re_GELN4Nx2_KzUZw2wL2xuMna58oAGkJxov",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          from: "Grant Glazer <launchpad@grantglazer.com>",
-          to: "wildhorserockwell@gmail.com",
-          subject: "New Launchpad Submission",
-          html: `<p><strong>Name:</strong> ${formData.get("name")}</p>
-                 <p><strong>Email:</strong> ${formData.get("email")}</p>
-                 <p><strong>LinkedIn:</strong> ${formData.get("linkedin")}</p>
-                 <p><strong>Domain:</strong> ${formData.get("domain")}</p>
-                 <p><strong>Info:</strong> ${formData.get("info")}</p>
-                 <p><strong>Notes:</strong> ${formData.get("notes")}</p>`
-        }),
       })
 
       if (response.ok) {
@@ -73,6 +69,9 @@ export default function LaunchpadPage() {
           <p className="text-xl text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mb-6">
             Launch your professional presence with a website just like this one — designed, built, and powered by Grant.
           </p>
+          <p className="text-base text-slate-600 dark:text-slate-400 mb-10">
+            Your custom site includes light/dark mode, mobile responsiveness, and a live desktop timezone clock.
+          </p>
 
           <div className="grid md:grid-cols-3 gap-6 text-left mb-10">
             <Card className="glass border-0 shadow-xl text-center">
@@ -98,87 +97,44 @@ export default function LaunchpadPage() {
             </Card>
           </div>
 
-          <Card className="glass mb-10">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">Base Package – $1000</CardTitle>
-              <CardDescription className="text-slate-600 dark:text-slate-400">
-                Clone of this site with your name, details, and basic setup. Domain registration support included.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <ul className="text-left text-slate-700 dark:text-slate-300 list-disc list-inside">
-                <li>6 Pages with animated design</li>
-                <li>Resources page with 3 interactive games</li>
-                <li>Blog with 1 sample post</li>
-                <li>Includes setup and domain configuration</li>
-              </ul>
-              <div className="pt-4">
-                <a
-                  href="https://www.paypal.com/paypalme/grantglazer/1000"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button className="bg-green-600 hover:bg-green-700 text-white">Pay $1000 Now via PayPal</Button>
-                </a>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="glass mb-10">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">Premium Package – $2500</CardTitle>
-              <CardDescription className="text-slate-600 dark:text-slate-400">
-                Everything in the base, plus 2 donation-based guides and 5 polished blog posts crafted by Grant.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <ul className="text-left text-slate-700 dark:text-slate-300 list-disc list-inside">
-                <li>Everything in the Base Package</li>
-                <li>2 Paid Resource Guides</li>
-                <li>5 Polished Blog Posts</li>
-                <li>Enhanced creative support</li>
-              </ul>
-              <div className="pt-4">
-                <a
-                  href="https://www.paypal.com/paypalme/grantglazer/2500"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">Pay $2500 Now via PayPal</Button>
-                </a>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="mb-8">
-            <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white text-lg" onClick={() => setFormVisible(true)}>
-              Sign Me Up!
-            </Button>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-              Work begins once form is submitted and full payment is received.
-            </p>
+          <div className="grid md:grid-cols-2 gap-6 mb-10">
+            <a href="https://www.paypal.com/paypalme/grantglazer/1000" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700 text-white">Base Package – $1000</Button>
+            </a>
+            <a href="https://www.paypal.com/paypalme/grantglazer/2500" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white">Premium Package – $2500</Button>
+            </a>
           </div>
 
+          {!formSubmitted && (
+            <div className="mb-10">
+              <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white" onClick={() => setFormVisible(true)}>
+                Sign Me Up!
+              </Button>
+            </div>
+          )}
+
           {formVisible && !formSubmitted && (
-            <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-4 text-left">
+            <form onSubmit={handleSubmit} className="max-w-xl mx-auto bg-white/60 dark:bg-slate-800/70 backdrop-blur-md p-6 rounded-xl shadow-lg space-y-4">
               <Input name="name" placeholder="Your Name *" required />
               <Input name="email" type="email" placeholder="Your Email *" required />
-              <Input name="linkedin" placeholder="LinkedIn Profile *" required />
-              <Input name="domain" placeholder="Preferred Domain (optional)" />
-              <Textarea name="info" rows={4} placeholder="Tell me what you want to include on your site *" required />
-              <Textarea name="notes" rows={3} placeholder="Please share any public folders with your images / content, or you can send to me via email after payment is sent." />
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+              <Input name="linkedin" placeholder="LinkedIn Profile" />
+              <Input name="domain" placeholder="Preferred Domain Name (if any)" />
+              <Textarea name="info" placeholder="Tell me what you'd like on your site *" rows={4} required />
+              <Textarea name="notes" placeholder="Please share any public folders with your images / content, or you can send to me via email after payment is sent." rows={3} />
+              <p className="text-xs text-slate-500 dark:text-slate-400 italic">
+                Work begins after full payment is received. Turnaround time: ~1 month. You’ll receive progress updates throughout.
+              </p>
+              <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white">
                 Submit Launch Request
               </Button>
             </form>
           )}
 
           {formSubmitted && (
-            <div className="text-center py-10">
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-2">Thanks — Grant will be in touch soon!</h2>
-              <p className="text-slate-600 dark:text-slate-400">
-                Your submission was received. You’ll get updates on your custom site soon!
-              </p>
+            <div className="text-center py-12">
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-4">Thank you!</h2>
+              <p className="text-slate-700 dark:text-slate-300">Grant will be in touch soon to start your launch journey 🚀</p>
             </div>
           )}
         </div>
