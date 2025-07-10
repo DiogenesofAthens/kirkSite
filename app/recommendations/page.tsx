@@ -1,9 +1,8 @@
 "use client"
 
-import { useState } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Quote, Award, Users, ChevronDown, ChevronUp } from "lucide-react"
+import { Star, Quote, Award, Users } from "lucide-react"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Lottie from "lottie-react"
 import animationData from "@/public/images/reviews-ani.json"
@@ -75,21 +74,6 @@ export default function Recommendations() {
     },
   ]
 
-  const [expanded, setExpanded] = useState(Array(recommendations.length).fill(false))
-  const [allExpanded, setAllExpanded] = useState(false)
-
-  const toggleCard = (index) => {
-    const newExpanded = [...expanded]
-    newExpanded[index] = !newExpanded[index]
-    setExpanded(newExpanded)
-  }
-
-  const toggleAll = () => {
-    const newAll = !allExpanded
-    setExpanded(Array(recommendations.length).fill(newAll))
-    setAllExpanded(newAll)
-  }
-
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -118,47 +102,27 @@ export default function Recommendations() {
             </p>
           </div>
 
-          <div className="flex justify-center mb-8">
-            <button
-              onClick={toggleAll}
-              className="text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-full px-4 py-2 transition-all"
-            >
-              {allExpanded ? "Collapse All" : "Read All"}
-            </button>
-          </div>
-
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             {recommendations.map((rec, index) => (
               <Card
                 key={index}
-                className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 h-full flex flex-col"
+                className="glass border-0 shadow-xl transition-all duration-300 h-full flex flex-col"
               >
-                <CardHeader onClick={() => toggleCard(index)} className="cursor-pointer">
+                <CardHeader>
                   <div className="flex items-center gap-2 mb-2">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{rec.name}</CardTitle>
-                      <CardDescription className="text-sm text-slate-600 dark:text-slate-400">
-                        {rec.title} • {rec.company}
-                      </CardDescription>
-                    </div>
-                    {expanded[index] ? (
-                      <ChevronUp className="w-5 h-5 text-slate-500 dark:text-slate-400" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-slate-500 dark:text-slate-400" />
-                    )}
-                  </div>
+                  <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{rec.name}</CardTitle>
+                  <CardDescription className="text-sm text-slate-600 dark:text-slate-400">
+                    {rec.title} • {rec.company}
+                  </CardDescription>
                 </CardHeader>
-                {expanded[index] && (
-                  <CardContent className="flex-1">
-                    <Quote className="w-6 h-6 text-slate-400 dark:text-slate-500 mb-3" />
-                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">{rec.content}</p>
-                  </CardContent>
-                )}
+                <CardContent className="flex-1">
+                  <Quote className="w-6 h-6 text-slate-400 dark:text-slate-500 mb-3" />
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">{rec.content}</p>
+                </CardContent>
               </Card>
             ))}
           </div>
