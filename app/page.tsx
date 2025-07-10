@@ -54,7 +54,7 @@ export default function Home() {
               </Button>
               <Link href="/my-expertise">
                 <Button variant="outline" size="lg" className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-                  My Experience
+                  My Expertise
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
