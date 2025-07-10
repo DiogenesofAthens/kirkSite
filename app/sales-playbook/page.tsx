@@ -15,6 +15,8 @@ import {
   FileText,
   Star,
   CheckCircle,
+  Users,
+  Shield,
   AlertTriangle,
 } from "lucide-react"
 import Link from "next/link"
@@ -47,36 +49,36 @@ export default function SalesPlaybookPage() {
 
             <CardContent className="space-y-8">
               {/* Donation Box */}
-              <div className="text-center p-6 bg-slate-800 text-white rounded-xl border border-slate-700">
+              <div className="text-center p-6 bg-blue-600 text-white rounded-xl border border-blue-700">
                 <div className="flex justify-center mb-3">
-                  <span className="text-red-400 text-2xl">❤️</span>
+                  <span className="text-red-300 text-2xl">❤️</span>
                 </div>
-                <p className="text-sm mb-4">
+                <h3 className="text-xl font-bold mb-2">Support This Work</h3>
+                <p className="text-base mb-4">
                   This playbook took serious time, testing, and enterprise polish. If it helps you win deals — why not buy me lunch 🥪?
                 </p>
                 <Link href="https://www.paypal.com/donate/?hosted_button_id=Y7K2F2F6T8T3W" target="_blank">
                   <Button
                     size="lg"
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-3 shadow-md hover:shadow-xl transition-all w-full sm:w-auto"
+                    className="bg-white text-blue-600 font-bold text-lg px-8 py-3 shadow-md hover:shadow-xl transition-all"
                   >
                     <Download className="w-5 h-5 mr-3" />
                     Donate $20 via PayPal
                   </Button>
                 </Link>
-                <p className="text-xs text-slate-400 mt-3">
-                  Opens PayPal in a new tab. Return here to unlock your download.
+                <p className="text-sm text-blue-100 mt-3 italic">
+                  Opens PayPal in a new tab – then return here to download
                 </p>
               </div>
 
-              {/* Fallback Message */}
+              {/* Can't Donate Box */}
               <div className="text-center p-6 bg-slate-900/80 text-white rounded-xl border border-slate-700">
                 <AlertTriangle className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
                 <p className="text-sm mb-2">Can’t donate right now? That’s okay! Everyone’s situation is different.</p>
-                <p className="text-sm mb-4">You’ll still get full access.</p>
                 <Link href="/sales-playbook/confirm">
                   <Button
-                    variant="secondary"
-                    className="bg-black text-white hover:bg-slate-800 w-full sm:w-auto"
+                    size="lg"
+                    className="mt-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-2"
                   >
                     No, I’m special and I deserve it for free
                   </Button>
@@ -84,29 +86,47 @@ export default function SalesPlaybookPage() {
               </div>
 
               {/* What's Inside */}
-              <div className="rounded-xl p-6 bg-gradient-to-br from-purple-100 via-purple-50 to-indigo-100 dark:from-purple-900/30 dark:via-purple-800/30 dark:to-indigo-900/30">
-                <h3 className="text-2xl font-bold text-center text-slate-900 dark:text-slate-50 mb-4">
+              <div className="rounded-xl p-6 bg-slate-50 dark:bg-slate-900/50">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4 text-center">
                   What’s Inside
                 </h3>
                 <p className="text-sm text-slate-700 dark:text-slate-300 text-center mb-4 max-w-3xl mx-auto">
                   This 25-page playbook includes 20 sequenced B2B email campaigns, each with 5 ready-to-send messages. Proven formats for cold outreach, upsell, renewal saves, referrals, Q4 closes, and more.
                 </p>
-                <div className="grid md:grid-cols-2 gap-4 text-sm text-slate-700 dark:text-slate-300">
-                  <ul className="space-y-2 list-disc list-inside">
-                    <li>Cold Prospecting</li>
-                    <li>Upsell & Expansion</li>
-                    <li>Demo No-Show Recovery</li>
-                    <li>Post-Event Follow-Up</li>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Cold Prospecting
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Upsell & Expansion
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Demo No-Show Recovery
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Post-Event Follow-Up
+                    </li>
                   </ul>
-                  <ul className="space-y-2 list-disc list-inside">
-                    <li>Breakup & Referral Plays</li>
-                    <li>Industry: SaaS, Healthcare, Manufacturing</li>
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Breakup & Referral Plays
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Industry: SaaS, Healthcare, Manufacturing
+                    </li>
                   </ul>
                 </div>
               </div>
 
               {/* Testimonial */}
-              <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:bg-gradient-to-r dark:from-indigo-900/30 dark:to-purple-900/30 border border-indigo-200 dark:border-indigo-700 rounded-xl p-6">
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:bg-gradient-to-r dark:from-blue-900/30 dark:to-purple-900/30 border border-blue-200 dark:border-blue-700 rounded-xl p-6">
                 <div className="flex items-center justify-center gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
@@ -122,21 +142,11 @@ export default function SalesPlaybookPage() {
                 </div>
               </div>
 
-              {/* Confirm Redirect */}
-              <div className="text-center">
-                <Link href="/sales-playbook/confirm">
-                  <Button
-                    size="lg"
-                    className="bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg px-10 py-4 shadow-lg hover:shadow-xl transition-all w-full sm:w-auto"
-                  >
-                    Get the Sales Playbook
-                  </Button>
-                </Link>
-                <p className="text-sm text-slate-500 dark:text-slate-500 mt-3">Suggested donation: $20 🥪</p>
-              </div>
-
               {/* Footer */}
               <div className="text-center space-y-2 pt-4 border-t border-slate-200 dark:border-slate-700">
+                <p className="text-sm text-slate-500 dark:text-slate-500">
+                  Suggested donation: $20 🥪
+                </p>
                 <p className="text-xs text-slate-500 dark:text-slate-500">
                   This playbook includes real campaigns and messaging tested across hundreds of enterprise deals.
                 </p>
