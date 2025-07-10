@@ -25,8 +25,8 @@ ${notes || "None"}
 
     const data = await resend.emails.send({
       from: "Launchpad <onboarding@resend.dev>",
-      to: "wildhorserockwell@gmail.com",
-      subject: "🚀 New Launch Request",
+      to: "edgewaterglazer@gmail.com",
+      subject: "New Personal Website Launch Request",
       text,
     })
 
