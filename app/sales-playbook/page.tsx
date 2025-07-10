@@ -58,13 +58,15 @@ export default function SalesPlaybookPage() {
                   This playbook took serious time, testing, and enterprise polish. If it helps you win deals — why not buy me lunch 🥪?
                 </p>
                 <Link href="https://www.paypal.com/donate/?hosted_button_id=Y7K2F2F6T8T3W" target="_blank">
-                  <Button
-                    size="lg"
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-3 shadow-md hover:shadow-xl transition-all mx-auto"
-                  >
-                    <Download className="w-5 h-5 mr-3" />
-                    Donate $20 via PayPal
-                  </Button>
+                  <div className="flex justify-center">
+                    <Button
+                      size="lg"
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-3 shadow-md hover:shadow-xl transition-all"
+                    >
+                      <Download className="w-5 h-5 mr-3" />
+                      Donate $20 via PayPal
+                    </Button>
+                  </div>
                 </Link>
                 <p className="text-sm text-blue-500 mt-3 italic">
                   Opens PayPal in a new tab – then return here to download
@@ -80,12 +82,14 @@ export default function SalesPlaybookPage() {
                   You’ll still get full access.
                 </p>
                 <Link href="/sales-playbook/confirm">
-                  <Button
-                    size="lg"
-                    className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-2"
-                  >
-                    No, I’m special and I deserve it for free
-                  </Button>
+                  <div className="flex justify-center">
+                    <Button
+                      size="lg"
+                      className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-2"
+                    >
+                      No, I’m special and I deserve it for free
+                    </Button>
+                  </div>
                 </Link>
               </div>
 
