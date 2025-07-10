@@ -60,7 +60,7 @@ export default function SalesPlaybookPage() {
                 <Link href="https://www.paypal.com/donate/?hosted_button_id=Y7K2F2F6T8T3W" target="_blank">
                   <Button
                     size="lg"
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-3 shadow-md hover:shadow-xl transition-all"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-3 shadow-md hover:shadow-xl transition-all mx-auto"
                   >
                     <Download className="w-5 h-5 mr-3" />
                     Donate $20 via PayPal
@@ -74,11 +74,15 @@ export default function SalesPlaybookPage() {
               {/* Can't Donate Box */}
               <div className="text-center p-6 bg-slate-900/80 text-white rounded-xl border border-slate-700">
                 <AlertTriangle className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                <p className="text-sm mb-2">Can’t donate right now? That’s okay! Everyone’s situation is different.</p>
+                <p className="text-sm mb-4">
+                  Can’t donate right now? That’s okay! Everyone’s situation is different.
+                  <br />
+                  You’ll still get full access.
+                </p>
                 <Link href="/sales-playbook/confirm">
                   <Button
                     size="lg"
-                    className="mt-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-2"
+                    className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-2"
                   >
                     No, I’m special and I deserve it for free
                   </Button>
@@ -86,7 +90,7 @@ export default function SalesPlaybookPage() {
               </div>
 
               {/* What's Inside */}
-              <div className="rounded-xl p-6 bg-slate-50 dark:bg-slate-900/50">
+              <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6">
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4 text-center">
                   What’s Inside
                 </h3>
@@ -144,9 +148,6 @@ export default function SalesPlaybookPage() {
 
               {/* Footer */}
               <div className="text-center space-y-2 pt-4 border-t border-slate-200 dark:border-slate-700">
-                <p className="text-sm text-slate-500 dark:text-slate-500">
-                  Suggested donation: $20 🥪
-                </p>
                 <p className="text-xs text-slate-500 dark:text-slate-500">
                   This playbook includes real campaigns and messaging tested across hundreds of enterprise deals.
                 </p>
