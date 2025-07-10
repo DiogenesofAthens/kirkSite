@@ -28,7 +28,7 @@ export default function LaunchpadPage() {
         },
         body: JSON.stringify({
           from: "Grant Glazer <launchpad@grantglazer.com>",
-          to: "rockwellwildhorse@gmail.com",
+          to: "wildhorserockwell@gmail.com",
           subject: "New Launchpad Submission",
           html: `<p><strong>Name:</strong> ${formData.get("name")}</p>
                  <p><strong>Email:</strong> ${formData.get("email")}</p>
@@ -78,22 +78,22 @@ export default function LaunchpadPage() {
             <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
                 <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
-                <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">4 Pages</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Homepage, Resources, Blog, Contact</p>
+                <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">6 Pages</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Home, Expertise, Resume, Recommendations, Resources, Blog</p>
               </CardContent>
             </Card>
             <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
                 <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
-                <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">2 Sample Blog Posts</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Jumpstart your content strategy</p>
+                <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">Blog & Guides</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Base: 1 sample post. Premium: 5 posts & 2 paid guides</p>
               </CardContent>
             </Card>
             <Card className="glass border-0 shadow-xl text-center">
               <CardContent className="pt-6">
                 <PenTool className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
                 <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">Custom Setup</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Styled with your content, name & domain</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Styled with your content, name & domain help</p>
               </CardContent>
             </Card>
           </div>
@@ -102,19 +102,19 @@ export default function LaunchpadPage() {
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">Base Package – $1000</CardTitle>
               <CardDescription className="text-slate-600 dark:text-slate-400">
-                Custom clone of this site with your name, details, and content. Includes setup and domain configuration help.
+                Clone of this site with your name, details, and basic setup. Domain registration support included.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               <ul className="text-left text-slate-700 dark:text-slate-300 list-disc list-inside">
-                <li>Home page with animated headers</li>
-                <li>Resources page with 3 built-in games</li>
-                <li>Blog with 2 sample posts</li>
-                <li>Includes setup, styling, and domain help</li>
+                <li>6 Pages with animated design</li>
+                <li>Resources page with 3 interactive games</li>
+                <li>Blog with 1 sample post</li>
+                <li>Includes setup and domain configuration</li>
               </ul>
               <div className="pt-4">
                 <a
-                  href="https://www.paypal.com/donate/?business=launchpad@grantglazer.com&amount=1000"
+                  href="https://www.paypal.com/paypalme/grantglazer/1000"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -128,19 +128,19 @@ export default function LaunchpadPage() {
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-50">Premium Package – $2500</CardTitle>
               <CardDescription className="text-slate-600 dark:text-slate-400">
-                Includes all base features, plus 2 paid resource guides and 3 blog posts written & integrated by Grant.
+                Everything in the base, plus 2 donation-based guides and 5 polished blog posts crafted by Grant.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               <ul className="text-left text-slate-700 dark:text-slate-300 list-disc list-inside">
                 <li>Everything in the Base Package</li>
-                <li>2 Paid Resource Guide Creations</li>
-                <li>3 Custom Blog Posts</li>
-                <li>Tailored support and enhancements</li>
+                <li>2 Paid Resource Guides</li>
+                <li>5 Polished Blog Posts</li>
+                <li>Enhanced creative support</li>
               </ul>
               <div className="pt-4">
                 <a
-                  href="https://www.paypal.com/donate/?business=launchpad@grantglazer.com&amount=2500"
+                  href="https://www.paypal.com/paypalme/grantglazer/2500"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -166,7 +166,7 @@ export default function LaunchpadPage() {
               <Input name="linkedin" placeholder="LinkedIn Profile *" required />
               <Input name="domain" placeholder="Preferred Domain (optional)" />
               <Textarea name="info" rows={4} placeholder="Tell me what you want to include on your site *" required />
-              <Textarea name="notes" rows={3} placeholder="Any notes or requests? (Optional)" />
+              <Textarea name="notes" rows={3} placeholder="Please share any public folders with your images / content, or you can send to me via email after payment is sent." />
               <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                 Submit Launch Request
               </Button>
