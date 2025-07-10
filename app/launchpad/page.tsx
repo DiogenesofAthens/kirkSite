@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,6 +10,7 @@ import { CheckCircle, FileText, PenTool, Rocket } from "lucide-react"
 import Lottie from "lottie-react"
 import rocketAnimation from "@/public/images/rocket-ani.json"
 import { useRouter } from "next/navigation"
+import { submitLaunchForm } from "@/app/actions/submitLaunch"
 
 export default function LaunchpadPage() {
   const [formVisible, setFormVisible] = useState(false)
@@ -17,39 +18,17 @@ export default function LaunchpadPage() {
   const [launching, setLaunching] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const form = e.currentTarget
-    const formData = new FormData(form)
+  const handleSubmit = async (formData: FormData) => {
+    const result = await submitLaunchForm(formData)
 
-    try {
-      const response = await fetch("/api/submit-launch", {
-        method: "POST",
-        body: JSON.stringify({
-          name: formData.get("name"),
-          email: formData.get("email"),
-          linkedin: formData.get("linkedin"),
-          domain: formData.get("domain"),
-          info: formData.get("info"),
-          notes: formData.get("notes"),
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-
-      if (response.ok) {
-        setFormSubmitted(true)
-        setLaunching(true)
-        setTimeout(() => {
-          router.push("/launchpad")
-        }, 10000)
-      } else {
-        alert("There was a problem submitting your request. Please try again.")
-      }
-    } catch (err) {
-      console.error(err)
-      alert("Error sending your form. Please try again later.")
+    if (result.success) {
+      setFormSubmitted(true)
+      setLaunching(true)
+      setTimeout(() => {
+        router.push("/launchpad")
+      }, 10000)
+    } else {
+      alert("There was a problem submitting your request. Please try again.")
     }
   }
 
@@ -65,9 +44,9 @@ export default function LaunchpadPage() {
       <div className="pt-24 pb-10 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto relative">
           {formSubmitted && (
-            <div className="absolute inset-0 z-50 bg-white/80 dark:bg-black/80 flex flex-col items-center justify-center text-center px-4">
-              <h2 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-4">Thank you!</h2>
-              <p className="text-lg text-slate-700 dark:text-slate-300 mb-6">
+            <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center text-center px-4">
+              <h2 className="text-4xl font-bold text-white mb-4">Thank you!</h2>
+              <p className="text-lg text-slate-300 mb-6">
                 Grant will be in touch soon to start your launch journey 🚀
               </p>
               <div className="w-40 sm:w-52 md:w-64 transition-transform duration-[10000ms]" style={{ transform: launching ? "translateY(-200vh)" : "translateY(0)" }}>
@@ -131,7 +110,7 @@ export default function LaunchpadPage() {
             )}
 
             {formVisible && !formSubmitted && (
-              <form onSubmit={handleSubmit} className="max-w-xl mx-auto bg-white/60 dark:bg-slate-800/70 backdrop-blur-md p-6 rounded-xl shadow-lg space-y-4">
+              <form action={handleSubmit} className="max-w-xl mx-auto bg-white/60 dark:bg-slate-800/70 backdrop-blur-md p-6 rounded-xl shadow-lg space-y-4">
                 <Input name="name" placeholder="Your Name *" required />
                 <Input name="email" type="email" placeholder="Your Email *" required />
                 <Input name="linkedin" placeholder="LinkedIn Profile" />
