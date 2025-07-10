@@ -72,7 +72,14 @@ export default function Recommendations() {
         "I have had the great fortune and pleasure to work with Grant at DNN during my time there. Grant was the Team Lead for the SDR group.",
       company: "DNN",
     },
-  ]
+    {
+      name: "Katherine Andruha",
+      title: "Executive Vice President of Sales & Marketing",
+      content:
+        "Grant hits the top of the list when evaluating A-players! Not only does he hit quota consistently, he goes above and beyond to target each account meticulously. Grant provides each of his customers with the support and respect they deserve. He takes guidance well and provides suggestions for the betterment of the organization.",
+      company: "Apttus (now Conga)",
+    },
+  ];
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -106,7 +113,7 @@ export default function Recommendations() {
             {recommendations.map((rec, index) => (
               <Card
                 key={index}
-                className="glass border-0 shadow-xl transition-all duration-300 h-full flex flex-col"
+                className="glass border-0 shadow-xl transition-all duration-300 h-full flex flex-col animate-fade-in"
               >
                 <CardHeader>
                   <div className="flex items-center gap-2 mb-2">
@@ -129,5 +136,5 @@ export default function Recommendations() {
         </div>
       </div>
     </div>
-  )
+  );
 }
