@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -16,9 +16,25 @@ export default function LaunchpadPage() {
   const [formVisible, setFormVisible] = useState(false)
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [launching, setLaunching] = useState(false)
+  const [captchaQuestion, setCaptchaQuestion] = useState({ question: "", answer: 0 })
   const router = useRouter()
 
+  useEffect(() => {
+    const num1 = Math.floor(Math.random() * 10) + 1
+    const num2 = Math.floor(Math.random() * 10) + 1
+    setCaptchaQuestion({
+      question: `What is ${num1} + ${num2}?`,
+      answer: num1 + num2
+    })
+  }, [])
+
   const handleSubmit = async (formData: FormData) => {
+    const captchaAnswer = formData.get("captcha") as string
+    if (Number.parseInt(captchaAnswer) !== captchaQuestion.answer) {
+      alert("Please solve the captcha correctly.")
+      return
+    }
+
     const result = await submitLaunchForm(formData)
 
     if (result.success) {
@@ -47,7 +63,7 @@ export default function LaunchpadPage() {
       <div className="pt-24 pb-10 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto relative">
           {formSubmitted && (
-            <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center text-center px-4">
+            <div className="absolute inset-0 z-50 bg-transparent flex flex-col items-center justify-center text-center px-4">
               <h2 className="text-4xl font-bold text-white mb-4">Thank you!</h2>
               <p className="text-lg text-slate-300 mb-6">
                 Grant will be in touch soon to start your launch journey 🚀
@@ -71,7 +87,7 @@ export default function LaunchpadPage() {
               Launch your professional presence with a website just like this one — designed, built, and powered by Grant.
             </p>
             <p className="text-base text-slate-600 dark:text-slate-400 mb-10">
-              Your custom site includes light/dark mode, mobile responsiveness, and a live desktop timezone clock.
+              Your custom site includes light/dark mode, mobile responsiveness, a live timezone clock — and will be fully personalized to you.
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 text-left mb-10">
@@ -79,7 +95,7 @@ export default function LaunchpadPage() {
                 <CardContent className="pt-6">
                   <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">6 Pages</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Home, Expertise, Resume, Recommendations, Resources, Blog</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Home, Expertise, Resume, Recommendations, Resources (3 games included), Blog</p>
                 </CardContent>
               </Card>
               <Card className="glass border-0 shadow-xl text-center">
@@ -93,7 +109,7 @@ export default function LaunchpadPage() {
                 <CardContent className="pt-6">
                   <PenTool className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">Custom Setup</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Styled with your content, name & domain help</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Tailored to your name, content, and domain — personalized just for you</p>
                 </CardContent>
               </Card>
             </div>
@@ -123,6 +139,12 @@ export default function LaunchpadPage() {
                 <Input name="domain" placeholder="Preferred Domain Name (if any)" className="text-center" />
                 <Textarea name="info" placeholder="Tell me what you'd like on your site *" rows={4} required className="text-center" />
                 <Textarea name="notes" placeholder="Please share any public folders with your images / content, or you can send to me via email after payment is sent." rows={3} className="text-center" />
+                <div>
+                  <label className="text-sm font-medium block mb-2 text-slate-700 dark:text-slate-300">
+                    Security Check: {captchaQuestion.question}
+                  </label>
+                  <Input name="captcha" type="number" placeholder="Answer" required className="text-center" />
+                </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 italic">
                   Work begins after full payment is received. Turnaround time: ~1 month. You’ll receive progress updates throughout.
                 </p>
