@@ -55,7 +55,7 @@ export default function SalesPlaybookPage() {
                 </div>
                 <h3 className="text-xl font-bold mb-2">Support This Work</h3>
                 <p className="text-base mb-4">
-                  This playbook took serious time, testing, and enterprise polish. If it helps you win deals — why not buy me lunch 🥪?
+                  This playbook took serious time, testing, and enterprise polish. If it helps you win deals — why not buy me lunch? 🥪
                 </p>
                 <Link href="https://www.paypal.com/donate/?hosted_button_id=Y7K2F2F6T8T3W" target="_blank">
                   <div className="flex justify-center">
@@ -128,6 +128,14 @@ export default function SalesPlaybookPage() {
                     <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
                       <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                       Industry: SaaS, Healthcare, Manufacturing
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Expansion Sequences & Renewals
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Referral Templates & Win-Backs
                     </li>
                   </ul>
                 </div>
