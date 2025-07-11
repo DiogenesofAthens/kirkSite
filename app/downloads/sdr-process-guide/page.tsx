@@ -95,7 +95,7 @@ export default function SDRProcessGuidePage() {
 
               {/* Buy Button */}
               <div className="text-center space-y-3">
-                <a href="https://ko-fi.com/s/c8409694f8" target="_blank" rel="noopener noreferrer">
+                <a href="https://ko-fi.com/s/809f39639a" target="_blank" rel="noopener noreferrer">
                   <Button
                     size="lg"
                     className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-500 dark:hover:bg-blue-600"
@@ -103,7 +103,7 @@ export default function SDRProcessGuidePage() {
                     ❤️ Access This Guide
                   </Button>
                 </a>
-                <p className="text-sm text-slate-500 dark:text-slate-500">Buy me a pizza! 🍕</p>
+                <p className="text-sm text-slate-500 dark:text-slate-500">Buy me a coffee ☕</p>
               </div>
 
               {/* Additional Info */}
