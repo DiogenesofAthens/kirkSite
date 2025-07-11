@@ -46,6 +46,15 @@ const guides = [
     donationIcon: "Heart",
     link: "/sales-playbook",
   },
+    {
+    id: "launchpad",
+    title: "Digital Identity Launchpad",
+    description: "Launch your professional presence with a website just like this one!",
+    funText: "Help pay my Morgatge 🏠",
+    icon: "FileText",
+    donationIcon: "Heart",
+    link: "/launchpad",
+  },
 ]
 
   return (
@@ -77,7 +86,7 @@ const guides = [
           </div>
 
           <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Premium Guides</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Premium Resources</h2>
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {guides.map((guide) => {
                 const Icon = iconMap[guide.icon as keyof typeof iconMap]
