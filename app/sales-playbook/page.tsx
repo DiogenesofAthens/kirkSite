@@ -2,23 +2,9 @@
 
 import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import {
-  Download,
-  FileText,
-  Star,
-  CheckCircle,
-  Users,
-  Shield,
-  AlertTriangle,
-} from "lucide-react"
+import { FileText, Star, CheckCircle } from "lucide-react"
 import Link from "next/link"
 
 export default function SalesPlaybookPage() {
@@ -48,51 +34,6 @@ export default function SalesPlaybookPage() {
             </CardHeader>
 
             <CardContent className="space-y-8">
-              {/* Donation Box */}
-              <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/20 text-slate-900 dark:text-white rounded-xl border border-blue-200 dark:border-blue-700">
-                <div className="flex justify-center mb-3">
-                  <span className="text-red-500 text-2xl">❤️</span>
-                </div>
-                <h3 className="text-xl font-bold mb-2">Support This Work</h3>
-                <p className="text-base mb-4">
-                  This playbook took serious time, testing, and enterprise polish. If it helps you win deals — why not buy me lunch? 🥪
-                </p>
-                <Link href="https://www.paypal.com/donate/?hosted_button_id=Y7K2F2F6T8T3W" target="_blank">
-                  <div className="flex justify-center">
-                    <Button
-                      size="lg"
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-3 shadow-md hover:shadow-xl transition-all"
-                    >
-                      <Download className="w-5 h-5 mr-3" />
-                      Donate $20 via PayPal
-                    </Button>
-                  </div>
-                </Link>
-                <p className="text-sm text-blue-500 mt-3 italic">
-                  Opens PayPal in a new tab – then return here to download
-                </p>
-              </div>
-
-              {/* Can't Donate Box */}
-              <div className="text-center p-6 bg-slate-900/80 text-white rounded-xl border border-slate-700">
-                <AlertTriangle className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                <p className="text-sm mb-4">
-                  Can’t donate right now? That’s okay! Everyone’s situation is different.
-                  <br />
-                  You’ll still get full access.
-                </p>
-                <Link href="/sales-playbook/confirm">
-                  <div className="flex justify-center">
-                    <Button
-                      size="lg"
-                      className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-2"
-                    >
-                      No, I’m special and I deserve it for free
-                    </Button>
-                  </div>
-                </Link>
-              </div>
-
               {/* What's Inside */}
               <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6">
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4 text-center">
@@ -158,10 +99,23 @@ export default function SalesPlaybookPage() {
                 </div>
               </div>
 
-              {/* Footer */}
+              {/* Buy Button */}
+              <div className="text-center space-y-3">
+                <a href="https://ko-fi.com/s/a996910e4a" target="_blank" rel="noopener noreferrer">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-500 dark:hover:bg-blue-600"
+                  >
+                    ❤️ Access This Playbook
+                  </Button>
+                </a>
+                <p className="text-sm text-slate-500 dark:text-slate-500">Buy me a sandwich! 🥪</p>
+              </div>
+
+              {/* Additional Info */}
               <div className="text-center space-y-2 pt-4 border-t border-slate-200 dark:border-slate-700">
                 <p className="text-xs text-slate-500 dark:text-slate-500">
-                  This playbook includes real campaigns and messaging tested across hundreds of enterprise deals.
+                  This 25-page playbook represents hours of testing and real-world experience. Your support helps me build more high-impact resources like this.
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-500">
                   Questions?{' '}
