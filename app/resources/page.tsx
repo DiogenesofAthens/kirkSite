@@ -50,7 +50,7 @@ const guides = [
     id: "launchpad",
     title: "Digital Identity Launchpad",
     description: "Launch your professional presence with a website just like this one!",
-    funText: "Help pay my Morgatge 🏠",
+    funText: "Help pay my Mortgage 🏠",
     icon: "FileText",
     donationIcon: "Heart",
     link: "/launchpad",
