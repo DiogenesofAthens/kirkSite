@@ -1,26 +1,13 @@
-"use client"
-
-import { useState } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FileText, DollarSign } from "lucide-react"
+import { FileText, Star, CheckCircle } from "lucide-react"
+import Link from "next/link"
 
-export default function SDRProcessGuide() {
-  const [pdfFile, setPdfFile] = useState<string | null>(null)
-  const [fileName, setFileName] = useState("sdr-process-guide.pdf")
-
-  const handleDonateClick = () => {
-    // Open PayPal in new tab
-    window.open("https://paypal.me/grantglazer/10", "_blank")
-    // Open confirmation page in another new tab
-    window.open("/downloads/sdr-process-guide/confirm", "_blank")
-  }
-
+export default function SDRProcessGuidePage() {
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
-      {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse dark:bg-blue-800/20"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000 dark:bg-purple-800/20"></div>
@@ -30,70 +17,106 @@ export default function SDRProcessGuide() {
       <TimezoneClock />
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-2xl mx-auto">
-          {/* Resource Card */}
-          <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm mb-8 dark:bg-slate-900/90 dark:border dark:border-slate-800">
-            <CardHeader className="text-center pb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FileText className="w-8 h-8 text-white" />
+        <div className="max-w-4xl mx-auto">
+          <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm dark:bg-slate-800/90 dark:border dark:border-slate-700">
+            <CardHeader className="text-center pb-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <FileText className="w-10 h-10 text-white" />
               </div>
-              <CardTitle className="text-3xl md:text-4xl font-bold text-slate-900 mb-2 dark:text-slate-50">
+              <CardTitle className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-4">
                 SDR Process Guide
               </CardTitle>
-              <p className="text-lg text-slate-600 leading-relaxed max-w-lg mx-auto dark:text-slate-400">
-                A complete guide to qualifying leads, Salesforce best practices, and SDR workflows.
-              </p>
+              <CardDescription className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
+                Complete guide to qualifying leads, Salesforce best practices, and SDR workflows
+              </CardDescription>
             </CardHeader>
 
-            <CardContent className="text-center space-y-6">
-              {/* Price and Donation */}
-              <div className="bg-slate-50 rounded-lg p-6 dark:bg-slate-800 dark:border dark:border-slate-700">
-                <div className="flex flex-col items-center justify-center gap-2 mb-4 sm:flex-row">
-                  <DollarSign className="w-5 h-5 text-green-600 dark:text-green-500" />
-                  <span className="text-2xl font-bold text-slate-900 dark:text-slate-200">$10</span>
-                  <span className="text-slate-600 dark:text-slate-400">suggested donation</span>
+            <CardContent className="space-y-8">
+              <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4 text-center">
+                  What You'll Learn
+                </h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Managing Salesforce Queue & Lead Status
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Call Templates & Sales Scripts
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Qualifying Questions by Role
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Email Templates for Every Scenario
+                    </li>
+                  </ul>
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Lead Conversion Best Practices
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Outlook Calendar Integration
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      Duplicate Management Process
+                    </li>
+                    <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      25+ Email Templates Ready to Use
+                    </li>
+                  </ul>
                 </div>
-
-                <Button
-                  onClick={handleDonateClick}
-                  size="lg"
-                  className="w-full max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 mb-4 dark:bg-blue-700 dark:hover:bg-blue-800 text-base md:text-lg rounded-lg transition-colors duration-200 mx-auto block"
-                >
-                  Donate $10 via PayPal
-                </Button>
-
-                <p className="text-sm text-slate-500 italic dark:text-slate-400">
-                  This will open PayPal and your download page in new tabs.
-                </p>
               </div>
 
-              {/* What's Included */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 dark:bg-blue-900/20 dark:border-blue-800">
-                <h3 className="font-semibold text-slate-900 mb-3 dark:text-slate-200">What's Included:</h3>
-                <ul className="text-left max-w-md mx-auto space-y-2 text-sm text-slate-700 dark:text-slate-400">
-                  <li>• Complete SDR qualification framework</li>
-                  <li>• Salesforce best practices and workflows</li>
-                  <li>• Email templates and call scripts</li>
-                  <li>• Lead scoring and prioritization methods</li>
-                  <li>• Performance tracking and KPI guidelines</li>
-                  <li>• Real-world examples and case studies</li>
-                </ul>
+              {/* Testimonial */}
+              <div className="bg-gradient-to-r from-indigo-50 to-pink-50 dark:bg-gradient-to-r dark:from-indigo-900/30 dark:to-pink-900/30 border border-indigo-200 dark:border-indigo-700 rounded-xl p-6">
+                <div className="flex items-center justify-center gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <blockquote className="text-lg text-slate-700 dark:text-slate-300 italic text-center mb-4">
+                  "This guide helped streamline my entire SDR onboarding process—seriously a game changer."
+                </blockquote>
+                <div className="text-center text-slate-600 dark:text-slate-400">
+                  <strong>Alex Martinez</strong>
+                  <br />
+                  Sales Enablement Manager
+                </div>
+              </div>
+
+              {/* Buy Button */}
+              <div className="text-center space-y-3">
+                <a href="https://ko-fi.com/s/c8409694f8" target="_blank" rel="noopener noreferrer">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-500 dark:hover:bg-blue-600"
+                  >
+                    ❤️ Access This Guide
+                  </Button>
+                </a>
+                <p className="text-sm text-slate-500 dark:text-slate-500">Buy me a pizza! 🍕</p>
+              </div>
+
+              {/* Additional Info */}
+              <div className="text-center space-y-2 pt-4 border-t border-slate-200 dark:border-slate-700">
+                <p className="text-xs text-slate-500 dark:text-slate-500">
+                  This 25-page guide represents hours of research and real-world experience. Your support helps me create more valuable resources like this.
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-500">
+                  Questions? <Link href="/" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 underline">Contact Grant</Link>
+                </p>
               </div>
             </CardContent>
           </Card>
-
-          {/* Additional Info */}
-          <div className="text-center">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Need help or have questions?{" "}
-              <a
-                href="mailto:grant@grantglazer.com"
-                className="text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-400"
-              >
-                Contact Grant
-              </a>
-            </p>
-          </div>
         </div>
       </div>
     </div>
