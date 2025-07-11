@@ -26,7 +26,7 @@ const guides = [
     funText: "Buy me a coffee ☕",
     icon: "FileText",
     donationIcon: "Coffee",
-    link: "/downloads/sdr-process-guide/confirm",
+    link: "/downloads/sdr-process-guide",
   },
   {
     id: "media-server-guide",
@@ -35,7 +35,7 @@ const guides = [
     funText: "Buy me a pizza 🍕",
     icon: "FileText",
     donationIcon: "Heart",
-    link: "/downloads/media-server-guide/confirm",
+    link: "/downloads/media-server-guide",
   },
   {
     id: "sales-email-playbook",
