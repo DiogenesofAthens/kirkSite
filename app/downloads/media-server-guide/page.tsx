@@ -2,7 +2,7 @@ import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Download, FileText, Star, CheckCircle, Users, Shield } from "lucide-react"
+import { FileText, Star, CheckCircle, Users, Shield } from "lucide-react"
 import Link from "next/link"
 
 export default function MediaServerGuidePage() {
@@ -114,18 +114,17 @@ export default function MediaServerGuidePage() {
                 </div>
               </div>
 
-              {/* Download Button */}
-              <div className="text-center">
-                <Link href="/downloads/media-server-guide/confirm">
+              {/* Buy Button */}
+              <div className="text-center space-y-3">
+                <a href="https://ko-fi.com/s/305aedade0" target="_blank" rel="noopener noreferrer">
                   <Button
                     size="lg"
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold text-lg px-12 py-4 shadow-lg hover:shadow-xl transition-all dark:bg-green-500 dark:hover:bg-green-600"
+                    className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-500 dark:hover:bg-blue-600"
                   >
-                    <Download className="w-5 h-5 mr-3" />
-                    Get Your Media Server Guide
+                    ❤️ Access This Guide
                   </Button>
-                </Link>
-                <p className="text-sm text-slate-500 dark:text-slate-500 mt-3">Suggested donation: $12 🍕</p>
+                </a>
+                <p className="text-sm text-slate-500 dark:text-slate-500">Buy me a pizza! 🍕</p>
               </div>
 
               {/* Additional Info */}
@@ -134,13 +133,7 @@ export default function MediaServerGuidePage() {
                   This guide includes real hardware recommendations and tested configurations.
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-500">
-                  Questions?{" "}
-                  <Link
-                    href="/"
-                    className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 underline"
-                  >
-                    Contact Grant
-                  </Link>
+                  Questions? <Link href="/" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 underline">Contact Grant</Link>
                 </p>
               </div>
             </CardContent>
