@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { CheckCircle, FileText, PenTool } from "lucide-react"
 import Lottie from "lottie-react"
-import rocketAnimation from "@/public/images/rocket-ani.json"
+import rocketAnimation from "@/public/images/Launching.json"
 import { useRouter } from "next/navigation"
 import { submitLaunchForm } from "@/app/actions/submitLaunch"
 
