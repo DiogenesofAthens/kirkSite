@@ -1,10 +1,27 @@
 "use client"
 
-import ReactMarkdown from "react-markdown"
+import { useState } from "react"
+import { FloatingNav } from "@/components/floating-nav"
+import { TimezoneClock } from "@/components/timezone-clock"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Calendar, Clock, ArrowLeft, X } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
-const content = `
-# Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV
+export default function CutCablePage() {
+  const [isEditing, setIsEditing] = useState(false)
+  const [modalImage, setModalImage] = useState<null | { url: string; alt: string }>(null)
+
+  const content = {
+    title: "Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV",
+    excerpt: "How I dropped my cable bill and built a better live TV experience with Plex and HDHomeRun.",
+    category: "Smart Home",
+    readTime: "5 min read",
+    publishDate: "2025-07-02",
+    heroImage: "/images/cable.png",
+    body: `# Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV
 
 My Xfinity cable TV promo was about to expire. That meant my bill was about to jump for the same channels, one DVR box, and internet I already had. Instead of locking into another contract, I decided to cut the TV side of the service entirely.
 
@@ -67,20 +84,105 @@ Most importantly, I’m not locked into another overpriced bundle with hidden fe
 
 ## Final Thoughts
 
-This setup pays for itself in three months. It gives me more control, better flexibility, and fewer limitations than my old Xfinity bundle ever did. If you're thinking about cutting the cord, skip the streaming bundles and go OTA with a Plex DVR. You’ll never look back.
-`
+This setup pays for itself in three months. It gives me more control, better flexibility, and fewer limitations than my old Xfinity bundle ever did. If you're thinking about cutting the cord, skip the streaming bundles and go OTA with a Plex DVR. You’ll never look back.`,
+  }
 
-export default function CutCablePage() {
+  function ImageModal({ image, onClose }: { image: { url: string; alt: string }; onClose: () => void }) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80" onClick={onClose}>
+        <div className="relative max-w-3xl w-full" onClick={(e) => e.stopPropagation()}>
+          <button
+            onClick={onClose}
+            className="absolute top-2 right-2 text-white bg-black/50 hover:bg-black/80 rounded-full p-2 z-10"
+            aria-label="Close image modal"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <Image
+            src={image.url}
+            alt={image.alt}
+            width={1200}
+            height={800}
+            className="rounded shadow-xl w-full max-h-[80vh] object-contain"
+            priority
+          />
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10 prose dark:prose-invert">
-      <Image
-        src="/images/cable.png"
-        alt="Throwing away cable box"
-        width={800}
-        height={400}
-        className="rounded-xl mb-8"
-      />
-      <ReactMarkdown>{content}</ReactMarkdown>
+    <div className="min-h-screen gradient-bg relative overflow-hidden">
+      <FloatingNav />
+      <TimezoneClock />
+
+      {modalImage && (
+        <ImageModal image={modalImage} onClose={() => setModalImage(null)} />
+      )}
+
+      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-4xl mx-auto">
+          <Link href="/blog" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Blog
+          </Link>
+
+          <Card className="glass border-0 shadow-xl mb-8">
+            <CardContent className="p-8">
+              <Badge variant="secondary" className="mb-4">{content.category}</Badge>
+              <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 dark:text-gray-100">
+                {content.title}
+              </h1>
+
+              <div className="flex items-center gap-6 text-sm text-slate-600 mb-6 dark:text-gray-400">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  {new Date(content.publishDate + "T12:00:00").toLocaleDateString()}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  {content.readTime}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setModalImage({ url: content.heroImage, alt: content.title })}
+                className="w-full"
+                style={{ background: "none", border: 0, padding: 0, cursor: "pointer" }}
+                aria-label="View hero image"
+              >
+                <Image
+                  src={content.heroImage || "/placeholder.svg"}
+                  alt={content.title}
+                  width={800}
+                  height={400}
+                  className="w-full h-64 object-cover rounded-lg transition-transform hover:scale-105 duration-200"
+                />
+              </button>
+
+              <p className="text-lg text-slate-600 mt-6 leading-relaxed dark:text-gray-400">
+                {content.excerpt}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="glass border-0 shadow-xl mb-8">
+            <CardContent className="p-8">
+              <div className="prose prose-lg max-w-none dark:text-gray-400 dark:prose-invert whitespace-pre-wrap">
+                {content.body}
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="flex justify-between items-center">
+            <Link href="/blog" className="text-blue-600 hover:text-blue-700">
+              ← Back to all posts
+            </Link>
+            <div className="text-sm text-gray-500 dark:text-gray-400">Share this post</div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
