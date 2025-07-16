@@ -22,6 +22,7 @@ export default function ClockPage() {
   const [use24Hour, setUse24Hour] = useState(false)
   const [selectedHour, setSelectedHour] = useState(new Date().getHours())
   const inputRef = useRef<HTMLInputElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -45,7 +46,7 @@ export default function ClockPage() {
     })
   }
 
-  const isNight = (tz: string, hour: number) => {
+  const isNight = (tz: string) => {
     const localHour = new Date().toLocaleTimeString("en-US", {
       timeZone: tz,
       hour: "numeric",
@@ -66,6 +67,15 @@ export default function ClockPage() {
 
   const removeZone = (tz: string) => setZones(zones.filter((z) => z !== tz))
 
+  useEffect(() => {
+    const container = scrollRef.current
+    if (container) {
+      const cellWidth = 56
+      const centerOffset = (selectedHour + 0.5) * cellWidth - container.offsetWidth / 2
+      container.scrollTo({ left: centerOffset, behavior: "smooth" })
+    }
+  }, [selectedHour])
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-200 dark:from-slate-900 dark:to-slate-800 text-slate-900 dark:text-white px-4 py-16">
       <div className="max-w-6xl mx-auto">
@@ -79,8 +89,8 @@ export default function ClockPage() {
           </label>
         </div>
 
-        <div className="overflow-x-auto border rounded-lg bg-white dark:bg-slate-800">
-          <div className="min-w-[600px] grid grid-cols-[200px_repeat(24,minmax(40px,1fr))] border-b sticky top-0 z-10 bg-white dark:bg-slate-800">
+        <div className="overflow-x-auto border rounded-lg bg-white dark:bg-slate-800" ref={scrollRef}>
+          <div className="min-w-[56rem] grid grid-cols-[200px_repeat(24,56px)] border-b sticky top-0 z-10 bg-white dark:bg-slate-800">
             <div className="px-4 py-2 font-semibold text-slate-600 dark:text-slate-300 border-r">Timezone</div>
             {Array.from({ length: 24 }).map((_, i) => (
               <div
@@ -88,18 +98,17 @@ export default function ClockPage() {
                 className={`text-center px-2 py-1 border-r cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/40 ${selectedHour === i ? "bg-blue-500 text-white dark:bg-blue-700" : "text-slate-700 dark:text-slate-200"}`}
                 onClick={() => setSelectedHour(i)}
               >
-                {use24Hour ? `${i.toString().padStart(2, "0")}:00` :
-                  `${((i % 12) || 12)} ${i < 12 ? "AM" : "PM"}`}
+                {use24Hour ? `${i.toString().padStart(2, "0")}:00` : `${((i % 12) || 12)} ${i < 12 ? "AM" : "PM"}`}
               </div>
             ))}
           </div>
 
           {zones.map((tz) => {
-            const isDark = isNight(tz, selectedHour)
+            const isDark = isNight(tz)
             return (
               <div
                 key={tz}
-                className={`grid grid-cols-[200px_repeat(24,minmax(40px,1fr))] border-b text-sm ${isDark ? "bg-slate-900/60 text-white" : "bg-slate-100 dark:bg-slate-700"}`}
+                className={`grid grid-cols-[200px_repeat(24,56px)] border-b text-sm ${isDark ? "bg-slate-900/60 text-white" : "bg-slate-100 dark:bg-slate-700"}`}
               >
                 <div className="flex justify-between items-center px-4 py-2 font-semibold border-r">
                   <div className="flex items-center gap-2">
