@@ -73,13 +73,13 @@ While aiming the antenna inside, I wanted to test each channel one at a time to 
       {
         type: "chatgpt-block",
         prompt: `Give me a command I can run in PowerShell using hdhomerun_config to test a specific virtual channel and return the tuner status. Use channel 6.2 as the example. I’m using tuner0.`,
-        response: `.\hdhomerun_config 192.168.86.XX set /tuner0/vchannel 6.2
+        response: `.\hdhomerun_config 192.168.XX.XX set /tuner0/vchannel 6.2
 Start-Sleep -Seconds 2
-.\hdhomerun_config 192.168.86.XX get /tuner0/status`
+.\hdhomerun_config 192.168.XX.XX get /tuner0/status`
       },
       {
         type: "markdown",
-        text: `You can change the virtual channel number and repeat for each one. It made checking signal quality fast and easy while moving the antenna slightly between tests.`
+        text: `You can change the virtual channel number and repeat for each one. (Or ask chatgpt to do it and one click copy paste) It made checking signal quality fast and easy while moving the antenna slightly between tests.`
       },
       {
         type: "markdown",
@@ -93,7 +93,7 @@ Most importantly, I’m not locked into another overpriced bundle with hidden fe
         type: "markdown",
         text: `## Final Thoughts
 
-This setup pays for itself in three months. It gives me more control, better flexibility, and fewer limitations than my old Xfinity bundle ever did. If you're thinking about cutting the cord, skip the streaming bundles and go OTA with a Plex DVR. You’ll never look back.`
+This setup pays for itself in four months. It gives me more control, better flexibility, and fewer limitations than my old Xfinity bundle ever did. If you're thinking about cutting the cord, skip the streaming bundles and go OTA with a Plex DVR. You’ll never look back.`
       }
     ]
   }
