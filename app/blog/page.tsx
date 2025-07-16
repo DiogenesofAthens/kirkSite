@@ -16,6 +16,15 @@ export default function Blog() {
 
   const blogPosts = [
     {
+      title: "Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV",
+      excerpt:
+        "How I dropped my cable bill and built a better live TV experience with Plex and HDHomeRun.",
+      date: "2025-07-15",
+      readTime: "5 min read",
+      category: "Smart Home",
+      slug: "cut-cable",
+    },
+    {
       title: "From Scripts to Speedtest Tracker: How I Monitor My Internet Like a Pro (2025 Edition)",
       excerpt:
         "From using a Raspberry Pi, IFTTT and Google sheets in 2017 to using Docker and Unraid today. Here's how you can log your internet speeds too.",
