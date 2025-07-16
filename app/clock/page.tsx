@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { Clock, X, Sun, Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { FloatingNav } from "@/components/floating-nav";
+import { TimezoneClock } from "@/components/timezone-clock";
 
 const allTimezones = Intl.supportedValuesOf("timeZone");
 
@@ -75,7 +77,8 @@ export default function ClockPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SiteHeader />
+      <FloatingNav />
+      <TimezoneClock />
       <main className="px-4 pt-24 pb-12">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -93,20 +96,14 @@ export default function ClockPage() {
 
           <div className="overflow-x-auto rounded-lg bg-muted/30 shadow-inner border border-border">
             <div className="grid grid-cols-[160px_repeat(24,56px)] min-w-[1500px] text-sm relative">
-              {/* Current Time Indicator */}
               <div
-                className="absolute top-0 left-[calc(160px+56px*var(--current-hour))] w-[56px] h-full pointer-events-none border-l-2 border-blue-500 z-10"
-                style={{
-                  left: `calc(160px + 56px * ${currentHour})`
-                }}
+                className="absolute top-0 w-[56px] h-full pointer-events-none border-l-2 border-blue-500 z-10"
+                style={{ left: `calc(160px + 56px * ${currentHour})` }}
               />
-              {/* Hover Tracker */}
               {hoveredHour !== null && (
                 <div
-                  className="absolute top-0 left-[calc(160px+56px*var(--hover-hour))] w-[56px] h-full pointer-events-none bg-blue-500/10 z-0"
-                  style={{
-                    left: `calc(160px + 56px * ${hoveredHour})`
-                  }}
+                  className="absolute top-0 w-[56px] h-full pointer-events-none bg-blue-500/10 z-0"
+                  style={{ left: `calc(160px + 56px * ${hoveredHour})` }}
                 />
               )}
               <div className="contents">
