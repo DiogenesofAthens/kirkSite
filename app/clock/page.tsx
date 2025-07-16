@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { Clock, X, Sun, Moon } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 const allTimezones = Intl.supportedValuesOf("timeZone")
 
@@ -22,12 +23,9 @@ export default function ClockPage() {
   const [use24Hour, setUse24Hour] = useState(false)
   const [selectedHour, setSelectedHour] = useState(new Date().getHours())
   const inputRef = useRef<HTMLInputElement>(null)
-  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(new Date())
-    }, 60000)
+    const timer = setInterval(() => setTime(new Date()), 60000)
     return () => clearInterval(timer)
   }, [])
 
@@ -67,19 +65,10 @@ export default function ClockPage() {
 
   const removeZone = (tz: string) => setZones(zones.filter((z) => z !== tz))
 
-  useEffect(() => {
-    const container = scrollRef.current
-    if (container) {
-      const cellWidth = 56
-      const centerOffset = (selectedHour + 0.5) * cellWidth - container.offsetWidth / 2
-      container.scrollTo({ left: centerOffset, behavior: "smooth" })
-    }
-  }, [selectedHour])
-
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-200 dark:from-slate-900 dark:to-slate-800 text-slate-900 dark:text-white px-4 py-16">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+    <main className="min-h-screen px-4 py-24 bg-background text-foreground">
+      <div className="max-w-7xl mx-auto space-y-8">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
           <h1 className="text-3xl font-bold flex items-center gap-2">
             <Clock className="w-6 h-6" /> Timezone Converter
           </h1>
@@ -89,50 +78,37 @@ export default function ClockPage() {
           </label>
         </div>
 
-        <div className="overflow-x-auto border rounded-lg bg-white dark:bg-slate-800" ref={scrollRef}>
-          <div className="min-w-[56rem] grid grid-cols-[200px_repeat(24,56px)] border-b sticky top-0 z-10 bg-white dark:bg-slate-800">
-            <div className="px-4 py-2 font-semibold text-slate-600 dark:text-slate-300 border-r">Timezone</div>
-            {Array.from({ length: 24 }).map((_, i) => (
-              <div
-                key={i}
-                className={`text-center px-2 py-1 border-r cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/40 ${selectedHour === i ? "bg-blue-500 text-white dark:bg-blue-700" : "text-slate-700 dark:text-slate-200"}`}
-                onClick={() => setSelectedHour(i)}
-              >
-                {use24Hour ? `${i.toString().padStart(2, "0")}:00` : `${((i % 12) || 12)} ${i < 12 ? "AM" : "PM"}`}
-              </div>
-            ))}
-          </div>
-
-          {zones.map((tz) => {
-            const isDark = isNight(tz)
-            return (
-              <div
-                key={tz}
-                className={`grid grid-cols-[200px_repeat(24,56px)] border-b text-sm ${isDark ? "bg-slate-900/60 text-white" : "bg-slate-100 dark:bg-slate-700"}`}
-              >
-                <div className="flex justify-between items-center px-4 py-2 font-semibold border-r">
-                  <div className="flex items-center gap-2">
+        <div className="overflow-x-auto border rounded-lg bg-muted/30 shadow-inner">
+          <div className="grid grid-cols-[160px_repeat(24,56px)] min-w-[1500px] text-sm">
+            {zones.map((tz) => (
+              <div key={tz} className="contents">
+                <div className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b">
+                  <span className="flex items-center gap-1">
                     {tz.split("/").pop()?.replace("_", " ")}
-                    {isDark ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />}
-                  </div>
-                  <button onClick={() => removeZone(tz)} className="text-slate-400 hover:text-red-500">
+                    {isNight(tz) ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />}
+                  </span>
+                  <button onClick={() => removeZone(tz)} className="text-muted-foreground hover:text-red-500">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
-                {Array.from({ length: 24 }).map((_, i) => (
+                {Array.from({ length: 24 }).map((_, hour) => (
                   <div
-                    key={i}
-                    className={`text-center px-2 py-2 border-r ${selectedHour === i ? "bg-blue-200 dark:bg-blue-700/50 font-bold" : ""}`}
+                    key={hour}
+                    onClick={() => setSelectedHour(hour)}
+                    className={cn(
+                      "border-r border-b text-center px-1 py-2 cursor-pointer",
+                      selectedHour === hour ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-accent hover:text-accent-foreground"
+                    )}
                   >
-                    {formatTime(time, tz, i)}
+                    {formatTime(time, tz, hour)}
                   </div>
                 ))}
               </div>
-            )
-          })}
+            ))}
+          </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-2 mt-6">
+        <div className="flex flex-col sm:flex-row items-center gap-3">
           <input
             ref={inputRef}
             type="text"
@@ -140,7 +116,7 @@ export default function ClockPage() {
             value={inputZone}
             onChange={(e) => setInputZone(e.target.value)}
             list="tz-options"
-            className="w-full px-3 py-2 rounded text-sm text-slate-800 dark:text-white bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600"
+            className="w-full px-3 py-2 rounded text-sm bg-background border border-input"
           />
           <datalist id="tz-options">
             {allTimezones.map((tz) => (
@@ -149,7 +125,7 @@ export default function ClockPage() {
           </datalist>
           <button
             onClick={addZone}
-            className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded hover:bg-blue-700 w-full sm:w-auto"
+            className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 w-full sm:w-auto"
           >
             Add Timezone
           </button>
