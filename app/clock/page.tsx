@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Clock, X, Sun, Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { SiteHeader } from "@/components/site-header";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const allTimezones = Intl.supportedValuesOf("timeZone");
