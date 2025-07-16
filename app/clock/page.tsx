@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react"
 import { Clock, X, Sun, Moon } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { SiteHeader } from "@/components/site-header"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const allTimezones = Intl.supportedValuesOf("timeZone")
 
@@ -65,72 +67,82 @@ export default function ClockPage() {
 
   const removeZone = (tz: string) => setZones(zones.filter((z) => z !== tz))
 
-  return (
-    <main className="min-h-screen px-4 py-24 bg-background text-foreground">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Clock className="w-6 h-6" /> Timezone Converter
-          </h1>
-          <label className="text-sm flex items-center gap-2">
-            <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
-            24-Hour
-          </label>
-        </div>
+  const filteredTimezones = allTimezones.filter((tz) =>
+    tz.toLowerCase().includes(inputZone.trim().toLowerCase())
+  )
 
-        <div className="overflow-x-auto border rounded-lg bg-muted/30 shadow-inner">
-          <div className="grid grid-cols-[160px_repeat(24,56px)] min-w-[1500px] text-sm">
-            {zones.map((tz) => (
-              <div key={tz} className="contents">
-                <div className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b">
-                  <span className="flex items-center gap-1">
-                    {tz.split("/").pop()?.replace("_", " ")}
-                    {isNight(tz) ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />}
-                  </span>
-                  <button onClick={() => removeZone(tz)} className="text-muted-foreground hover:text-red-500">
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-                {Array.from({ length: 24 }).map((_, hour) => (
-                  <div
-                    key={hour}
-                    onClick={() => setSelectedHour(hour)}
-                    className={cn(
-                      "border-r border-b text-center px-1 py-2 cursor-pointer",
-                      selectedHour === hour ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-accent hover:text-accent-foreground"
-                    )}
-                  >
-                    {formatTime(time, tz, hour)}
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <SiteHeader />
+      <main className="px-4 py-24">
+        <div className="max-w-7xl mx-auto space-y-8">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <h1 className="text-3xl font-bold flex items-center gap-2">
+              <Clock className="w-6 h-6" /> Timezone Converter
+            </h1>
+            <div className="flex items-center gap-4">
+              <label className="text-sm flex items-center gap-2">
+                <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
+                24-Hour
+              </label>
+              <ThemeToggle />
+            </div>
+          </div>
+
+          <div className="overflow-x-auto border rounded-lg bg-muted/30 shadow-inner">
+            <div className="grid grid-cols-[160px_repeat(24,56px)] min-w-[1500px] text-sm">
+              {zones.map((tz) => (
+                <div key={tz} className="contents">
+                  <div className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b">
+                    <span className="flex items-center gap-1">
+                      {tz.split("/").pop()?.replace("_", " ")}
+                      {isNight(tz) ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />}
+                    </span>
+                    <button onClick={() => removeZone(tz)} className="text-muted-foreground hover:text-red-500">
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
-                ))}
-              </div>
-            ))}
+                  {Array.from({ length: 24 }).map((_, hour) => (
+                    <div
+                      key={hour}
+                      onClick={() => setSelectedHour(hour)}
+                      className={cn(
+                        "border-r border-b text-center px-1 py-2 cursor-pointer",
+                        selectedHour === hour ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-accent hover:text-accent-foreground"
+                      )}
+                    >
+                      {formatTime(time, tz, hour)}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Search or enter a timezone (e.g. Asia/Tokyo)"
+              value={inputZone}
+              onChange={(e) => setInputZone(e.target.value)}
+              className="w-full px-3 py-2 rounded text-sm bg-background border border-input"
+              list="tz-options"
+            />
+            <datalist id="tz-options">
+              {filteredTimezones.map((tz) => (
+                <option key={tz} value={tz} />
+              ))}
+            </datalist>
+            <button
+              onClick={addZone}
+              className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 w-full sm:w-auto"
+            >
+              Add Timezone
+            </button>
           </div>
         </div>
-
-        <div className="flex flex-col sm:flex-row items-center gap-3">
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="e.g. Asia/Tokyo"
-            value={inputZone}
-            onChange={(e) => setInputZone(e.target.value)}
-            list="tz-options"
-            className="w-full px-3 py-2 rounded text-sm bg-background border border-input"
-          />
-          <datalist id="tz-options">
-            {allTimezones.map((tz) => (
-              <option key={tz} value={tz} />
-            ))}
-          </datalist>
-          <button
-            onClick={addZone}
-            className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 w-full sm:w-auto"
-          >
-            Add Timezone
-          </button>
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
   )
 }
