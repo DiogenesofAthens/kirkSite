@@ -11,17 +11,17 @@ import Link from "next/link"
 import Image from "next/image"
 
 export default function CutCablePage() {
+  const [isEditing, setIsEditing] = useState(false)
   const [modalImage, setModalImage] = useState<null | { url: string; alt: string }>(null)
 
   const content = {
     title: "Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV",
-    excerpt:
-      "How I dropped my cable bill and built a better live TV experience with Plex and HDHomeRun.",
+    excerpt: "How I dropped my cable bill and built a better live TV experience with Plex and HDHomeRun.",
     category: "Smart Home",
     readTime: "5 min read",
     publishDate: "2025-07-02",
     heroImage: "/images/cable.png",
-    body: `# Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV
+    body: String.raw`# Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV
 
 My Xfinity cable TV promomotion was about to expire. That meant my bill was about to jump an additional $40/month for the same channels, one DVR box, and internet I already had. Instead of locking into another contract, I decided to cut the TV side of the service entirely.
 
@@ -52,7 +52,7 @@ I can reorder channels, filter out shopping or any other channels I don’t care
 
 - You can set up season passes, daily recordings, or one-offs  
 - Automatically skip commercials with Comskip  
-- Record to NAS or external drive, in my case my unraid server
+- Record to NAS or external drive, in my case my unraid server  
 - Access live and recorded TV from anywhere with Plex remote streaming  
 - Customize your guide so only the channels you want show up in the order you want
 
@@ -63,16 +63,15 @@ While aiming the antenna inside, I wanted to test each channel one at a time to 
 I used ChatGPT to generate quick copy-paste commands for every channel I was testing. Here’s an example of what I asked:
 
 Prompt:
-```
-Give me a command I can run in PowerShell using hdhomerun_config to test a specific virtual channel and return the tuner status. Use channel 6.2 as the example. I’m using tuner0.
-```
+\`Give me a command I can run in PowerShell using hdhomerun_config to test a specific virtual channel and return the tuner status. Use channel 6.2 as the example. I’m using tuner0.\`
 
 Response:
-```powershell
+
+\`\`\`powershell
 .\hdhomerun_config 192.168.86.XX set /tuner0/vchannel 6.2
 Start-Sleep -Seconds 2
 .\hdhomerun_config 192.168.86.XX get /tuner0/status
-```
+\`\`\`
 
 You can change the virtual channel number and repeat for each one. It made checking signal quality fast and easy while moving the antenna slightly between tests.
 
@@ -116,7 +115,9 @@ This setup pays for itself in three months. It gives me more control, better fle
       <FloatingNav />
       <TimezoneClock />
 
-      {modalImage && <ImageModal image={modalImage} onClose={() => setModalImage(null)} />}
+      {modalImage && (
+        <ImageModal image={modalImage} onClose={() => setModalImage(null)} />
+      )}
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
@@ -127,9 +128,7 @@ This setup pays for itself in three months. It gives me more control, better fle
 
           <Card className="glass border-0 shadow-xl mb-8">
             <CardContent className="p-8">
-              <Badge variant="secondary" className="mb-4">
-                {content.category}
-              </Badge>
+              <Badge variant="secondary" className="mb-4">{content.category}</Badge>
               <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 dark:text-gray-100">
                 {content.title}
               </h1>
@@ -170,40 +169,23 @@ This setup pays for itself in three months. It gives me more control, better fle
           <Card className="glass border-0 shadow-xl mb-8">
             <CardContent className="p-8">
               <div className="prose prose-lg max-w-none dark:text-gray-400 dark:prose-invert whitespace-pre-wrap">
-                {content.body.split("\n").map((line, index) => {
-                  if (line.startsWith("# ")) {
-                    return (
-                      <h1 key={index} className="text-3xl font-bold mt-8 mb-4">
-                        {line.slice(2)}
-                      </h1>
-                    )
-                  } else if (line.startsWith("## ")) {
-                    return (
-                      <h2 key={index} className="text-2xl font-bold mt-6 mb-3">
-                        {line.slice(3)}
-                      </h2>
-                    )
-                  } else if (line.startsWith("### ")) {
-                    return (
-                      <h3 key={index} className="text-xl font-bold mt-4 mb-2">
-                        {line.slice(4)}
-                      </h3>
-                    )
-                  } else if (line.startsWith("- ")) {
-                    return (
-                      <li key={index} className="ml-4">
-                        {line.slice(2)}
-                      </li>
-                    )
-                  } else if (line.trim() === "") {
-                    return <br key={index} />
-                  } else {
-                    return (
-                      <p key={index} className="mb-4 leading-relaxed">
-                        {line}
-                      </p>
-                    )
+                {content.body.split("\n").map((paragraph, index) => {
+                  if (paragraph.startsWith("# ")) {
+                    return <h1 key={index} className="text-3xl font-bold mt-8 mb-4">{paragraph.slice(2)}</h1>
                   }
+                  if (paragraph.startsWith("## ")) {
+                    return <h2 key={index} className="text-2xl font-bold mt-6 mb-3">{paragraph.slice(3)}</h2>
+                  }
+                  if (paragraph.startsWith("### ")) {
+                    return <h3 key={index} className="text-xl font-bold mt-4 mb-2">{paragraph.slice(4)}</h3>
+                  }
+                  if (paragraph.startsWith("- ")) {
+                    return <li key={index} className="ml-4">{paragraph.slice(2)}</li>
+                  }
+                  if (paragraph.trim() === "") {
+                    return <br key={index} />
+                  }
+                  return <p key={index} className="mb-4 leading-relaxed">{paragraph}</p>
                 })}
               </div>
             </CardContent>
