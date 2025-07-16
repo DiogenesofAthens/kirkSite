@@ -74,7 +74,7 @@ export default function ClockPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
-      <main className="px-4 py-24">
+      <main className="px-4 pt-24 pb-12">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <h1 className="text-3xl font-bold flex items-center gap-2">
@@ -89,8 +89,23 @@ export default function ClockPage() {
             </div>
           </div>
 
-          <div className="overflow-x-auto border rounded-lg bg-muted/30 shadow-inner">
+          <div className="overflow-x-auto rounded-lg bg-muted/30 shadow-inner border border-border">
             <div className="grid grid-cols-[160px_repeat(24,56px)] min-w-[1500px] text-sm">
+              <div className="contents">
+                <div className="px-4 py-2 font-semibold bg-primary text-primary-foreground border-r border-b">Timezone</div>
+                {Array.from({ length: 24 }).map((_, hour) => (
+                  <div
+                    key={hour}
+                    className={cn(
+                      "border-r border-b text-center px-1 py-2 font-semibold cursor-pointer",
+                      selectedHour === hour ? "bg-blue-600 text-white" : "hover:bg-accent hover:text-accent-foreground"
+                    )}
+                    onClick={() => setSelectedHour(hour)}
+                  >
+                    {use24Hour ? `${hour.toString().padStart(2, '0')}:00` : new Date(0, 0, 0, hour).toLocaleTimeString([], { hour: 'numeric', hour12: true })}
+                  </div>
+                ))}
+              </div>
               {zones.map((tz) => (
                 <div key={tz} className="contents">
                   <div className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b">
