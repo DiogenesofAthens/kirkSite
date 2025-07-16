@@ -3,8 +3,16 @@
 import { useState, useEffect, useRef } from "react"
 import { Clock, X, Sun, Moon } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { SiteHeader } from "@/components/site-header"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { FloatingNav } from "@/components/floating-nav"
+import { TimezoneClock } from "@/components/timezone-clock"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Calendar, Clock, ArrowRight, Mail } from "lucide-react"
+import Link from "next/link"
+import { useState } from "react"
+import Lottie from "lottie-react"
+import { ContactModal } from "@/components/contact-modal"
 
 const allTimezones = Intl.supportedValuesOf("timeZone")
 
