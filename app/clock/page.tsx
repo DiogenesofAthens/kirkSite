@@ -1,88 +1,78 @@
-Fix this
+"use client";
 
-"use client"
+import { useState, useEffect, useRef } from "react";
+import { Clock, X, Sun, Moon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { SiteHeader } from "@/components/site-header";
+import { ThemeToggle } from "@/components/theme-toggle";
 
-import { useState, useEffect, useRef } from "react"
-import { Clock, X, Sun, Moon } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { FloatingNav } from "@/components/floating-nav"
-import { TimezoneClock } from "@/components/timezone-clock"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Calendar, Clock, ArrowRight, Mail } from "lucide-react"
-import Link from "next/link"
-import { useState } from "react"
-import Lottie from "lottie-react"
-import { ContactModal } from "@/components/contact-modal"
-
-const allTimezones = Intl.supportedValuesOf("timeZone")
+const allTimezones = Intl.supportedValuesOf("timeZone");
 
 export default function ClockPage() {
-  const [time, setTime] = useState(new Date())
+  const [time, setTime] = useState(new Date());
   const [zones, setZones] = useState(() => {
     if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("zones")
+      const stored = localStorage.getItem("zones");
       return stored ? JSON.parse(stored) : [
         Intl.DateTimeFormat().resolvedOptions().timeZone,
         "America/New_York",
         "Europe/London"
-      ]
+      ];
     }
-    return ["America/Los_Angeles", "America/New_York", "Europe/London"]
-  })
-  const [inputZone, setInputZone] = useState("")
-  const [use24Hour, setUse24Hour] = useState(false)
-  const [selectedHour, setSelectedHour] = useState(new Date().getHours())
-  const [hoveredHour, setHoveredHour] = useState<number | null>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
+    return ["America/Los_Angeles", "America/New_York", "Europe/London"];
+  });
+  const [inputZone, setInputZone] = useState("");
+  const [use24Hour, setUse24Hour] = useState(false);
+  const [selectedHour, setSelectedHour] = useState(new Date().getHours());
+  const [hoveredHour, setHoveredHour] = useState<number | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 60000)
-    return () => clearInterval(timer)
-  }, [])
+    const timer = setInterval(() => setTime(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem("zones", JSON.stringify(zones))
-  }, [zones])
+    localStorage.setItem("zones", JSON.stringify(zones));
+  }, [zones]);
 
   const formatTime = (date: Date, tz: string, hourOverride?: number) => {
-    const newDate = new Date(date)
-    if (typeof hourOverride === "number") newDate.setHours(hourOverride, 0, 0, 0)
+    const newDate = new Date(date);
+    if (typeof hourOverride === "number") newDate.setHours(hourOverride, 0, 0, 0);
     return newDate.toLocaleTimeString(undefined, {
       timeZone: tz,
       hour12: !use24Hour,
       hour: "2-digit",
       minute: "2-digit",
-    })
-  }
+    });
+  };
 
   const isNight = (tz: string) => {
     const localHour = new Date().toLocaleTimeString("en-US", {
       timeZone: tz,
       hour: "numeric",
       hour12: false
-    })
-    const h = parseInt(localHour)
-    return h < 6 || h >= 20
-  }
+    });
+    const h = parseInt(localHour);
+    return h < 6 || h >= 20;
+  };
 
   const addZone = () => {
-    const cleaned = inputZone.trim()
+    const cleaned = inputZone.trim();
     if (cleaned && allTimezones.includes(cleaned) && !zones.includes(cleaned)) {
-      setZones([...zones, cleaned])
-      setInputZone("")
-      inputRef.current?.blur()
+      setZones([...zones, cleaned]);
+      setInputZone("");
+      inputRef.current?.blur();
     }
-  }
+  };
 
-  const removeZone = (tz: string) => setZones(zones.filter((z) => z !== tz))
+  const removeZone = (tz: string) => setZones(zones.filter((z) => z !== tz));
 
   const filteredTimezones = allTimezones.filter((tz) =>
     tz.toLowerCase().includes(inputZone.trim().toLowerCase())
-  )
+  );
 
-  const currentHour = new Date().getHours()
+  const currentHour = new Date().getHours();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -192,20 +182,5 @@ export default function ClockPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
-
-Failed to compile.
-./app/clock/page.tsx
-Module parse failed: Identifier 'Clock' has already been declared (5:9)
-File was processed with these loaders:
- * ./node_modules/.pnpm/next@15.2.4_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
- * ./node_modules/.pnpm/next@15.2.4_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
-You may need an additional loader to handle the result of these loaders.
-| import { Clock, X, Sun, Moon } from "__barrel_optimize__?names=Clock,Moon,Sun,X!=!lucide-react";
-| import { cn } from "@/lib/utils";
-> import { Clock } from "__barrel_optimize__?names=Clock!=!lucide-react";
-| import { useState } from "react";
-| const allTimezones = Intl.supportedValuesOf("timeZone");
-Import trace for requested module:
-./app/clock/page.tsx
