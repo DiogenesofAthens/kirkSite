@@ -24,6 +24,7 @@ export default function ClockPage() {
   const [inputZone, setInputZone] = useState("")
   const [use24Hour, setUse24Hour] = useState(false)
   const [selectedHour, setSelectedHour] = useState(new Date().getHours())
+  const [hoveredHour, setHoveredHour] = useState<number | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -71,6 +72,8 @@ export default function ClockPage() {
     tz.toLowerCase().includes(inputZone.trim().toLowerCase())
   )
 
+  const currentHour = new Date().getHours()
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
@@ -90,17 +93,35 @@ export default function ClockPage() {
           </div>
 
           <div className="overflow-x-auto rounded-lg bg-muted/30 shadow-inner border border-border">
-            <div className="grid grid-cols-[160px_repeat(24,56px)] min-w-[1500px] text-sm">
+            <div className="grid grid-cols-[160px_repeat(24,56px)] min-w-[1500px] text-sm relative">
+              {/* Current Time Indicator */}
+              <div
+                className="absolute top-0 left-[calc(160px+56px*var(--current-hour))] w-[56px] h-full pointer-events-none border-l-2 border-blue-500 z-10"
+                style={{
+                  left: `calc(160px + 56px * ${currentHour})`
+                }}
+              />
+              {/* Hover Tracker */}
+              {hoveredHour !== null && (
+                <div
+                  className="absolute top-0 left-[calc(160px+56px*var(--hover-hour))] w-[56px] h-full pointer-events-none bg-blue-500/10 z-0"
+                  style={{
+                    left: `calc(160px + 56px * ${hoveredHour})`
+                  }}
+                />
+              )}
               <div className="contents">
                 <div className="px-4 py-2 font-semibold bg-primary text-primary-foreground border-r border-b">Timezone</div>
                 {Array.from({ length: 24 }).map((_, hour) => (
                   <div
                     key={hour}
                     className={cn(
-                      "border-r border-b text-center px-1 py-2 font-semibold cursor-pointer",
+                      "border-r border-b text-center px-1 py-2 font-semibold cursor-pointer relative",
                       selectedHour === hour ? "bg-blue-600 text-white" : "hover:bg-accent hover:text-accent-foreground"
                     )}
                     onClick={() => setSelectedHour(hour)}
+                    onMouseEnter={() => setHoveredHour(hour)}
+                    onMouseLeave={() => setHoveredHour(null)}
                   >
                     {use24Hour ? `${hour.toString().padStart(2, '0')}:00` : new Date(0, 0, 0, hour).toLocaleTimeString([], { hour: 'numeric', hour12: true })}
                   </div>
@@ -121,6 +142,8 @@ export default function ClockPage() {
                     <div
                       key={hour}
                       onClick={() => setSelectedHour(hour)}
+                      onMouseEnter={() => setHoveredHour(hour)}
+                      onMouseLeave={() => setHoveredHour(null)}
                       className={cn(
                         "border-r border-b text-center px-1 py-2 cursor-pointer",
                         selectedHour === hour ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-accent hover:text-accent-foreground"
