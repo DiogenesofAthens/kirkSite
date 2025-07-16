@@ -14,13 +14,19 @@ export default function ClockPage() {
   const [zones, setZones] = useState(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("zones");
-      return stored ? JSON.parse(stored) : [
-        Intl.DateTimeFormat().resolvedOptions().timeZone,
-        "America/New_York",
-        "Europe/London"
-      ];
+      return stored
+        ? JSON.parse(stored)
+        : [
+            Intl.DateTimeFormat().resolvedOptions().timeZone,
+            "America/New_York",
+            "Europe/London",
+          ];
     }
-    return ["America/Los_Angeles", "America/New_York", "Europe/London"];
+    return [
+      "America/Los_Angeles",
+      "America/New_York",
+      "Europe/London",
+    ];
   });
   const [inputZone, setInputZone] = useState("");
   const [use24Hour, setUse24Hour] = useState(false);
@@ -39,7 +45,8 @@ export default function ClockPage() {
 
   const formatTime = (date: Date, tz: string, hourOverride?: number) => {
     const newDate = new Date(date);
-    if (typeof hourOverride === "number") newDate.setHours(hourOverride, 0, 0, 0);
+    if (typeof hourOverride === "number")
+      newDate.setHours(hourOverride, 0, 0, 0);
     return newDate.toLocaleTimeString(undefined, {
       timeZone: tz,
       hour12: !use24Hour,
@@ -52,7 +59,7 @@ export default function ClockPage() {
     const localHour = new Date().toLocaleTimeString("en-US", {
       timeZone: tz,
       hour: "numeric",
-      hour12: false
+      hour12: false,
     });
     const h = parseInt(localHour);
     return h < 6 || h >= 20;
@@ -87,7 +94,11 @@ export default function ClockPage() {
             </h1>
             <div className="flex items-center gap-4">
               <label className="text-sm flex items-center gap-2">
-                <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
+                <input
+                  type="checkbox"
+                  checked={use24Hour}
+                  onChange={() => setUse24Hour(!use24Hour)}
+                />
                 24-Hour
               </label>
               <ThemeToggle />
@@ -107,19 +118,28 @@ export default function ClockPage() {
                 />
               )}
               <div className="contents">
-                <div className="px-4 py-2 font-semibold bg-primary text-primary-foreground border-r border-b">Timezone</div>
+                <div className="px-4 py-2 font-semibold bg-primary text-primary-foreground border-r border-b">
+                  Timezone
+                </div>
                 {Array.from({ length: 24 }).map((_, hour) => (
                   <div
                     key={hour}
                     className={cn(
                       "border-r border-b text-center px-1 py-2 font-semibold cursor-pointer relative",
-                      selectedHour === hour ? "bg-blue-600 text-white" : "hover:bg-accent hover:text-accent-foreground"
+                      selectedHour === hour
+                        ? "bg-blue-600 text-white"
+                        : "hover:bg-accent hover:text-accent-foreground"
                     )}
                     onClick={() => setSelectedHour(hour)}
                     onMouseEnter={() => setHoveredHour(hour)}
                     onMouseLeave={() => setHoveredHour(null)}
                   >
-                    {use24Hour ? `${hour.toString().padStart(2, '0')}:00` : new Date(0, 0, 0, hour).toLocaleTimeString([], { hour: 'numeric', hour12: true })}
+                    {use24Hour
+                      ? `${hour.toString().padStart(2, "0")}:00`
+                      : new Date(0, 0, 0, hour).toLocaleTimeString([], {
+                          hour: "numeric",
+                          hour12: true,
+                        })}
                   </div>
                 ))}
               </div>
@@ -128,9 +148,16 @@ export default function ClockPage() {
                   <div className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b">
                     <span className="flex items-center gap-1">
                       {tz.split("/").pop()?.replace("_", " ")}
-                      {isNight(tz) ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />}
+                      {isNight(tz) ? (
+                        <Moon className="w-4 h-4 text-yellow-300" />
+                      ) : (
+                        <Sun className="w-4 h-4 text-yellow-400" />
+                      )}
                     </span>
-                    <button onClick={() => removeZone(tz)} className="text-muted-foreground hover:text-red-500">
+                    <button
+                      onClick={() => removeZone(tz)}
+                      className="text-muted-foreground hover:text-red-500"
+                    >
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -142,7 +169,9 @@ export default function ClockPage() {
                       onMouseLeave={() => setHoveredHour(null)}
                       className={cn(
                         "border-r border-b text-center px-1 py-2 cursor-pointer",
-                        selectedHour === hour ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-accent hover:text-accent-foreground"
+                        selectedHour === hour
+                          ? "bg-primary text-primary-foreground font-semibold"
+                          : "hover:bg-accent hover:text-accent-foreground"
                       )}
                     >
                       {formatTime(time, tz, hour)}
@@ -153,7 +182,7 @@ export default function ClockPage() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center gap-3 relative">
             <input
               ref={inputRef}
               type="text"
