@@ -21,9 +21,10 @@ export default function CutCablePage() {
     readTime: "5 min read",
     publishDate: "2025-07-02",
     heroImage: "/images/cable.png",
-    body: `# Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV
+    body: `
+# Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV
 
-My Xfinity cable TV promo was about to expire. That meant my bill was about to jump for the same channels, one DVR box, and internet I already had. Instead of locking into another contract, I decided to cut the TV side of the service entirely.
+My Xfinity cable TV promomotion was about to expire. That meant my bill was about to jump an additional $40/month for the same channels, one DVR box, and internet I already had. Instead of locking into another contract, I decided to cut the TV side of the service entirely.
 
 I wanted to keep gigabit internet with unlimited data, and I was able to lock that in for $95/month for the next five years. That left TV. I considered YouTube TV and Hulu + Live TV, but at $83/month each, they didn’t save me much—and they still came with channel bloat and monthly fees.
 
@@ -32,33 +33,33 @@ So I dropped cable and replaced it with a simple, solid OTA setup backed by Plex
 ## What I Bought
 
 - ClearStream 2V antenna – $55  
-  Picks up major local channels like NBC, ABC, CBS, FOX, PBS in 1080i
+  Picks up major local channels like NBC, ABC, CBS, FOX, PBS
 
 - HDHomeRun Flex 4K – $200  
   Streams live TV over my local network. No coax to every TV needed. Has four tuners and integrates with Plex DVR
 
-- 50ft quad-shield coaxial cable – $19  
-  Runs from the attic-mounted antenna to the HDHomeRun box
+- Quad-shield coaxial cable – $5  
+  Runs from the antenna to the HDHomeRun box
 
-Total cost: about $275. That’s less than three months of cable TV.
+Total cost: about $260. That’s about 3 months of cable TV.
 
 ## The Experience
 
-The antenna feeds signal to the HDHomeRun box. That box broadcasts those channels over the network. Plex (with a Plex Pass) handles everything else—live TV, guide, recording, commercial skipping, series pass rules, and mobile streaming.
+The antenna feeds signal to the HDHomeRun box. That box broadcasts those channels over the network. Plex (with a Plex Pass I bought 10 years ago) handles everything else—live TV, guide, recording, commercial skipping, series pass rules, and mobile streaming.
 
-I can reorder channels, filter out shopping or religious channels I don’t care about, and add favorites. The interface is smooth and modern across TV, tablet, and phone.
+I can reorder channels, filter out shopping or any other channels I don’t care about, and add favorites. The interface is smooth and modern across TV, tablet, and phone.
 
 ## Plex DVR Tips
 
 - You can set up season passes, daily recordings, or one-offs  
 - Automatically skip commercials with Comskip  
-- Record to NAS or external drive  
+- Record to NAS or external drive, in my case my unraid server
 - Access live and recorded TV from anywhere with Plex remote streaming  
 - Customize your guide so only the channels you want show up in the order you want
 
 ## Signal Testing with ChatGPT
 
-While aiming the antenna in the attic, I wanted to test each channel one at a time to dial in reception.
+While aiming the antenna inside, I wanted to test each channel one at a time to dial in reception. The app Antenna Point also helped!
 
 I used ChatGPT to generate quick copy-paste commands for every channel I was testing. Here’s an example of what I asked:
 
