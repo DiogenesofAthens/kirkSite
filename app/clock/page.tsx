@@ -1,3 +1,5 @@
+Fix this
+
 "use client"
 
 import { useState, useEffect, useRef } from "react"
@@ -192,3 +194,18 @@ export default function ClockPage() {
     </div>
   )
 }
+
+Failed to compile.
+./app/clock/page.tsx
+Module parse failed: Identifier 'Clock' has already been declared (5:9)
+File was processed with these loaders:
+ * ./node_modules/.pnpm/next@15.2.4_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-client-module-loader.js
+ * ./node_modules/.pnpm/next@15.2.4_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+You may need an additional loader to handle the result of these loaders.
+| import { Clock, X, Sun, Moon } from "__barrel_optimize__?names=Clock,Moon,Sun,X!=!lucide-react";
+| import { cn } from "@/lib/utils";
+> import { Clock } from "__barrel_optimize__?names=Clock!=!lucide-react";
+| import { useState } from "react";
+| const allTimezones = Intl.supportedValuesOf("timeZone");
+Import trace for requested module:
+./app/clock/page.tsx
