@@ -1,23 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Clock, X, Sun, Moon, GripVertical, Link2, Plus, Minus, Check } from "lucide-react";
+import { Clock, X, Sun, Moon, GripVertical, Link2, Plus, Minus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
 import Fuse from "fuse.js";
+import geoCities from "@/data/geo-cities.json";
 
-const allTimezones = Intl.supportedValuesOf("timeZone");
-const cityData = allTimezones.map((tz) => {
-  const parts = tz.split("/");
-  const city = parts[1]?.replaceAll("_", " ") || tz;
-  const country = parts[0];
-  return { city, country, timezone: tz };
-});
-
-const fuse = new Fuse(cityData, {
-  threshold: 0.4,
-  keys: ["city", "timezone", "country"]
+const fuse = new Fuse(geoCities, {
+  threshold: 0.3,
+  keys: ["city", "alt", "country"]
 });
 
 export default function ClockPage() {
@@ -27,7 +20,7 @@ export default function ClockPage() {
   const [hoveredHour, setHoveredHour] = useState<number | null>(null);
   const [use24Hour, setUse24Hour] = useState(false);
   const [input, setInput] = useState("");
-  const [results, setResults] = useState(cityData);
+  const [results, setResults] = useState(geoCities);
   const [copied, setCopied] = useState(false);
   const today = new Date();
   const dragStart = useRef<number | null>(null);
@@ -46,7 +39,7 @@ export default function ClockPage() {
   }, []);
 
   useEffect(() => {
-    if (!input.trim()) setResults(cityData);
+    if (!input.trim()) setResults(geoCities);
     else setResults(fuse.search(input.trim()).map((r) => r.item));
   }, [input]);
 
@@ -163,7 +156,7 @@ export default function ClockPage() {
             </div>
 
             {zones.map((tz, i) => {
-              const cityName = cityData.find(c => c.timezone === tz)?.city || tz;
+              const cityName = geoCities.find(c => c.timezone === tz)?.city || tz;
               return (
                 <div key={tz} className="contents group">
                   <div
