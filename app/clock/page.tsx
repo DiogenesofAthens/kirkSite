@@ -1,20 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Clock, X, Sun, Moon, GripVertical, Link2, Plus, Minus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
 import Fuse from "fuse.js";
 
 const allTimezones = Intl.supportedValuesOf("timeZone");
-const zoneCityMap: { [tz: string]: string } = Object.fromEntries(
-  allTimezones.map((tz) => [tz, tz.split("/").pop()?.replaceAll("_", " ") || tz])
-);
 const cityData = allTimezones.map((tz) => {
-  const city = tz.split("/").pop()?.replaceAll("_", " ") || tz;
-  const country = tz.split("/")[0];
+  const parts = tz.split("/");
+  const city = parts[1]?.replaceAll("_", " ") || tz;
+  const country = parts[0];
   return { city, country, timezone: tz };
 });
 
@@ -40,11 +37,8 @@ export default function ClockPage() {
       const url = new URL(window.location.href);
       const preset = url.searchParams.get("zones");
       const hour = url.searchParams.get("hour");
-      if (preset) {
-        setZones(preset.split(","));
-      } else {
-        setZones(["America/Los_Angeles", "America/New_York", "Europe/London"]);
-      }
+      if (preset) setZones(preset.split(","));
+      else setZones(["America/Los_Angeles", "America/New_York", "Europe/London"]);
       if (hour) setSelectedHour(parseInt(hour));
     }
   }, []);
@@ -125,7 +119,6 @@ export default function ClockPage() {
               <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
               24-Hour
             </label>
-            <ThemeToggle />
           </div>
         </div>
 
@@ -149,47 +142,50 @@ export default function ClockPage() {
               ))}
             </div>
 
-            {zones.map((tz, i) => (
-              <div key={tz} className="contents group">
-                <div
-                  className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b cursor-move"
-                  draggable
-                  onDragStart={() => (dragStart.current = i)}
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    if (dragStart.current !== null && dragStart.current !== i) {
-                      reorderZones(dragStart.current, i);
-                      dragStart.current = i;
-                    }
-                  }}
-                >
-                  <span className="flex items-center gap-2 truncate">
-                    <GripVertical className="w-4 h-4 opacity-30 group-hover:opacity-100" />
-                    {tz}
-                    {(() => {
-                      const h = parseInt(new Date().toLocaleTimeString("en-US", { timeZone: tz, hour: "numeric", hour12: false }));
-                      return h < 6 || h >= 20 ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />;
-                    })()}
-                  </span>
-                  <button onClick={() => removeZone(tz)}><X className="w-4 h-4" /></button>
-                </div>
-                {Array.from({ length: 24 }).map((_, hour) => (
+            {zones.map((tz, i) => {
+              const label = tz.split("/")[1]?.replaceAll("_", " ") || tz;
+              return (
+                <div key={tz} className="contents group">
                   <div
-                    key={hour}
-                    onClick={() => setSelectedHour(hour)}
-                    onMouseEnter={() => setHoveredHour(hour)}
-                    onMouseLeave={() => setHoveredHour(null)}
-                    className={cn(
-                      "border-r border-b text-center px-1 py-2 cursor-pointer",
-                      hour >= 9 && hour <= 17 && "bg-green-50",
-                      selectedHour === hour && "bg-primary text-primary-foreground font-semibold"
-                    )}
+                    className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b cursor-move"
+                    draggable
+                    onDragStart={() => (dragStart.current = i)}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      if (dragStart.current !== null && dragStart.current !== i) {
+                        reorderZones(dragStart.current, i);
+                        dragStart.current = i;
+                      }
+                    }}
                   >
-                    {formatTime(tz, hour)}
+                    <span className="flex items-center gap-2 truncate">
+                      <GripVertical className="w-4 h-4 opacity-30 group-hover:opacity-100" />
+                      {label}
+                      {(() => {
+                        const h = parseInt(new Date().toLocaleTimeString("en-US", { timeZone: tz, hour: "numeric", hour12: false }));
+                        return h < 6 || h >= 20 ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />;
+                      })()}
+                    </span>
+                    <button onClick={() => removeZone(tz)}><X className="w-4 h-4" /></button>
                   </div>
-                ))}
-              </div>
-            ))}
+                  {Array.from({ length: 24 }).map((_, hour) => (
+                    <div
+                      key={hour}
+                      onClick={() => setSelectedHour(hour)}
+                      onMouseEnter={() => setHoveredHour(hour)}
+                      onMouseLeave={() => setHoveredHour(null)}
+                      className={cn(
+                        "border-r border-b text-center px-1 py-2 cursor-pointer",
+                        hour >= 9 && hour <= 17 && "bg-green-50",
+                        selectedHour === hour && "bg-primary text-primary-foreground font-semibold"
+                      )}
+                    >
+                      {formatTime(tz, hour)}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
           </div>
         </div>
 
