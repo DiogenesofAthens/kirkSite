@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Clock, X, Sun, Moon, GripVertical, Link2, Plus, Minus } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
@@ -32,7 +32,6 @@ const fuse = new Fuse(cityData, {
 
 export default function ClockPage() {
   const router = useRouter();
-  const params = useSearchParams();
   const [zones, setZones] = useState<string[]>([]);
   const [selectedHour, setSelectedHour] = useState<number>(new Date().getHours());
   const [hoveredHour, setHoveredHour] = useState<number | null>(null);
@@ -44,15 +43,18 @@ export default function ClockPage() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const preset = params.get("zones");
-    const hour = params.get("hour");
-    if (preset) {
-      setZones(preset.split(","));
-    } else {
-      setZones(["America/Los_Angeles", "America/New_York", "Europe/London"]);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      const preset = url.searchParams.get("zones");
+      const hour = url.searchParams.get("hour");
+      if (preset) {
+        setZones(preset.split(","));
+      } else {
+        setZones(["America/Los_Angeles", "America/New_York", "Europe/London"]);
+      }
+      if (hour) setSelectedHour(parseInt(hour));
     }
-    if (hour) setSelectedHour(parseInt(hour));
-  }, [params]);
+  }, []);
 
   const updateURL = (zones: string[], hour: number) => {
     const query = `?zones=${zones.join(",")}&hour=${hour}`;
