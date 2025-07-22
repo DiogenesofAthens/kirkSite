@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Clock, X, Sun, Moon, GripVertical, Link2, Plus, Minus } from "lucide-react";
+import { Clock, X, Sun, Moon, GripVertical, Link2, Plus, Minus, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ const cityData = allTimezones.map((tz) => {
 });
 
 const fuse = new Fuse(cityData, {
-  threshold: 0.3,
+  threshold: 0.4,
   keys: ["city", "timezone", "country"]
 });
 
@@ -28,6 +28,7 @@ export default function ClockPage() {
   const [use24Hour, setUse24Hour] = useState(false);
   const [input, setInput] = useState("");
   const [results, setResults] = useState(cityData);
+  const [copied, setCopied] = useState(false);
   const today = new Date();
   const dragStart = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -43,6 +44,19 @@ export default function ClockPage() {
       if (hour) setSelectedHour(parseInt(hour));
     }
   }, []);
+
+  useEffect(() => {
+    if (!input.trim()) setResults(cityData);
+    else setResults(fuse.search(input.trim()).map((r) => r.item));
+  }, [input]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollLeft = 180 + selectedHour * 56 - 300;
+      }
+    }, 200);
+  }, [selectedHour]);
 
   const updateURL = (zones: string[], hour: number) => {
     const query = `?zones=${zones.join(",")}&hour=${hour}`;
@@ -99,11 +113,6 @@ export default function ClockPage() {
     });
   };
 
-  useEffect(() => {
-    if (!input.trim()) setResults(cityData);
-    else setResults(fuse.search(input.trim()).map((r) => r.item));
-  }, [input]);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <FloatingNav />
@@ -114,7 +123,7 @@ export default function ClockPage() {
           </h1>
           <div className="flex items-center gap-3">
             <button onClick={() => shiftHour(-1)}><Minus /></button>
-            <span>{selectedHour.toString().padStart(2, "0")}:00</span>
+            <span className="font-mono tabular-nums text-lg">{selectedHour.toString().padStart(2, "0")}:00</span>
             <button onClick={() => shiftHour(1)}><Plus /></button>
             <label className="text-sm flex items-center gap-2">
               <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
@@ -122,9 +131,13 @@ export default function ClockPage() {
             </label>
             <button
               className="text-sm underline flex items-center gap-1"
-              onClick={() => navigator.clipboard.writeText(window.location.href)}
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 1500);
+              }}
             >
-              <Link2 className="w-4 h-4" /> Copy Link
+              <Link2 className="w-4 h-4" /> {copied ? "Copied!" : "Copy Link"}
             </button>
           </div>
         </div>
@@ -154,7 +167,7 @@ export default function ClockPage() {
               return (
                 <div key={tz} className="contents group">
                   <div
-                    className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b cursor-move"
+                    className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-foreground border-r border-b cursor-move"
                     draggable
                     onDragStart={() => (dragStart.current = i)}
                     onDragOver={(e) => {
@@ -182,9 +195,9 @@ export default function ClockPage() {
                       onMouseEnter={() => setHoveredHour(hour)}
                       onMouseLeave={() => setHoveredHour(null)}
                       className={cn(
-                        "border-r border-b text-center px-1 py-2 cursor-pointer",
+                        "border-r border-b text-center px-1 py-2 cursor-pointer tabular-nums",
                         hour >= 9 && hour <= 17 && "bg-green-50",
-                        selectedHour === hour && "bg-primary text-primary-foreground font-semibold"
+                        selectedHour === hour && "bg-primary text-white font-bold"
                       )}
                     >
                       {formatTime(tz, hour)}
