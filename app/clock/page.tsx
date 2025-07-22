@@ -31,6 +31,7 @@ export default function ClockPage() {
   const today = new Date();
   const dragStart = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -119,11 +120,17 @@ export default function ClockPage() {
               <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
               24-Hour
             </label>
+            <button
+              className="text-sm underline flex items-center gap-1"
+              onClick={() => navigator.clipboard.writeText(window.location.href)}
+            >
+              <Link2 className="w-4 h-4" /> Copy Link
+            </button>
           </div>
         </div>
 
         <div className="overflow-x-auto rounded-lg bg-muted/30 shadow-inner border border-border">
-          <div className="grid grid-cols-[180px_repeat(24,56px)] min-w-[1600px] text-sm relative">
+          <div ref={scrollRef} className="grid grid-cols-[180px_repeat(24,56px)] min-w-[1600px] text-sm relative scroll-x">
             <div className="absolute top-0 w-[56px] h-full pointer-events-none border-l-2 border-blue-500 z-10"
               style={{ left: `calc(180px + 56px * ${selectedHour})` }} />
             {hoveredHour !== null && (
@@ -143,7 +150,7 @@ export default function ClockPage() {
             </div>
 
             {zones.map((tz, i) => {
-              const label = tz.split("/")[1]?.replaceAll("_", " ") || tz;
+              const cityName = cityData.find(c => c.timezone === tz)?.city || tz;
               return (
                 <div key={tz} className="contents group">
                   <div
@@ -160,7 +167,7 @@ export default function ClockPage() {
                   >
                     <span className="flex items-center gap-2 truncate">
                       <GripVertical className="w-4 h-4 opacity-30 group-hover:opacity-100" />
-                      {label}
+                      {cityName}
                       {(() => {
                         const h = parseInt(new Date().toLocaleTimeString("en-US", { timeZone: tz, hour: "numeric", hour12: false }));
                         return h < 6 || h >= 20 ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />;
@@ -198,6 +205,9 @@ export default function ClockPage() {
             placeholder="Search city or timezone"
             className="w-full px-3 py-2 rounded text-sm bg-background border border-input"
             list="city-options"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") addZone();
+            }}
           />
           <datalist id="city-options">
             {results.map(({ city, timezone }) => (
