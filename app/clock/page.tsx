@@ -7,13 +7,23 @@ import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
 import Fuse from "fuse.js";
 
-// Full IANA timezones
 const allTimezones = Intl.supportedValuesOf("timeZone");
 
-// For fuzzy search
-const fuse = new Fuse(allTimezones, {
-  threshold: 0.3,
-  keys: [],
+const cityTimezoneMap = [
+  { city: "mumbai", tz: "Asia/Kolkata", flag: "🇮🇳" },
+  { city: "new york", tz: "America/New_York", flag: "🇺🇸" },
+  { city: "los angeles", tz: "America/Los_Angeles", flag: "🇺🇸" },
+  { city: "london", tz: "Europe/London", flag: "🇬🇧" },
+  { city: "paris", tz: "Europe/Paris", flag: "🇫🇷" },
+  { city: "zurich", tz: "Europe/Zurich", flag: "🇨🇭" },
+  { city: "tokyo", tz: "Asia/Tokyo", flag: "🇯🇵" },
+  { city: "sydney", tz: "Australia/Sydney", flag: "🇦🇺" },
+  { city: "berlin", tz: "Europe/Berlin", flag: "🇩🇪" },
+];
+
+const fuse = new Fuse(cityTimezoneMap, {
+  threshold: 0.4,
+  keys: ["city", "tz"],
 });
 
 export default function ClockPage() {
@@ -31,7 +41,7 @@ export default function ClockPage() {
   });
 
   const [inputZone, setInputZone] = useState("");
-  const [filteredZones, setFilteredZones] = useState(allTimezones);
+  const [filteredZones, setFilteredZones] = useState(cityTimezoneMap);
   const [use24Hour, setUse24Hour] = useState(false);
   const [selectedHour, setSelectedHour] = useState(new Date().getHours());
   const [hoveredHour, setHoveredHour] = useState<number | null>(null);
@@ -49,7 +59,7 @@ export default function ClockPage() {
 
   useEffect(() => {
     if (inputZone.trim() === "") {
-      setFilteredZones(allTimezones);
+      setFilteredZones(cityTimezoneMap);
     } else {
       const results = fuse.search(inputZone.trim());
       setFilteredZones(results.map((r) => r.item));
@@ -57,17 +67,17 @@ export default function ClockPage() {
   }, [inputZone]);
 
   const addZone = () => {
-    const cleaned = inputZone.trim();
-    if (cleaned && allTimezones.includes(cleaned) && !zones.includes(cleaned)) {
-      setZones([...zones, cleaned]);
+    const match = cityTimezoneMap.find(
+      (entry) => entry.city.toLowerCase() === inputZone.toLowerCase() || entry.tz === inputZone
+    );
+    if (match && !zones.includes(match.tz)) {
+      setZones([...zones, match.tz]);
       setInputZone("");
       inputRef.current?.blur();
     }
   };
 
-  const removeZone = (tz: string) => {
-    setZones(zones.filter((z) => z !== tz));
-  };
+  const removeZone = (tz: string) => setZones(zones.filter((z) => z !== tz));
 
   const reorderZones = (from: number, to: number) => {
     const updated = [...zones];
@@ -99,12 +109,10 @@ export default function ClockPage() {
   };
 
   const formatLabel = (tz: string) => {
-    const now = new Date();
-    const offset = -now
-      .toLocaleTimeString("en-US", { timeZone: tz, timeZoneName: "short" })
-      .split(" ")[2];
+    const entry = cityTimezoneMap.find((e) => e.tz === tz);
+    const flag = entry?.flag || "";
     const city = tz.split("/").pop()?.replaceAll("_", " ");
-    return `${city} (${tz})`;
+    return `${flag} ${city} (${tz})`;
   };
 
   return (
@@ -129,7 +137,7 @@ export default function ClockPage() {
             </div>
           </div>
 
-          <div className="overflow-x-auto rounded-lg bg-muted/30 shadow-inner border border-border">
+          <div className="overflow-x-auto rounded-lg bg-muted/20 shadow-inner border border-border">
             <div className="grid grid-cols-[180px_repeat(24,56px)] min-w-[1600px] text-sm relative">
               <div
                 className="absolute top-0 w-[56px] h-full pointer-events-none border-l-2 border-blue-500 z-10"
@@ -149,7 +157,7 @@ export default function ClockPage() {
                   <div
                     key={hour}
                     className={cn(
-                      "border-r border-b text-center px-1 py-2 font-semibold cursor-pointer relative",
+                      "border-r border-b text-center px-1 py-2 font-semibold cursor-pointer",
                       selectedHour === hour
                         ? "bg-blue-600 text-white"
                         : "hover:bg-accent hover:text-accent-foreground"
@@ -182,7 +190,7 @@ export default function ClockPage() {
                       }
                     }}
                   >
-                    <span className="flex items-center gap-1 truncate">
+                    <span className="flex items-center gap-2 truncate">
                       <GripVertical className="w-4 h-4 text-muted-foreground group-hover:opacity-100 opacity-30" />
                       {formatLabel(tz)}
                       {isNight(tz) ? (
@@ -205,8 +213,8 @@ export default function ClockPage() {
                       onMouseEnter={() => setHoveredHour(hour)}
                       onMouseLeave={() => setHoveredHour(null)}
                       className={cn(
-                        "border-r border-b text-center px-1 py-2 cursor-pointer",
-                        hour >= 9 && hour <= 17 && "bg-green-50",
+                        "border-r border-b text-center px-1 py-2 cursor-pointer transition-colors duration-150",
+                        hour >= 9 && hour <= 17 && "bg-green-50 dark:bg-green-900/20",
                         selectedHour === hour &&
                           "bg-primary text-primary-foreground font-semibold"
                       )}
@@ -223,15 +231,15 @@ export default function ClockPage() {
             <input
               ref={inputRef}
               type="text"
-              placeholder="Search by city or timezone (e.g. Zurich or Europe/Zurich)"
+              placeholder="Search city or timezone (e.g. mumbai or Europe/Paris)"
               value={inputZone}
               onChange={(e) => setInputZone(e.target.value)}
               className="w-full px-3 py-2 rounded text-sm bg-background border border-input"
               list="tz-options"
             />
             <datalist id="tz-options">
-              {filteredZones.slice(0, 50).map((tz) => (
-                <option key={tz} value={tz} />
+              {filteredZones.map((entry) => (
+                <option key={entry.tz} value={entry.city} />
               ))}
             </datalist>
             <button
