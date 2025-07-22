@@ -5,7 +5,7 @@ import { Clock, X, Sun, Moon, GripVertical } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
-import Fuse from "fuse";
+import Fuse from "fuse.js";
 
 // Full IANA timezones
 const allTimezones = Intl.supportedValuesOf("timeZone");
