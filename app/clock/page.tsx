@@ -6,13 +6,6 @@ import { useRouter } from "next/navigation";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
 import Fuse from "fuse.js";
-import geoCities from "../data/geo-cities.json";
-;
-
-const fuse = new Fuse(geoCities, {
-  threshold: 0.3,
-  keys: ["city", "alt", "country"]
-});
 
 export default function ClockPage() {
   const router = useRouter();
@@ -21,12 +14,28 @@ export default function ClockPage() {
   const [hoveredHour, setHoveredHour] = useState<number | null>(null);
   const [use24Hour, setUse24Hour] = useState(false);
   const [input, setInput] = useState("");
-  const [results, setResults] = useState(geoCities);
+  const [results, setResults] = useState<any[]>([]);
+  const [geoCities, setGeoCities] = useState<any[]>([]);
+  const [fuse, setFuse] = useState<Fuse<any> | null>(null);
   const [copied, setCopied] = useState(false);
   const today = new Date();
   const dragStart = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    import("@/data/geo-cities.json")
+      .then((mod) => {
+        setGeoCities(mod.default);
+        const f = new Fuse(mod.default, {
+          threshold: 0.3,
+          keys: ["city", "alt", "country"]
+        });
+        setFuse(f);
+        setResults(mod.default);
+      })
+      .catch((err) => console.error("Failed to load cities:", err));
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -40,9 +49,9 @@ export default function ClockPage() {
   }, []);
 
   useEffect(() => {
-    if (!input.trim()) setResults(geoCities);
-    else setResults(fuse.search(input.trim()).map((r) => r.item));
-  }, [input]);
+    if (!input.trim() || !fuse) return;
+    setResults(fuse.search(input.trim()).map((r) => r.item));
+  }, [input, fuse]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -58,6 +67,7 @@ export default function ClockPage() {
   };
 
   const addZone = () => {
+    if (!fuse) return;
     const match = fuse.search(input.trim())[0];
     if (match && !zones.includes(match.item.timezone)) {
       const updated = [...zones, match.item.timezone];
