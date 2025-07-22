@@ -1,69 +1,60 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Clock, X, Sun, Moon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Clock, X, Sun, Moon, GripVertical } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { FloatingNav } from "@/components/floating-nav";
-import { TimezoneClock } from "@/components/timezone-clock";
+import { cn } from "@/lib/utils";
+import Fuse from "fuse.js";
 
+// Full IANA timezones
 const allTimezones = Intl.supportedValuesOf("timeZone");
+
+// For fuzzy search
+const fuse = new Fuse(allTimezones, {
+  threshold: 0.3,
+  keys: [],
+});
 
 export default function ClockPage() {
   const [time, setTime] = useState(new Date());
-  const [zones, setZones] = useState(() => {
+  const [zones, setZones] = useState<string[]>(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("zones");
-      return stored
-        ? JSON.parse(stored)
-        : [
-            Intl.DateTimeFormat().resolvedOptions().timeZone,
-            "America/New_York",
-            "Europe/London",
-          ];
+      return stored ? JSON.parse(stored) : [
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+        "America/New_York",
+        "Europe/London",
+      ];
     }
-    return [
-      "America/Los_Angeles",
-      "America/New_York",
-      "Europe/London",
-    ];
+    return [];
   });
+
   const [inputZone, setInputZone] = useState("");
+  const [filteredZones, setFilteredZones] = useState(allTimezones);
   const [use24Hour, setUse24Hour] = useState(false);
   const [selectedHour, setSelectedHour] = useState(new Date().getHours());
   const [hoveredHour, setHoveredHour] = useState<number | null>(null);
+  const dragStart = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 60000);
-    return () => clearInterval(timer);
+    const t = setInterval(() => setTime(new Date()), 60000);
+    return () => clearInterval(t);
   }, []);
 
   useEffect(() => {
     localStorage.setItem("zones", JSON.stringify(zones));
   }, [zones]);
 
-  const formatTime = (date: Date, tz: string, hourOverride?: number) => {
-    const newDate = new Date(date);
-    if (typeof hourOverride === "number")
-      newDate.setHours(hourOverride, 0, 0, 0);
-    return newDate.toLocaleTimeString(undefined, {
-      timeZone: tz,
-      hour12: !use24Hour,
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  const isNight = (tz: string) => {
-    const localHour = new Date().toLocaleTimeString("en-US", {
-      timeZone: tz,
-      hour: "numeric",
-      hour12: false,
-    });
-    const h = parseInt(localHour);
-    return h < 6 || h >= 20;
-  };
+  useEffect(() => {
+    if (inputZone.trim() === "") {
+      setFilteredZones(allTimezones);
+    } else {
+      const results = fuse.search(inputZone.trim());
+      setFilteredZones(results.map((r) => r.item));
+    }
+  }, [inputZone]);
 
   const addZone = () => {
     const cleaned = inputZone.trim();
@@ -74,18 +65,51 @@ export default function ClockPage() {
     }
   };
 
-  const removeZone = (tz: string) => setZones(zones.filter((z) => z !== tz));
+  const removeZone = (tz: string) => {
+    setZones(zones.filter((z) => z !== tz));
+  };
 
-  const filteredTimezones = allTimezones.filter((tz) =>
-    tz.toLowerCase().includes(inputZone.trim().toLowerCase())
-  );
+  const reorderZones = (from: number, to: number) => {
+    const updated = [...zones];
+    const [moved] = updated.splice(from, 1);
+    updated.splice(to, 0, moved);
+    setZones(updated);
+  };
 
-  const currentHour = new Date().getHours();
+  const isNight = (tz: string) => {
+    const h = parseInt(new Date().toLocaleTimeString("en-US", {
+      timeZone: tz,
+      hour: "numeric",
+      hour12: false,
+    }));
+    return h < 6 || h >= 20;
+  };
+
+  const formatTime = (tz: string, hourOverride?: number) => {
+    const newDate = new Date(time);
+    if (typeof hourOverride === "number") {
+      newDate.setHours(hourOverride, 0, 0, 0);
+    }
+    return newDate.toLocaleTimeString([], {
+      timeZone: tz,
+      hour12: !use24Hour,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const formatLabel = (tz: string) => {
+    const now = new Date();
+    const offset = -now
+      .toLocaleTimeString("en-US", { timeZone: tz, timeZoneName: "short" })
+      .split(" ")[2];
+    const city = tz.split("/").pop()?.replaceAll("_", " ");
+    return `${city} (${tz})`;
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <FloatingNav />
-      <TimezoneClock />
       <main className="px-4 pt-24 pb-12">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -106,15 +130,15 @@ export default function ClockPage() {
           </div>
 
           <div className="overflow-x-auto rounded-lg bg-muted/30 shadow-inner border border-border">
-            <div className="grid grid-cols-[160px_repeat(24,56px)] min-w-[1500px] text-sm relative">
+            <div className="grid grid-cols-[180px_repeat(24,56px)] min-w-[1600px] text-sm relative">
               <div
                 className="absolute top-0 w-[56px] h-full pointer-events-none border-l-2 border-blue-500 z-10"
-                style={{ left: `calc(160px + 56px * ${currentHour})` }}
+                style={{ left: `calc(180px + 56px * ${selectedHour})` }}
               />
               {hoveredHour !== null && (
                 <div
                   className="absolute top-0 w-[56px] h-full pointer-events-none bg-blue-500/10 z-0"
-                  style={{ left: `calc(160px + 56px * ${hoveredHour})` }}
+                  style={{ left: `calc(180px + 56px * ${hoveredHour})` }}
                 />
               )}
               <div className="contents">
@@ -143,11 +167,24 @@ export default function ClockPage() {
                   </div>
                 ))}
               </div>
-              {zones.map((tz) => (
-                <div key={tz} className="contents">
-                  <div className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b">
-                    <span className="flex items-center gap-1">
-                      {tz.split("/").pop()?.replace("_", " ")}
+
+              {zones.map((tz, i) => (
+                <div key={tz} className="contents group">
+                  <div
+                    className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-muted-foreground border-r border-b cursor-move"
+                    draggable
+                    onDragStart={() => (dragStart.current = i)}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      if (dragStart.current !== null && dragStart.current !== i) {
+                        reorderZones(dragStart.current, i);
+                        dragStart.current = i;
+                      }
+                    }}
+                  >
+                    <span className="flex items-center gap-1 truncate">
+                      <GripVertical className="w-4 h-4 text-muted-foreground group-hover:opacity-100 opacity-30" />
+                      {formatLabel(tz)}
                       {isNight(tz) ? (
                         <Moon className="w-4 h-4 text-yellow-300" />
                       ) : (
@@ -169,12 +206,12 @@ export default function ClockPage() {
                       onMouseLeave={() => setHoveredHour(null)}
                       className={cn(
                         "border-r border-b text-center px-1 py-2 cursor-pointer",
-                        selectedHour === hour
-                          ? "bg-primary text-primary-foreground font-semibold"
-                          : "hover:bg-accent hover:text-accent-foreground"
+                        hour >= 9 && hour <= 17 && "bg-green-50",
+                        selectedHour === hour &&
+                          "bg-primary text-primary-foreground font-semibold"
                       )}
                     >
-                      {formatTime(time, tz, hour)}
+                      {formatTime(tz, hour)}
                     </div>
                   ))}
                 </div>
@@ -186,14 +223,14 @@ export default function ClockPage() {
             <input
               ref={inputRef}
               type="text"
-              placeholder="Search or enter a timezone (e.g. Asia/Tokyo)"
+              placeholder="Search by city or timezone (e.g. Zurich or Europe/Zurich)"
               value={inputZone}
               onChange={(e) => setInputZone(e.target.value)}
               className="w-full px-3 py-2 rounded text-sm bg-background border border-input"
               list="tz-options"
             />
             <datalist id="tz-options">
-              {filteredTimezones.map((tz) => (
+              {filteredZones.slice(0, 50).map((tz) => (
                 <option key={tz} value={tz} />
               ))}
             </datalist>
