@@ -495,7 +495,6 @@ In this space, you’re not just selling automation—you’re helping teams reg
             <Link href="/blog" className="text-blue-600 hover:text-blue-700">
               ← Back to all posts
             </Link>
-            <div className="text-sm text-gray-500 dark:text-gray-400">Share this post</div>
           </div>
         </div>
       </div>
