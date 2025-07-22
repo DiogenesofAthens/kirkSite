@@ -456,7 +456,6 @@ The future belongs to sales teams that combine technology, empathy, and agility 
             <Link href="/blog" className="text-blue-600 hover:text-blue-700">
               ← Back to all posts
             </Link>
-            <div className="text-sm text-slate-500 dark:text-slate-400">Share this post</div>
           </div>
         </div>
       </div>
