@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { Clock, X, Sun, Moon, GripVertical, Link2, Plus, Minus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -8,22 +8,15 @@ import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
 import Fuse from "fuse.js";
 
-const cityData = [
-  { city: "Ahmedabad", country: "IN", timezone: "Asia/Kolkata" },
-  { city: "New York", country: "US", timezone: "America/New_York" },
-  { city: "San Francisco", country: "US", timezone: "America/Los_Angeles" },
-  { city: "London", country: "GB", timezone: "Europe/London" },
-  { city: "Paris", country: "FR", timezone: "Europe/Paris" },
-  { city: "Zurich", country: "CH", timezone: "Europe/Zurich" },
-  { city: "Tokyo", country: "JP", timezone: "Asia/Tokyo" },
-  { city: "Sydney", country: "AU", timezone: "Australia/Sydney" },
-  { city: "Mumbai", country: "IN", timezone: "Asia/Kolkata" },
-  { city: "Beijing", country: "CN", timezone: "Asia/Shanghai" },
-  { city: "Dubai", country: "AE", timezone: "Asia/Dubai" },
-  { city: "Berlin", country: "DE", timezone: "Europe/Berlin" },
-  { city: "Chicago", country: "US", timezone: "America/Chicago" },
-  { city: "Los Angeles", country: "US", timezone: "America/Los_Angeles" }
-];
+const allTimezones = Intl.supportedValuesOf("timeZone");
+const zoneCityMap: { [tz: string]: string } = Object.fromEntries(
+  allTimezones.map((tz) => [tz, tz.split("/").pop()?.replaceAll("_", " ") || tz])
+);
+const cityData = allTimezones.map((tz) => {
+  const city = tz.split("/").pop()?.replaceAll("_", " ") || tz;
+  const country = tz.split("/")[0];
+  return { city, country, timezone: tz };
+});
 
 const fuse = new Fuse(cityData, {
   threshold: 0.3,
