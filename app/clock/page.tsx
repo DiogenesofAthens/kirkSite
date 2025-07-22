@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
 import Fuse from "fuse.js";
-import geoCities from "@/data/geo-cities.json";
+import geoCities from "./data/geo-cities.json";
+;
 
 const fuse = new Fuse(geoCities, {
   threshold: 0.3,
