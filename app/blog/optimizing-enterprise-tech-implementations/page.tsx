@@ -467,7 +467,6 @@ Remember: technology is an enabler, not a solution. Focus on the business outcom
             <Link href="/blog" className="text-blue-600 hover:text-blue-700">
               ← Back to all posts
             </Link>
-            <div className="text-sm text-gray-500 dark:text-gray-400">Share this post</div>
           </div>
         </div>
       </div>
