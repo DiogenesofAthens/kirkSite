@@ -24,7 +24,7 @@ export default function ClockPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    import("@/data/geo-cities.json")
+    import("../data/geo-cities.json") 
       .then((mod) => {
         setGeoCities(mod.default);
         const f = new Fuse(mod.default, {
