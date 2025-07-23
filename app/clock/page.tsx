@@ -22,17 +22,19 @@ export default function ClockPage() {
   const dragStart = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    import("../data/geo-cities.json") 
-      .then((mod) => {
-        setGeoCities(mod.default);
-        const f = new Fuse(mod.default, {
+    fetch("/geo-cities.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setGeoCities(data);
+        const f = new Fuse(data, {
           threshold: 0.3,
           keys: ["city", "alt", "country"]
         });
         setFuse(f);
-        setResults(mod.default);
+        setResults(data);
       })
       .catch((err) => console.error("Failed to load cities:", err));
   }, []);
@@ -49,8 +51,16 @@ export default function ClockPage() {
   }, []);
 
   useEffect(() => {
-    if (!input.trim() || !fuse) return;
-    setResults(fuse.search(input.trim()).map((r) => r.item));
+    if (!fuse) return;
+    if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+    debounceTimeout.current = setTimeout(() => {
+      if (!input.trim()) {
+        setResults(geoCities);
+      } else {
+        const result = fuse.search(input.trim()).map((r) => r.item);
+        setResults(result);
+      }
+    }, 200);
   }, [input, fuse]);
 
   useEffect(() => {
