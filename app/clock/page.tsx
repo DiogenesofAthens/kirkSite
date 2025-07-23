@@ -26,7 +26,6 @@ export default function ClockPage() {
   const router = useRouter();
   const [zones, setZones] = useState<string[]>(COMMON_ZONES);
   const [selectedHour, setSelectedHour] = useState<number>(new Date().getHours());
-  const [hoveredHour, setHoveredHour] = useState<number | null>(null);
   const [use24Hour, setUse24Hour] = useState(false);
   const [copied, setCopied] = useState(false);
   const [dayCount, setDayCount] = useState(3);
@@ -97,6 +96,16 @@ export default function ClockPage() {
     });
   };
 
+  const formatDay = (offset: number) => {
+    const base = new Date(today);
+    base.setDate(base.getDate() + offset);
+    return base.toLocaleDateString(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric"
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <FloatingNav />
@@ -127,7 +136,7 @@ export default function ClockPage() {
         </div>
 
         <div className="overflow-x-auto rounded-lg bg-muted shadow-inner border border-border">
-          <div ref={scrollRef} className="grid grid-cols-[180px_repeat(168,56px)] min-w-[1600px] text-sm relative scroll-x">
+          <div ref={scrollRef} className="grid grid-cols-[180px_repeat(999,56px)] text-sm relative scroll-x">
             <div className="sticky left-0 z-10 bg-muted">
               <div className="px-4 py-2 font-semibold border-r border-b">Timezone</div>
               {zones.map((tz, i) => (
@@ -153,20 +162,21 @@ export default function ClockPage() {
               ))}
             </div>
 
-            {[...Array(dayCount)].flatMap((_, day) => (
+            {[...Array(dayCount)].flatMap((_, dayOffset) => (
               Array.from({ length: 24 }).map((_, hour) => (
                 <div
-                  key={`${day}-${hour}`}
+                  key={`${dayOffset}-${hour}`}
                   onClick={() => setSelectedHour(hour)}
-                  onMouseEnter={() => setHoveredHour(hour)}
-                  onMouseLeave={() => setHoveredHour(null)}
                   className={cn(
                     "border-r border-b text-center px-1 py-2 cursor-pointer tabular-nums",
-                    selectedHour === hour && day === 0 && "bg-primary text-white font-bold"
+                    selectedHour === hour && dayOffset === 0 && "bg-primary text-white font-bold"
                   )}
                 >
+                  <div className="text-xs font-semibold">
+                    {dayOffset === 0 ? "Today" : formatDay(dayOffset)}
+                  </div>
                   {zones.map((tz) => (
-                    <div key={tz}>{formatTime(tz, hour, day)}</div>
+                    <div key={tz}>{formatTime(tz, hour, dayOffset)}</div>
                   ))}
                 </div>
               ))
