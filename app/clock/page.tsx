@@ -18,11 +18,14 @@ export default function ClockPage() {
   const [geoCities, setGeoCities] = useState<any[]>([]);
   const [fuse, setFuse] = useState<Fuse<any> | null>(null);
   const [copied, setCopied] = useState(false);
+  const [cityOffset, setCityOffset] = useState(0);
   const today = new Date();
   const dragStart = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const PAGE_SIZE = 100;
 
   useEffect(() => {
     fetch("/geo-cities.json")
@@ -34,7 +37,7 @@ export default function ClockPage() {
           keys: ["city", "alt", "country"]
         });
         setFuse(f);
-        setResults(data);
+        setResults(data.slice(0, PAGE_SIZE));
       })
       .catch((err) => console.error("Failed to load cities:", err));
   }, []);
@@ -55,13 +58,13 @@ export default function ClockPage() {
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     debounceTimeout.current = setTimeout(() => {
       if (!input.trim()) {
-        setResults(geoCities);
+        setResults(geoCities.slice(cityOffset, cityOffset + PAGE_SIZE));
       } else {
         const result = fuse.search(input.trim()).map((r) => r.item);
-        setResults(result);
+        setResults(result.slice(0, PAGE_SIZE));
       }
-    }, 200);
-  }, [input, fuse]);
+    }, 250);
+  }, [input, fuse, cityOffset]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -248,6 +251,26 @@ export default function ClockPage() {
             Add Timezone
           </button>
         </div>
+
+        {geoCities.length > PAGE_SIZE && !input && (
+          <div className="flex justify-between items-center text-sm text-muted-foreground">
+            <button
+              onClick={() => setCityOffset((prev) => Math.max(0, prev - PAGE_SIZE))}
+              disabled={cityOffset === 0}
+              className="underline disabled:opacity-50"
+            >
+              Previous Page
+            </button>
+            <span>Showing {cityOffset + 1}–{Math.min(geoCities.length, cityOffset + PAGE_SIZE)} of {geoCities.length}</span>
+            <button
+              onClick={() => setCityOffset((prev) => Math.min(geoCities.length - PAGE_SIZE, prev + PAGE_SIZE))}
+              disabled={cityOffset + PAGE_SIZE >= geoCities.length}
+              className="underline disabled:opacity-50"
+            >
+              Next Page
+            </button>
+          </div>
+        )}
       </main>
     </div>
   );
