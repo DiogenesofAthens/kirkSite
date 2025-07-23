@@ -137,14 +137,14 @@ export default function ClockPage() {
           </h1>
           <div className="flex items-center gap-3">
             <button onClick={() => shiftHour(-1)}><Minus /></button>
-            <span className="font-mono tabular-nums text-lg">{selectedHour.toString().padStart(2, "0")}:00</span>
+            <span className="font-mono tabular-nums text-lg text-primary-foreground">{selectedHour.toString().padStart(2, "0")}:00</span>
             <button onClick={() => shiftHour(1)}><Plus /></button>
-            <label className="text-sm flex items-center gap-2">
+            <label className="text-sm flex items-center gap-2 text-muted-foreground">
               <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
               24-Hour
             </label>
             <button
-              className="text-sm underline flex items-center gap-1"
+              className="text-sm underline flex items-center gap-1 text-muted-foreground"
               onClick={() => {
                 navigator.clipboard.writeText(window.location.href);
                 setCopied(true);
@@ -156,7 +156,7 @@ export default function ClockPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded-lg bg-muted/30 shadow-inner border border-border">
+        <div className="overflow-x-auto rounded-lg bg-muted shadow-inner border border-border">
           <div ref={scrollRef} className="grid grid-cols-[180px_repeat(24,56px)] min-w-[1600px] text-sm relative scroll-x">
             <div className="absolute top-0 w-[56px] h-full pointer-events-none border-l-2 border-blue-500 z-10"
               style={{ left: `calc(180px + 56px * ${selectedHour})` }} />
@@ -194,7 +194,7 @@ export default function ClockPage() {
                   >
                     <span className="flex items-center gap-2 truncate">
                       <GripVertical className="w-4 h-4 opacity-30 group-hover:opacity-100" />
-                      {cityName}
+                      <span className="font-semibold text-foreground">{cityName}</span>
                       {(() => {
                         const h = parseInt(new Date().toLocaleTimeString("en-US", { timeZone: tz, hour: "numeric", hour12: false }));
                         return h < 6 || h >= 20 ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />;
@@ -230,7 +230,7 @@ export default function ClockPage() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Search city or timezone"
-            className="w-full px-3 py-2 rounded text-sm bg-background border border-input"
+            className="w-full px-3 py-2 rounded text-sm bg-background border border-input text-foreground"
             list="city-options"
             onKeyDown={(e) => {
               if (e.key === "Enter") addZone();
