@@ -14,7 +14,12 @@ const COMMON_ZONES = [
   "Asia/Tokyo",
   "Asia/Singapore",
   "Asia/Kolkata",
-  "Australia/Sydney"
+  "Australia/Sydney",
+  "America/Sao_Paulo",
+  "America/Chicago",
+  "Europe/Berlin",
+  "Africa/Johannesburg",
+  "Asia/Dubai"
 ];
 
 export default function ClockPage() {
@@ -24,6 +29,7 @@ export default function ClockPage() {
   const [hoveredHour, setHoveredHour] = useState<number | null>(null);
   const [use24Hour, setUse24Hour] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [dayOffset, setDayOffset] = useState(0);
   const today = new Date();
   const dragStart = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -79,14 +85,16 @@ export default function ClockPage() {
     updateURL(zones, newHour);
   };
 
-  const getDayLabel = (tz: string, hour: number) => {
+  const getDayLabel = (tz: string, hour: number, offset: number) => {
     const base = new Date(today);
+    base.setDate(base.getDate() + offset);
     base.setHours(hour, 0, 0, 0);
     return base.toLocaleDateString("en-US", { weekday: "short", timeZone: tz });
   };
 
-  const formatTime = (tz: string, hour: number) => {
+  const formatTime = (tz: string, hour: number, offset: number) => {
     const base = new Date(today);
+    base.setDate(base.getDate() + offset);
     base.setHours(hour, 0, 0, 0);
     return base.toLocaleTimeString([], {
       timeZone: tz,
@@ -126,29 +134,13 @@ export default function ClockPage() {
         </div>
 
         <div className="overflow-x-auto rounded-lg bg-muted shadow-inner border border-border">
-          <div ref={scrollRef} className="grid grid-cols-[180px_repeat(24,56px)] min-w-[1600px] text-sm relative scroll-x">
-            <div className="absolute top-0 w-[56px] h-full pointer-events-none border-l-2 border-blue-500 z-10"
-              style={{ left: `calc(180px + 56px * ${selectedHour})` }} />
-            {hoveredHour !== null && (
-              <div className="absolute top-0 w-[56px] h-full pointer-events-none bg-blue-500/10 z-0"
-                style={{ left: `calc(180px + 56px * ${hoveredHour})` }} />
-            )}
-
-            <div className="contents">
-              <div className="px-4 py-2 font-semibold bg-primary text-primary-foreground border-r border-b">
-                Timezone
-              </div>
-              {Array.from({ length: 24 }).map((_, hour) => (
-                <div key={hour} className="border-r border-b text-center text-xs px-1 py-1 text-muted-foreground">
-                  {zones.length > 0 ? getDayLabel(zones[0], hour) : ""}
-                </div>
-              ))}
-            </div>
-
-            {zones.map((tz, i) => (
-              <div key={tz} className="contents group">
+          <div ref={scrollRef} className="grid grid-cols-[180px_repeat(168,56px)] min-w-[1600px] text-sm relative scroll-x">
+            <div className="sticky left-0 z-10 bg-muted">
+              <div className="px-4 py-2 font-semibold border-r border-b">Timezone</div>
+              {zones.map((tz, i) => (
                 <div
-                  className="flex items-center justify-between px-4 py-2 font-medium bg-muted text-foreground border-r border-b cursor-move"
+                  key={tz}
+                  className="flex items-center justify-between px-4 py-2 font-medium border-r border-b cursor-move"
                   draggable
                   onDragStart={() => (dragStart.current = i)}
                   onDragOver={(e) => {
@@ -165,21 +157,26 @@ export default function ClockPage() {
                   </span>
                   <button onClick={() => removeZone(tz)}><X className="w-4 h-4" /></button>
                 </div>
-                {Array.from({ length: 24 }).map((_, hour) => (
-                  <div
-                    key={hour}
-                    onClick={() => setSelectedHour(hour)}
-                    onMouseEnter={() => setHoveredHour(hour)}
-                    onMouseLeave={() => setHoveredHour(null)}
-                    className={cn(
-                      "border-r border-b text-center px-1 py-2 cursor-pointer tabular-nums",
-                      selectedHour === hour && "bg-primary text-white font-bold"
-                    )}
-                  >
-                    {formatTime(tz, hour)}
-                  </div>
-                ))}
-              </div>
+              ))}
+            </div>
+
+            {[...Array(7)].flatMap((_, day) => (
+              Array.from({ length: 24 }).map((_, hour) => (
+                <div
+                  key={`${day}-${hour}`}
+                  onClick={() => setSelectedHour(hour)}
+                  onMouseEnter={() => setHoveredHour(hour)}
+                  onMouseLeave={() => setHoveredHour(null)}
+                  className={cn(
+                    "border-r border-b text-center px-1 py-2 cursor-pointer tabular-nums",
+                    selectedHour === hour && day === 0 && "bg-primary text-white font-bold"
+                  )}
+                >
+                  {zones.map((tz) => (
+                    <div key={tz}>{formatTime(tz, hour, day)}</div>
+                  ))}
+                </div>
+              ))
             ))}
           </div>
         </div>
