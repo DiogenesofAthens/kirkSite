@@ -24,7 +24,7 @@ const COMMON_ZONES = [
 
 export default function ClockPage() {
   const router = useRouter();
-  const [zones, setZones] = useState<string[]>(COMMON_ZONES);
+  const [zones, setZones] = useState<string[]>(COMMON_ZONES.slice(0, 3));
   const [selectedHour, setSelectedHour] = useState<number>(new Date().getHours());
   const [use24Hour, setUse24Hour] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -166,10 +166,10 @@ export default function ClockPage() {
               Array.from({ length: 24 }).map((_, hour) => (
                 <div
                   key={`${dayOffset}-${hour}`}
-                  onClick={() => setSelectedHour(hour)}
+                  onClick={() => dayOffset === 0 && setSelectedHour(hour)}
                   className={cn(
                     "border-r border-b text-center px-1 py-2 cursor-pointer tabular-nums",
-                    selectedHour === hour && dayOffset === 0 && "bg-primary text-white font-bold"
+                    selectedHour === hour && dayOffset === 0 && "bg-primary text-background font-bold"
                   )}
                 >
                   <div className="text-xs font-semibold">
