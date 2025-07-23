@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Clock, X, Sun, Moon, GripVertical, Link2, Plus, Minus } from "lucide-react";
+import { Clock, X, GripVertical, Link2, Plus, Minus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
@@ -113,10 +113,7 @@ export default function ClockPage() {
   const getDayLabel = (tz: string, hour: number) => {
     const base = new Date(today);
     base.setHours(hour, 0, 0, 0);
-    const day1 = base.toLocaleDateString("en-US", { weekday: "short", timeZone: tz });
-    base.setHours(hour + 1);
-    const day2 = base.toLocaleDateString("en-US", { weekday: "short", timeZone: tz });
-    return day1 !== day2 ? `${day1} → ${day2}` : day1;
+    return base.toLocaleDateString("en-US", { weekday: "short", timeZone: tz });
   };
 
   const formatTime = (tz: string, hour: number) => {
@@ -198,10 +195,6 @@ export default function ClockPage() {
                     <span className="flex items-center gap-2 truncate">
                       <GripVertical className="w-4 h-4 opacity-30 group-hover:opacity-100" />
                       <span className="font-semibold text-foreground">{cityName}</span>
-                      {(() => {
-                        const h = parseInt(new Date().toLocaleTimeString("en-US", { timeZone: tz, hour: "numeric", hour12: false }));
-                        return h < 6 || h >= 20 ? <Moon className="w-4 h-4 text-yellow-300" /> : <Sun className="w-4 h-4 text-yellow-400" />;
-                      })()}
                     </span>
                     <button onClick={() => removeZone(tz)}><X className="w-4 h-4" /></button>
                   </div>
@@ -213,7 +206,6 @@ export default function ClockPage() {
                       onMouseLeave={() => setHoveredHour(null)}
                       className={cn(
                         "border-r border-b text-center px-1 py-2 cursor-pointer tabular-nums",
-                        hour >= 9 && hour <= 17 && "bg-green-50",
                         selectedHour === hour && "bg-primary text-white font-bold"
                       )}
                     >
