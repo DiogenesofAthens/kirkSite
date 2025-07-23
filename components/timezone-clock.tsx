@@ -27,17 +27,17 @@ export function TimezoneClock() {
     return () => clearInterval(timer)
   }, [])
 
-  // Reset click count if no further click after 2.5s
+  // Reset click count if no further click after 2s
   useEffect(() => {
     if (clicks === 0) return
-    const timeout = setTimeout(() => setClicks(0), 2500)
+    const timeout = setTimeout(() => setClicks(0), 2000)
     return () => clearTimeout(timeout)
   }, [clicks])
 
   const handleClockClick = () => {
     const newClicks = clicks + 1
     setClicks(newClicks)
-    if (newClicks >= 3) {
+    if (newClicks >= 5) {
       // Optional: Add a fun local animation trigger here
       router.push("/clock")
     }
