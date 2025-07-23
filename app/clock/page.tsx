@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Clock, X, GripVertical, Link2, Plus, Minus } from "lucide-react";
+import { Clock, X, GripVertical, Link2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
@@ -28,7 +28,6 @@ export default function ClockPage() {
   const [selectedHour, setSelectedHour] = useState<number>(new Date().getHours());
   const [use24Hour, setUse24Hour] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [dayCount, setDayCount] = useState(3);
   const today = new Date();
   const dragStart = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -78,12 +77,6 @@ export default function ClockPage() {
     updateURL(updated, selectedHour);
   };
 
-  const shiftHour = (delta: number) => {
-    const newHour = (selectedHour + delta + 24) % 24;
-    setSelectedHour(newHour);
-    updateURL(zones, newHour);
-  };
-
   const formatTime = (tz: string, hour: number, offset: number) => {
     const base = new Date(today);
     base.setDate(base.getDate() + offset);
@@ -115,9 +108,7 @@ export default function ClockPage() {
             <Clock className="w-6 h-6" /> Timezone Converter
           </h1>
           <div className="flex items-center gap-3">
-            <button onClick={() => shiftHour(-1)}><Minus /></button>
             <span className="font-mono tabular-nums text-lg text-primary-foreground">{selectedHour.toString().padStart(2, "0")}:00</span>
-            <button onClick={() => shiftHour(1)}><Plus /></button>
             <label className="text-sm flex items-center gap-2 text-muted-foreground">
               <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
               24-Hour
@@ -136,7 +127,7 @@ export default function ClockPage() {
         </div>
 
         <div className="overflow-x-auto rounded-lg bg-muted shadow-inner border border-border">
-          <div ref={scrollRef} className="grid grid-cols-[180px_repeat(999,56px)] text-sm relative scroll-x">
+          <div ref={scrollRef} className="grid grid-cols-[180px_repeat(48,56px)] text-sm relative scroll-x">
             <div className="sticky left-0 z-10 bg-muted">
               <div className="px-4 py-2 font-semibold border-r border-b">Timezone</div>
               {zones.map((tz, i) => (
@@ -162,7 +153,7 @@ export default function ClockPage() {
               ))}
             </div>
 
-            {[...Array(dayCount)].flatMap((_, dayOffset) => (
+            {Array.from({ length: 2 }).flatMap((_, dayOffset) => (
               Array.from({ length: 24 }).map((_, hour) => (
                 <div
                   key={`${dayOffset}-${hour}`}
@@ -181,14 +172,6 @@ export default function ClockPage() {
                 </div>
               ))
             ))}
-          </div>
-          <div className="flex justify-end px-4 py-2 bg-muted border-t border-border">
-            <button
-              className="text-sm text-muted-foreground underline"
-              onClick={() => setDayCount(dayCount + 1)}
-            >
-              Show More Days
-            </button>
           </div>
         </div>
 
