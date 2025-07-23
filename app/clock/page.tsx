@@ -29,7 +29,7 @@ export default function ClockPage() {
   const [hoveredHour, setHoveredHour] = useState<number | null>(null);
   const [use24Hour, setUse24Hour] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [dayOffset, setDayOffset] = useState(0);
+  const [dayCount, setDayCount] = useState(3);
   const today = new Date();
   const dragStart = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -83,13 +83,6 @@ export default function ClockPage() {
     const newHour = (selectedHour + delta + 24) % 24;
     setSelectedHour(newHour);
     updateURL(zones, newHour);
-  };
-
-  const getDayLabel = (tz: string, hour: number, offset: number) => {
-    const base = new Date(today);
-    base.setDate(base.getDate() + offset);
-    base.setHours(hour, 0, 0, 0);
-    return base.toLocaleDateString("en-US", { weekday: "short", timeZone: tz });
   };
 
   const formatTime = (tz: string, hour: number, offset: number) => {
@@ -160,7 +153,7 @@ export default function ClockPage() {
               ))}
             </div>
 
-            {[...Array(7)].flatMap((_, day) => (
+            {[...Array(dayCount)].flatMap((_, day) => (
               Array.from({ length: 24 }).map((_, hour) => (
                 <div
                   key={`${day}-${hour}`}
@@ -178,6 +171,14 @@ export default function ClockPage() {
                 </div>
               ))
             ))}
+          </div>
+          <div className="flex justify-end px-4 py-2 bg-muted border-t border-border">
+            <button
+              className="text-sm text-muted-foreground underline"
+              onClick={() => setDayCount(dayCount + 1)}
+            >
+              Show More Days
+            </button>
           </div>
         </div>
 
