@@ -28,6 +28,8 @@ export default function ClockPage() {
   const [selectedHour, setSelectedHour] = useState<number>(new Date().getHours());
   const [use24Hour, setUse24Hour] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [clockClicks, setClockClicks] = useState(0);
+  const [isPulsing, setIsPulsing] = useState(false);
   const today = new Date();
   const dragStart = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -49,6 +51,18 @@ export default function ClockPage() {
       }
     }, 200);
   }, [selectedHour]);
+
+  useEffect(() => {
+    if (clockClicks >= 3) {
+      setIsPulsing(true);
+      setTimeout(() => {
+        router.push("/clock");
+        setClockClicks(0);
+      }, 1000);
+    }
+    const timer = setTimeout(() => setClockClicks(0), 2000);
+    return () => clearTimeout(timer);
+  }, [clockClicks]);
 
   const updateURL = (zones: string[], hour: number) => {
     const query = `?zones=${zones.join(",")}&hour=${hour}`;
@@ -105,7 +119,11 @@ export default function ClockPage() {
       <main className="px-4 pt-24 pb-12 max-w-7xl mx-auto space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Clock className="w-6 h-6" /> Timezone Converter
+            <Clock
+              className={cn("w-6 h-6 cursor-pointer transition-transform", isPulsing && "animate-pulse")}
+              onClick={() => setClockClicks((prev) => prev + 1)}
+            />
+            Timezone Converter
           </h1>
           <div className="flex items-center gap-3">
             <span className="font-mono tabular-nums text-lg text-primary-foreground">{selectedHour.toString().padStart(2, "0")}:00</span>
