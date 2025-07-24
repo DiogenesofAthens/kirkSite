@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
 
-type TimeFormat = "ampm" | "24hr" | "mixed";
+type TimeFormat = "ampm" | "24hr";
 
 const COMMON_ZONES = [
   "America/Los_Angeles",
@@ -21,69 +21,53 @@ const COMMON_ZONES = [
   "America/Chicago",
   "Europe/Berlin",
   "Africa/Johannesburg",
-  "Asia/Dubai",
+  "Asia/Dubai"
 ];
 
 export default function ClockPage() {
   const router = useRouter();
-  const [zones, setZones] = useState<string[]>(COMMON_ZONES.slice(0, 3));
-  const [selectedHour, setSelectedHour] = useState<number>(new Date().getHours());
-  const [copied, setCopied] = useState(false);
-  const [timeFormat, setTimeFormat] = useState<TimeFormat>("ampm");
-  const today = new Date();
-  const dragStart = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const dragStart = useRef<number | null>(null);
+
+  const [zones, setZones] = useState(COMMON_ZONES.slice(0, 3));
+  const [timeFormat, setTimeFormat] = useState<TimeFormat>("ampm");
+  const [copied, setCopied] = useState(false);
+  const [selectedHour, setSelectedHour] = useState<number | null>(null);
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const preset = url.searchParams.get("zones");
-    const hour = url.searchParams.get("hour");
-    if (preset) setZones(preset.split(","));
-    if (hour) setSelectedHour(parseInt(hour));
-  }, []);
+    const now = new Date();
+    const userTz = zones[0] || "UTC";
+    const localHour = new Date(
+      now.toLocaleString("en-US", { timeZone: userTz })
+    ).getHours();
+    setSelectedHour(localHour);
+  }, [zones]);
 
   useEffect(() => {
     setTimeout(() => {
-      if (scrollRef.current) {
+      if (scrollRef.current && selectedHour !== null) {
         scrollRef.current.scrollLeft = 180 + selectedHour * 56 - 300;
       }
-    }, 200);
+    }, 300);
   }, [selectedHour]);
 
-  const updateURL = (zones: string[], hour: number) => {
-    const query = `?zones=${zones.join(",")}&hour=${hour}`;
-    router.replace(query);
-  };
-
-  const removeZone = (tz: string) => {
-    const updated = zones.filter((z) => z !== tz);
-    setZones(updated);
-    updateURL(updated, selectedHour);
-  };
-
-  const addZone = (tz: string) => {
-    if (!zones.includes(tz)) {
-      const updated = [...zones, tz];
-      setZones(updated);
-      updateURL(updated, selectedHour);
-    }
-  };
+  const removeZone = (tz: string) => setZones((z) => z.filter((x) => x !== tz));
+  const addZone = (tz: string) => !zones.includes(tz) && setZones([...zones, tz]);
 
   const reorderZones = (from: number, to: number) => {
     const updated = [...zones];
     const [moved] = updated.splice(from, 1);
     updated.splice(to, 0, moved);
     setZones(updated);
-    updateURL(updated, selectedHour);
   };
 
   const formatDay = (offset: number) => {
-    const base = new Date(today);
-    base.setDate(base.getDate() + offset);
-    return base.toLocaleDateString(undefined, {
+    const date = new Date();
+    date.setDate(date.getDate() + offset);
+    return date.toLocaleDateString(undefined, {
       weekday: "short",
       month: "short",
-      day: "numeric",
+      day: "numeric"
     });
   };
 
@@ -93,25 +77,22 @@ export default function ClockPage() {
     offset: number,
     format: TimeFormat
   ) => {
-    const base = new Date(today);
+    const base = new Date();
     base.setDate(base.getDate() + offset);
     base.setHours(hour, 0, 0, 0);
-
-    const isMixed = format === "mixed";
     const options: Intl.DateTimeFormatOptions = {
       timeZone: tz,
       hour: "numeric",
       minute: "2-digit",
-      hour12: isMixed ? undefined : format === "ampm",
+      hour12: format === "ampm"
     };
-
     const parts = base.toLocaleTimeString([], options);
-    const [time, ampmRaw] = parts.split(" ");
-    const [hh, mm] = time.split(":");
+    const [h, m] = parts.split(":");
+    const [minute, ampm] = m.split(" ");
     return {
-      hour: hh,
-      minute: mm === "00" ? "" : mm,
-      ampm: ampmRaw || "",
+      hour: h,
+      minute: minute === "00" ? "" : minute,
+      ampm
     };
   };
 
@@ -124,11 +105,8 @@ export default function ClockPage() {
             <Clock className="w-6 h-6" /> Timezone Converter
           </h1>
           <div className="flex items-center gap-3">
-            <span className="font-mono tabular-nums text-lg text-primary-foreground">
-              {selectedHour.toString().padStart(2, "0")}:00
-            </span>
             <div className="flex gap-2 text-sm">
-              {(["ampm", "24hr", "mixed"] as TimeFormat[]).map((mode) => (
+              {(["ampm", "24hr"] as TimeFormat[]).map((mode) => (
                 <button
                   key={mode}
                   onClick={() => setTimeFormat(mode)}
@@ -137,11 +115,7 @@ export default function ClockPage() {
                     timeFormat === mode && "bg-primary text-background"
                   )}
                 >
-                  {mode === "ampm"
-                    ? "AM/PM"
-                    : mode === "24hr"
-                    ? "24-Hour"
-                    : "Mixed"}
+                  {mode === "ampm" ? "AM/PM" : "24-Hour"}
                 </button>
               ))}
             </div>
@@ -163,14 +137,27 @@ export default function ClockPage() {
             ref={scrollRef}
             className="grid grid-cols-[180px_repeat(48,56px)] text-sm relative scroll-x"
           >
-            <div className="sticky left-0 z-10 bg-muted">
-              <div className="px-4 py-2 font-semibold border-r border-b">
-                Timezone
-              </div>
-              {zones.map((tz, i) => (
+            {/* Row 0 - Header */}
+            <div className="sticky left-0 z-10 bg-muted px-4 py-2 font-semibold border-r border-b">
+              Timezone
+            </div>
+            {Array.from({ length: 2 }).flatMap((_, offset) =>
+              Array.from({ length: 24 }).map((_, hour) => (
                 <div
-                  key={tz}
-                  className="flex items-center justify-between px-4 py-2 font-medium border-r border-b cursor-move"
+                  key={`day-${offset}-hour-${hour}`}
+                  className="border-r border-b text-center px-1 py-2 text-xs font-semibold"
+                >
+                  {offset === 0 ? "Today" : formatDay(offset)}
+                </div>
+              ))
+            )}
+
+            {/* Rows per timezone */}
+            {zones.map((tz, i) => (
+              <>
+                <div
+                  key={`tz-${tz}`}
+                  className="sticky left-0 z-10 bg-muted border-r border-b flex items-center justify-between gap-2 px-4 py-2 font-medium cursor-move"
                   draggable
                   onDragStart={() => (dragStart.current = i)}
                   onDragOver={(e) => {
@@ -183,58 +170,48 @@ export default function ClockPage() {
                 >
                   <span className="flex items-center gap-2 truncate">
                     <GripVertical className="w-4 h-4 opacity-30 group-hover:opacity-100" />
-                    <span className="font-semibold text-foreground">
-                      {tz.split("/").pop()?.replaceAll("_", " ")}
-                    </span>
+                    {tz.split("/").pop()?.replaceAll("_", " ")}
                   </span>
                   <button onClick={() => removeZone(tz)}>
                     <X className="w-4 h-4" />
                   </button>
                 </div>
-              ))}
-            </div>
-
-            {Array.from({ length: 2 }).flatMap((_, dayOffset) =>
-              Array.from({ length: 24 }).map((_, hour) => (
-                <div
-                  key={`${dayOffset}-${hour}`}
-                  onClick={() => dayOffset === 0 && setSelectedHour(hour)}
-                  className={cn(
-                    "border-r border-b text-center px-1 py-2 cursor-pointer tabular-nums",
-                    selectedHour === hour &&
-                      dayOffset === 0 &&
-                      "bg-primary text-background font-bold"
-                  )}
-                >
-                  <div className="text-xs font-semibold">
-                    {dayOffset === 0 ? "Today" : formatDay(dayOffset)}
-                  </div>
-                  {zones.map((tz) => {
+                {Array.from({ length: 2 }).flatMap((_, offset) =>
+                  Array.from({ length: 24 }).map((_, hour) => {
                     const { hour: h, minute, ampm } = formatTimeParts(
                       tz,
                       hour,
-                      dayOffset,
+                      offset,
                       timeFormat
                     );
                     return (
-                      <div key={tz} className="leading-tight">
+                      <div
+                        key={`${tz}-${offset}-${hour}`}
+                        onClick={() => offset === 0 && setSelectedHour(hour)}
+                        className={cn(
+                          "border-r border-b text-center px-1 py-1 cursor-pointer",
+                          selectedHour === hour &&
+                            offset === 0 &&
+                            "bg-primary text-background font-bold"
+                        )}
+                      >
                         <span className="text-base">{h}</span>
                         {minute && (
                           <span className="text-[10px] align-super ml-[1px]">
                             {minute}
                           </span>
                         )}
-                        {timeFormat !== "24hr" && ampm && (
+                        {timeFormat === "ampm" && ampm && (
                           <span className="text-[10px] ml-[1px] uppercase">
                             {ampm}
                           </span>
                         )}
                       </div>
                     );
-                  })}
-                </div>
-              ))
-            )}
+                  })
+                )}
+              </>
+            ))}
           </div>
         </div>
 
