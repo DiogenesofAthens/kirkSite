@@ -22,14 +22,14 @@ const COMMON_ZONES = [
   "Asia/Dubai"
 ];
 
+type TimeFormat = "ampm" | "24hr" | "mixed";
+
 export default function ClockPage() {
   const router = useRouter();
   const [zones, setZones] = useState<string[]>(COMMON_ZONES.slice(0, 3));
   const [selectedHour, setSelectedHour] = useState<number>(new Date().getHours());
-  const [use24Hour, setUse24Hour] = useState(false);
+  const [timeFormat, setTimeFormat] = useState<TimeFormat>("ampm");
   const [copied, setCopied] = useState(false);
-  const [clockClicks, setClockClicks] = useState(0);
-  const [isPulsing, setIsPulsing] = useState(false);
   const today = new Date();
   const dragStart = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -51,18 +51,6 @@ export default function ClockPage() {
       }
     }, 200);
   }, [selectedHour]);
-
-  useEffect(() => {
-    if (clockClicks >= 3) {
-      setIsPulsing(true);
-      setTimeout(() => {
-        router.push("/clock");
-        setClockClicks(0);
-      }, 1000);
-    }
-    const timer = setTimeout(() => setClockClicks(0), 2000);
-    return () => clearTimeout(timer);
-  }, [clockClicks]);
 
   const updateURL = (zones: string[], hour: number) => {
     const query = `?zones=${zones.join(",")}&hour=${hour}`;
@@ -91,16 +79,24 @@ export default function ClockPage() {
     updateURL(updated, selectedHour);
   };
 
-  const formatTime = (tz: string, hour: number, offset: number) => {
+  const formatTimeParts = (tz: string, hour: number, offset: number) => {
     const base = new Date(today);
     base.setDate(base.getDate() + offset);
     base.setHours(hour, 0, 0, 0);
-    return base.toLocaleTimeString([], {
+    const parts = base.toLocaleTimeString([], {
       timeZone: tz,
-      hour: "2-digit",
+      hour: "numeric",
       minute: "2-digit",
-      hour12: !use24Hour
+      hour12: timeFormat !== "24hr"
     });
+
+    const [time, ampm] = parts.split(" ");
+    const [hh, mm] = time.split(":");
+    return {
+      hour: hh,
+      minute: mm === "00" ? "" : mm,
+      ampm: ampm || ""
+    };
   };
 
   const formatDay = (offset: number) => {
@@ -119,18 +115,40 @@ export default function ClockPage() {
       <main className="px-4 pt-24 pb-12 max-w-7xl mx-auto space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Clock
-              className={cn("w-6 h-6 cursor-pointer transition-transform", isPulsing && "animate-pulse")}
-              onClick={() => setClockClicks((prev) => prev + 1)}
-            />
-            Timezone Converter
+            <Clock className="w-6 h-6" /> Timezone Converter
           </h1>
-          <div className="flex items-center gap-3">
-            <span className="font-mono tabular-nums text-lg text-primary-foreground">{selectedHour.toString().padStart(2, "0")}:00</span>
-            <label className="text-sm flex items-center gap-2 text-muted-foreground">
-              <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
-              24-Hour
-            </label>
+
+          <div className="flex items-center gap-4">
+            <div className="flex gap-2 text-sm text-muted-foreground">
+              <button
+                onClick={() => setTimeFormat("ampm")}
+                className={cn(
+                  "px-2 py-1 rounded",
+                  timeFormat === "ampm" && "bg-primary text-background font-semibold"
+                )}
+              >
+                AM/PM
+              </button>
+              <button
+                onClick={() => setTimeFormat("24hr")}
+                className={cn(
+                  "px-2 py-1 rounded",
+                  timeFormat === "24hr" && "bg-primary text-background font-semibold"
+                )}
+              >
+                24-Hour
+              </button>
+              <button
+                onClick={() => setTimeFormat("mixed")}
+                className={cn(
+                  "px-2 py-1 rounded",
+                  timeFormat === "mixed" && "bg-primary text-background font-semibold"
+                )}
+              >
+                Mixed
+              </button>
+            </div>
+
             <button
               className="text-sm underline flex items-center gap-1 text-muted-foreground"
               onClick={() => {
@@ -171,7 +189,7 @@ export default function ClockPage() {
               ))}
             </div>
 
-            {Array.from({ length: 2 }).flatMap((_, dayOffset) => (
+            {Array.from({ length: 2 }).flatMap((_, dayOffset) =>
               Array.from({ length: 24 }).map((_, hour) => (
                 <div
                   key={`${dayOffset}-${hour}`}
@@ -184,12 +202,23 @@ export default function ClockPage() {
                   <div className="text-xs font-semibold">
                     {dayOffset === 0 ? "Today" : formatDay(dayOffset)}
                   </div>
-                  {zones.map((tz) => (
-                    <div key={tz}>{formatTime(tz, hour, dayOffset)}</div>
-                  ))}
+                  {zones.map((tz) => {
+                    const { hour: h, minute, ampm } = formatTimeParts(tz, hour, dayOffset);
+                    return (
+                      <div key={tz} className="leading-tight">
+                        <span className="text-base">{h}</span>
+                        {minute && (
+                          <span className="text-[10px] align-super ml-[1px]">{minute}</span>
+                        )}
+                        {timeFormat !== "24hr" && ampm && (
+                          <span className="text-[10px] ml-[1px] uppercase">{ampm}</span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               ))
-            ))}
+            )}
           </div>
         </div>
 
