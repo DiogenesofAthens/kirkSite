@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Clock, X, GripVertical, Link2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FloatingNav } from "@/components/floating-nav";
@@ -11,10 +11,9 @@ const COMMON_ZONES = [
   "America/New_York",
   "Europe/London",
   "Europe/Paris",
-  "Europe/Zurich",
-  "Asia/Kolkata",
   "Asia/Tokyo",
   "Asia/Singapore",
+  "Asia/Kolkata",
   "Australia/Sydney",
   "America/Sao_Paulo",
   "America/Chicago",
@@ -23,56 +22,61 @@ const COMMON_ZONES = [
   "Asia/Dubai"
 ];
 
-const HOUR_BLOCKS = 48;
-
 export default function ClockPage() {
   const router = useRouter();
   const [zones, setZones] = useState<string[]>([]);
+  const [selectedHour, setSelectedHour] = useState<number>(new Date().getHours());
   const [use24Hour, setUse24Hour] = useState(false);
   const [copied, setCopied] = useState(false);
+  const today = new Date();
   const dragStart = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const markerRef = useRef<HTMLDivElement>(null);
-
   const now = new Date();
-  const baseHour = now.getHours();
-  const baseMinute = now.getMinutes();
+  const currentHour = now.getHours();
 
+  // Load zones from localStorage or use default
   useEffect(() => {
-    const stored = localStorage.getItem("timezone-prefs");
-    if (stored) setZones(JSON.parse(stored));
-    else setZones(COMMON_ZONES.slice(0, 3));
+    const savedZones = localStorage.getItem("selectedZones");
+    if (savedZones) {
+      setZones(savedZones.split(","));
+    } else {
+      const defaultZones = COMMON_ZONES.slice(0, 3);
+      setZones(defaultZones);
+      localStorage.setItem("selectedZones", defaultZones.join(","));
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("timezone-prefs", JSON.stringify(zones));
-  }, [zones]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (markerRef.current && scrollRef.current) {
-        const colWidth = 56;
-        const left = ((baseHour % 24) * colWidth) + (colWidth * (baseMinute / 60));
-        markerRef.current.style.left = `${180 + left}px`;
+    setTimeout(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollLeft = 180 + selectedHour * 56 - 300;
       }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [baseHour, baseMinute]);
+    }, 200);
+  }, [selectedHour]);
 
-  const formatLabel = (dt: Date, tz: string) => {
-    return dt.toLocaleTimeString("en-US", {
-      timeZone: tz,
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: !use24Hour
-    });
+  const updateURL = (zones: string[], hour: number) => {
+    const query = `?zones=${zones.join(",")}&hour=${hour}`;
+    router.replace(query);
   };
 
-  const formatDayLabel = (offset: number) => {
-    const date = new Date();
-    date.setHours(date.getHours() + offset);
-    const isToday = date.getDate() === now.getDate();
-    return isToday ? "Today" : date.toLocaleDateString(undefined, { weekday: "short" });
+  const persistZones = (zones: string[]) => {
+    localStorage.setItem("selectedZones", zones.join(","));
+  };
+
+  const removeZone = (tz: string) => {
+    const updated = zones.filter((z) => z !== tz);
+    setZones(updated);
+    persistZones(updated);
+    updateURL(updated, selectedHour);
+  };
+
+  const addZone = (tz: string) => {
+    if (!zones.includes(tz)) {
+      const updated = [...zones, tz];
+      setZones(updated);
+      persistZones(updated);
+      updateURL(updated, selectedHour);
+    }
   };
 
   const reorderZones = (from: number, to: number) => {
@@ -80,10 +84,39 @@ export default function ClockPage() {
     const [moved] = updated.splice(from, 1);
     updated.splice(to, 0, moved);
     setZones(updated);
+    persistZones(updated);
+    updateURL(updated, selectedHour);
   };
 
-  const removeZone = (tz: string) => setZones(zones.filter(z => z !== tz));
-  const addZone = (tz: string) => !zones.includes(tz) && setZones([...zones, tz]);
+  const formatTimeParts = (tz: string, hour: number, offset: number) => {
+    const base = new Date(today);
+    base.setDate(base.getDate() + offset);
+    base.setHours(hour, 0, 0, 0);
+    const formatter = new Intl.DateTimeFormat([], {
+      timeZone: tz,
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: !use24Hour
+    });
+
+    const [hourStr, minuteStrWithPeriod] = formatter.format(base).split(":");
+    const [minuteStr, period] = minuteStrWithPeriod.split(" ");
+    return {
+      hour: hourStr,
+      minute: parseInt(minuteStr) === 0 ? null : minuteStr,
+      period: period
+    };
+  };
+
+  const formatDay = (offset: number) => {
+    const base = new Date(today);
+    base.setDate(base.getDate() + offset);
+    return base.toLocaleDateString(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric"
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -94,12 +127,9 @@ export default function ClockPage() {
             <Clock className="w-6 h-6" /> Timezone Converter
           </h1>
           <div className="flex items-center gap-3">
+            <span className="font-mono tabular-nums text-lg text-primary-foreground">{selectedHour.toString().padStart(2, "0")}:00</span>
             <label className="text-sm flex items-center gap-2 text-muted-foreground">
-              <input
-                type="checkbox"
-                checked={use24Hour}
-                onChange={() => setUse24Hour(!use24Hour)}
-              />
+              <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
               24-Hour
             </label>
             <button
@@ -115,12 +145,14 @@ export default function ClockPage() {
           </div>
         </div>
 
-        <div className="relative overflow-x-auto rounded-lg bg-muted shadow-inner border border-border">
-          <div ref={markerRef} className="absolute top-0 bottom-0 w-0.5 bg-primary/70 z-20 transition-all" />
-          <div
-            ref={scrollRef}
-            className="grid grid-cols-[180px_repeat(48,56px)] text-sm relative scroll-x"
-          >
+        <div className="overflow-x-auto rounded-lg bg-muted shadow-inner border border-border">
+          <div ref={scrollRef} className="grid grid-cols-[180px_repeat(24,56px)] text-sm relative scroll-x">
+            {/* Vertical Marker */}
+            <div
+              className="absolute top-0 bottom-0 w-[2px] bg-primary/70 z-20"
+              style={{ left: `${180 + (currentHour - selectedHour) * 56}px` }}
+            />
+
             <div className="sticky left-0 z-10 bg-muted">
               <div className="px-4 py-2 font-semibold border-r border-b">Timezone</div>
               {zones.map((tz, i) => (
@@ -139,31 +171,35 @@ export default function ClockPage() {
                 >
                   <span className="flex items-center gap-2 truncate">
                     <GripVertical className="w-4 h-4 opacity-30 group-hover:opacity-100" />
-                    <span className="font-semibold text-foreground">
-                      {tz.split("/").pop()?.replaceAll("_", " ")}
-                    </span>
+                    <span className="font-semibold text-foreground">{tz.split("/").pop()?.replaceAll("_", " ")}</span>
                   </span>
                   <button onClick={() => removeZone(tz)}><X className="w-4 h-4" /></button>
                 </div>
               ))}
             </div>
 
-            {[...Array(HOUR_BLOCKS)].map((_, i) => {
-              const offset = i;
-              const labelTime = new Date();
-              labelTime.setHours(labelTime.getHours() + offset);
-
+            {Array.from({ length: 24 - currentHour }).map((_, i) => {
+              const hour = currentHour + i;
               return (
                 <div
-                  key={`col-${i}`}
-                  className="border-r border-b text-center px-1 py-2 tabular-nums min-w-[56px]"
+                  key={hour}
+                  onClick={() => setSelectedHour(hour)}
+                  className={cn(
+                    "border-r border-b text-center px-1 py-2 cursor-pointer tabular-nums",
+                    selectedHour === hour && "bg-primary text-background font-bold"
+                  )}
                 >
-                  <div className="text-xs font-semibold">
-                    {formatDayLabel(offset)}
-                  </div>
-                  {zones.map((tz) => (
-                    <div key={`${tz}-${i}`}>{formatLabel(labelTime, tz)}</div>
-                  ))}
+                  <div className="text-xs font-semibold">Today</div>
+                  {zones.map((tz) => {
+                    const { hour: h, minute, period } = formatTimeParts(tz, hour % 24, Math.floor(hour / 24));
+                    return (
+                      <div key={tz} className="leading-tight">
+                        <span className="text-base">{h}</span>
+                        {minute && <span className="text-xs align-top">{minute}</span>}
+                        {period && <span className="text-xs ml-0.5">{period}</span>}
+                      </div>
+                    );
+                  })}
                 </div>
               );
             })}
