@@ -32,24 +32,24 @@ export default function ClockPage() {
   const [zones, setZones] = useState(COMMON_ZONES.slice(0, 3));
   const [timeFormat, setTimeFormat] = useState<TimeFormat>("ampm");
   const [copied, setCopied] = useState(false);
-  const [selectedHour, setSelectedHour] = useState<number | null>(null);
+  const [currentHourIndex, setCurrentHourIndex] = useState<number>(0);
+
+  // Generate the next 48 future hours starting from now
+  const futureTimes = Array.from({ length: 48 }).map((_, i) => {
+    const date = new Date();
+    date.setMinutes(0, 0, 0);
+    date.setHours(date.getHours() + i);
+    return date;
+  });
 
   useEffect(() => {
-    const now = new Date();
-    const userTz = zones[0] || "UTC";
-    const localHour = new Date(
-      now.toLocaleString("en-US", { timeZone: userTz })
-    ).getHours();
-    setSelectedHour(localHour);
-  }, [zones]);
-
-  useEffect(() => {
+    setCurrentHourIndex(0); // always starts now
     setTimeout(() => {
-      if (scrollRef.current && selectedHour !== null) {
-        scrollRef.current.scrollLeft = 180 + selectedHour * 56 - 300;
+      if (scrollRef.current) {
+        scrollRef.current.scrollLeft = 180 + 56 * 3 - 300;
       }
     }, 300);
-  }, [selectedHour]);
+  }, []);
 
   const removeZone = (tz: string) => setZones((z) => z.filter((x) => x !== tz));
   const addZone = (tz: string) => !zones.includes(tz) && setZones([...zones, tz]);
@@ -61,32 +61,14 @@ export default function ClockPage() {
     setZones(updated);
   };
 
-  const formatDay = (offset: number) => {
-    const date = new Date();
-    date.setDate(date.getDate() + offset);
-    return date.toLocaleDateString(undefined, {
-      weekday: "short",
-      month: "short",
-      day: "numeric"
-    });
-  };
-
-  const formatTimeParts = (
-    tz: string,
-    hour: number,
-    offset: number,
-    format: TimeFormat
-  ) => {
-    const base = new Date();
-    base.setDate(base.getDate() + offset);
-    base.setHours(hour, 0, 0, 0);
+  const formatTimeParts = (dt: Date, tz: string, format: TimeFormat) => {
     const options: Intl.DateTimeFormatOptions = {
       timeZone: tz,
       hour: "numeric",
       minute: "2-digit",
       hour12: format === "ampm"
     };
-    const parts = base.toLocaleTimeString([], options);
+    const parts = dt.toLocaleTimeString([], options);
     const [h, m] = parts.split(":");
     const [minute, ampm] = m.split(" ");
     return {
@@ -94,6 +76,21 @@ export default function ClockPage() {
       minute: minute === "00" ? "" : minute,
       ampm
     };
+  };
+
+  const formatDay = (date: Date) => {
+    const now = new Date();
+    if (
+      date.getDate() === now.getDate() &&
+      date.getMonth() === now.getMonth()
+    ) {
+      return "Today";
+    }
+    return date.toLocaleDateString(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric"
+    });
   };
 
   return (
@@ -137,22 +134,20 @@ export default function ClockPage() {
             ref={scrollRef}
             className="grid grid-cols-[180px_repeat(48,56px)] text-sm relative scroll-x"
           >
-            {/* Row 0 - Header */}
+            {/* Header Row */}
             <div className="sticky left-0 z-10 bg-muted px-4 py-2 font-semibold border-r border-b">
               Timezone
             </div>
-            {Array.from({ length: 2 }).flatMap((_, offset) =>
-              Array.from({ length: 24 }).map((_, hour) => (
-                <div
-                  key={`day-${offset}-hour-${hour}`}
-                  className="border-r border-b text-center px-1 py-2 text-xs font-semibold"
-                >
-                  {offset === 0 ? "Today" : formatDay(offset)}
-                </div>
-              ))
-            )}
+            {futureTimes.map((dt, i) => (
+              <div
+                key={`label-${i}`}
+                className="border-r border-b text-center px-1 py-2 text-xs font-semibold"
+              >
+                {formatDay(dt)}
+              </div>
+            ))}
 
-            {/* Rows per timezone */}
+            {/* Each Timezone Row */}
             {zones.map((tz, i) => (
               <>
                 <div
@@ -176,40 +171,31 @@ export default function ClockPage() {
                     <X className="w-4 h-4" />
                   </button>
                 </div>
-                {Array.from({ length: 2 }).flatMap((_, offset) =>
-                  Array.from({ length: 24 }).map((_, hour) => {
-                    const { hour: h, minute, ampm } = formatTimeParts(
-                      tz,
-                      hour,
-                      offset,
-                      timeFormat
-                    );
-                    return (
-                      <div
-                        key={`${tz}-${offset}-${hour}`}
-                        onClick={() => offset === 0 && setSelectedHour(hour)}
-                        className={cn(
-                          "border-r border-b text-center px-1 py-1 cursor-pointer",
-                          selectedHour === hour &&
-                            offset === 0 &&
-                            "bg-primary text-background font-bold"
-                        )}
-                      >
-                        <span className="text-base">{h}</span>
-                        {minute && (
-                          <span className="text-[10px] align-super ml-[1px]">
-                            {minute}
-                          </span>
-                        )}
-                        {timeFormat === "ampm" && ampm && (
-                          <span className="text-[10px] ml-[1px] uppercase">
-                            {ampm}
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })
-                )}
+                {futureTimes.map((dt, hourIndex) => {
+                  const { hour, minute, ampm } = formatTimeParts(
+                    dt,
+                    tz,
+                    timeFormat
+                  );
+                  return (
+                    <div
+                      key={`${tz}-${hourIndex}`}
+                      className="border-r border-b text-center px-1 py-1 cursor-pointer"
+                    >
+                      <span className="text-base">{hour}</span>
+                      {minute && (
+                        <span className="text-[10px] align-super ml-[1px]">
+                          {minute}
+                        </span>
+                      )}
+                      {timeFormat === "ampm" && ampm && (
+                        <span className="text-[10px] ml-[1px] uppercase">
+                          {ampm}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </>
             ))}
           </div>
