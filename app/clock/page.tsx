@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { FloatingNav } from "@/components/floating-nav";
 import { cn } from "@/lib/utils";
 
+type TimeFormat = "ampm" | "24hr";
+
 const COMMON_ZONES = [
   "America/Los_Angeles",
   "America/New_York",
@@ -24,98 +26,74 @@ const COMMON_ZONES = [
 
 export default function ClockPage() {
   const router = useRouter();
-  const [zones, setZones] = useState<string[]>([]);
-  const [selectedHour, setSelectedHour] = useState<number>(new Date().getHours());
-  const [use24Hour, setUse24Hour] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const today = new Date();
-  const dragStart = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const now = new Date();
-  const currentHour = now.getHours();
+  const dragStart = useRef<number | null>(null);
 
-  // Load zones from localStorage or use default
+  const [zones, setZones] = useState(COMMON_ZONES.slice(0, 3));
+  const [timeFormat, setTimeFormat] = useState<TimeFormat>("ampm");
+  const [copied, setCopied] = useState(false);
+  const [selectedHour, setSelectedHour] = useState<number | null>(null);
+
   useEffect(() => {
-    const savedZones = localStorage.getItem("selectedZones");
-    if (savedZones) {
-      setZones(savedZones.split(","));
-    } else {
-      const defaultZones = COMMON_ZONES.slice(0, 3);
-      setZones(defaultZones);
-      localStorage.setItem("selectedZones", defaultZones.join(","));
-    }
-  }, []);
+    const now = new Date();
+    const userTz = zones[0] || "UTC";
+    const localHour = new Date(
+      now.toLocaleString("en-US", { timeZone: userTz })
+    ).getHours();
+    setSelectedHour(localHour);
+  }, [zones]);
 
   useEffect(() => {
     setTimeout(() => {
-      if (scrollRef.current) {
+      if (scrollRef.current && selectedHour !== null) {
         scrollRef.current.scrollLeft = 180 + selectedHour * 56 - 300;
       }
-    }, 200);
+    }, 300);
   }, [selectedHour]);
 
-  const updateURL = (zones: string[], hour: number) => {
-    const query = `?zones=${zones.join(",")}&hour=${hour}`;
-    router.replace(query);
-  };
-
-  const persistZones = (zones: string[]) => {
-    localStorage.setItem("selectedZones", zones.join(","));
-  };
-
-  const removeZone = (tz: string) => {
-    const updated = zones.filter((z) => z !== tz);
-    setZones(updated);
-    persistZones(updated);
-    updateURL(updated, selectedHour);
-  };
-
-  const addZone = (tz: string) => {
-    if (!zones.includes(tz)) {
-      const updated = [...zones, tz];
-      setZones(updated);
-      persistZones(updated);
-      updateURL(updated, selectedHour);
-    }
-  };
+  const removeZone = (tz: string) => setZones((z) => z.filter((x) => x !== tz));
+  const addZone = (tz: string) => !zones.includes(tz) && setZones([...zones, tz]);
 
   const reorderZones = (from: number, to: number) => {
     const updated = [...zones];
     const [moved] = updated.splice(from, 1);
     updated.splice(to, 0, moved);
     setZones(updated);
-    persistZones(updated);
-    updateURL(updated, selectedHour);
-  };
-
-  const formatTimeParts = (tz: string, hour: number, offset: number) => {
-    const base = new Date(today);
-    base.setDate(base.getDate() + offset);
-    base.setHours(hour, 0, 0, 0);
-    const formatter = new Intl.DateTimeFormat([], {
-      timeZone: tz,
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: !use24Hour
-    });
-
-    const [hourStr, minuteStrWithPeriod] = formatter.format(base).split(":");
-    const [minuteStr, period] = minuteStrWithPeriod.split(" ");
-    return {
-      hour: hourStr,
-      minute: parseInt(minuteStr) === 0 ? null : minuteStr,
-      period: period
-    };
   };
 
   const formatDay = (offset: number) => {
-    const base = new Date(today);
-    base.setDate(base.getDate() + offset);
-    return base.toLocaleDateString(undefined, {
+    const date = new Date();
+    date.setDate(date.getDate() + offset);
+    return date.toLocaleDateString(undefined, {
       weekday: "short",
       month: "short",
       day: "numeric"
     });
+  };
+
+  const formatTimeParts = (
+    tz: string,
+    hour: number,
+    offset: number,
+    format: TimeFormat
+  ) => {
+    const base = new Date();
+    base.setDate(base.getDate() + offset);
+    base.setHours(hour, 0, 0, 0);
+    const options: Intl.DateTimeFormatOptions = {
+      timeZone: tz,
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: format === "ampm"
+    };
+    const parts = base.toLocaleTimeString([], options);
+    const [h, m] = parts.split(":");
+    const [minute, ampm] = m.split(" ");
+    return {
+      hour: h,
+      minute: minute === "00" ? "" : minute,
+      ampm
+    };
   };
 
   return (
@@ -127,11 +105,20 @@ export default function ClockPage() {
             <Clock className="w-6 h-6" /> Timezone Converter
           </h1>
           <div className="flex items-center gap-3">
-            <span className="font-mono tabular-nums text-lg text-primary-foreground">{selectedHour.toString().padStart(2, "0")}:00</span>
-            <label className="text-sm flex items-center gap-2 text-muted-foreground">
-              <input type="checkbox" checked={use24Hour} onChange={() => setUse24Hour(!use24Hour)} />
-              24-Hour
-            </label>
+            <div className="flex gap-2 text-sm">
+              {(["ampm", "24hr"] as TimeFormat[]).map((mode) => (
+                <button
+                  key={mode}
+                  onClick={() => setTimeFormat(mode)}
+                  className={cn(
+                    "px-2 py-1 rounded transition text-muted-foreground",
+                    timeFormat === mode && "bg-primary text-background"
+                  )}
+                >
+                  {mode === "ampm" ? "AM/PM" : "24-Hour"}
+                </button>
+              ))}
+            </div>
             <button
               className="text-sm underline flex items-center gap-1 text-muted-foreground"
               onClick={() => {
@@ -146,19 +133,31 @@ export default function ClockPage() {
         </div>
 
         <div className="overflow-x-auto rounded-lg bg-muted shadow-inner border border-border">
-          <div ref={scrollRef} className="grid grid-cols-[180px_repeat(24,56px)] text-sm relative scroll-x">
-            {/* Vertical Marker */}
-            <div
-              className="absolute top-0 bottom-0 w-[2px] bg-primary/70 z-20"
-              style={{ left: `${180 + (currentHour - selectedHour) * 56}px` }}
-            />
-
-            <div className="sticky left-0 z-10 bg-muted">
-              <div className="px-4 py-2 font-semibold border-r border-b">Timezone</div>
-              {zones.map((tz, i) => (
+          <div
+            ref={scrollRef}
+            className="grid grid-cols-[180px_repeat(48,56px)] text-sm relative scroll-x"
+          >
+            {/* Row 0 - Header */}
+            <div className="sticky left-0 z-10 bg-muted px-4 py-2 font-semibold border-r border-b">
+              Timezone
+            </div>
+            {Array.from({ length: 2 }).flatMap((_, offset) =>
+              Array.from({ length: 24 }).map((_, hour) => (
                 <div
-                  key={tz}
-                  className="flex items-center justify-between px-4 py-2 font-medium border-r border-b cursor-move"
+                  key={`day-${offset}-hour-${hour}`}
+                  className="border-r border-b text-center px-1 py-2 text-xs font-semibold"
+                >
+                  {offset === 0 ? "Today" : formatDay(offset)}
+                </div>
+              ))
+            )}
+
+            {/* Rows per timezone */}
+            {zones.map((tz, i) => (
+              <>
+                <div
+                  key={`tz-${tz}`}
+                  className="sticky left-0 z-10 bg-muted border-r border-b flex items-center justify-between gap-2 px-4 py-2 font-medium cursor-move"
                   draggable
                   onDragStart={() => (dragStart.current = i)}
                   onDragOver={(e) => {
@@ -171,38 +170,48 @@ export default function ClockPage() {
                 >
                   <span className="flex items-center gap-2 truncate">
                     <GripVertical className="w-4 h-4 opacity-30 group-hover:opacity-100" />
-                    <span className="font-semibold text-foreground">{tz.split("/").pop()?.replaceAll("_", " ")}</span>
+                    {tz.split("/").pop()?.replaceAll("_", " ")}
                   </span>
-                  <button onClick={() => removeZone(tz)}><X className="w-4 h-4" /></button>
+                  <button onClick={() => removeZone(tz)}>
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
-              ))}
-            </div>
-
-            {Array.from({ length: 24 - currentHour }).map((_, i) => {
-              const hour = currentHour + i;
-              return (
-                <div
-                  key={hour}
-                  onClick={() => setSelectedHour(hour)}
-                  className={cn(
-                    "border-r border-b text-center px-1 py-2 cursor-pointer tabular-nums",
-                    selectedHour === hour && "bg-primary text-background font-bold"
-                  )}
-                >
-                  <div className="text-xs font-semibold">Today</div>
-                  {zones.map((tz) => {
-                    const { hour: h, minute, period } = formatTimeParts(tz, hour % 24, Math.floor(hour / 24));
+                {Array.from({ length: 2 }).flatMap((_, offset) =>
+                  Array.from({ length: 24 }).map((_, hour) => {
+                    const { hour: h, minute, ampm } = formatTimeParts(
+                      tz,
+                      hour,
+                      offset,
+                      timeFormat
+                    );
                     return (
-                      <div key={tz} className="leading-tight">
+                      <div
+                        key={`${tz}-${offset}-${hour}`}
+                        onClick={() => offset === 0 && setSelectedHour(hour)}
+                        className={cn(
+                          "border-r border-b text-center px-1 py-1 cursor-pointer",
+                          selectedHour === hour &&
+                            offset === 0 &&
+                            "bg-primary text-background font-bold"
+                        )}
+                      >
                         <span className="text-base">{h}</span>
-                        {minute && <span className="text-xs align-top">{minute}</span>}
-                        {period && <span className="text-xs ml-0.5">{period}</span>}
+                        {minute && (
+                          <span className="text-[10px] align-super ml-[1px]">
+                            {minute}
+                          </span>
+                        )}
+                        {timeFormat === "ampm" && ampm && (
+                          <span className="text-[10px] ml-[1px] uppercase">
+                            {ampm}
+                          </span>
+                        )}
                       </div>
                     );
-                  })}
-                </div>
-              );
-            })}
+                  })
+                )}
+              </>
+            ))}
           </div>
         </div>
 
