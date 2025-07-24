@@ -27,7 +27,7 @@ export default function CutCablePage() {
 
 My Xfinity cable TV promomotion was about to expire. That meant my bill was about to jump an additional $40/month for the same channels, one DVR box, and internet I already had. Instead of locking into another contract, I decided to cut the TV side of the service entirely.
 
-I wanted to keep gigabit internet with unlimited data, and I was able to lock that in for $100/month for the next five years. That left TV. I considered YouTube TV and Hulu + Live TV, but at $83/month each, they didn’t save me much—and they still came with channel bloat and monthly fees.
+I wanted to keep gigabit internet with unlimited data, and I was able to lock that in for $86/month for the next five years. That left TV. I considered YouTube TV and Hulu + Live TV, but at $83/month each, they didn’t save me much—and they still came with channel bloat and monthly fees.
 
 So I dropped cable and replaced it with a simple, solid OTA setup backed by Plex DVR. Here's what I use.`
       },
