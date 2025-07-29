@@ -34,6 +34,15 @@ export default function Blog() {
       slug: "speedtest-tracker",
     },
     {
+      title: "AI in CPQ and CLM: Hype vs Reality in 2025",
+      excerpt:
+        "AI in CPQ and CLM? Not everything you hear is real! Here’s what’s working, where the technology struggles, and what to expect next as these tools evolve.",
+      date: "2025-03-28",
+      readTime: "6 min read",
+      category: "Sales",
+      slug: "ai-hype",
+    },
+    {
       title: "The Future of SaaS Sales: Trends to Watch in 2024",
       excerpt:
         "Exploring emerging trends in software sales and how businesses can adapt to changing customer expectations.",
