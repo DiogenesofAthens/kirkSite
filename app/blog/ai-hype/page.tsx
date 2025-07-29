@@ -17,7 +17,7 @@ export default function AIHypePage() {
     title: "AI in CPQ and CLM: Hype vs Reality in 2025",
     excerpt:
       "AI is everywhere in the conversation about CPQ and CLM, but the truth is a mix of progress and overpromises. Here’s where it really helps, where it struggles, and what’s coming next.",
-    category: "Enterprise Software",
+    category: "Technology",
     readTime: "6 min read",
     publishDate: "2025-03-28",
     heroImage: "/images/ai-cpq-clm.png",
