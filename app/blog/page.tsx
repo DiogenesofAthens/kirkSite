@@ -38,8 +38,8 @@ export default function Blog() {
       excerpt:
         "AI in CPQ and CLM? Not everything you hear is real! Here’s what’s working, where the technology struggles, and what to expect next as these tools evolve.",
       date: "2025-03-28",
-      readTime: "6 min read",
-      category: "Sales",
+      readTime: "4 min read",
+      category: "Technology",
       slug: "ai-hype",
     },
     {
