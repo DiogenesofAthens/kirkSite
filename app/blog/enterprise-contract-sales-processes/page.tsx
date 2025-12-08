@@ -16,7 +16,7 @@ export default function BlogPost() {
   const [content, setContent] = useState({
     title: "Selling Enterprise Contract Management Software: Strategy, Discovery, and Results",
     excerpt: "How to uncover pain, match solutions to problems, and deliver ROI with modern CLM platforms.",
-    category: "Enterprise Sales",
+    category: "Sales",
     readTime: "6 min read",
     publishDate: "2024-01-05",
     heroImage: "/images/clm-hero.png",
