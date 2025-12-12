@@ -31,6 +31,11 @@ export default function ClockPage() {
   const [timeFormat, setTimeFormat] = useState<TimeFormat>("ampm")
   const [copied, setCopied] = useState(false)
   const [selectedHour, setSelectedHour] = useState<number | null>(null)
+  const [now, setNow] = useState<Date | null>(null)
+
+  useEffect(() => {
+      setNow(new Date())
+  }, [])
 
   // Load saved zones and format
   useEffect(() => {
@@ -77,13 +82,17 @@ export default function ClockPage() {
   }
 
   const formatDay = (offset: number) => {
-    const date = new Date()
+    if (!now) return ""
+    const date = new Date(now)
     date.setDate(date.getDate() + offset)
-    return date.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })
+    // Use a fixed locale 'en-US' to ensure consistency between server/client for SSR hydration stability
+    // or handle "undefined" carefully if needed. Using 'en-US' is safer for avoiding mismatches.
+    return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })
   }
 
   const formatTimeParts = (tz: string, hour: number, offset: number, format: TimeFormat) => {
-    const base = new Date()
+    if (!now) return { hour: "--", minute: "", ampm: "" }
+    const base = new Date(now)
     base.setDate(base.getDate() + offset)
     base.setHours(hour, 0, 0, 0)
     const options: Intl.DateTimeFormatOptions = {

@@ -269,6 +269,8 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
                   width={800}
                   height={400}
                   className="w-full h-64 object-cover rounded-lg cursor-pointer"
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  priority
                   onClick={
                     isEditing
                       ? undefined
@@ -361,6 +363,7 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
                       width={600}
                       height={300}
                       className={`w-full h-48 object-cover rounded-lg ${!isEditing ? "cursor-pointer" : ""}`}
+                      sizes="(max-width: 768px) 100vw, 600px"
                       onClick={
                         isEditing
                           ? undefined

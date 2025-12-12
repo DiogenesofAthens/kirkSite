@@ -48,12 +48,16 @@ function getGreeting(): string {
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([{
-    id: "1",
-    content: `${getGreeting()} Select a question from the list to learn more about his work, background, or expertise.`,
-    isBot: true,
-    timestamp: new Date(),
-  }])
+  const [messages, setMessages] = useState<Message[]>([])
+
+  useEffect(() => {
+    setMessages([{
+        id: "1",
+        content: `${getGreeting()} Select a question from the list to learn more about his work, background, or expertise.`,
+        isBot: true,
+        timestamp: new Date(),
+      }])
+  }, [])
   const [showContactModal, setShowContactModal] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
