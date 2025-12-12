@@ -71,7 +71,14 @@ export default function Home() {
                 <div className="relative">
                   <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
                     <div className="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden">
-                      <Image src="/images/grant-profile.jpg" alt="Grant Glazer Profile" width={120} height={120} className="w-full h-full object-cover rounded-full" />
+                      <Image
+                        src="/images/grant-profile.jpg"
+                        alt="Grant Glazer Profile"
+                        width={120}
+                        height={120}
+                        className="w-full h-full object-cover rounded-full"
+                        sizes="(max-width: 768px) 128px, 128px"
+                      />
                     </div>
                   </div>
                 </div>

@@ -275,6 +275,8 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                       width={800}
                       height={400}
                       className="w-full h-64 object-cover rounded-lg transition-transform hover:scale-105 duration-200"
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      priority
                     />
                   </button>
                 )}
@@ -399,6 +401,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                           width={600}
                           height={300}
                           className="w-full h-48 object-cover rounded-lg transition-transform hover:scale-105 duration-200"
+                          sizes="(max-width: 768px) 100vw, 600px"
                         />
                       </button>
                     ) : (
@@ -408,6 +411,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                         width={600}
                         height={300}
                         className="w-full h-48 object-cover rounded-lg"
+                        sizes="(max-width: 768px) 100vw, 600px"
                       />
                     )}
 
