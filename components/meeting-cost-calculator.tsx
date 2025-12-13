@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { DollarSign, Users, Play, Pause, RefreshCw } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
 
 export function MeetingCostCalculator() {
   const [attendees, setAttendees] = useState<number>(5)
@@ -46,21 +45,13 @@ export function MeetingCostCalculator() {
     setCost(0)
   }
 
-  // Visual Alarm Color Logic
-  const getCostColor = (c: number) => {
-    if (c > 500) return "text-red-500"
-    if (c > 100) return "text-orange-500"
-    return "text-green-500"
-  }
-
   return (
-    <Card className="w-full max-w-md mx-auto glass shadow-xl border-t-4 border-t-transparent bg-gradient-to-r from-blue-500/10 to-purple-500/10"
-          style={{ borderImage: "linear-gradient(to right, #3b82f6, #a855f7) 1" }}>
+    <Card className="w-full max-w-md mx-auto glass shadow-xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <DollarSign className="w-6 h-6 text-primary" /> Business Impact Calculator
+          <DollarSign className="w-6 h-6 text-green-600" /> Meeting Cost Calculator
         </CardTitle>
-        <CardDescription>Visualize the real cost of this meeting.</CardDescription>
+        <CardDescription>See how much that meeting is actually costing your company.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid grid-cols-2 gap-4">
@@ -93,63 +84,41 @@ export function MeetingCostCalculator() {
           </div>
         </div>
 
-        <div className="text-center space-y-4 py-8 bg-muted/30 rounded-xl border border-border/50">
-          <div className="text-sm text-muted-foreground uppercase tracking-wider font-semibold">Total Cost</div>
-
-          <div className={`text-6xl font-mono font-bold tracking-tight transition-colors duration-500 ${getCostColor(cost)}`}>
-             {/* Number Ticker using Framer Motion key keyframes roughly simulated via text update or we can try animate.
-                 For simplicity and robustness in React, we render the number directly but the color shifts.
-                 To do a real rolling odometer requires a complex component setup (splitting digits).
-                 Given constraint "You can use a library or a Framer Motion keyframe animation",
-                 let's use a simple spring animation for the value if we want smoothness,
-                 or just the text update with color transition as implemented.
-
-                 Let's try a NumberFlow-like effect by just animating the container or scale slightly on update?
-             */}
-             <motion.span
-                key={Math.floor(cost)} // Animate on integer change
-                initial={{ opacity: 0.8, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2 }}
-             >
-                ${cost.toFixed(2)}
-             </motion.span>
+        <div className="text-center space-y-2 py-6 bg-muted/30 rounded-lg border">
+          <div className="text-sm text-muted-foreground uppercase tracking-wide">Total Cost</div>
+          <div className="text-5xl font-mono font-bold text-green-600 dark:text-green-400">
+            ${cost.toFixed(2)}
           </div>
-
-          <div className="text-xl font-mono text-muted-foreground">
+          <div className="text-xl font-mono text-muted-foreground mt-2">
             {formatTime(duration)}
           </div>
 
           {cost > 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="px-4 pt-2"
-              >
-                  <p className="text-sm text-muted-foreground">
-                      At this rate, this meeting costs your company <span className="font-bold text-foreground">${(cost * 52).toLocaleString('en-US', { maximumFractionDigits: 0 })}</span> per year.
-                  </p>
-              </motion.div>
+            <div className="px-4 pt-2">
+              <p className="text-sm text-muted-foreground">
+                At this rate, this meeting costs your company <span className="font-bold text-foreground">${(cost * 52).toLocaleString('en-US', { maximumFractionDigits: 0 })}</span> per year.
+              </p>
+            </div>
           )}
         </div>
 
         <div className="flex gap-4">
           <Button
-            className={`flex-1 text-lg h-12 transition-all ${isRunning ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"}`}
+            className={`flex-1 ${isRunning ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"}`}
             onClick={toggleTimer}
           >
             {isRunning ? (
               <>
-                <Pause className="w-5 h-5 mr-2" /> Pause
+                <Pause className="w-4 h-4 mr-2" /> Pause
               </>
             ) : (
               <>
-                <Play className="w-5 h-5 mr-2" /> Start Meeting
+                <Play className="w-4 h-4 mr-2" /> Start Meeting
               </>
             )}
           </Button>
-          <Button variant="outline" size="icon" className="h-12 w-12" onClick={resetTimer}>
-            <RefreshCw className="w-5 h-5" />
+          <Button variant="outline" onClick={resetTimer}>
+            <RefreshCw className="w-4 h-4" />
           </Button>
         </div>
       </CardContent>
