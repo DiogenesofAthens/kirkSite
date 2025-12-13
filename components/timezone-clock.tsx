@@ -31,16 +31,16 @@ export function TimezoneClock() {
     return () => clearInterval(timer)
   }, [])
 
-  if (!time) {
-      return null
-  }
-
   // Reset click count if no further click after 2s
   useEffect(() => {
     if (clicks === 0) return
     const timeout = setTimeout(() => setClicks(0), 2000)
     return () => clearTimeout(timeout)
   }, [clicks])
+
+  if (!time) {
+      return null
+  }
 
   const handleClockClick = () => {
     const newClicks = clicks + 1
