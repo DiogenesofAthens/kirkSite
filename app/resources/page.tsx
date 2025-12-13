@@ -60,7 +60,7 @@ const guides = [
 const tools = [
   {
     id: "timezone-converter",
-    title: "World Time Buddy Clone",
+    title: "World Clock App",
     description: "Visualize timezones, schedule meetings, and find the perfect overlap.",
     icon: "Clock",
     link: "/clock",
