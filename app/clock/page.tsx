@@ -5,124 +5,9 @@ import { Clock, X, GripVertical, Link2, MapPin, Search } from "lucide-react"
 import { FloatingNav } from "@/components/floating-nav"
 import { cn } from "@/lib/utils"
 import { useSearchParams, useRouter } from "next/navigation"
+import { CITIES, COUNTRY_TIMEZONES } from "@/lib/city-data"
 
 type TimeFormat = "ampm" | "24hr"
-
-const ALL_ZONES = Intl.supportedValuesOf("timeZone")
-
-// Extended lookup for Cities AND Countries
-const LOOKUP: Record<string, string> = {
-  // Cities
-  "San Francisco": "America/Los_Angeles",
-  "Los Angeles": "America/Los_Angeles",
-  "New York": "America/New_York",
-  "Chicago": "America/Chicago",
-  "Denver": "America/Denver",
-  "Phoenix": "America/Phoenix",
-  "Seattle": "America/Los_Angeles",
-  "Austin": "America/Chicago",
-  "Boston": "America/New_York",
-  "Toronto": "America/Toronto",
-  "Vancouver": "America/Vancouver",
-  "Montreal": "America/Toronto",
-  "Miami": "America/New_York",
-  "Dallas": "America/Chicago",
-  "Houston": "America/Chicago",
-  "Atlanta": "America/New_York",
-  "Washington DC": "America/New_York",
-  "Detroit": "America/Detroit",
-  "Minneapolis": "America/Chicago",
-
-  "London": "Europe/London",
-  "Paris": "Europe/Paris",
-  "Berlin": "Europe/Berlin",
-  "Rome": "Europe/Rome",
-  "Madrid": "Europe/Madrid",
-  "Amsterdam": "Europe/Amsterdam",
-  "Dublin": "Europe/Dublin",
-  "Brussels": "Europe/Brussels",
-  "Vienna": "Europe/Vienna",
-  "Zurich": "Europe/Zurich",
-  "Stockholm": "Europe/Stockholm",
-  "Oslo": "Europe/Oslo",
-  "Copenhagen": "Europe/Copenhagen",
-  "Helsinki": "Europe/Helsinki",
-  "Warsaw": "Europe/Warsaw",
-  "Prague": "Europe/Prague",
-  "Budapest": "Europe/Budapest",
-  "Athens": "Europe/Athens",
-  "Istanbul": "Europe/Istanbul",
-  "Moscow": "Europe/Moscow",
-  "Kyiv": "Europe/Kyiv",
-
-  "Tokyo": "Asia/Tokyo",
-  "Seoul": "Asia/Seoul",
-  "Beijing": "Asia/Shanghai",
-  "Shanghai": "Asia/Shanghai",
-  "Hong Kong": "Asia/Hong_Kong",
-  "Singapore": "Asia/Singapore",
-  "Bangkok": "Asia/Bangkok",
-  "Mumbai": "Asia/Kolkata",
-  "Delhi": "Asia/Kolkata",
-  "Bangalore": "Asia/Kolkata",
-  "Kolkata": "Asia/Kolkata",
-  "Chennai": "Asia/Kolkata",
-  "Hyderabad": "Asia/Kolkata",
-  "Pune": "Asia/Kolkata",
-  "Dubai": "Asia/Dubai",
-  "Abu Dhabi": "Asia/Dubai",
-  "Riyadh": "Asia/Riyadh",
-  "Tel Aviv": "Asia/Jerusalem",
-  "Jakarta": "Asia/Jakarta",
-  "Manila": "Asia/Manila",
-  "Taipei": "Asia/Taipei",
-  "Kuala Lumpur": "Asia/Kuala_Lumpur",
-  "Ho Chi Minh City": "Asia/Ho_Chi_Minh",
-
-  "Sydney": "Australia/Sydney",
-  "Melbourne": "Australia/Melbourne",
-  "Brisbane": "Australia/Brisbane",
-  "Perth": "Australia/Perth",
-  "Adelaide": "Australia/Adelaide",
-  "Auckland": "Pacific/Auckland",
-  "Wellington": "Pacific/Auckland",
-
-  "Sao Paulo": "America/Sao_Paulo",
-  "Rio de Janeiro": "America/Sao_Paulo",
-  "Buenos Aires": "America/Argentina/Buenos_Aires",
-  "Santiago": "America/Santiago",
-  "Lima": "America/Lima",
-  "Bogota": "America/Bogota",
-  "Mexico City": "America/Mexico_City",
-
-  "Johannesburg": "Africa/Johannesburg",
-  "Cape Town": "Africa/Johannesburg",
-  "Cairo": "Africa/Cairo",
-  "Lagos": "Africa/Lagos",
-  "Nairobi": "Africa/Nairobi",
-
-  // Countries
-  "India": "Asia/Kolkata",
-  "China": "Asia/Shanghai",
-  "Japan": "Asia/Tokyo",
-  "UK": "Europe/London",
-  "United Kingdom": "Europe/London",
-  "France": "Europe/Paris",
-  "Germany": "Europe/Berlin",
-  "Italy": "Europe/Rome",
-  "Spain": "Europe/Madrid",
-  "Russia": "Europe/Moscow",
-  "Brazil": "America/Sao_Paulo",
-  "Argentina": "America/Argentina/Buenos_Aires",
-  "Mexico": "America/Mexico_City",
-  "South Africa": "Africa/Johannesburg",
-  "Australia": "Australia/Sydney", // Default to Sydney
-  "New Zealand": "Pacific/Auckland",
-  "Singapore Country": "Asia/Singapore",
-  "USA": "America/New_York", // Default East Coast
-  "United States": "America/New_York",
-  "Canada": "America/Toronto", // Default Eastern
-}
 
 function ClockPageContent() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -161,7 +46,7 @@ function ClockPageContent() {
     if (urlHour) {
       setSelectedColIndex(parseInt(urlHour))
     } else {
-       // Default to roughly current time column
+       // Default to roughly current time column (approximate)
        const currentHour = new Date().getHours()
        setSelectedColIndex(currentHour)
     }
@@ -212,54 +97,12 @@ function ClockPageContent() {
     setZones(updated)
   }
 
-  // Calculate timestamps for columns
-  // Anchor: Today 00:00 of the FIRST timezone in the list (Home Zone)
-  // If no zones, default to local time
-  const getGridStartTimestamp = () => {
-      if (!now) return Date.now()
-      const homeZone = zones[0] || Intl.DateTimeFormat().resolvedOptions().timeZone
-
-      // Create a date string for "today" in home zone
-      const dateString = now.toLocaleDateString("en-US", { timeZone: homeZone })
-      // Create date object for 00:00 of that day in that zone
-      // Note: new Date(dateString) creates it in browser local time, which is wrong.
-      // We need to construct it carefully.
-
-      // Hacky but robust way: loop hours until we find 00:00 in that zone? No.
-      // Better: Use Intl to format parts
-      const parts = new Intl.DateTimeFormat("en-US", {
-          timeZone: homeZone,
-          year: 'numeric', month: 'numeric', day: 'numeric',
-          hour: 'numeric', minute: 'numeric', second: 'numeric',
-          hour12: false
-      }).formatToParts(now)
-
-      // We want midnight of THIS day in THAT zone.
-      // But we need the Unix timestamp of that moment.
-      // It's tricky without a library like date-fns-tz.
-
-      // Alternative approach:
-      // Just use the browser's current day 00:00 UTC as a base, and then just display whatever it is.
-      // But user wants aligned columns. "World Time Buddy" usually aligns to the Home Zone.
-
-      // Let's try to get "Today 00:00" in Home Zone.
-      // 1. Get current time
-      // 2. Format to "YYYY-MM-DD" in Home Zone
-      // 3. Append " 00:00:00"
-      // 4. Parse that string AS IF it is in Home Zone? JS Date parses in Local or UTC.
-
-      // Let's stick to a simpler model:
-      // Columns represent "Hours from Now" but aligned to the nearest hour.
-      // OR: Columns represent UTC hours.
-      // If we use UTC, then "Home" might start at 17:00. That's fine.
-
-      // Let's align to UTC 00:00 of the current day to start.
-      const utcDateStr = new Date().toISOString().split('T')[0] // YYYY-MM-DD
-      const utcStart = new Date(`${utcDateStr}T00:00:00Z`).getTime()
-      return utcStart
-  }
-
-  const startTimestamp = useMemo(() => getGridStartTimestamp(), []) // Stable for session
+  // Anchor: Today 00:00 UTC.
+  // Columns 0..47 represent +0h, +1h... +47h from that anchor.
+  const startTimestamp = useMemo(() => {
+      const utcDateStr = new Date().toISOString().split('T')[0]
+      return new Date(`${utcDateStr}T00:00:00Z`).getTime()
+  }, [])
 
   const getColumnData = (tz: string, colIndex: number) => {
       const timestamp = startTimestamp + (colIndex * 3600 * 1000)
@@ -282,31 +125,15 @@ function ClockPageContent() {
       const isBusiness = h24 >= 9 && h24 < 17
       const isNight = h24 >= 22 || h24 < 7
 
-      const timeParts = date.toLocaleTimeString("en-US", options).split(" ")
-      // "10:30 AM" or "10:30" or "10 AM" (if :00)
-      // Actually standard format with minute:2-digit always shows minutes
-      // 10:00 AM
-
-      const fullStr = date.toLocaleTimeString("en-US", options)
-      // Remove date part if we want just time?
-      // formatToParts is better
       const formatter = new Intl.DateTimeFormat("en-US", options)
       const parts = formatter.formatToParts(date)
-
       const find = (t: string) => parts.find(p => p.type === t)?.value || ""
 
-      let hour = find("hour")
+      const hour = find("hour")
       const minute = find("minute")
       const dayPeriod = find("dayPeriod") // AM/PM
       const weekday = find("weekday")
       const day = find("day")
-
-      // Clean up hour if it's "24" or "0" quirks? usually fine.
-
-      // Display logic:
-      // If minute is "00", maybe hide it for cleanliness, unless it's a 30min zone in a non-30min column?
-      // Since our columns are exact hours (X:00 UTC), if the zone has a 30min offset, minute will be "30".
-      // If the zone is standard, minute will be "00".
 
       const showMinute = minute !== "00"
 
@@ -335,34 +162,43 @@ function ClockPageContent() {
   }, [])
 
   const filteredZones = useMemo(() => {
-    if (!searchQuery) return [] // Don't show generic list, show nothing or recent? User said "I cant add a new timezone - ideally I can search"
-    // Actually user said "I cant add a new timezone - ideally I can search any city or country"
-    // The previous UI had a list of common zones buttons. We can keep those or hide them.
+    if (!searchQuery) return []
 
     const query = searchQuery.toLowerCase()
 
-    // 1. Matches in LOOKUP keys (City/Country)
-    const lookupMatches = Object.entries(LOOKUP)
-        .filter(([key]) => key.toLowerCase().includes(query))
-        .map(([key, zone]) => ({ label: key, zone }))
+    // 1. Matches in CITIES array
+    const cityMatches = CITIES.filter(c =>
+        c.name.toLowerCase().includes(query) ||
+        c.country.toLowerCase().includes(query) ||
+        c.keywords?.some(k => k.toLowerCase().includes(query))
+    ).map(c => ({
+        label: `${c.name}, ${c.country}`,
+        zone: c.tz,
+        type: "City"
+    }))
 
-    // 2. Matches in IANA zones
-    const zoneMatches = ALL_ZONES
-        .filter(z => z.toLowerCase().includes(query))
-        .map(z => ({ label: z.split("/").pop()?.replaceAll("_", " ") || z, zone: z }))
+    // 2. Matches in COUNTRY_TIMEZONES
+    const countryMatches = Object.entries(COUNTRY_TIMEZONES)
+        .filter(([country]) => country.toLowerCase().includes(query))
+        .map(([country, zone]) => ({
+            label: country,
+            zone,
+            type: "Country"
+        }))
 
-    // Deduplicate by zone
-    const seen = new Set()
-    const combined = []
+    // Combine and deduplicate
+    const combined = [...cityMatches, ...countryMatches]
 
-    for (const item of [...lookupMatches, ...zoneMatches]) {
-        if (!seen.has(item.zone)) {
-            seen.add(item.zone)
-            combined.push(item)
-        }
-    }
+    // Unique by zone is tricky because "San Francisco" and "Los Angeles" are same zone but different cities.
+    // User wants to search for specific city. So we show duplicates if they are different cities.
+    // But deduplicate exact label+zone combo.
+    const unique = combined.filter((item, index, self) =>
+        index === self.findIndex((t) => (
+            t.label === item.label && t.zone === item.zone
+        ))
+    )
 
-    return combined.slice(0, 50)
+    return unique.slice(0, 50)
   }, [searchQuery])
 
 
@@ -420,21 +256,24 @@ function ClockPageContent() {
                     <input
                         autoFocus
                         type="text"
-                        placeholder="Search France, India, Mumbai..."
+                        placeholder="Search New York, London, India, etc..."
                         className="w-full bg-background border border-border rounded-lg pl-9 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     {searchQuery && (
                         <div className="absolute top-full mt-1 w-full bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                            {filteredZones.map(item => (
+                            {filteredZones.map((item, i) => (
                                 <button
-                                    key={item.zone}
+                                    key={`${item.zone}-${i}`}
                                     onClick={() => addZone(item.zone)}
-                                    className="w-full text-left px-4 py-2 text-sm hover:bg-muted transition-colors border-b border-border/50 last:border-0 flex justify-between"
+                                    className="w-full text-left px-4 py-2 text-sm hover:bg-muted transition-colors border-b border-border/50 last:border-0 flex justify-between group"
                                 >
-                                    <span className="font-medium">{item.label}</span>
-                                    <span className="text-xs text-muted-foreground">{item.zone}</span>
+                                    <div className="flex flex-col">
+                                        <span className="font-medium">{item.label}</span>
+                                        <span className="text-[10px] text-muted-foreground">{item.zone}</span>
+                                    </div>
+                                    <span className="text-xs text-muted-foreground opacity-50 group-hover:opacity-100 self-center capitalize">{item.type}</span>
                                 </button>
                             ))}
                             {filteredZones.length === 0 && (
@@ -474,16 +313,8 @@ function ClockPageContent() {
                 <MapPin className="w-4 h-4" /> Locations
             </div>
             {Array.from({ length: 48 }).map((_, i) => {
-                // We use the first zone (Home) to determine date headers?
-                // Or just UTC? Let's use UTC or the first zone if available.
-                // Actually, WTB puts the date *per zone* or on the top?
-                // Typically top row is "Home" time.
-                // Let's just put generic markers or leave empty.
-                // Better: Use the first zone to show date headers if possible.
                 const firstZone = zones[0] || "UTC"
-                const { dateLabel, displayHour } = getColumnData(firstZone, i)
-
-                // Show date label only when it changes or at start
+                const { dateLabel } = getColumnData(firstZone, i)
                 const prev = i > 0 ? getColumnData(firstZone, i-1).dateLabel : ""
                 const showDate = i === 0 || dateLabel !== prev
 
@@ -518,9 +349,9 @@ function ClockPageContent() {
                   }}
                 >
                   <div className="flex flex-col min-w-0">
-                      {/* Try to find a nice label from LOOKUP if possible, else City name */}
+                      {/* Try to find a nice label from CITIES if possible */}
                       <span className="font-bold text-sm truncate">
-                          {Object.entries(LOOKUP).find(([k, v]) => v === tz && !k.includes(" "))?.[0] || tz.split("/").pop()?.replaceAll("_", " ")}
+                          {CITIES.find(c => c.tz === tz)?.name || tz.split("/").pop()?.replaceAll("_", " ")}
                       </span>
                       <span className="text-[10px] text-muted-foreground truncate">{tz}</span>
                   </div>
