@@ -10,8 +10,9 @@ type TimeFormat = "ampm" | "24hr"
 
 const ALL_ZONES = Intl.supportedValuesOf("timeZone")
 
-const CITY_LOOKUP: Record<string, string> = {
-  // US & Canada
+// Extended lookup for Cities AND Countries
+const LOOKUP: Record<string, string> = {
+  // Cities
   "San Francisco": "America/Los_Angeles",
   "Los Angeles": "America/Los_Angeles",
   "New York": "America/New_York",
@@ -32,7 +33,6 @@ const CITY_LOOKUP: Record<string, string> = {
   "Detroit": "America/Detroit",
   "Minneapolis": "America/Chicago",
 
-  // Europe
   "London": "Europe/London",
   "Paris": "Europe/Paris",
   "Berlin": "Europe/Berlin",
@@ -55,7 +55,6 @@ const CITY_LOOKUP: Record<string, string> = {
   "Moscow": "Europe/Moscow",
   "Kyiv": "Europe/Kyiv",
 
-  // Asia
   "Tokyo": "Asia/Tokyo",
   "Seoul": "Asia/Seoul",
   "Beijing": "Asia/Shanghai",
@@ -66,6 +65,10 @@ const CITY_LOOKUP: Record<string, string> = {
   "Mumbai": "Asia/Kolkata",
   "Delhi": "Asia/Kolkata",
   "Bangalore": "Asia/Kolkata",
+  "Kolkata": "Asia/Kolkata",
+  "Chennai": "Asia/Kolkata",
+  "Hyderabad": "Asia/Kolkata",
+  "Pune": "Asia/Kolkata",
   "Dubai": "Asia/Dubai",
   "Abu Dhabi": "Asia/Dubai",
   "Riyadh": "Asia/Riyadh",
@@ -76,7 +79,6 @@ const CITY_LOOKUP: Record<string, string> = {
   "Kuala Lumpur": "Asia/Kuala_Lumpur",
   "Ho Chi Minh City": "Asia/Ho_Chi_Minh",
 
-  // Oceania
   "Sydney": "Australia/Sydney",
   "Melbourne": "Australia/Melbourne",
   "Brisbane": "Australia/Brisbane",
@@ -85,7 +87,6 @@ const CITY_LOOKUP: Record<string, string> = {
   "Auckland": "Pacific/Auckland",
   "Wellington": "Pacific/Auckland",
 
-  // Latin America
   "Sao Paulo": "America/Sao_Paulo",
   "Rio de Janeiro": "America/Sao_Paulo",
   "Buenos Aires": "America/Argentina/Buenos_Aires",
@@ -94,29 +95,34 @@ const CITY_LOOKUP: Record<string, string> = {
   "Bogota": "America/Bogota",
   "Mexico City": "America/Mexico_City",
 
-  // Africa
   "Johannesburg": "Africa/Johannesburg",
   "Cape Town": "Africa/Johannesburg",
   "Cairo": "Africa/Cairo",
   "Lagos": "Africa/Lagos",
   "Nairobi": "Africa/Nairobi",
-}
 
-const COMMON_ZONES = [
-  "America/Los_Angeles",
-  "America/New_York",
-  "Europe/London",
-  "Europe/Paris",
-  "Asia/Tokyo",
-  "Asia/Singapore",
-  "Asia/Kolkata",
-  "Australia/Sydney",
-  "America/Sao_Paulo",
-  "America/Chicago",
-  "Europe/Berlin",
-  "Africa/Johannesburg",
-  "Asia/Dubai"
-]
+  // Countries
+  "India": "Asia/Kolkata",
+  "China": "Asia/Shanghai",
+  "Japan": "Asia/Tokyo",
+  "UK": "Europe/London",
+  "United Kingdom": "Europe/London",
+  "France": "Europe/Paris",
+  "Germany": "Europe/Berlin",
+  "Italy": "Europe/Rome",
+  "Spain": "Europe/Madrid",
+  "Russia": "Europe/Moscow",
+  "Brazil": "America/Sao_Paulo",
+  "Argentina": "America/Argentina/Buenos_Aires",
+  "Mexico": "America/Mexico_City",
+  "South Africa": "Africa/Johannesburg",
+  "Australia": "Australia/Sydney", // Default to Sydney
+  "New Zealand": "Pacific/Auckland",
+  "Singapore Country": "Asia/Singapore",
+  "USA": "America/New_York", // Default East Coast
+  "United States": "America/New_York",
+  "Canada": "America/Toronto", // Default Eastern
+}
 
 function ClockPageContent() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -128,14 +134,13 @@ function ClockPageContent() {
   const [zones, setZones] = useState<string[]>([])
   const [timeFormat, setTimeFormat] = useState<TimeFormat>("ampm")
   const [copied, setCopied] = useState(false)
-  const [selectedHour, setSelectedHour] = useState<number | null>(null)
+  const [selectedColIndex, setSelectedColIndex] = useState<number | null>(null)
   const [isMouseDown, setIsMouseDown] = useState(false)
   const [now, setNow] = useState<Date | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [showSearch, setShowSearch] = useState(false)
 
-  // Initialize from URL or local storage or defaults
-  // Run only ONCE on mount to prevent infinite loops with router.replace
+  // Initialize
   useEffect(() => {
     if (initialized.current) return
     initialized.current = true
@@ -150,37 +155,35 @@ function ClockPageContent() {
     } else {
       const savedZones = localStorage.getItem("zones")
       if (savedZones) setZones(JSON.parse(savedZones))
-      else setZones(["America/New_York", "Europe/London", "Asia/Tokyo"])
+      else setZones(["America/New_York", "Europe/London", "Asia/Kolkata"])
     }
 
     if (urlHour) {
-      setSelectedHour(parseInt(urlHour))
+      setSelectedColIndex(parseInt(urlHour))
     } else {
-       // Default to current hour in first zone if not specified
+       // Default to roughly current time column
        const currentHour = new Date().getHours()
-       setSelectedHour(currentHour)
+       setSelectedColIndex(currentHour)
     }
 
     const savedFormat = localStorage.getItem("format")
     if (savedFormat === "24hr") setTimeFormat("24hr")
-  }, []) // Empty dependency array = run once on mount
+  }, [])
 
-  // Sync state to URL and LocalStorage
-  // Only run when zones or selectedHour actually change
+  // Sync state
   useEffect(() => {
-    if (!initialized.current) return // Don't sync before init
+    if (!initialized.current) return
 
     if (zones.length > 0) {
       localStorage.setItem("zones", JSON.stringify(zones))
 
       const params = new URLSearchParams()
       params.set("zones", zones.join(","))
-      if (selectedHour !== null) params.set("hour", selectedHour.toString())
+      if (selectedColIndex !== null) params.set("hour", selectedColIndex.toString())
 
-      // Update URL without full reload
       router.replace(`?${params.toString()}`, { scroll: false })
     }
-  }, [zones, selectedHour, router])
+  }, [zones, selectedColIndex, router])
 
   useEffect(() => {
     localStorage.setItem("format", timeFormat)
@@ -188,14 +191,11 @@ function ClockPageContent() {
 
   // Scroll logic
   useEffect(() => {
-    if (selectedHour !== null && scrollRef.current) {
-        // Center the selected hour
-        // 180px sidebar + 56px per hour.
-        // We want (180 + selectedHour * 56) to be in the middle
-        const targetX = (selectedHour * 56) - (scrollRef.current.clientWidth / 2) + 180 + 28
+    if (selectedColIndex !== null && scrollRef.current) {
+        const targetX = (selectedColIndex * 56) - (scrollRef.current.clientWidth / 2) + 180 + 28
         scrollRef.current.scrollTo({ left: targetX, behavior: "smooth" })
     }
-  }, [selectedHour]) // Only scroll when selectedHour changes explicitly (usually user interaction or init)
+  }, [selectedColIndex])
 
 
   const removeZone = (tz: string) => setZones(zones.filter((z) => z !== tz))
@@ -212,96 +212,157 @@ function ClockPageContent() {
     setZones(updated)
   }
 
-  const formatDay = (offset: number) => {
-    if (!now) return ""
-    const date = new Date(now)
-    date.setDate(date.getDate() + offset)
-    return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })
+  // Calculate timestamps for columns
+  // Anchor: Today 00:00 of the FIRST timezone in the list (Home Zone)
+  // If no zones, default to local time
+  const getGridStartTimestamp = () => {
+      if (!now) return Date.now()
+      const homeZone = zones[0] || Intl.DateTimeFormat().resolvedOptions().timeZone
+
+      // Create a date string for "today" in home zone
+      const dateString = now.toLocaleDateString("en-US", { timeZone: homeZone })
+      // Create date object for 00:00 of that day in that zone
+      // Note: new Date(dateString) creates it in browser local time, which is wrong.
+      // We need to construct it carefully.
+
+      // Hacky but robust way: loop hours until we find 00:00 in that zone? No.
+      // Better: Use Intl to format parts
+      const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone: homeZone,
+          year: 'numeric', month: 'numeric', day: 'numeric',
+          hour: 'numeric', minute: 'numeric', second: 'numeric',
+          hour12: false
+      }).formatToParts(now)
+
+      // We want midnight of THIS day in THAT zone.
+      // But we need the Unix timestamp of that moment.
+      // It's tricky without a library like date-fns-tz.
+
+      // Alternative approach:
+      // Just use the browser's current day 00:00 UTC as a base, and then just display whatever it is.
+      // But user wants aligned columns. "World Time Buddy" usually aligns to the Home Zone.
+
+      // Let's try to get "Today 00:00" in Home Zone.
+      // 1. Get current time
+      // 2. Format to "YYYY-MM-DD" in Home Zone
+      // 3. Append " 00:00:00"
+      // 4. Parse that string AS IF it is in Home Zone? JS Date parses in Local or UTC.
+
+      // Let's stick to a simpler model:
+      // Columns represent "Hours from Now" but aligned to the nearest hour.
+      // OR: Columns represent UTC hours.
+      // If we use UTC, then "Home" might start at 17:00. That's fine.
+
+      // Let's align to UTC 00:00 of the current day to start.
+      const utcDateStr = new Date().toISOString().split('T')[0] // YYYY-MM-DD
+      const utcStart = new Date(`${utcDateStr}T00:00:00Z`).getTime()
+      return utcStart
   }
 
-  const getHourData = (tz: string, hour: number, offset: number) => {
-    if (!now) return { hour: 0, display: "--", minute: "", ampm: "", isBusiness: false, isNight: false }
-    const base = new Date(now)
-    base.setDate(base.getDate() + offset)
-    base.setHours(hour, 0, 0, 0)
+  const startTimestamp = useMemo(() => getGridStartTimestamp(), []) // Stable for session
 
-    // Get hour in that timezone
-    const tzDateStr = base.toLocaleString("en-US", { timeZone: tz })
-    const tzDate = new Date(tzDateStr)
-    const h24 = tzDate.getHours()
+  const getColumnData = (tz: string, colIndex: number) => {
+      const timestamp = startTimestamp + (colIndex * 3600 * 1000)
+      const date = new Date(timestamp)
 
-    // Business hours: 9am - 5pm (17:00)
-    const isBusiness = h24 >= 9 && h24 < 17
-    // Night hours: 10pm - 7am
-    const isNight = h24 >= 22 || h24 < 7
+      const options: Intl.DateTimeFormatOptions = {
+          timeZone: tz,
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: timeFormat === "ampm",
+          weekday: "short",
+          month: "short",
+          day: "numeric"
+      }
 
-    // Formatting
-    const options: Intl.DateTimeFormatOptions = {
-      timeZone: tz,
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: timeFormat === "ampm"
-    }
-    const timeStr = base.toLocaleTimeString("en-US", options)
-    const [h, m] = timeStr.split(":")
-    const [minute, ampm] = m.split(" ")
+      // Check 24h hour for business logic
+      const h24Str = date.toLocaleTimeString("en-US", { timeZone: tz, hour: "numeric", hour12: false })
+      const h24 = parseInt(h24Str)
 
-    return {
-      hour: h24,
-      display: h,
-      minute: minute === "00" ? "" : minute,
-      ampm,
-      isBusiness,
-      isNight
-    }
-  }
+      const isBusiness = h24 >= 9 && h24 < 17
+      const isNight = h24 >= 22 || h24 < 7
 
-  // Handle click-drag selection
-  const handleMouseDown = (hour: number) => {
-      setIsMouseDown(true)
-      setSelectedHour(hour)
-  }
-  const handleMouseEnter = (hour: number) => {
-      if (isMouseDown) {
-          setSelectedHour(hour)
+      const timeParts = date.toLocaleTimeString("en-US", options).split(" ")
+      // "10:30 AM" or "10:30" or "10 AM" (if :00)
+      // Actually standard format with minute:2-digit always shows minutes
+      // 10:00 AM
+
+      const fullStr = date.toLocaleTimeString("en-US", options)
+      // Remove date part if we want just time?
+      // formatToParts is better
+      const formatter = new Intl.DateTimeFormat("en-US", options)
+      const parts = formatter.formatToParts(date)
+
+      const find = (t: string) => parts.find(p => p.type === t)?.value || ""
+
+      let hour = find("hour")
+      const minute = find("minute")
+      const dayPeriod = find("dayPeriod") // AM/PM
+      const weekday = find("weekday")
+      const day = find("day")
+
+      // Clean up hour if it's "24" or "0" quirks? usually fine.
+
+      // Display logic:
+      // If minute is "00", maybe hide it for cleanliness, unless it's a 30min zone in a non-30min column?
+      // Since our columns are exact hours (X:00 UTC), if the zone has a 30min offset, minute will be "30".
+      // If the zone is standard, minute will be "00".
+
+      const showMinute = minute !== "00"
+
+      return {
+          displayHour: hour,
+          displayMinute: showMinute ? minute : "",
+          ampm: dayPeriod,
+          isBusiness,
+          isNight,
+          dateLabel: `${weekday} ${day}`
       }
   }
-  const handleMouseUp = () => {
-      setIsMouseDown(false)
-  }
 
-  // Global mouse up to catch drags outside
+  const handleMouseDown = (index: number) => {
+      setIsMouseDown(true)
+      setSelectedColIndex(index)
+  }
+  const handleMouseEnter = (index: number) => {
+      if (isMouseDown) setSelectedColIndex(index)
+  }
+  const handleMouseUp = () => setIsMouseDown(false)
+
   useEffect(() => {
       window.addEventListener("mouseup", handleMouseUp)
       return () => window.removeEventListener("mouseup", handleMouseUp)
   }, [])
 
   const filteredZones = useMemo(() => {
-    if (!searchQuery) return COMMON_ZONES
+    if (!searchQuery) return [] // Don't show generic list, show nothing or recent? User said "I cant add a new timezone - ideally I can search"
+    // Actually user said "I cant add a new timezone - ideally I can search any city or country"
+    // The previous UI had a list of common zones buttons. We can keep those or hide them.
 
     const query = searchQuery.toLowerCase()
 
-    // 1. Exact matches or substring matches in IANA zones
-    const zoneMatches = ALL_ZONES.filter(z => z.toLowerCase().includes(query))
+    // 1. Matches in LOOKUP keys (City/Country)
+    const lookupMatches = Object.entries(LOOKUP)
+        .filter(([key]) => key.toLowerCase().includes(query))
+        .map(([key, zone]) => ({ label: key, zone }))
 
-    // 2. City matches from lookup
-    const cityMatches = Object.entries(CITY_LOOKUP)
-        .filter(([city]) => city.toLowerCase().includes(query))
-        .map(([, zone]) => zone)
+    // 2. Matches in IANA zones
+    const zoneMatches = ALL_ZONES
+        .filter(z => z.toLowerCase().includes(query))
+        .map(z => ({ label: z.split("/").pop()?.replaceAll("_", " ") || z, zone: z }))
 
-    // Combine and deduplicate
-    const combined = Array.from(new Set([...zoneMatches, ...cityMatches]))
+    // Deduplicate by zone
+    const seen = new Set()
+    const combined = []
 
-    return combined
-      .sort((a, b) => {
-          // Prioritize startsWith for IANA zones
-          const aStarts = a.toLowerCase().startsWith(query)
-          const bStarts = b.toLowerCase().startsWith(query)
-          if (aStarts && !bStarts) return -1
-          if (!aStarts && bStarts) return 1
-          return a.localeCompare(b)
-      })
-      .slice(0, 50)
+    for (const item of [...lookupMatches, ...zoneMatches]) {
+        if (!seen.has(item.zone)) {
+            seen.add(item.zone)
+            combined.push(item)
+        }
+    }
+
+    return combined.slice(0, 50)
   }, [searchQuery])
 
 
@@ -309,7 +370,6 @@ function ClockPageContent() {
     <div className="min-h-screen bg-background text-foreground">
       <FloatingNav />
       <main className="px-4 pt-24 pb-12 max-w-[1600px] mx-auto space-y-6">
-        {/* Header */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <h1 className="text-3xl font-bold flex items-center gap-2">
             <Clock className="w-8 h-8 text-primary" /> World Clock App
@@ -345,20 +405,63 @@ function ClockPageContent() {
           </div>
         </div>
 
+        {/* Search */}
+        <div className="max-w-md relative z-50">
+            {!showSearch ? (
+                <button
+                    onClick={() => setShowSearch(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-muted border border-border rounded-lg text-sm font-medium hover:bg-accent transition-colors"
+                >
+                    <Search className="w-4 h-4" /> Add City or Country
+                </button>
+            ) : (
+                <div className="relative">
+                    <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
+                    <input
+                        autoFocus
+                        type="text"
+                        placeholder="Search France, India, Mumbai..."
+                        className="w-full bg-background border border-border rounded-lg pl-9 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    {searchQuery && (
+                        <div className="absolute top-full mt-1 w-full bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            {filteredZones.map(item => (
+                                <button
+                                    key={item.zone}
+                                    onClick={() => addZone(item.zone)}
+                                    className="w-full text-left px-4 py-2 text-sm hover:bg-muted transition-colors border-b border-border/50 last:border-0 flex justify-between"
+                                >
+                                    <span className="font-medium">{item.label}</span>
+                                    <span className="text-xs text-muted-foreground">{item.zone}</span>
+                                </button>
+                            ))}
+                            {filteredZones.length === 0 && (
+                                <div className="px-4 py-2 text-sm text-muted-foreground">No matches found</div>
+                            )}
+                        </div>
+                    )}
+                    <button
+                        onClick={() => setShowSearch(false)}
+                        className="absolute right-3 top-2.5 text-xs text-muted-foreground hover:text-foreground"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            )}
+        </div>
+
         {/* Calendar / Grid */}
         <div className="relative rounded-xl border border-border/50 bg-card shadow-xl overflow-hidden select-none">
             {/* Scrubber Line */}
-            {selectedHour !== null && (
+            {selectedColIndex !== null && (
                  <div
                     className="absolute top-0 bottom-0 w-[54px] border-2 border-yellow-500/50 bg-yellow-500/10 z-20 pointer-events-none rounded transition-all duration-100"
                     style={{
-                        left: 180 + (selectedHour * 56),
-                        // Offset for 2 days worth of hours
+                        left: 180 + (selectedColIndex * 56),
                     }}
                 >
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-500 text-black text-[10px] font-bold px-1.5 rounded-full">
-                        {selectedHour > 23 ? selectedHour - 24 : selectedHour}:00
-                    </div>
                 </div>
             )}
 
@@ -366,24 +469,36 @@ function ClockPageContent() {
             ref={scrollRef}
             className="grid grid-cols-[180px_repeat(48,56px)] overflow-x-auto relative pb-4"
           >
-            {/* Header Row: Days */}
+            {/* Header Row: Date Labels */}
             <div className="sticky left-0 z-30 bg-muted/80 backdrop-blur border-r border-b p-3 font-semibold text-sm flex items-center gap-2">
                 <MapPin className="w-4 h-4" /> Locations
             </div>
-            {Array.from({ length: 2 }).flatMap((_, offset) =>
-              Array.from({ length: 24 }).map((_, hour) => (
-                <div
-                  key={`day-${offset}-hour-${hour}`}
-                  className={cn(
-                    "border-r border-b text-center py-2 text-xs font-semibold bg-muted/50 text-muted-foreground",
-                    // Highlight first column of a new day
-                    hour === 0 && "border-l-2 border-l-border"
-                  )}
-                >
-                  {hour === 0 ? formatDay(offset) : ""}
-                </div>
-              ))
-            )}
+            {Array.from({ length: 48 }).map((_, i) => {
+                // We use the first zone (Home) to determine date headers?
+                // Or just UTC? Let's use UTC or the first zone if available.
+                // Actually, WTB puts the date *per zone* or on the top?
+                // Typically top row is "Home" time.
+                // Let's just put generic markers or leave empty.
+                // Better: Use the first zone to show date headers if possible.
+                const firstZone = zones[0] || "UTC"
+                const { dateLabel, displayHour } = getColumnData(firstZone, i)
+
+                // Show date label only when it changes or at start
+                const prev = i > 0 ? getColumnData(firstZone, i-1).dateLabel : ""
+                const showDate = i === 0 || dateLabel !== prev
+
+                return (
+                    <div
+                      key={`header-${i}`}
+                      className={cn(
+                        "border-r border-b text-center py-2 text-[10px] font-semibold bg-muted/50 text-muted-foreground flex flex-col justify-end",
+                        showDate && "border-l-2 border-l-primary/20"
+                      )}
+                    >
+                      {showDate && <span className="mb-1 text-primary font-bold">{dateLabel}</span>}
+                    </div>
+                )
+            })}
 
             {/* Timezone Rows */}
             {zones.map((tz, i) => (
@@ -403,8 +518,11 @@ function ClockPageContent() {
                   }}
                 >
                   <div className="flex flex-col min-w-0">
-                      <span className="font-bold text-sm truncate">{tz.split("/").pop()?.replaceAll("_", " ")}</span>
-                      <span className="text-[10px] text-muted-foreground truncate">{tz.split("/")[0]}</span>
+                      {/* Try to find a nice label from LOOKUP if possible, else City name */}
+                      <span className="font-bold text-sm truncate">
+                          {Object.entries(LOOKUP).find(([k, v]) => v === tz && !k.includes(" "))?.[0] || tz.split("/").pop()?.replaceAll("_", " ")}
+                      </span>
+                      <span className="text-[10px] text-muted-foreground truncate">{tz}</span>
                   </div>
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <GripVertical className="w-4 h-4 text-muted-foreground cursor-move" />
@@ -413,18 +531,14 @@ function ClockPageContent() {
                 </div>
 
                 {/* Hours Grid */}
-                {Array.from({ length: 2 }).flatMap((_, offset) =>
-                  Array.from({ length: 24 }).map((_, hour) => {
-                    // Adjust hour for the 2-day view logic if needed, but here simple 0-23 + offset is easier to render
-                    // Actually, we render 48 columns (0-47).
-                    const actualHourIndex = offset * 24 + hour
-                    const { display, minute, ampm, isBusiness, isNight } = getHourData(tz, hour, offset)
+                {Array.from({ length: 48 }).map((_, colIndex) => {
+                    const { displayHour, displayMinute, ampm, isBusiness, isNight } = getColumnData(tz, colIndex)
 
                     return (
                       <div
-                        key={`${tz}-${offset}-${hour}`}
-                        onMouseDown={() => handleMouseDown(actualHourIndex)}
-                        onMouseEnter={() => handleMouseEnter(actualHourIndex)}
+                        key={`${tz}-${colIndex}`}
+                        onMouseDown={() => handleMouseDown(colIndex)}
+                        onMouseEnter={() => handleMouseEnter(colIndex)}
                         className={cn(
                           "border-r border-b text-center relative h-14 flex flex-col items-center justify-center cursor-pointer transition-colors select-none",
                           // Colors
@@ -432,73 +546,28 @@ function ClockPageContent() {
                           isNight ? "bg-slate-900/10 dark:bg-slate-100/5 hover:bg-slate-900/20" :
                           "bg-amber-500/5 hover:bg-amber-500/15",
 
-                          // Selection Highlight (vertical column is handled by absolute div, but we can add subtle effect)
-                          selectedHour === actualHourIndex && "bg-primary/5"
+                          selectedColIndex === colIndex && "bg-primary/5"
                         )}
                       >
                         <span className={cn(
-                            "text-sm font-medium",
+                            "text-sm font-medium leading-none",
                             isBusiness ? "text-emerald-700 dark:text-emerald-400" :
                             isNight ? "text-slate-500 dark:text-slate-400" :
                             "text-amber-700 dark:text-amber-400"
                         )}>
-                            {display}
+                            {displayHour}
+                            {displayMinute && <span className="text-[10px] align-top">:{displayMinute}</span>}
                         </span>
                         {timeFormat === "ampm" && (
-                            <span className="text-[9px] uppercase text-muted-foreground leading-none">{ampm}</span>
+                            <span className="text-[9px] uppercase text-muted-foreground leading-none mt-0.5">{ampm}</span>
                         )}
                       </div>
                     )
                   })
-                )}
+                }
               </>
             ))}
           </div>
-        </div>
-
-        {/* Add Zone Search */}
-        <div className="max-w-md">
-            {!showSearch ? (
-                <button
-                    onClick={() => setShowSearch(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-muted border border-border rounded-lg text-sm font-medium hover:bg-accent transition-colors"
-                >
-                    <Search className="w-4 h-4" /> Add Timezone
-                </button>
-            ) : (
-                <div className="relative">
-                    <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
-                    <input
-                        autoFocus
-                        type="text"
-                        placeholder="Search city or timezone..."
-                        className="w-full bg-background border border-border rounded-lg pl-9 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    {searchQuery && (
-                        <div className="absolute top-full mt-1 w-full bg-card border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                            {filteredZones.map(z => (
-                                <button
-                                    key={z}
-                                    onClick={() => addZone(z)}
-                                    className="w-full text-left px-4 py-2 text-sm hover:bg-muted transition-colors border-b border-border/50 last:border-0 flex items-center justify-between"
-                                >
-                                    <span>{z.split("/").pop()?.replaceAll("_", " ")}</span>
-                                    {/* Show matched city name if relevant, or just the zone */}
-                                    <span className="text-xs text-muted-foreground truncate max-w-[150px]">{z}</span>
-                                </button>
-                            ))}
-                        </div>
-                    )}
-                    <button
-                        onClick={() => setShowSearch(false)}
-                        className="absolute right-3 top-2.5 text-xs text-muted-foreground hover:text-foreground"
-                    >
-                        Cancel
-                    </button>
-                </div>
-            )}
         </div>
 
         {/* Legend */}
