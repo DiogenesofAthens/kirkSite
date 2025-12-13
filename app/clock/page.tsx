@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useMemo, Suspense } from "react"
-import { Clock, X, GripVertical, Link2, Calendar, MapPin, Search } from "lucide-react"
+import { Clock, X, GripVertical, Link2, MapPin, Search } from "lucide-react"
 import { FloatingNav } from "@/components/floating-nav"
 import { cn } from "@/lib/utils"
 import { useSearchParams, useRouter } from "next/navigation"
@@ -9,6 +9,98 @@ import { useSearchParams, useRouter } from "next/navigation"
 type TimeFormat = "ampm" | "24hr"
 
 const ALL_ZONES = Intl.supportedValuesOf("timeZone")
+
+const CITY_LOOKUP: Record<string, string> = {
+  // US & Canada
+  "San Francisco": "America/Los_Angeles",
+  "Los Angeles": "America/Los_Angeles",
+  "New York": "America/New_York",
+  "Chicago": "America/Chicago",
+  "Denver": "America/Denver",
+  "Phoenix": "America/Phoenix",
+  "Seattle": "America/Los_Angeles",
+  "Austin": "America/Chicago",
+  "Boston": "America/New_York",
+  "Toronto": "America/Toronto",
+  "Vancouver": "America/Vancouver",
+  "Montreal": "America/Toronto",
+  "Miami": "America/New_York",
+  "Dallas": "America/Chicago",
+  "Houston": "America/Chicago",
+  "Atlanta": "America/New_York",
+  "Washington DC": "America/New_York",
+  "Detroit": "America/Detroit",
+  "Minneapolis": "America/Chicago",
+
+  // Europe
+  "London": "Europe/London",
+  "Paris": "Europe/Paris",
+  "Berlin": "Europe/Berlin",
+  "Rome": "Europe/Rome",
+  "Madrid": "Europe/Madrid",
+  "Amsterdam": "Europe/Amsterdam",
+  "Dublin": "Europe/Dublin",
+  "Brussels": "Europe/Brussels",
+  "Vienna": "Europe/Vienna",
+  "Zurich": "Europe/Zurich",
+  "Stockholm": "Europe/Stockholm",
+  "Oslo": "Europe/Oslo",
+  "Copenhagen": "Europe/Copenhagen",
+  "Helsinki": "Europe/Helsinki",
+  "Warsaw": "Europe/Warsaw",
+  "Prague": "Europe/Prague",
+  "Budapest": "Europe/Budapest",
+  "Athens": "Europe/Athens",
+  "Istanbul": "Europe/Istanbul",
+  "Moscow": "Europe/Moscow",
+  "Kyiv": "Europe/Kyiv",
+
+  // Asia
+  "Tokyo": "Asia/Tokyo",
+  "Seoul": "Asia/Seoul",
+  "Beijing": "Asia/Shanghai",
+  "Shanghai": "Asia/Shanghai",
+  "Hong Kong": "Asia/Hong_Kong",
+  "Singapore": "Asia/Singapore",
+  "Bangkok": "Asia/Bangkok",
+  "Mumbai": "Asia/Kolkata",
+  "Delhi": "Asia/Kolkata",
+  "Bangalore": "Asia/Kolkata",
+  "Dubai": "Asia/Dubai",
+  "Abu Dhabi": "Asia/Dubai",
+  "Riyadh": "Asia/Riyadh",
+  "Tel Aviv": "Asia/Jerusalem",
+  "Jakarta": "Asia/Jakarta",
+  "Manila": "Asia/Manila",
+  "Taipei": "Asia/Taipei",
+  "Kuala Lumpur": "Asia/Kuala_Lumpur",
+  "Ho Chi Minh City": "Asia/Ho_Chi_Minh",
+
+  // Oceania
+  "Sydney": "Australia/Sydney",
+  "Melbourne": "Australia/Melbourne",
+  "Brisbane": "Australia/Brisbane",
+  "Perth": "Australia/Perth",
+  "Adelaide": "Australia/Adelaide",
+  "Auckland": "Pacific/Auckland",
+  "Wellington": "Pacific/Auckland",
+
+  // Latin America
+  "Sao Paulo": "America/Sao_Paulo",
+  "Rio de Janeiro": "America/Sao_Paulo",
+  "Buenos Aires": "America/Argentina/Buenos_Aires",
+  "Santiago": "America/Santiago",
+  "Lima": "America/Lima",
+  "Bogota": "America/Bogota",
+  "Mexico City": "America/Mexico_City",
+
+  // Africa
+  "Johannesburg": "Africa/Johannesburg",
+  "Cape Town": "Africa/Johannesburg",
+  "Cairo": "Africa/Cairo",
+  "Lagos": "Africa/Lagos",
+  "Nairobi": "Africa/Nairobi",
+}
 
 const COMMON_ZONES = [
   "America/Los_Angeles",
@@ -186,16 +278,30 @@ function ClockPageContent() {
 
   const filteredZones = useMemo(() => {
     if (!searchQuery) return COMMON_ZONES
-    return ALL_ZONES.filter(z => z.toLowerCase().includes(searchQuery.toLowerCase()))
+
+    const query = searchQuery.toLowerCase()
+
+    // 1. Exact matches or substring matches in IANA zones
+    const zoneMatches = ALL_ZONES.filter(z => z.toLowerCase().includes(query))
+
+    // 2. City matches from lookup
+    const cityMatches = Object.entries(CITY_LOOKUP)
+        .filter(([city]) => city.toLowerCase().includes(query))
+        .map(([, zone]) => zone)
+
+    // Combine and deduplicate
+    const combined = Array.from(new Set([...zoneMatches, ...cityMatches]))
+
+    return combined
       .sort((a, b) => {
-          // Prioritize startsWith
-          const aStarts = a.toLowerCase().startsWith(searchQuery.toLowerCase())
-          const bStarts = b.toLowerCase().startsWith(searchQuery.toLowerCase())
+          // Prioritize startsWith for IANA zones
+          const aStarts = a.toLowerCase().startsWith(query)
+          const bStarts = b.toLowerCase().startsWith(query)
           if (aStarts && !bStarts) return -1
           if (!aStarts && bStarts) return 1
           return a.localeCompare(b)
       })
-      .slice(0, 20)
+      .slice(0, 50)
   }, [searchQuery])
 
 
@@ -206,7 +312,7 @@ function ClockPageContent() {
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Clock className="w-8 h-8 text-primary" /> Global Meeting Planner
+            <Clock className="w-8 h-8 text-primary" /> World Clock App
           </h1>
           <div className="flex items-center gap-3">
             <div className="flex bg-muted rounded-lg p-1">
@@ -376,9 +482,11 @@ function ClockPageContent() {
                                 <button
                                     key={z}
                                     onClick={() => addZone(z)}
-                                    className="w-full text-left px-4 py-2 text-sm hover:bg-muted transition-colors border-b border-border/50 last:border-0"
+                                    className="w-full text-left px-4 py-2 text-sm hover:bg-muted transition-colors border-b border-border/50 last:border-0 flex items-center justify-between"
                                 >
-                                    {z}
+                                    <span>{z.split("/").pop()?.replaceAll("_", " ")}</span>
+                                    {/* Show matched city name if relevant, or just the zone */}
+                                    <span className="text-xs text-muted-foreground truncate max-w-[150px]">{z}</span>
                                 </button>
                             ))}
                         </div>
