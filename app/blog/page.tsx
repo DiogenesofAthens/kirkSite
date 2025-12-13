@@ -6,16 +6,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Calendar, Clock, ArrowRight, Mail, Search, Tag } from "lucide-react"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { Calendar, Clock, ArrowRight, Mail, Search, Check, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { useState, useMemo } from "react"
 import Lottie from "lottie-react"
 import { ContactModal } from "@/components/contact-modal"
+import { cn } from "@/lib/utils"
 
 export default function Blog() {
   const [showContactForm, setShowContactForm] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [open, setOpen] = useState(false)
 
   const blogPosts = [
     {
@@ -78,10 +82,18 @@ export default function Blog() {
     return blogPosts.filter(post => {
       const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
-      const matchesCategory = selectedCategory ? post.category === selectedCategory : true
+      const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category)
       return matchesSearch && matchesCategory
     })
-  }, [searchQuery, selectedCategory, blogPosts])
+  }, [searchQuery, selectedCategories, blogPosts])
+
+  const toggleCategory = (category: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    )
+  }
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -108,8 +120,8 @@ export default function Blog() {
             </p>
 
             {/* Search and Filter */}
-            <div className="flex flex-col md:flex-row gap-4 justify-center items-center max-w-2xl mx-auto mb-8">
-                <div className="relative w-full md:w-80">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-xl mx-auto mb-8">
+                <div className="relative w-full sm:flex-1">
                     <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                         placeholder="Search articles..."
@@ -118,27 +130,47 @@ export default function Blog() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </div>
-                <div className="flex flex-wrap gap-2 justify-center">
+
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
                     <Button
-                        variant={selectedCategory === null ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setSelectedCategory(null)}
-                        className="rounded-full"
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="w-full sm:w-[200px] justify-between bg-white/50 dark:bg-slate-900/50"
                     >
-                        All
+                      {selectedCategories.length > 0
+                        ? `${selectedCategories.length} selected`
+                        : "Filter Category"}
+                      <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
-                    {categories.map(cat => (
-                        <Button
-                            key={cat}
-                            variant={selectedCategory === cat ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setSelectedCategory(cat === selectedCategory ? null : cat)}
-                            className="rounded-full"
-                        >
-                            {cat}
-                        </Button>
-                    ))}
-                </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search category..." />
+                      <CommandList>
+                        <CommandEmpty>No category found.</CommandEmpty>
+                        <CommandGroup>
+                          {categories.map((category) => (
+                            <CommandItem
+                              key={category}
+                              value={category}
+                              onSelect={() => toggleCategory(category)}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  selectedCategories.includes(category) ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {category}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
             </div>
           </div>
 
@@ -201,7 +233,7 @@ export default function Blog() {
             ) : (
                 <div className="col-span-full text-center py-12 text-muted-foreground">
                     <p>No posts found matching your criteria.</p>
-                    <Button variant="link" onClick={() => {setSearchQuery(""); setSelectedCategory(null)}}>Clear Filters</Button>
+                    <Button variant="link" onClick={() => {setSearchQuery(""); setSelectedCategories([])}}>Clear Filters</Button>
                 </div>
             )}
           </div>
