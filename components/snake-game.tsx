@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RotateCcw, Play, Pause } from "lucide-react"
+import { saveScore } from "./arcade-leaderboard"
 
 const GRID_SIZE = 20
 const INITIAL_SNAKE = [{ x: 10, y: 10 }]
@@ -49,6 +50,7 @@ export function SnakeGame() {
       if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
         setGameOver(true)
         setGameRunning(false)
+        saveScore("snake", score)
         return currentSnake
       }
 
@@ -56,6 +58,7 @@ export function SnakeGame() {
       if (newSnake.some((segment) => segment.x === head.x && segment.y === head.y)) {
         setGameOver(true)
         setGameRunning(false)
+        saveScore("snake", score)
         return currentSnake
       }
 
