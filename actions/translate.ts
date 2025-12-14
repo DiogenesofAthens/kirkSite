@@ -24,7 +24,7 @@ Output Languages: C#, Apex, Python (Pandas), TypeScript, English (Explanation)
 Format your response as markdown code blocks if possible, or clear text.
 `
 
-export async function translateCode(inputCode: string, fromLang: string, toLang: string) {
+export async function translateCode(inputCode: string, fromLang: string, toLang: string, includeExplanation: boolean = true) {
   if (!inputCode || !fromLang || !toLang) {
     return { error: "Missing input" }
   }
@@ -40,11 +40,11 @@ export async function translateCode(inputCode: string, fromLang: string, toLang:
 
 // Here is how a Senior Data Engineer would translate your ${fromLang} to ${toLang}:
 
-/*
+${includeExplanation ? `/*
  * Analysis:
  * The input code appears to be ${fromLang}.
  * Converting to idiomatic ${toLang}...
- */
+ */` : ''}
 
 // Translated Code:
 // (This is a simulation because the LLM is not connected)
@@ -55,10 +55,20 @@ ${toLang === 'TypeScript' ? 'interface DataPayload {\n  id: string;\n}' : ''}
       }
     }
 
+    let prompt = `Translate the following ${fromLang === 'Auto Detect' ? 'code (auto-detect language)' : fromLang + ' code'} to ${toLang}.`
+
+    if (!includeExplanation) {
+      prompt += `\nIMPORTANT: Return ONLY the code in ${toLang}. Do not include any explanations, markdown backticks, or analysis. Just the raw code.`
+    } else {
+      prompt += `\nInclude a brief Senior Engineer explanation of the changes and optimizations made.`
+    }
+
+    prompt += `\n\nCODE:\n${inputCode}`
+
     const { text } = await generateText({
       model: groq("llama-3.3-70b-versatile"), // Using high-performance Llama 3 on Groq
       system: SYSTEM_PROMPT,
-      prompt: `Translate the following ${fromLang} code to ${toLang}:\n\n${inputCode}`,
+      prompt: prompt,
     })
 
     return { text }

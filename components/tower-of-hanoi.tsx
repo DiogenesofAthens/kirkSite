@@ -196,7 +196,7 @@ export function TowerOfHanoi() {
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="relative z-50 mb-8"
+        className="relative z-50 mb-4"
       >
         <div className="mx-auto max-w-2xl bg-slate-900/5 dark:bg-white/10 backdrop-blur-xl border border-slate-900/10 dark:border-white/20 rounded-2xl p-4 shadow-xl flex items-center justify-between text-slate-900 dark:text-white transition-colors duration-300">
           <div className="flex flex-col">
@@ -248,7 +248,7 @@ export function TowerOfHanoi() {
       </motion.div>
 
       {/* Game Board */}
-      <div className="relative h-[350px] md:h-[450px] flex items-end justify-center perspective-origin-bottom">
+      <div className="relative h-[300px] md:h-[400px] flex items-end justify-center perspective-origin-bottom">
 
           {/* Spotlight Effect when Won */}
           {isWon && (

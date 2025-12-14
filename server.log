@@ -1,14 +1,27 @@
 
-> my-v0-project@0.1.0 start
-> next start
+> my-v0-project@0.1.0 dev
+> next dev
 
- ⨯ Failed to start server
-Error: listen EADDRINUSE: address already in use :::3000
-    at <unknown> (Error: listen EADDRINUSE: address already in use :::3000)
-    at new Promise (<anonymous>) {
-  code: 'EADDRINUSE',
-  errno: -98,
-  syscall: 'listen',
-  address: '::',
-  port: 3000
-}
+ ⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
+   ▲ Next.js 16.0.10 (Turbopack, Cache Components)
+   - Local:         http://localhost:3001
+   - Network:       http://192.168.0.2:3001
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 2.5s
+ ○ Compiling / ...
+
+warn - The class `duration-[10000ms]` is ambiguous and matches multiple utilities.
+warn - If this is content and not a class, replace it with `duration-&lsqb;10000ms&rsqb;` to silence this warning.
+ GET / 200 in 14.2s (compile: 13.2s, render: 964ms)
+ GET /tools/translator 200 in 3.3s (compile: 2.9s, render: 446ms)
+ GET / 200 in 189ms (compile: 4ms, render: 185ms)
+ GET / 200 in 196ms (compile: 5ms, render: 190ms)
+ ○ Compiling /arcade ...
+ GET /arcade 200 in 4.0s (compile: 3.6s, render: 453ms)
+ GET /tools/translator 200 in 269ms (compile: 5ms, render: 265ms)
+ GET /resources 200 in 1594ms (compile: 1245ms, render: 349ms)
+ GET /arcade 200 in 379ms (compile: 8ms, render: 371ms)
+ GET /tools/translator 200 in 220ms (compile: 8ms, render: 212ms)
+ GET /resources 200 in 216ms (compile: 5ms, render: 211ms)
