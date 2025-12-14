@@ -1,7 +1,12 @@
 "use server"
 
 import { generateText } from "ai"
-import { openai } from "@ai-sdk/openai"
+import { createGroq } from "@ai-sdk/groq"
+
+// Initialize Groq provider with the API key from environment
+const groq = createGroq({
+  apiKey: process.env.GROQ_API_KEY,
+})
 
 // Define a Senior Data Engineer persona
 const SYSTEM_PROMPT = `
@@ -25,11 +30,14 @@ export async function translateCode(inputCode: string, fromLang: string, toLang:
   }
 
   try {
-    // Check for API Key (environment variable must be set)
-    if (!process.env.OPENAI_API_KEY) {
+    // Check for API Key
+    if (!process.env.GROQ_API_KEY) {
+      console.warn("Missing GROQ_API_KEY")
       // Fallback/Mock for demo if key is missing
       return {
-          text: `// [MOCK MODE: OPENAI_API_KEY not found]
+          text: `// [MOCK MODE: GROQ_API_KEY not found]
+// Please check your .env.local file.
+
 // Here is how a Senior Data Engineer would translate your ${fromLang} to ${toLang}:
 
 /*
@@ -43,14 +51,12 @@ export async function translateCode(inputCode: string, fromLang: string, toLang:
 
 ${toLang === 'Python (Pandas)' ? 'import pandas as pd\n\n# Optimized dataframe operation' : ''}
 ${toLang === 'TypeScript' ? 'interface DataPayload {\n  id: string;\n}' : ''}
-
-// Note: Please configure the OPENAI_API_KEY in your project settings to get real AI translations.
 `
       }
     }
 
     const { text } = await generateText({
-      model: openai("gpt-4o"), // or gpt-4-turbo
+      model: groq("llama-3.3-70b-versatile"), // Using high-performance Llama 3 on Groq
       system: SYSTEM_PROMPT,
       prompt: `Translate the following ${fromLang} code to ${toLang}:\n\n${inputCode}`,
     })
