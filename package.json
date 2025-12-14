@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ai-sdk/groq": "^2.0.33",
     "@ai-sdk/openai": "^2.0.86",
     "@hookform/resolvers": "^3.9.1",
     "@monaco-editor/react": "^4.7.0",
