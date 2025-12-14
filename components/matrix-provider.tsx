@@ -70,7 +70,16 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
     <MatrixContext.Provider value={{ isMatrixMode, toggleMatrixMode, triggerMatrixMode }}>
       {children}
       {isMatrixMode && (
-        <div className="fixed top-4 right-16 z-50 bg-black/80 border border-green-500 p-2 font-mono text-xs text-green-500 rounded shadow-[0_0_10px_#00ff00]">
+        <div className="fixed bottom-4 right-4 z-[9999] bg-black/90 border border-green-500 p-3 font-mono text-xs text-green-500 rounded shadow-[0_0_15px_#00ff00] min-w-[150px]">
+            <div className="flex justify-between items-start mb-2 border-b border-green-500/30 pb-1">
+                <span className="font-bold">DEBUG_MODE</span>
+                <button
+                  onClick={() => setIsMatrixMode(false)}
+                  className="text-green-500 hover:text-white hover:bg-green-500/20 px-1 rounded"
+                >
+                  [x]
+                </button>
+            </div>
             <DebugStats />
         </div>
       )}

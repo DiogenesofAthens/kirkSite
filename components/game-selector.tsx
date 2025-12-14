@@ -25,22 +25,26 @@ export function GameSelector() {
   // Easter Egg State using Refs to prevent double-firing or stale closures
   const tapCountRef = useRef(0)
   const lastTapRef = useRef(0)
+  const hasWarnedRef = useRef(false)
 
   const handleSecretTap = (e: React.MouseEvent) => {
     const now = Date.now()
     // Reset if too slow
     if (now - lastTapRef.current > 500) {
       tapCountRef.current = 1
+      hasWarnedRef.current = false
     } else {
       tapCountRef.current += 1
 
       const count = tapCountRef.current
-      if (count === 3) {
-        toast("You are 4 steps away from developer mode...")
+      if (count === 3 && !hasWarnedRef.current) {
+        toast("You are 4 steps away from developer mode...", { id: 'matrix-warning' })
+        hasWarnedRef.current = true
       } else if (count === 7) {
         triggerMatrixMode()
-        toast.success("Matrix Mode Activated! Follow the white rabbit...")
+        toast.success("Matrix Mode Activated! Follow the white rabbit...", { id: 'matrix-activated' })
         tapCountRef.current = 0
+        hasWarnedRef.current = false
       }
     }
     lastTapRef.current = now

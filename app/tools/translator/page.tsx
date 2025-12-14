@@ -1,10 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import { Loader2, ArrowRightLeft, Code2, Sparkles } from "lucide-react"
 import Editor from "@monaco-editor/react"
 import { translateCode } from "@/actions/translate"
@@ -12,6 +14,7 @@ import { toast } from "sonner"
 import { useTheme } from "next-themes"
 
 const INPUT_LANGUAGES = [
+  "Auto Detect",
   "Apex",
   "C#",
   "Excel Formula",
@@ -34,7 +37,14 @@ export default function CodeTranslatorPage() {
   const [outputCode, setOutputCode] = useState("// Translation will appear here...")
   const [fromLang, setFromLang] = useState("Salesforce SOQL")
   const [toLang, setToLang] = useState("Python (Pandas)")
+  const [includeExplanation, setIncludeExplanation] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [editorTheme, setEditorTheme] = useState("vs-dark")
+
+  // Force dark theme for editor if page is dark, or just default to dark for "hacker" feel
+  useEffect(() => {
+    setEditorTheme(theme === 'dark' ? "vs-dark" : "light")
+  }, [theme])
 
   const handleTranslate = async () => {
     if (!inputCode.trim()) {
@@ -44,7 +54,7 @@ export default function CodeTranslatorPage() {
 
     setLoading(true)
     try {
-      const result = await translateCode(inputCode, fromLang, toLang)
+      const result = await translateCode(inputCode, fromLang, toLang, includeExplanation)
       if (result.error) {
         toast.error(result.error)
       } else if (result.text) {
@@ -61,6 +71,7 @@ export default function CodeTranslatorPage() {
   // Map language names to Monaco language IDs for syntax highlighting
   const getMonacoLang = (lang: string) => {
     switch(lang) {
+      case "Auto Detect": return "text"
       case "Apex": return "java" // apex is close to java
       case "Salesforce SOQL": return "sql"
       case "Legacy Java": return "java"
@@ -79,7 +90,7 @@ export default function CodeTranslatorPage() {
 
       <main className="pt-24 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto h-[calc(100vh-20px)] flex flex-col">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 z-10 relative">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-blue-600/10 rounded-xl">
               <Code2 className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -126,6 +137,17 @@ export default function CodeTranslatorPage() {
              </Select>
            </div>
 
+           <div className="flex items-center space-x-2 border-l pl-4 border-slate-200 dark:border-slate-700">
+              <Checkbox
+                id="explanation"
+                checked={includeExplanation}
+                onCheckedChange={(c) => setIncludeExplanation(c as boolean)}
+              />
+              <Label htmlFor="explanation" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer text-slate-600 dark:text-slate-300">
+                Explain Code
+              </Label>
+           </div>
+
            <div className="flex-1" />
 
            <Button
@@ -162,7 +184,7 @@ export default function CodeTranslatorPage() {
                    language={getMonacoLang(fromLang)}
                    value={inputCode}
                    onChange={(val) => setInputCode(val || "")}
-                   theme={theme === 'dark' ? "vs-dark" : "light"}
+                   theme={editorTheme}
                    options={{
                      minimap: { enabled: false },
                      fontSize: 14,
@@ -195,7 +217,7 @@ export default function CodeTranslatorPage() {
                    defaultLanguage={getMonacoLang(toLang)}
                    language={getMonacoLang(toLang)}
                    value={outputCode}
-                   theme={theme === 'dark' ? "vs-dark" : "light"}
+                   theme={editorTheme}
                    options={{
                      minimap: { enabled: false },
                      fontSize: 14,
