@@ -5,6 +5,7 @@ import "./globals.css"
 import { Chatbot } from "@/components/chatbot"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
+import { MatrixProvider } from "@/components/matrix-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -39,9 +40,11 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <ScrollToTop />
-          {children}
-          <Chatbot />
+          <MatrixProvider>
+            <ScrollToTop />
+            {children}
+            <Chatbot />
+          </MatrixProvider>
         </ThemeProvider>
       </body>
     </html>

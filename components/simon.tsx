@@ -11,7 +11,7 @@ const colors = [
 
 const frequencies = [329.63, 261.63, 220.00, 164.81]
 
-export default function SimonSays() {
+export function SimonGame() {
   const [sequence, setSequence] = useState<number[]>([])
   const [userInput, setUserInput] = useState<number[]>([])
   const [isPlaying, setIsPlaying] = useState(false)

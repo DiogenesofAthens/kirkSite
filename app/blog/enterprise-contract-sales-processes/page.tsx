@@ -321,6 +321,8 @@ In this space, you’re not just selling automation—you’re helping teams reg
                       width={800}
                       height={400}
                       className="w-full h-64 object-cover rounded-lg transition-transform hover:scale-105 duration-200"
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  priority
                     />
                   </button>
                 )}

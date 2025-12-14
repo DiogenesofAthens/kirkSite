@@ -5,10 +5,14 @@ import { Clock } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 export function TimezoneClock() {
-  const [time, setTime] = useState(new Date())
+  const [time, setTime] = useState<Date | null>(null)
   const [timezone, setTimezone] = useState("America/Los_Angeles")
   const [clicks, setClicks] = useState(0)
   const router = useRouter()
+
+  useEffect(() => {
+    setTime(new Date())
+  }, [])
 
   const timezones = [
     { value: "America/Los_Angeles", label: "PT" },
@@ -33,6 +37,10 @@ export function TimezoneClock() {
     const timeout = setTimeout(() => setClicks(0), 2000)
     return () => clearTimeout(timeout)
   }, [clicks])
+
+  if (!time) {
+      return null
+  }
 
   const handleClockClick = () => {
     const newClicks = clicks + 1

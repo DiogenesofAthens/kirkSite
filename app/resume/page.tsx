@@ -253,14 +253,7 @@ const collapseAll = () => setOpenCompanyIndex(-1);
                         <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">{company.company}</CardTitle>
                         <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
                           {company.company === "Conga"
-                            ? (() => {
-                                const start = new Date(2017, 8);
-                                const now = new Date();
-                                const totalMonths = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
-                                const years = Math.floor(totalMonths / 12);
-                                const months = totalMonths % 12;
-                                return `Sep 2017 - Present · ${years} yrs${months > 0 ? ` ${months} mos` : ""}`;
-                              })()
+                            ? "Sep 2017 - Present"
                             : company.positions[0].duration}
                         </CardDescription>
                       </div>

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import SimonSays from "@/components/simon"
+import { SimonGame } from "@/components/simon"
 import { TowerOfHanoi } from "@/components/tower-of-hanoi"
 import { MemoryGame } from "@/components/memory-game"
 import { ArrowLeft, Gamepad2 } from "lucide-react"
@@ -40,7 +40,7 @@ export function GameSelector() {
   const renderGame = () => {
     switch (selectedGame) {
       case "simon":
-        return <SimonSays />
+        return <SimonGame />
       case "hanoi":
         return <TowerOfHanoi />
       case "memory":
