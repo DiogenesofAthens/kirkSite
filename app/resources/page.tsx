@@ -5,14 +5,14 @@ import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { GameSelector } from "@/components/game-selector"
-import { FileText, Coffee, Beer, Heart, Calculator, Mail } from "lucide-react"
+import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import Lottie from "lottie-react"
 import animationData from "@/public/images/resources-ani.json"
 import { ContactModal } from "@/components/contact-modal"
 
-const iconMap = { FileText, Calculator }
+const iconMap = { FileText, Calculator, QrCode, Clock, DollarSign }
 const donationIconMap = { Coffee, Beer, Heart }
 
 export default function Resources() {
@@ -54,6 +54,30 @@ const guides = [
     icon: "FileText",
     donationIcon: "Heart",
     link: "/launchpad",
+  },
+]
+
+const tools = [
+  {
+    id: "timezone-converter",
+    title: "World Clock App",
+    description: "Visualize timezones, schedule meetings, and find the perfect overlap.",
+    icon: "Clock",
+    link: "/clock",
+  },
+  {
+    id: "meeting-cost",
+    title: "Meeting Cost Calculator",
+    description: "Real-time ticker showing exactly how much that meeting costs.",
+    icon: "DollarSign",
+    link: "/resources/meeting-cost",
+  },
+  {
+    id: "qr-generator",
+    title: "QR Code Generator",
+    description: "Create instant QR codes for URLs, Wi-Fi, and more directly in your browser.",
+    icon: "QrCode",
+    link: "/resources/qr-code",
   },
 ]
 
@@ -115,6 +139,30 @@ const guides = [
                           </div>
                         </div>
                       </CardContent>
+                    </Card>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="mb-16">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Free Tools</h2>
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {tools.map((tool) => {
+                const Icon = iconMap[tool.icon as keyof typeof iconMap]
+                return (
+                  <Link key={tool.id} href={tool.link}>
+                    <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50">
+                      <CardHeader>
+                        <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                          <Icon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                        </div>
+                        <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{tool.title}</CardTitle>
+                        <CardDescription className="text-slate-700 dark:text-slate-300">
+                          {tool.description}
+                        </CardDescription>
+                      </CardHeader>
                     </Card>
                   </Link>
                 )

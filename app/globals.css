@@ -67,6 +67,32 @@ body {
     --gradient-via: 215 27.9% 16.9%;
     --gradient-to: 220 13% 18%;
   }
+
+  .matrix-mode {
+    --background: 0 0% 0%;
+    --foreground: 120 100% 50%;
+    --card: 0 0% 5%;
+    --card-foreground: 120 100% 50%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 120 100% 50%;
+    --primary: 120 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 120 100% 20%;
+    --secondary-foreground: 120 100% 50%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 120 60% 40%;
+    --accent: 120 100% 10%;
+    --accent-foreground: 120 100% 50%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 120 100% 50%;
+    --border: 120 100% 30%;
+    --input: 120 100% 30%;
+    --ring: 120 100% 50%;
+
+    --gradient-from: 0 0% 0%;
+    --gradient-via: 0 0% 5%;
+    --gradient-to: 0 0% 0%;
+  }
 }
 
 @layer base {
@@ -92,7 +118,19 @@ body {
     @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-white/20 dark:border-slate-700/50;
   }
 
+  .matrix-mode .glass {
+    @apply bg-black/90 border-green-900/50 shadow-[0_0_15px_rgba(0,255,0,0.1)];
+  }
+
   .glass-nav {
     @apply bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-gray-200/50 dark:border-slate-700/50;
+  }
+
+  .matrix-mode .glass-nav {
+    @apply bg-black/95 border-green-800/50 text-green-500 shadow-[0_0_10px_rgba(0,255,0,0.2)];
+  }
+
+  .matrix-mode * {
+    font-family: 'Courier New', monospace !important;
   }
 }
