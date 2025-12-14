@@ -196,11 +196,11 @@ export function TowerOfHanoi() {
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="relative z-50 mb-12"
+        className="relative z-50 mb-8"
       >
-        <div className="mx-auto max-w-2xl bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-xl flex items-center justify-between text-white">
+        <div className="mx-auto max-w-2xl bg-slate-900/5 dark:bg-white/10 backdrop-blur-xl border border-slate-900/10 dark:border-white/20 rounded-2xl p-4 shadow-xl flex items-center justify-between text-slate-900 dark:text-white transition-colors duration-300">
           <div className="flex flex-col">
-            <span className="text-xs text-white/60 font-semibold tracking-wider uppercase">Difficulty</span>
+            <span className="text-xs text-slate-500 dark:text-white/60 font-semibold tracking-wider uppercase transition-colors">Difficulty</span>
             <div className="flex items-center gap-2 mt-1">
                <div className="flex gap-1">
                  {[3, 4, 5, 6].map(level => (
@@ -211,8 +211,8 @@ export function TowerOfHanoi() {
                      className={cn(
                        "w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold transition-all",
                        difficulty === level
-                        ? "bg-white text-black shadow-[0_2px_0_rgba(0,0,0,0.2)] translate-y-0"
-                        : "bg-white/10 text-white hover:bg-white/20"
+                        ? "bg-slate-900 text-white dark:bg-white dark:text-black shadow-md translate-y-0"
+                        : "bg-transparent text-slate-500 hover:bg-slate-900/5 dark:text-white dark:hover:bg-white/20"
                      )}
                    >
                      {level}
@@ -229,18 +229,18 @@ export function TowerOfHanoi() {
                     key={s}
                     className={cn(
                         "w-6 h-6 transition-all duration-500",
-                        s <= stars ? "fill-yellow-400 text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]" : "text-white/20"
+                        s <= stars ? "fill-yellow-400 text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]" : "text-slate-300 dark:text-white/20"
                     )}
                  />
                ))}
              </div>
-             <div className="text-xs font-mono text-white/80">
-                MOVES: <span className={cn("font-bold text-lg", moves > minMoves ? "text-red-400" : "text-white")}>{moves}</span> / {minMoves}
+             <div className="text-xs font-mono text-slate-500 dark:text-white/80 transition-colors">
+                MOVES: <span className={cn("font-bold text-lg", moves > minMoves ? "text-red-500 dark:text-red-400" : "text-slate-900 dark:text-white")}>{moves}</span> / {minMoves}
              </div>
           </div>
 
           <div className="flex gap-2">
-            <Button variant="ghost" size="icon" onClick={initializeGame} className="text-white hover:bg-white/10 hover:text-white">
+            <Button variant="ghost" size="icon" onClick={initializeGame} className="text-slate-500 hover:text-slate-900 hover:bg-slate-900/5 dark:text-white dark:hover:bg-white/10 dark:hover:text-white transition-colors">
                 <RotateCcw className="w-5 h-5" />
             </Button>
           </div>
@@ -248,7 +248,7 @@ export function TowerOfHanoi() {
       </motion.div>
 
       {/* Game Board */}
-      <div className="relative h-[400px] md:h-[500px] flex items-end justify-center perspective-origin-bottom">
+      <div className="relative h-[350px] md:h-[450px] flex items-end justify-center perspective-origin-bottom">
 
           {/* Spotlight Effect when Won */}
           {isWon && (
@@ -336,7 +336,7 @@ export function TowerOfHanoi() {
                       <div className="absolute inset-0 z-0 bg-transparent" />
 
                       {/* Peg Label */}
-                      <div className="absolute -bottom-10 font-bold text-neutral-400 font-mono text-xl">
+                      <div className="absolute -bottom-10 font-bold text-slate-400 dark:text-neutral-500 font-mono text-xl transition-colors">
                           {String.fromCharCode(65 + pegIndex)}
                       </div>
                   </div>
