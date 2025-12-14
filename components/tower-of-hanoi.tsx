@@ -285,6 +285,7 @@ export function TowerOfHanoi() {
                           {peg.map((ring, ringIndex) => {
                               const isTop = ringIndex === peg.length - 1
                               const isDraggable = isTop && !isWon
+                              const isSelected = selectedPeg === pegIndex && isTop
 
                               return (
                                 <motion.div
@@ -298,7 +299,11 @@ export function TowerOfHanoi() {
                                   whileHover={isDraggable ? { y: -10, scale: 1.05 } : {}}
                                   whileDrag={{ scale: 1.1, zIndex: 100, cursor: "grabbing" }}
                                   initial={false}
-                                  animate={{ y: 0, scale: 1 }}
+                                  animate={{
+                                    y: isSelected ? -20 : 0,
+                                    scale: isSelected ? 1.05 : 1,
+                                    zIndex: isSelected ? 50 : 0
+                                  }}
                                   transition={{
                                       type: "spring",
                                       stiffness: 500,
@@ -308,7 +313,8 @@ export function TowerOfHanoi() {
                                   className={cn(
                                       "relative rounded-xl cursor-pointer transition-colors",
                                       ring.color,
-                                      isDraggable ? "cursor-grab" : "cursor-default"
+                                      isDraggable ? "cursor-grab" : "cursor-default",
+                                      isSelected ? "ring-2 ring-white ring-offset-2 ring-offset-black/50" : ""
                                   )}
                                   style={{
                                       width: `${40 + (ring.size * 20)}px`,
