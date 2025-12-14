@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SimonGame } from "@/components/simon"
@@ -22,30 +22,28 @@ export function GameSelector() {
   const [selectedGame, setSelectedGame] = useState<GameType>(null)
   const { triggerMatrixMode } = useMatrix()
 
-  // Easter Egg State
-  const [tapCount, setTapCount] = useState(0)
-  const [lastTap, setLastTap] = useState(0)
+  // Easter Egg State using Refs to prevent double-firing or stale closures
+  const tapCountRef = useRef(0)
+  const lastTapRef = useRef(0)
 
   const handleSecretTap = (e: React.MouseEvent) => {
-    // Only process taps, don't block propagation necessarily unless we want to prevent navigation if it was a link
-    // Here it's a div/icon, so safe.
-
     const now = Date.now()
-    if (now - lastTap > 500) {
-      setTapCount(1)
+    // Reset if too slow
+    if (now - lastTapRef.current > 500) {
+      tapCountRef.current = 1
     } else {
-      const newCount = tapCount + 1
-      setTapCount(newCount)
+      tapCountRef.current += 1
 
-      if (newCount === 3) {
+      const count = tapCountRef.current
+      if (count === 3) {
         toast("You are 4 steps away from developer mode...")
-      } else if (newCount === 7) {
+      } else if (count === 7) {
         triggerMatrixMode()
         toast.success("Matrix Mode Activated! Follow the white rabbit...")
-        setTapCount(0)
+        tapCountRef.current = 0
       }
     }
-    setLastTap(now)
+    lastTapRef.current = now
   }
 
   const games = [
