@@ -110,7 +110,7 @@ const tools = [
           </div>
 
           <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Premium Resources</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Premium Resources</h2>
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {guides.map((guide) => {
                 const Icon = iconMap[guide.icon as keyof typeof iconMap]
@@ -147,7 +147,7 @@ const tools = [
           </div>
 
           <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Free Tools</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Free Tools</h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {tools.map((tool) => {
                 const Icon = iconMap[tool.icon as keyof typeof iconMap]
