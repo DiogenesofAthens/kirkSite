@@ -13,11 +13,40 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useMatrix } from "@/components/matrix-provider"
+import { toast } from "sonner"
 
 type GameType = "simon" | "hanoi" | "memory" | null
 
 export function GameSelector() {
   const [selectedGame, setSelectedGame] = useState<GameType>(null)
+  const { triggerMatrixMode } = useMatrix()
+
+  // Easter Egg State
+  const [tapCount, setTapCount] = useState(0)
+  const [lastTap, setLastTap] = useState(0)
+
+  const handleSecretTap = (e: React.MouseEvent) => {
+    // Only process taps, don't block propagation necessarily unless we want to prevent navigation if it was a link
+    // Here it's a div/icon, so safe.
+
+    const now = Date.now()
+    if (now - lastTap > 500) {
+      setTapCount(1)
+    } else {
+      const newCount = tapCount + 1
+      setTapCount(newCount)
+
+      if (newCount === 3) {
+        toast("You are 4 steps away from developer mode...")
+      } else if (newCount === 7) {
+        triggerMatrixMode()
+        toast.success("Matrix Mode Activated! Follow the white rabbit...")
+        setTapCount(0)
+      }
+    }
+    setLastTap(now)
+  }
 
   const games = [
     {
@@ -80,7 +109,10 @@ export function GameSelector() {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-help">
+                <div
+                    onClick={handleSecretTap}
+                    className="p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-help active:scale-95 duration-75 select-none"
+                >
                    <Gamepad2 className="w-6 h-6" />
                 </div>
               </TooltipTrigger>
