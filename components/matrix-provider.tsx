@@ -6,6 +6,7 @@ import { useTheme } from "next-themes"
 interface MatrixContextType {
   isMatrixMode: boolean
   toggleMatrixMode: () => void
+  triggerMatrixMode: () => void
 }
 
 const MatrixContext = React.createContext<MatrixContextType | undefined>(undefined)
@@ -34,8 +35,7 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
       if (event.key === konamiCode[konamiIndex]) {
         const nextIndex = konamiIndex + 1
         if (nextIndex === konamiCode.length) {
-          setIsMatrixMode(true)
-          setTheme("dark")
+          triggerMatrixMode()
           setKonamiIndex(0)
         } else {
           setKonamiIndex(nextIndex)
@@ -47,10 +47,15 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [konamiIndex, konamiCode, setTheme])
+  }, [konamiIndex, konamiCode, setTheme]) // Removed triggerMatrixMode from deps to avoid cycle if it was used directly, but it's defined below.
 
   const toggleMatrixMode = () => {
     setIsMatrixMode(!isMatrixMode)
+  }
+
+  const triggerMatrixMode = () => {
+    setIsMatrixMode(true)
+    setTheme("dark")
   }
 
   React.useEffect(() => {
@@ -62,7 +67,7 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
   }, [isMatrixMode])
 
   return (
-    <MatrixContext.Provider value={{ isMatrixMode, toggleMatrixMode }}>
+    <MatrixContext.Provider value={{ isMatrixMode, toggleMatrixMode, triggerMatrixMode }}>
       {children}
       {isMatrixMode && (
         <div className="fixed top-4 right-16 z-50 bg-black/80 border border-green-500 p-2 font-mono text-xs text-green-500 rounded shadow-[0_0_10px_#00ff00]">
