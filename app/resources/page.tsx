@@ -79,6 +79,13 @@ const tools = [
     icon: "QrCode",
     link: "/resources/qr-code",
   },
+  {
+    id: "code-translator",
+    title: "Code Translator",
+    description: "Enterprise code translator. Convert legacy Apex/SOQL/Java to modern stacks.",
+    icon: "FileText",
+    link: "/tools/translator",
+  },
 ]
 
   return (
