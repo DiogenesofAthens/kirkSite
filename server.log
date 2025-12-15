@@ -34,3 +34,8 @@ warn - If this is content and not a class, replace it with `duration-&lsqb;10000
  ○ Compiling /resources/games/simon ...
  GET /resources 200 in 253ms (compile: 4ms, render: 249ms)
  GET /resources/games/simon 200 in 31ms (compile: 5ms, render: 26ms)
+ GET /resources 200 in 1536ms (compile: 154ms, render: 1383ms)
+ GET /resources/games/simon 200 in 126ms (compile: 17ms, render: 109ms)
+ ○ Compiling /resources/games/memory ...
+ GET /resources/games/memory 200 in 12.8s (compile: 10.2s, render: 2.6s)
+ GET /resources/games/memory 200 in 296ms (compile: 8ms, render: 288ms)
