@@ -25,3 +25,12 @@ warn - If this is content and not a class, replace it with `duration-&lsqb;10000
  GET /arcade 200 in 379ms (compile: 8ms, render: 371ms)
  GET /tools/translator 200 in 220ms (compile: 8ms, render: 212ms)
  GET /resources 200 in 216ms (compile: 5ms, render: 211ms)
+ ✓ Compiled in 771ms
+ GET /tools/translator 200 in 3.6s (compile: 2.5s, render: 1041ms)
+ GET /resources 200 in 1352ms (compile: 539ms, render: 813ms)
+ GET /tools/translator 200 in 815ms (compile: 50ms, render: 764ms)
+ GET /resources 200 in 631ms (compile: 7ms, render: 624ms)
+ GET /resources 200 in 664ms (compile: 9ms, render: 655ms)
+ ○ Compiling /resources/games/simon ...
+ GET /resources 200 in 253ms (compile: 4ms, render: 249ms)
+ GET /resources/games/simon 200 in 31ms (compile: 5ms, render: 26ms)

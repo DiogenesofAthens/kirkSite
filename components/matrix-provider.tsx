@@ -13,6 +13,7 @@ const MatrixContext = React.createContext<MatrixContextType | undefined>(undefin
 
 export function MatrixProvider({ children }: { children: React.ReactNode }) {
   const [isMatrixMode, setIsMatrixMode] = React.useState(false)
+  const [showOverlay, setShowOverlay] = React.useState(true)
   const { setTheme } = useTheme()
   const [konamiIndex, setKonamiIndex] = React.useState(0)
 
@@ -55,6 +56,7 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
 
   const triggerMatrixMode = () => {
     setIsMatrixMode(true)
+    setShowOverlay(true)
     setTheme("dark")
   }
 
@@ -69,12 +71,12 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
   return (
     <MatrixContext.Provider value={{ isMatrixMode, toggleMatrixMode, triggerMatrixMode }}>
       {children}
-      {isMatrixMode && (
+      {isMatrixMode && showOverlay && (
         <div className="fixed bottom-4 right-4 z-[9999] bg-black/90 border border-green-500 p-3 font-mono text-xs text-green-500 rounded shadow-[0_0_15px_#00ff00] min-w-[150px]">
             <div className="flex justify-between items-start mb-2 border-b border-green-500/30 pb-1">
                 <span className="font-bold">DEBUG_MODE</span>
                 <button
-                  onClick={() => setIsMatrixMode(false)}
+                  onClick={() => setShowOverlay(false)}
                   className="text-green-500 hover:text-white hover:bg-green-500/20 px-1 rounded"
                 >
                   [x]
