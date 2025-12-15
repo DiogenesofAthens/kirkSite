@@ -41,18 +41,27 @@ interface MemoryGameProps {
 }
 
 export function MemoryGame({ onGameWin }: MemoryGameProps) {
-  const [{ name: themeName, icons: themeIcons }, setTheme] = useState(getRandomTheme)
+  // Initial state must be deterministic for SSR/Hydration
+  const [theme, setTheme] = useState({ name: "Fruits", icons: THEMES["Fruits"] })
   const [gridSize, setGridSize] = useState(4)
-  const [cards, setCards] = useState(() => initializeCards(themeIcons, 4))
+  const [cards, setCards] = useState<any[]>([])
   const [flippedCards, setFlippedCards] = useState<number[]>([])
   const [moves, setMoves] = useState(0)
   const [gameWon, setGameWon] = useState(false)
   const [isChecking, setIsChecking] = useState(false)
   const [highScore, setHighScore] = useState<number | null>(null)
   const [isMuted, setIsMuted] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
   const audioContextRef = useRef<AudioContext | null>(null)
 
+  // Initialize game on client side only to ensure random seed is consistent (or rather, happens only on client)
   useEffect(() => {
+    setIsMounted(true)
+    const randomTheme = getRandomTheme()
+    setTheme(randomTheme)
+    setCards(initializeCards(randomTheme.icons, 4))
+
     const stored = localStorage.getItem("memory-highscore")
     if (stored) setHighScore(Number(stored))
   }, [])
@@ -145,6 +154,14 @@ export function MemoryGame({ onGameWin }: MemoryGameProps) {
     }
   }, [cards, gameWon, moves, highScore, onGameWin])
 
+  if (!isMounted) {
+      return (
+          <div className="w-full max-w-4xl mx-auto p-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl min-h-[500px] flex items-center justify-center">
+              <div className="text-slate-500 animate-pulse">Loading Game...</div>
+          </div>
+      )
+  }
+
   return (
     <div className="w-full max-w-4xl mx-auto p-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl">
       <div className="text-center space-y-4 mb-6">
@@ -154,7 +171,7 @@ export function MemoryGame({ onGameWin }: MemoryGameProps) {
 
         <div className="flex flex-wrap justify-center items-center gap-4 bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
            <div className="text-sm px-3 py-1 bg-white dark:bg-slate-700 rounded shadow-sm">
-             Theme: <strong>{themeName}</strong>
+             Theme: <strong>{theme.name}</strong>
            </div>
            <div className="text-sm px-3 py-1 bg-white dark:bg-slate-700 rounded shadow-sm">
              Moves: <strong>{moves}</strong>
