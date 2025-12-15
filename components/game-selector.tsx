@@ -1,12 +1,10 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { SimonGame } from "@/components/simon"
-import { TowerOfHanoi } from "@/components/tower-of-hanoi"
-import { MemoryGame } from "@/components/memory-game"
-import { ArrowLeft, Gamepad2 } from "lucide-react"
+import { Gamepad2 } from "lucide-react"
+import Link from "next/link"
 import {
   Tooltip,
   TooltipContent,
@@ -16,13 +14,10 @@ import {
 import { useMatrix } from "@/components/matrix-provider"
 import { toast } from "sonner"
 
-type GameType = "simon" | "hanoi" | "memory" | null
-
 export function GameSelector() {
-  const [selectedGame, setSelectedGame] = useState<GameType>(null)
   const { triggerMatrixMode } = useMatrix()
 
-  // Easter Egg State using Refs to prevent double-firing or stale closures
+  // Easter Egg State
   const tapCountRef = useRef(0)
   const lastTapRef = useRef(0)
   const hasWarnedRef = useRef(false)
@@ -37,10 +32,7 @@ export function GameSelector() {
       tapCountRef.current += 1
 
       const count = tapCountRef.current
-      if (count === 3 && !hasWarnedRef.current) {
-        toast("You are 4 steps away from developer mode...", { id: 'matrix-warning' })
-        hasWarnedRef.current = true
-      } else if (count === 7) {
+      if (count === 7) {
         triggerMatrixMode()
         toast.success("Matrix Mode Activated! Follow the white rabbit...", { id: 'matrix-activated' })
         tapCountRef.current = 0
@@ -52,57 +44,30 @@ export function GameSelector() {
 
   const games = [
     {
-      id: "simon" as const,
+      id: "simon",
       title: "Simon Says",
       description: "Repeat the pattern! Classic color memory game with difficulty scaling.",
       color: "bg-blue-500 hover:bg-blue-600",
       emoji: "🔵",
+      href: "/resources/games/simon"
     },
     {
-      id: "hanoi" as const,
+      id: "hanoi",
       title: "Tower of Hanoi",
       description: "Move all rings to the rightmost peg - larger rings cannot go on smaller ones",
       color: "bg-orange-500 hover:bg-orange-600",
       emoji: "🗼",
+      href: "/resources/games/towers"
     },
     {
-      id: "memory" as const,
+      id: "memory",
       title: "Memory Game",
       description: "Find matching pairs of fruit cards - flip cards to reveal fruits and match them",
       color: "bg-purple-500 hover:bg-purple-600",
       emoji: "🧠",
+      href: "/resources/games/memory"
     },
   ]
-
-  const renderGame = () => {
-    switch (selectedGame) {
-      case "simon":
-        return <SimonGame />
-      case "hanoi":
-        return <TowerOfHanoi />
-      case "memory":
-        return <MemoryGame />
-      default:
-        return null
-    }
-  }
-
-  if (selectedGame) {
-    return (
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <Button onClick={() => setSelectedGame(null)} variant="outline" className="flex items-center gap-2">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Games
-          </Button>
-          <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
-            {games.find((g) => g.id === selectedGame)?.title}
-          </h3>
-        </div>
-        <div className="flex justify-center">{renderGame()}</div>
-      </div>
-    )
-  }
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -132,28 +97,24 @@ export function GameSelector() {
 
       <div className="grid md:grid-cols-3 gap-6">
         {games.map((game) => (
-          <Card
-            key={game.id}
-            className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group"
-            onClick={() => setSelectedGame(game.id)}
-          >
-            <CardHeader className="text-center">
-              <div className="text-4xl mb-4">{game.emoji}</div>
-              <CardTitle className="text-xl text-slate-900 dark:text-slate-50">{game.title}</CardTitle>
-              <CardDescription className="text-slate-700 dark:text-slate-300">{game.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button
-                className={`w-full text-white font-semibold ${game.color}`}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setSelectedGame(game.id)
-                }}
-              >
-                Play {game.title}
-              </Button>
-            </CardContent>
-          </Card>
+          <Link key={game.id} href={game.href} className="block h-full">
+            <Card
+              className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group hover:scale-[1.02] h-full flex flex-col"
+            >
+              <CardHeader className="text-center flex-1">
+                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">{game.emoji}</div>
+                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">{game.title}</CardTitle>
+                <CardDescription className="text-slate-700 dark:text-slate-300">{game.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="mt-auto">
+                <Button
+                  className={`w-full text-white font-semibold ${game.color}`}
+                >
+                  Play {game.title}
+                </Button>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>

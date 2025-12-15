@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RotateCcw, Play } from "lucide-react"
 import clsx from "clsx"
 
@@ -37,7 +36,11 @@ const initializeCards = (icons: string[], size: number) => {
   return shuffleArray(pairs)
 }
 
-export function MemoryGame() {
+interface MemoryGameProps {
+  onGameWin?: (moves: number) => void
+}
+
+export function MemoryGame({ onGameWin }: MemoryGameProps) {
   const [{ name: themeName, icons: themeIcons }, setTheme] = useState(getRandomTheme)
   const [gridSize, setGridSize] = useState(4)
   const [cards, setCards] = useState(() => initializeCards(themeIcons, 4))
@@ -138,56 +141,62 @@ export function MemoryGame() {
         setHighScore(moves)
         localStorage.setItem("memory-highscore", moves.toString())
       }
+      if (onGameWin) onGameWin(moves)
     }
-  }, [cards, gameWon, moves, highScore])
+  }, [cards, gameWon, moves, highScore, onGameWin])
 
   return (
-    <Card className="border-0 shadow-xl w-full max-w-md mx-auto">
-      <CardHeader className="text-center space-y-2">
-        <CardTitle className="text-3xl font-bold text-slate-900 dark:text-white">
+    <div className="w-full max-w-4xl mx-auto p-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl">
+      <div className="text-center space-y-4 mb-6">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
           Memory Game
-        </CardTitle>
-        <div className="text-sm text-muted-foreground">Theme: {themeName}</div>
-        <div className="flex flex-wrap justify-between items-center px-2 gap-2">
-          <span className="text-base font-semibold text-slate-700 dark:text-slate-300">
-            Moves: {moves}
-          </span>
-          {highScore !== null && (
-            <span className="text-sm text-green-600 dark:text-green-400">
-              Best: {highScore} moves
-            </span>
-          )}
-          <Button
-            size="sm"
-            onClick={() => resetGame()}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </Button>
+        </h2>
+
+        <div className="flex flex-wrap justify-center items-center gap-4 bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
+           <div className="text-sm px-3 py-1 bg-white dark:bg-slate-700 rounded shadow-sm">
+             Theme: <strong>{themeName}</strong>
+           </div>
+           <div className="text-sm px-3 py-1 bg-white dark:bg-slate-700 rounded shadow-sm">
+             Moves: <strong>{moves}</strong>
+           </div>
+           {highScore !== null && (
+             <div className="text-sm px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded shadow-sm">
+               Best: <strong>{highScore}</strong>
+             </div>
+           )}
+           <Button
+             size="sm"
+             onClick={() => resetGame()}
+             className="bg-blue-600 hover:bg-blue-700 text-white ml-2"
+           >
+             <RotateCcw className="w-4 h-4 mr-2" /> Reset
+           </Button>
         </div>
+
         {gameWon && (
-          <div className="text-sm pt-2">
-            <label htmlFor="grid">Grid Size: </label>
+          <div className="flex justify-center items-center gap-2 animate-in fade-in slide-in-from-top-4">
+            <label htmlFor="grid" className="text-sm font-medium">Grid Size: </label>
             <select
               id="grid"
               value={gridSize}
               onChange={(e) => resetGame(Number(e.target.value))}
-              className="ml-2 p-1 rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"
+              className="p-1 px-2 rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"
             >
-              <option value={4}>4x4</option>
-              <option value={6}>6x6</option>
+              <option value={4}>4x4 (Easy)</option>
+              <option value={6}>6x6 (Hard)</option>
             </select>
           </div>
         )}
-      </CardHeader>
+      </div>
 
-      <CardContent>
-        <div className="relative">
+      <div className="relative flex justify-center">
           <div
-            className={clsx(
-              "grid gap-2 p-4 justify-center",
-              `grid-cols-${gridSize}`
-            )}
+            className="grid gap-3"
+            style={{
+                gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
+                maxWidth: gridSize === 6 ? '600px' : '400px',
+                width: '100%'
+            }}
           >
             {cards.map((card) => (
               <button
@@ -195,31 +204,39 @@ export function MemoryGame() {
                 onClick={() => handleCardClick(card.id)}
                 disabled={card.isMatched || card.isFlipped || isChecking}
                 className={clsx(
-                  "relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg border-2 flex items-center justify-center text-2xl font-bold",
-                  "transition-transform duration-300 ease-in-out",
-                  "transform hover:scale-105",
+                  "aspect-square relative rounded-xl border-2 flex items-center justify-center text-3xl sm:text-4xl shadow-md",
+                  "transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95",
                   card.isFlipped || card.isMatched
-                    ? "bg-white dark:bg-slate-100 border-blue-300 dark:border-blue-400"
-                    : "bg-blue-500 dark:bg-blue-600 border-blue-600 dark:border-blue-700 hover:bg-blue-400 dark:hover:bg-blue-500",
-                  card.isMatched && "opacity-75",
-                  "disabled:cursor-not-allowed"
+                    ? "bg-white dark:bg-slate-800 border-blue-400 dark:border-blue-500 rotate-y-180"
+                    : "bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 border-blue-600 dark:border-blue-700",
+                  card.isMatched && "opacity-50 grayscale-[0.5]",
+                  "disabled:cursor-default"
                 )}
               >
-                <span className="transition-opacity duration-300">
-                  {card.isFlipped || card.isMatched ? card.icon : "?"}
+                <span className={clsx(
+                    "transition-opacity duration-300 select-none",
+                    card.isFlipped || card.isMatched ? "opacity-100" : "opacity-0"
+                )}>
+                  {card.icon}
                 </span>
+                {!(card.isFlipped || card.isMatched) && (
+                    <div className="absolute inset-0 flex items-center justify-center text-white/20 text-xl font-bold">
+                        ?
+                    </div>
+                )}
               </button>
             ))}
           </div>
 
           {gameWon && (
-            <div className="absolute inset-0 bg-black/50 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center rounded">
-              <div className="text-center text-white dark:text-white space-y-2 p-6 bg-black/70 dark:bg-slate-900/80 rounded-xl shadow-xl">
-                <h3 className="text-xl font-bold">🎉 Congratulations!</h3>
-                <p className="text-sm">You won in {moves} moves!</p>
+            <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+              <div className="text-center text-white p-8 bg-black/80 backdrop-blur-md rounded-2xl shadow-2xl pointer-events-auto border border-white/10 animate-in zoom-in-50 duration-300">
+                <h3 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 mb-2">🎉 Victory!</h3>
+                <p className="text-lg mb-6">You won in <strong className="text-white">{moves}</strong> moves!</p>
                 <Button
                   onClick={() => resetGame()}
-                  className="bg-blue-600 hover:bg-blue-700 text-white mt-2"
+                  size="lg"
+                  className="bg-white text-black hover:bg-neutral-200 font-bold rounded-full"
                 >
                   <Play className="w-4 h-4 mr-2" />
                   Play Again
@@ -227,21 +244,18 @@ export function MemoryGame() {
               </div>
             </div>
           )}
-        </div>
+      </div>
 
-        <p className="mt-4 text-center text-sm text-muted-foreground">
-          Click cards to flip them and find matching pairs!
-        </p>
-        <div className="text-center mt-4">
+      <div className="text-center mt-6">
           <Button
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={() => setIsMuted((prev) => !prev)}
+            className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
           >
-            {isMuted ? "Unmute" : "Mute"}
+            {isMuted ? "Unmute Sound" : "Mute Sound"}
           </Button>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
