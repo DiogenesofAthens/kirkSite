@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle, Upload, Code, Send, Info } from "lucide-react"
+import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle, Upload, Code, Send, Info, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   Command,
@@ -29,6 +29,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { FloatingNav } from "@/components/floating-nav"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 const SCHEMA_OPTIONS = [
   { value: "general", label: "Auto-Detect / General" },
@@ -68,6 +70,90 @@ const FLATTENED_OPTIONS = [
   { value: "spec", label: "Feature Spec" },
 ]
 
+// --- Helper: Smart View Component ---
+
+const SmartView = ({ data }: { data: any }) => {
+  // Identify Arrays vs Primitives
+  const primitiveFields = Object.entries(data).filter(([k, v]) =>
+      typeof v !== 'object' && k !== 'analysis_report' && k !== 'extracted_text'
+  );
+
+  const arrayFields = Object.entries(data).filter(([k, v]) =>
+      Array.isArray(v) && k !== 'user_questions'
+  );
+
+  const analysisReport = data.analysis_report;
+
+  return (
+      <div className="space-y-6 overflow-y-auto max-h-[500px] p-2">
+          {/* Key-Value Grid */}
+          <div className="grid grid-cols-2 gap-4">
+              {primitiveFields.map(([key, value]) => (
+                  <div key={key} className="bg-slate-100 dark:bg-slate-800 p-3 rounded-md">
+                      <div className="text-xs font-medium text-slate-500 uppercase mb-1">{key.replace(/_/g, ' ')}</div>
+                      <div className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate" title={String(value)}>{String(value)}</div>
+                  </div>
+              ))}
+          </div>
+
+          {/* Tables for Arrays */}
+          {arrayFields.map(([key, value]) => {
+              const arr = value as any[];
+              if (arr.length === 0) return null;
+
+              // If array of strings
+              if (typeof arr[0] === 'string') {
+                  return (
+                      <div key={key}>
+                          <h4 className="font-semibold mb-2 capitalize">{key.replace(/_/g, ' ')}</h4>
+                          <ul className="list-disc list-inside bg-slate-50 dark:bg-slate-800 p-3 rounded-md">
+                              {arr.map((item, i) => <li key={i} className="text-sm text-slate-700 dark:text-slate-300">{item}</li>)}
+                          </ul>
+                      </div>
+                  )
+              }
+
+              // If array of objects (Table)
+              if (typeof arr[0] === 'object') {
+                  const headers = Object.keys(arr[0]);
+                  return (
+                       <div key={key} className="border rounded-md overflow-hidden">
+                          <h4 className="font-semibold p-2 bg-slate-100 dark:bg-slate-800 capitalize border-b">{key.replace(/_/g, ' ')}</h4>
+                          <Table>
+                              <TableHeader>
+                                  <TableRow>
+                                      {headers.map(h => <TableHead key={h}>{h}</TableHead>)}
+                                  </TableRow>
+                              </TableHeader>
+                              <TableBody>
+                                  {arr.map((row, i) => (
+                                      <TableRow key={i}>
+                                          {headers.map(h => <TableCell key={h}>{row[h]}</TableCell>)}
+                                      </TableRow>
+                                  ))}
+                              </TableBody>
+                          </Table>
+                       </div>
+                  )
+              }
+              return null;
+          })}
+
+          {/* Advisory Report */}
+          {analysisReport && (
+              <Alert className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
+                  <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <AlertTitle className="text-blue-800 dark:text-blue-200">Advisory Report</AlertTitle>
+                  <AlertDescription className="mt-2 whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-300 font-mono">
+                      {analysisReport}
+                  </AlertDescription>
+              </Alert>
+          )}
+      </div>
+  )
+}
+
+
 export default function ExtractorPage() {
   const { theme } = useTheme()
   const [text, setText] = useState("")
@@ -76,7 +162,10 @@ export default function ExtractorPage() {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<string>("// Extracted data will appear here...")
+  const [parsedData, setParsedData] = useState<any>(null)
+  const [isError, setIsError] = useState(false)
   const [extractedContext, setExtractedContext] = useState<string>("")
+  const [showSecurityBanner, setShowSecurityBanner] = useState(true)
 
   // Options
   const [negotiationAdvice, setNegotiationAdvice] = useState(false)
@@ -87,11 +176,34 @@ export default function ExtractorPage() {
   const [query, setQuery] = useState("")
   const [queryLoading, setQueryLoading] = useState(false)
 
+  // Tab State
+  const [activeTab, setActiveTab] = useState("smart")
+
   // Reset result when schema changes
   useEffect(() => {
     setResult("// Extracted data will appear here...")
+    setParsedData(null)
+    setIsError(false)
     setExtractedContext("")
   }, [schema])
+
+  // Parse result whenever it changes
+  useEffect(() => {
+      try {
+          if (!result || result.startsWith("//")) {
+              setParsedData(null);
+              return;
+          }
+          const data = JSON.parse(result);
+          setParsedData(data);
+          setIsError(false);
+      } catch (e) {
+          setIsError(true);
+          setParsedData(null);
+          if (activeTab === 'smart') setActiveTab('raw'); // Force switch to raw if error
+      }
+  }, [result])
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -110,6 +222,7 @@ export default function ExtractorPage() {
 
     setLoading(true)
     setExtractedContext("")
+    setIsError(false)
 
     const options = {
         negotiation_advice: negotiationAdvice,
@@ -131,6 +244,9 @@ export default function ExtractorPage() {
 
       if (res.success) {
         setResult(JSON.stringify(res.data, null, 2))
+        // Auto-switch to Smart View on success
+        setActiveTab('smart');
+
         if (res.extracted_text) {
              setExtractedContext(res.extracted_text);
         } else if (text) {
@@ -140,9 +256,11 @@ export default function ExtractorPage() {
       } else {
         toast.error(res.error)
         setResult(`// Error: ${res.error}`)
+        setIsError(true);
       }
     } catch (e) {
       toast.error("An unexpected error occurred")
+      setIsError(true);
     } finally {
       setLoading(false)
     }
@@ -151,7 +269,6 @@ export default function ExtractorPage() {
   const handleQuery = async () => {
       if (!query.trim()) return;
 
-      // Determine source text: preferred extractedContext (from file or text), fallback to text input
       const docText = extractedContext || text;
 
       if (!docText) {
@@ -165,7 +282,6 @@ export default function ExtractorPage() {
           if (res.error) {
               toast.error(res.error);
           } else {
-              // Append answer to the current JSON result
               try {
                   const currentData = JSON.parse(result);
                   const newEntry = {
@@ -174,17 +290,15 @@ export default function ExtractorPage() {
                       timestamp: new Date().toISOString()
                   };
 
-                  // Initialize or append to user_questions array
                   const updatedData = {
                       ...currentData,
                       user_questions: currentData.user_questions ? [...currentData.user_questions, newEntry] : [newEntry]
                   };
 
                   setResult(JSON.stringify(updatedData, null, 2));
-                  setQuery(""); // Clear input
+                  setQuery("");
                   toast.success("Answer added to extraction.");
               } catch (parseError) {
-                  // If result isn't valid JSON (e.g. error message), just show toast
                    toast.success("Answer: " + res.answer);
               }
           }
@@ -237,20 +351,12 @@ export default function ExtractorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans relative">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans relative pb-20">
       <FloatingNav />
 
       <div className="p-4 md:p-8 pt-24 max-w-[1600px] mx-auto">
       {/* Header */}
       <div className="flex flex-col gap-4 mb-4">
-         {/* Minimized Security Banner */}
-        <div className="w-full bg-amber-500/10 border border-amber-500/20 rounded-md px-3 py-2 flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4 text-amber-600" />
-            <span className="text-xs font-medium text-amber-600">
-                Security Note: AI processing active. Please redact strict PII before analysis. Data is ephemeral.
-            </span>
-        </div>
-
         <div className="flex justify-between items-start mt-2">
           <div>
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3">
@@ -267,7 +373,7 @@ export default function ExtractorPage() {
       <div className="grid lg:grid-cols-2 gap-6 min-h-[600px] mb-6">
 
         {/* Left: Input */}
-        <Card className="flex flex-col p-4 gap-4 shadow-md bg-white dark:bg-slate-900 h-full border-slate-200 dark:border-slate-800">
+        <Card className="flex flex-col p-4 gap-4 shadow-md bg-white dark:bg-slate-900 h-full border border-slate-200 dark:border-slate-800">
           <div className="flex flex-col gap-4">
              <div className="flex items-center justify-between">
               <Label className="font-semibold text-lg text-slate-900 dark:text-slate-50">Input Document</Label>
@@ -366,10 +472,11 @@ export default function ExtractorPage() {
         </Card>
 
         {/* Right: Output */}
-        <Card className="flex flex-col p-4 gap-4 shadow-md h-full bg-slate-50 dark:bg-[#1e1e1e] overflow-hidden border-slate-200 dark:border-slate-800">
+        <Card className="flex flex-col p-4 gap-4 shadow-md h-full bg-white dark:bg-slate-900 overflow-hidden border border-slate-200 dark:border-slate-800">
           <div className="flex items-center justify-between">
             <Label className="font-semibold text-lg text-slate-900 dark:text-slate-50">Structured Output</Label>
             <div className="flex gap-2">
+               {isError && <span className="text-xs text-red-500 font-bold border border-red-200 bg-red-50 px-2 py-1 rounded">AI Formatting Error - Raw Output</span>}
                <Button variant="outline" size="sm" onClick={() => handleDownload('json')} disabled={!result || result.startsWith("//")} className="bg-white dark:bg-slate-800 dark:text-slate-200">
                  <Download className="w-4 h-4 mr-2" /> JSON
                </Button>
@@ -379,22 +486,34 @@ export default function ExtractorPage() {
             </div>
           </div>
 
-          <div className="flex-1 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden relative bg-white dark:bg-[#1e1e1e] min-h-[400px]">
-             <Editor
-               height="100%"
-               defaultLanguage="json"
-               value={result}
-               theme={theme === 'dark' ? "vs-dark" : "light"}
-               options={{
-                 minimap: { enabled: false },
-                 fontSize: 14,
-                 readOnly: true,
-                 scrollBeyondLastLine: false,
-                 wordWrap: "on",
-                 automaticLayout: true,
-               }}
-             />
-          </div>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0">
+             <TabsList className="grid w-full grid-cols-2 mb-2">
+                <TabsTrigger value="smart" disabled={!parsedData}>Smart View</TabsTrigger>
+                <TabsTrigger value="raw">Raw JSON</TabsTrigger>
+             </TabsList>
+
+             <div className="flex-1 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden relative bg-white dark:bg-slate-900 min-h-[400px]">
+                <TabsContent value="smart" className="h-full m-0 overflow-auto">
+                    {parsedData ? <SmartView data={parsedData} /> : <div className="p-4 text-slate-400 text-sm">Extraction pending...</div>}
+                </TabsContent>
+                <TabsContent value="raw" className="h-full m-0">
+                     <Editor
+                       height="100%"
+                       defaultLanguage="json"
+                       value={result}
+                       theme={theme === 'dark' ? "vs-dark" : "light"}
+                       options={{
+                         minimap: { enabled: false },
+                         fontSize: 14,
+                         readOnly: true,
+                         scrollBeyondLastLine: false,
+                         wordWrap: "on",
+                         automaticLayout: true,
+                       }}
+                     />
+                </TabsContent>
+             </div>
+          </Tabs>
 
           {/* Interactive Query Input */}
           <div className="flex gap-2 mt-2">
@@ -422,6 +541,24 @@ export default function ExtractorPage() {
               </Button>
           </Link>
       </div>
+
+      {/* Bottom Fixed Security Banner */}
+      {showSecurityBanner && (
+          <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-amber-50 dark:bg-slate-900 border-t border-amber-200 dark:border-amber-900 shadow-lg animate-in slide-in-from-bottom-full duration-300">
+             <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+                 <div className="flex items-center gap-3">
+                     <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0" />
+                     <p className="text-sm text-slate-700 dark:text-slate-300">
+                        <span className="font-bold text-amber-700 dark:text-amber-500">Security Note:</span> AI processing active. Please redact strict PII (SSN, Bank Info) before analysis. Data is ephemeral and not stored.
+                     </p>
+                 </div>
+                 <Button variant="ghost" size="icon" onClick={() => setShowSecurityBanner(false)} className="h-8 w-8 text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">
+                     <X className="h-4 w-4" />
+                 </Button>
+             </div>
+          </div>
+      )}
+
       </div>
     </div>
   )
