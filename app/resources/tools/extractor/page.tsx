@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle, Upload, Code, Send, Info, X } from "lucide-react"
+import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle, Upload, Code, Send, Info, X, ArrowLeft, RefreshCw } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   Command,
@@ -83,6 +83,7 @@ const SmartView = ({ data }: { data: any }) => {
   );
 
   const analysisReport = data.analysis_report;
+  const userQuestions = data.user_questions;
 
   return (
       <div className="space-y-6 overflow-y-auto max-h-[500px] p-2">
@@ -149,6 +150,24 @@ const SmartView = ({ data }: { data: any }) => {
                   </AlertDescription>
               </Alert>
           )}
+
+          {/* User Q&A History */}
+          {userQuestions && userQuestions.length > 0 && (
+             <div className="border-t pt-4 mt-6">
+                 <h4 className="font-semibold mb-4 text-slate-900 dark:text-slate-50">Q&A History</h4>
+                 <div className="space-y-4">
+                     {userQuestions.map((q: any, i: number) => (
+                         <div key={i} className="bg-slate-50 dark:bg-slate-900 p-4 rounded-md border border-slate-200 dark:border-slate-800">
+                             <div className="font-semibold text-slate-800 dark:text-slate-200 mb-1 flex justify-between">
+                                 <span>{q.question}</span>
+                                 {q.timestamp && <span className="text-xs text-slate-400 font-normal">{new Date(q.timestamp).toLocaleTimeString()}</span>}
+                             </div>
+                             <div className="text-sm text-slate-600 dark:text-slate-400">{q.answer}</div>
+                         </div>
+                     ))}
+                 </div>
+             </div>
+          )}
       </div>
   )
 }
@@ -166,6 +185,9 @@ export default function ExtractorPage() {
   const [isError, setIsError] = useState(false)
   const [extractedContext, setExtractedContext] = useState<string>("")
   const [showSecurityBanner, setShowSecurityBanner] = useState(true)
+
+  // Workflow Step
+  const [step, setStep] = useState<'input' | 'output'>('input')
 
   // Options
   const [negotiationAdvice, setNegotiationAdvice] = useState(false)
@@ -214,6 +236,16 @@ export default function ExtractorPage() {
     }
   }
 
+  const handleStartOver = () => {
+      setStep('input')
+      setResult("// Extracted data will appear here...")
+      setParsedData(null)
+      setExtractedContext("")
+      setText("")
+      setFile(null)
+      // Optional: keep schema or reset? keeping schema feels safer
+  }
+
   const handleExtract = async () => {
     if (!text.trim() && !file) {
       toast.error("Please enter text or upload a document")
@@ -246,6 +278,7 @@ export default function ExtractorPage() {
         setResult(JSON.stringify(res.data, null, 2))
         // Auto-switch to Smart View on success
         setActiveTab('smart');
+        setStep('output');
 
         if (res.extracted_text) {
              setExtractedContext(res.extracted_text);
@@ -327,9 +360,15 @@ export default function ExtractorPage() {
         const header = keys.join(",")
         const row = keys.map(k => {
           const val = data[k]
-          if (Array.isArray(val)) return `"${val.join('; ')}"`
-          if (typeof val === 'object') return `"${JSON.stringify(val).replace(/"/g, '""')}"`
-          return `"${val}"`
+          if (Array.isArray(val)) {
+              // Properly serialize array of objects/strings for CSV cell
+              return `"${JSON.stringify(val).replace(/"/g, '""')}"`
+          }
+          if (typeof val === 'object' && val !== null) {
+              return `"${JSON.stringify(val).replace(/"/g, '""')}"`
+          }
+          // Escape standard double quotes
+          return `"${String(val).replace(/"/g, '""')}"`
         }).join(",")
         content = `${header}\n${row}`
         type = "text/csv"
@@ -370,165 +409,175 @@ export default function ExtractorPage() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6 min-h-[600px] mb-6">
+      <div className="min-h-[600px] mb-6">
 
-        {/* Left: Input */}
-        <Card className="flex flex-col p-4 gap-4 shadow-md bg-white dark:bg-slate-900 h-full border border-slate-200 dark:border-slate-800">
-          <div className="flex flex-col gap-4">
-             <div className="flex items-center justify-between">
-              <Label className="font-semibold text-lg text-slate-900 dark:text-slate-50">Input Document</Label>
+        {/* Step 1: Input Pane */}
+        {step === 'input' && (
+            <Card className="flex flex-col p-6 gap-6 shadow-md bg-white dark:bg-slate-900 h-full border border-slate-200 dark:border-slate-800 animate-in fade-in slide-in-from-left-4 duration-300">
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                <Label className="font-semibold text-xl text-slate-900 dark:text-slate-50">Input Document</Label>
 
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
-                    className="w-[250px] justify-between bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
-                  >
-                    {schema
-                      ? FLATTENED_OPTIONS.find((framework) => framework.value === schema)?.label
-                      : "Select document type..."}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[250px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search document type..." />
-                    <CommandList>
-                      <CommandEmpty>No schema found.</CommandEmpty>
-                      <CommandGroup>
-                        {FLATTENED_OPTIONS.map((framework) => (
-                          <CommandItem
-                            key={framework.value}
-                            value={framework.value}
-                            onSelect={(currentValue) => {
-                              setSchema(currentValue === schema ? "" : currentValue)
-                              setOpen(false)
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                schema === framework.value ? "opacity-100" : "opacity-0"
-                              )}
-                            />
-                            {framework.label}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+                <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                    <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open}
+                        className="w-[300px] justify-between bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+                    >
+                        {schema
+                        ? FLATTENED_OPTIONS.find((framework) => framework.value === schema)?.label
+                        : "Select document type..."}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[300px] p-0">
+                    <Command>
+                        <CommandInput placeholder="Search document type..." />
+                        <CommandList>
+                        <CommandEmpty>No schema found.</CommandEmpty>
+                        <CommandGroup>
+                            {FLATTENED_OPTIONS.map((framework) => (
+                            <CommandItem
+                                key={framework.value}
+                                value={framework.value}
+                                onSelect={(currentValue) => {
+                                setSchema(currentValue === schema ? "" : currentValue)
+                                setOpen(false)
+                                }}
+                            >
+                                <Check
+                                className={cn(
+                                    "mr-2 h-4 w-4",
+                                    schema === framework.value ? "opacity-100" : "opacity-0"
+                                )}
+                                />
+                                {framework.label}
+                            </CommandItem>
+                            ))}
+                        </CommandGroup>
+                        </CommandList>
+                    </Command>
+                    </PopoverContent>
+                </Popover>
+                </div>
+
+                {/* File Upload / Text Toggle */}
+                <div className="flex items-center gap-2">
+                    <Button variant="outline" className="relative cursor-pointer bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 h-12 px-6" asChild>
+                    <label>
+                        <Upload className="w-5 h-5 mr-2" />
+                        Upload Document (PDF/Word)
+                        <input type="file" className="hidden" accept=".pdf,.docx,.doc" onChange={handleFileChange} />
+                    </label>
+                    </Button>
+                    {file && <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate max-w-[300px] bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700">{file.name}</span>}
+                    {file && <Button variant="ghost" size="icon" onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"><X className="w-5 h-5" /></Button>}
+                </div>
             </div>
 
-            {/* File Upload / Text Toggle */}
-            <div className="flex items-center gap-2">
-                <Button variant="outline" className="relative cursor-pointer bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700" asChild>
-                  <label>
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload Doc (PDF/Word)
-                    <input type="file" className="hidden" accept=".pdf,.docx,.doc" onChange={handleFileChange} />
-                  </label>
+            <Textarea
+                placeholder={file ? "Document attached. Click Analyze to process." : "Paste your contract, ticket, or agreement here..."}
+                className="flex-1 font-mono text-base resize-none p-6 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-800 min-h-[400px]"
+                value={text}
+                onChange={(e) => { setText(e.target.value); setFile(null); }}
+                maxLength={50000}
+                disabled={!!file}
+            />
+
+            {/* Controls: Advisory Checkboxes */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex items-center space-x-3 p-3 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    <Checkbox id="negotiation" checked={negotiationAdvice} onCheckedChange={(c) => setNegotiationAdvice(!!c)} />
+                    <Label htmlFor="negotiation" className="text-base cursor-pointer dark:text-slate-200">Negotiation Advice</Label>
+                </div>
+                <div className="flex items-center space-x-3 p-3 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    <Checkbox id="risks" checked={riskAnalysis} onCheckedChange={(c) => setRiskAnalysis(!!c)} />
+                    <Label htmlFor="risks" className="text-base cursor-pointer dark:text-slate-200">Risk Analysis</Label>
+                </div>
+                <div className="flex items-center space-x-3 p-3 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    <Checkbox id="missing" checked={missingClauses} onCheckedChange={(c) => setMissingClauses(!!c)} />
+                    <Label htmlFor="missing" className="text-base cursor-pointer dark:text-slate-200">Missing Clauses</Label>
+                </div>
+            </div>
+
+            <div className="flex justify-between items-center text-sm text-slate-500 border-t border-slate-100 dark:border-slate-800 pt-6">
+                <span>{file ? 'File attached' : `${text.length} / 50000 chars`}</span>
+                <Button onClick={handleExtract} disabled={loading} size="lg" className="w-48 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">
+                {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
+                {loading ? 'Analyzing...' : 'Analyze Document'}
                 </Button>
-                {file && <span className="text-sm text-slate-600 dark:text-slate-300 truncate max-w-[200px]">{file.name}</span>}
-                {file && <Button variant="ghost" size="sm" onClick={() => setFile(null)} className="text-red-500">Remove</Button>}
             </div>
-          </div>
+            </Card>
+        )}
 
-          <Textarea
-            placeholder={file ? "Document attached. Click Analyze to process." : "Paste your contract, ticket, or agreement here..."}
-            className="flex-1 font-mono text-sm resize-none p-4 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-800 min-h-[300px]"
-            value={text}
-            onChange={(e) => { setText(e.target.value); setFile(null); }}
-            maxLength={50000}
-            disabled={!!file}
-          />
-
-          {/* Controls: Advisory Checkboxes */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-2 border-t border-slate-100 dark:border-slate-800">
-              <div className="flex items-center space-x-2">
-                  <Checkbox id="negotiation" checked={negotiationAdvice} onCheckedChange={(c) => setNegotiationAdvice(!!c)} />
-                  <Label htmlFor="negotiation" className="text-sm cursor-pointer dark:text-slate-200">Negotiation Advice</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                  <Checkbox id="risks" checked={riskAnalysis} onCheckedChange={(c) => setRiskAnalysis(!!c)} />
-                  <Label htmlFor="risks" className="text-sm cursor-pointer dark:text-slate-200">Risk Analysis</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                  <Checkbox id="missing" checked={missingClauses} onCheckedChange={(c) => setMissingClauses(!!c)} />
-                  <Label htmlFor="missing" className="text-sm cursor-pointer dark:text-slate-200">Missing Clauses</Label>
-              </div>
-          </div>
-
-          <div className="flex justify-between items-center text-xs text-slate-500 border-t border-slate-100 dark:border-slate-800 pt-4">
-             <span>{file ? 'File attached' : `${text.length} / 50000 chars`}</span>
-             <Button onClick={handleExtract} disabled={loading} className="w-32 bg-blue-600 hover:bg-blue-700 text-white">
-               {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-               {loading ? 'Analyzing' : 'Analyze'}
-             </Button>
-          </div>
-        </Card>
-
-        {/* Right: Output */}
-        <Card className="flex flex-col p-4 gap-4 shadow-md h-full bg-white dark:bg-slate-900 overflow-hidden border border-slate-200 dark:border-slate-800">
-          <div className="flex items-center justify-between">
-            <Label className="font-semibold text-lg text-slate-900 dark:text-slate-50">Structured Output</Label>
-            <div className="flex gap-2">
-               {isError && <span className="text-xs text-red-500 font-bold border border-red-200 bg-red-50 px-2 py-1 rounded">AI Formatting Error - Raw Output</span>}
-               <Button variant="outline" size="sm" onClick={() => handleDownload('json')} disabled={!result || result.startsWith("//")} className="bg-white dark:bg-slate-800 dark:text-slate-200">
-                 <Download className="w-4 h-4 mr-2" /> JSON
-               </Button>
-               <Button variant="outline" size="sm" onClick={() => handleDownload('csv')} disabled={!result || result.startsWith("//")} className="bg-white dark:bg-slate-800 dark:text-slate-200">
-                 <Download className="w-4 h-4 mr-2" /> CSV
-               </Button>
+        {/* Step 2: Output Pane */}
+        {step === 'output' && (
+            <Card className="flex flex-col p-6 gap-6 shadow-md h-full bg-white dark:bg-slate-900 overflow-hidden border border-slate-200 dark:border-slate-800 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <Button variant="outline" onClick={handleStartOver} className="gap-2">
+                        <ArrowLeft className="w-4 h-4" />
+                        Analyze New
+                    </Button>
+                    <Label className="font-semibold text-xl text-slate-900 dark:text-slate-50">Structured Output</Label>
+                </div>
+                <div className="flex gap-2">
+                {isError && <span className="text-xs text-red-500 font-bold border border-red-200 bg-red-50 px-2 py-1 rounded flex items-center"><AlertTriangle className="w-3 h-3 mr-1"/> AI Formatting Error</span>}
+                <Button variant="outline" size="sm" onClick={() => handleDownload('json')} disabled={!result || result.startsWith("//")} className="bg-white dark:bg-slate-800 dark:text-slate-200">
+                    <Download className="w-4 h-4 mr-2" /> JSON
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => handleDownload('csv')} disabled={!result || result.startsWith("//")} className="bg-white dark:bg-slate-800 dark:text-slate-200">
+                    <Download className="w-4 h-4 mr-2" /> CSV
+                </Button>
+                </div>
             </div>
-          </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0">
-             <TabsList className="grid w-full grid-cols-2 mb-2">
-                <TabsTrigger value="smart" disabled={!parsedData}>Smart View</TabsTrigger>
-                <TabsTrigger value="raw">Raw JSON</TabsTrigger>
-             </TabsList>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0">
+                <TabsList className="grid w-full grid-cols-2 mb-4">
+                    <TabsTrigger value="smart" disabled={!parsedData}>Smart View (Recommended)</TabsTrigger>
+                    <TabsTrigger value="raw">Raw JSON</TabsTrigger>
+                </TabsList>
 
-             <div className="flex-1 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden relative bg-white dark:bg-slate-900 min-h-[400px]">
-                <TabsContent value="smart" className="h-full m-0 overflow-auto">
-                    {parsedData ? <SmartView data={parsedData} /> : <div className="p-4 text-slate-400 text-sm">Extraction pending...</div>}
-                </TabsContent>
-                <TabsContent value="raw" className="h-full m-0">
-                     <Editor
-                       height="100%"
-                       defaultLanguage="json"
-                       value={result}
-                       theme={theme === 'dark' ? "vs-dark" : "light"}
-                       options={{
-                         minimap: { enabled: false },
-                         fontSize: 14,
-                         readOnly: true,
-                         scrollBeyondLastLine: false,
-                         wordWrap: "on",
-                         automaticLayout: true,
-                       }}
-                     />
-                </TabsContent>
-             </div>
-          </Tabs>
+                <div className="flex-1 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden relative bg-white dark:bg-slate-900 min-h-[500px]">
+                    <TabsContent value="smart" className="h-full m-0 overflow-auto">
+                        {parsedData ? <SmartView data={parsedData} /> : <div className="p-4 text-slate-400 text-sm">Extraction pending...</div>}
+                    </TabsContent>
+                    <TabsContent value="raw" className="h-full m-0">
+                        <Editor
+                        height="100%"
+                        defaultLanguage="json"
+                        value={result}
+                        theme={theme === 'dark' ? "vs-dark" : "light"}
+                        options={{
+                            minimap: { enabled: false },
+                            fontSize: 14,
+                            readOnly: true,
+                            scrollBeyondLastLine: false,
+                            wordWrap: "on",
+                            automaticLayout: true,
+                        }}
+                        />
+                    </TabsContent>
+                </div>
+            </Tabs>
 
-          {/* Interactive Query Input */}
-          <div className="flex gap-2 mt-2">
-              <Input
-                placeholder="Ask a question about this document..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleQuery()}
-                className="bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700"
-              />
-              <Button size="icon" onClick={handleQuery} disabled={queryLoading || !query.trim()} className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white">
-                  {queryLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-              </Button>
-          </div>
-        </Card>
+            {/* Interactive Query Input */}
+            <div className="flex gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <Input
+                    placeholder="Ask a question about this document..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleQuery()}
+                    className="bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700 h-12"
+                />
+                <Button size="icon" onClick={handleQuery} disabled={queryLoading || !query.trim()} className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white h-12 w-12">
+                    {queryLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                </Button>
+            </div>
+            </Card>
+        )}
 
       </div>
 
