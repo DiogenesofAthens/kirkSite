@@ -393,23 +393,21 @@ export default function ExtractorPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans relative pb-20">
       <FloatingNav />
 
-      <div className="p-4 md:p-8 pt-24 max-w-[1600px] mx-auto">
+      <div className="p-4 md:p-8 pt-36 max-w-[1600px] mx-auto">
       {/* Header */}
-      <div className="flex flex-col gap-4 mb-4">
-        <div className="flex justify-between items-start mt-2">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3">
+      <div className="flex flex-col gap-4 mb-8 items-center text-center">
+        <div className="flex flex-col items-center mt-2">
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3 justify-center">
               <FileJson className="w-8 h-8 text-blue-600" />
               Enterprise Entity Extractor
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 mt-2">
+            <p className="text-slate-500 dark:text-slate-400 mt-2 max-w-2xl mx-auto">
               Transform unstructured documents into structured JSON data using Groq AI.
             </p>
-          </div>
         </div>
       </div>
 
-      <div className="min-h-[600px] mb-6">
+      <div className="mb-6">
 
         {/* Step 1: Input Pane */}
         {step === 'input' && (
@@ -479,7 +477,7 @@ export default function ExtractorPage() {
 
             <Textarea
                 placeholder={file ? "Document attached. Click Analyze to process." : "Paste your contract, ticket, or agreement here..."}
-                className="flex-1 font-mono text-base resize-none p-6 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-800 min-h-[400px]"
+                className="flex-1 font-mono text-base resize-none p-6 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-800 min-h-[200px] h-[300px]"
                 value={text}
                 onChange={(e) => { setText(e.target.value); setFile(null); }}
                 maxLength={50000}
@@ -540,9 +538,23 @@ export default function ExtractorPage() {
                     <TabsTrigger value="raw">Raw JSON</TabsTrigger>
                 </TabsList>
 
+                {/* Interactive Query Input */}
+                <div className="flex gap-2 mb-4">
+                    <Input
+                        placeholder="Ask a question about this document..."
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleQuery()}
+                        className="bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
+                    />
+                    <Button size="icon" onClick={handleQuery} disabled={queryLoading || !query.trim()} className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white">
+                        {queryLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                    </Button>
+                </div>
+
                 <div className="flex-1 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden relative bg-white dark:bg-slate-900 min-h-[500px]">
                     <TabsContent value="smart" className="h-full m-0 overflow-auto">
-                        {parsedData ? <SmartView data={parsedData} /> : <div className="p-4 text-slate-400 text-sm">Extraction pending...</div>}
+                        {parsedData ? <SmartView data={parsedData} key={parsedData.user_questions?.length} /> : <div className="p-4 text-slate-400 text-sm">Extraction pending...</div>}
                     </TabsContent>
                     <TabsContent value="raw" className="h-full m-0">
                         <Editor
@@ -562,20 +574,6 @@ export default function ExtractorPage() {
                     </TabsContent>
                 </div>
             </Tabs>
-
-            {/* Interactive Query Input */}
-            <div className="flex gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                <Input
-                    placeholder="Ask a question about this document..."
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleQuery()}
-                    className="bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700 h-12"
-                />
-                <Button size="icon" onClick={handleQuery} disabled={queryLoading || !query.trim()} className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white h-12 w-12">
-                    {queryLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-                </Button>
-            </div>
             </Card>
         )}
 
