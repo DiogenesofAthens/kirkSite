@@ -52,13 +52,6 @@ const groq = createGroq({
 function sanitizeJsonString(text: string): string {
     // 1. Remove Markdown code blocks
     let clean = text.replace(/```json/g, '').replace(/```/g, '').trim();
-
-    // 2. Escape unescaped newlines/tabs inside strings is hard to do perfectly with regex,
-    // but often the issue is literal newlines in values.
-    // Strategy: We will rely on the LLM prompt to return valid JSON,
-    // but as a fallback, we can try to "repair" common errors.
-
-    // Attempt 1: Just return clean text. The prompt is now stricter.
     return clean;
 }
 
@@ -69,6 +62,11 @@ const baseSchema = z.object({
   extraction_date: z.string().describe("ISO date string (YYYY-MM-DD)"),
   confidence_score: z.number().min(0).max(1).describe("Confidence score (0-1)"),
   analysis_report: z.string().optional().describe("Markdown formatted advice/risk analysis if requested"),
+  user_questions: z.array(z.object({
+      question: z.string(),
+      answer: z.string(),
+      timestamp: z.string().optional()
+  })).optional().describe("User follow-up questions and answers"),
 });
 
 const lineItemSchema = z.object({
@@ -230,8 +228,6 @@ ${text}
     try {
         parsed = JSON.parse(cleanText);
     } catch (parseError) {
-        // Fallback: Try to strip control chars if simple parse fails
-        // This is a "Hail Mary" repair for bad LLM output
         console.warn("Initial JSON parse failed, attempting strict control char sanitization.");
         const strictClean = cleanText.replace(/[\u0000-\u001F]+/g, " ");
         parsed = JSON.parse(strictClean);
@@ -240,12 +236,12 @@ ${text}
     // Optional: Validate with Zod
     const validated = schema.safeParse(parsed);
 
+    // Return extracted_text alongside data
     if (validated.success) {
-      return { success: true, data: validated.data };
+      return { success: true, data: validated.data, extracted_text: text };
     } else {
       console.warn("Schema validation failed, returning raw parsed JSON", validated.error);
-      // Return raw parsed data so the user sees something
-      return { success: true, data: parsed };
+      return { success: true, data: parsed, extracted_text: text };
     }
 
   } catch (error: any) {
@@ -260,7 +256,6 @@ export async function extractEntity(formDataOrText: FormData | string, schemaKey
   let textToProcess = "";
   let options: ExtractionOptions = {};
 
-  // If optionsString is passed (when using simple text arg)
   if (optionsString && typeof optionsString === 'string') {
       try { options = JSON.parse(optionsString); } catch {}
   }

@@ -28,6 +28,7 @@ import Link from "next/link"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { FloatingNav } from "@/components/floating-nav"
 
 const SCHEMA_OPTIONS = [
   { value: "general", label: "Auto-Detect / General" },
@@ -75,6 +76,7 @@ export default function ExtractorPage() {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<string>("// Extracted data will appear here...")
+  const [extractedContext, setExtractedContext] = useState<string>("")
 
   // Options
   const [negotiationAdvice, setNegotiationAdvice] = useState(false)
@@ -84,18 +86,18 @@ export default function ExtractorPage() {
   // Interactive Query
   const [query, setQuery] = useState("")
   const [queryLoading, setQueryLoading] = useState(false)
-  const [queryAnswer, setQueryAnswer] = useState<string | null>(null)
 
   // Reset result when schema changes
   useEffect(() => {
     setResult("// Extracted data will appear here...")
-    setQueryAnswer(null)
+    setExtractedContext("")
   }, [schema])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0])
       setText("") // Clear text if file is selected
+      setExtractedContext("") // Clear previous context
       toast.info("File selected. Click Analyze to process.")
     }
   }
@@ -107,7 +109,7 @@ export default function ExtractorPage() {
     }
 
     setLoading(true)
-    setQueryAnswer(null)
+    setExtractedContext("")
 
     const options = {
         negotiation_advice: negotiationAdvice,
@@ -129,6 +131,11 @@ export default function ExtractorPage() {
 
       if (res.success) {
         setResult(JSON.stringify(res.data, null, 2))
+        if (res.extracted_text) {
+             setExtractedContext(res.extracted_text);
+        } else if (text) {
+            setExtractedContext(text);
+        }
         toast.success("Extraction complete!")
       } else {
         toast.error(res.error)
@@ -143,17 +150,13 @@ export default function ExtractorPage() {
 
   const handleQuery = async () => {
       if (!query.trim()) return;
-      if (!text && !file && (!result || result.startsWith("//"))) {
-          toast.error("Please analyze a document first or paste text.");
-          return;
-      }
 
-      let docText = text;
-      // Note: If using a file, we can't easily query without re-uploading or storing state.
-      // For this implementation, we restrict Query to text mode or warn the user.
-      if (file && !docText) {
-           toast.error("Interactive query currently only supports pasted text. Please copy text into the box for Q&A.");
-           return;
+      // Determine source text: preferred extractedContext (from file or text), fallback to text input
+      const docText = extractedContext || text;
+
+      if (!docText) {
+          toast.error("Please analyze a document or paste text first.");
+          return;
       }
 
       setQueryLoading(true);
@@ -162,7 +165,28 @@ export default function ExtractorPage() {
           if (res.error) {
               toast.error(res.error);
           } else {
-              setQueryAnswer(res.answer);
+              // Append answer to the current JSON result
+              try {
+                  const currentData = JSON.parse(result);
+                  const newEntry = {
+                      question: query,
+                      answer: res.answer,
+                      timestamp: new Date().toISOString()
+                  };
+
+                  // Initialize or append to user_questions array
+                  const updatedData = {
+                      ...currentData,
+                      user_questions: currentData.user_questions ? [...currentData.user_questions, newEntry] : [newEntry]
+                  };
+
+                  setResult(JSON.stringify(updatedData, null, 2));
+                  setQuery(""); // Clear input
+                  toast.success("Answer added to extraction.");
+              } catch (parseError) {
+                  // If result isn't valid JSON (e.g. error message), just show toast
+                   toast.success("Answer: " + res.answer);
+              }
           }
       } catch (e) {
           toast.error("Failed to get answer");
@@ -185,7 +209,6 @@ export default function ExtractorPage() {
         type = "application/json"
         ext = "json"
       } else if (format === 'csv') {
-        // Flatten simple CSV
         const keys = Object.keys(data)
         const header = keys.join(",")
         const row = keys.map(k => {
@@ -214,8 +237,10 @@ export default function ExtractorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans p-4 md:p-8 pt-24 max-w-[1600px] mx-auto">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans relative">
+      <FloatingNav />
 
+      <div className="p-4 md:p-8 pt-24 max-w-[1600px] mx-auto">
       {/* Header */}
       <div className="flex flex-col gap-4 mb-4">
          {/* Minimized Security Banner */}
@@ -384,24 +409,19 @@ export default function ExtractorPage() {
                   {queryLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </Button>
           </div>
-          {queryAnswer && (
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md text-sm text-slate-800 dark:text-slate-200 border border-blue-100 dark:border-blue-800 animate-in fade-in slide-in-from-bottom-2">
-                  <span className="font-semibold block mb-1">Answer:</span>
-                  {queryAnswer}
-              </div>
-          )}
         </Card>
 
       </div>
 
       {/* Footer Area */}
-      <div className="flex justify-end mt-6">
+      <div className="flex justify-end mt-6 pb-8 pr-8">
           <Link href="/resources/api-docs">
               <Button variant="ghost" size="sm" className="gap-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
                   <Code className="w-4 h-4" />
                   API Documentation
               </Button>
           </Link>
+      </div>
       </div>
     </div>
   )
