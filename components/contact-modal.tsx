@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { X, Mail, CheckCircle } from "lucide-react"
 import { submitContactForm } from "@/app/actions/contact"
-import Lottie from "lottie-react"
+import Lottie from "@/components/lottie-client"
 import planeAnimation from "@/public/images/plane-ani.json"
 
 interface ContactModalProps {

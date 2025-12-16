@@ -8,7 +8,7 @@ import { GameSelector } from "@/components/game-selector"
 import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
-import Lottie from "lottie-react"
+import Lottie from "@/components/lottie-client"
 import animationData from "@/public/images/resources-ani.json"
 import { ContactModal } from "@/components/contact-modal"
 

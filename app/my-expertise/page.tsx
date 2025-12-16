@@ -4,7 +4,7 @@ import { FloatingNav } from "@/components/floating-nav"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { TimezoneClock } from "@/components/timezone-clock"
-import Lottie from "lottie-react"
+import Lottie from "@/components/lottie-client"
 import rocketAnimation from "@/public/images/rocket-ani.json"
 
 export default function AreasOfExpertise() {

@@ -11,7 +11,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Calendar, Clock, ArrowRight, Mail, Search, Check, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { useState, useMemo } from "react"
-import Lottie from "lottie-react"
+import Lottie from "@/components/lottie-client"
 import { ContactModal } from "@/components/contact-modal"
 import { cn } from "@/lib/utils"
 

@@ -8,7 +8,7 @@ import { ContactModal } from "@/components/contact-modal"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Link from "next/link"
 import Image from "next/image"
-import Lottie from "lottie-react"
+import Lottie from "@/components/lottie-client"
 
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false)

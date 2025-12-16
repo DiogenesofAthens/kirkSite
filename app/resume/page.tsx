@@ -12,7 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Award, ChevronDown } from "lucide-react";
 import { TimezoneClock } from "@/components/timezone-clock";
-import Lottie from "lottie-react";
+import Lottie from "@/components/lottie-client";
 import laptopAnimation from "@/public/images/man-laptop-ani.json";
 
 export default function Resume() {

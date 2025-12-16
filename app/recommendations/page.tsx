@@ -4,7 +4,7 @@ import { FloatingNav } from "@/components/floating-nav"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Star, Quote, Award, Users } from "lucide-react"
 import { TimezoneClock } from "@/components/timezone-clock"
-import Lottie from "lottie-react"
+import Lottie from "@/components/lottie-client"
 import animationData from "@/public/images/reviews-ani.json"
 
 export default function Recommendations() {
