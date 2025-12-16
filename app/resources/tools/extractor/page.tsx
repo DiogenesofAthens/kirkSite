@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle } from "lucide-react"
+import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle, Upload, Code } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   Command,
@@ -24,6 +24,7 @@ import { extractEntity } from "@/actions/extract-entity"
 import { toast } from "sonner"
 import Editor from "@monaco-editor/react"
 import { useTheme } from "next-themes"
+import Link from "next/link"
 
 const SCHEMA_OPTIONS = [
   { value: "general", label: "Auto-Detect / General" },
@@ -36,14 +37,6 @@ const SCHEMA_OPTIONS = [
   { label: "Legal", options: [
       { value: "nda", label: "NDA" },
       { value: "lease", label: "Rent/Lease Agreement" },
-      // "Employment Contract" and "Privacy Policy" mapped to generic or specific?
-      // I'll map them to 'general' or 'sow' if suitable, but prompt didn't specify fields.
-      // I'll add them as options but they will use general or I should extend the mapping.
-      // Re-reading prompt: "The Expert Schemas... Legal: NDA, Privacy Policy, Rent/Lease, Employment Contract".
-      // But Part 2 only defined Rent/Lease. I will use 'general' logic or 'sow' logic (parties, dates) for others if no specific schema defined.
-      // I'll stick to what I defined in actions/extract-entity.ts for now to avoid errors,
-      // or update actions/extract-entity.ts to handle them.
-      // Let's add them to the list and handle in backend (fallback to general).
       { value: "privacy", label: "Privacy Policy" },
       { value: "employment", label: "Employment Contract" },
   ]},
@@ -54,7 +47,6 @@ const SCHEMA_OPTIONS = [
   ]}
 ]
 
-// Flattened list for the Combobox search
 const FLATTENED_OPTIONS = [
   { value: "general", label: "Auto-Detect / General" },
   { value: "bant", label: "BANT Qualification" },
@@ -73,20 +65,38 @@ const FLATTENED_OPTIONS = [
 export default function ExtractorPage() {
   const { theme } = useTheme()
   const [text, setText] = useState("")
+  const [file, setFile] = useState<File | null>(null)
   const [schema, setSchema] = useState("general")
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<string>("// Extracted data will appear here...")
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0])
+      setText("") // Clear text if file is selected
+      toast.info("File selected. Click Analyze to process.")
+    }
+  }
+
   const handleExtract = async () => {
-    if (!text.trim()) {
-      toast.error("Please enter text to analyze")
+    if (!text.trim() && !file) {
+      toast.error("Please enter text or upload a document")
       return
     }
 
     setLoading(true)
     try {
-      const res = await extractEntity(text, schema)
+      let res;
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('schema', schema);
+        res = await extractEntity(formData as any); // Type cast for Server Action FormData compat
+      } else {
+        res = await extractEntity(text, schema);
+      }
+
       if (res.success) {
         setResult(JSON.stringify(res.data, null, 2))
         toast.success("Extraction complete!")
@@ -115,7 +125,6 @@ export default function ExtractorPage() {
         type = "application/json"
         ext = "json"
       } else if (format === 'csv') {
-        // Flatten simple object
         const keys = Object.keys(data)
         const header = keys.join(",")
         const row = keys.map(k => {
@@ -147,7 +156,7 @@ export default function ExtractorPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans p-4 md:p-8 pt-24 max-w-[1600px] mx-auto">
 
       {/* Header */}
-      <div className="flex flex-col gap-4 mb-8">
+      <div className="flex flex-col gap-4 mb-4">
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3">
@@ -158,84 +167,87 @@ export default function ExtractorPage() {
               Transform unstructured documents into structured JSON data using Groq AI.
             </p>
           </div>
-          <div className="hidden md:flex gap-2">
-            {/* Additional actions could go here */}
-          </div>
-        </div>
-
-        {/* Security Disclaimer */}
-        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3 flex items-start gap-3 text-sm text-amber-800 dark:text-amber-200">
-          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
-          <p>
-            <strong>Security Warning:</strong> This tool processes data using Groq AI.
-            Do not upload PII (Personally Identifiable Information) or unredacted confidential data without proper authorization.
-            Data is processed ephemerally and not stored.
-          </p>
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6 h-[calc(100vh-250px)] min-h-[600px]">
+      <div className="grid lg:grid-cols-2 gap-6 h-[calc(100vh-350px)] min-h-[600px] mb-6">
 
         {/* Left: Input */}
         <Card className="flex flex-col p-4 gap-4 shadow-md h-full">
-          <div className="flex items-center justify-between">
-            <Label className="font-semibold text-lg">Input Document</Label>
+          <div className="flex flex-col gap-4">
+             <div className="flex items-center justify-between">
+              <Label className="font-semibold text-lg">Input Document</Label>
 
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={open}
-                  className="w-[250px] justify-between"
-                >
-                  {schema
-                    ? FLATTENED_OPTIONS.find((framework) => framework.value === schema)?.label
-                    : "Select document type..."}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-[250px] justify-between"
+                  >
+                    {schema
+                      ? FLATTENED_OPTIONS.find((framework) => framework.value === schema)?.label
+                      : "Select document type..."}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[250px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search document type..." />
+                    <CommandList>
+                      <CommandEmpty>No schema found.</CommandEmpty>
+                      <CommandGroup>
+                        {FLATTENED_OPTIONS.map((framework) => (
+                          <CommandItem
+                            key={framework.value}
+                            value={framework.value}
+                            onSelect={(currentValue) => {
+                              setSchema(currentValue === schema ? "" : currentValue)
+                              setOpen(false)
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                schema === framework.value ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                            {framework.label}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            {/* File Upload / Text Toggle */}
+            <div className="flex items-center gap-2">
+                <Button variant="outline" className="relative cursor-pointer" asChild>
+                  <label>
+                    <Upload className="w-4 h-4 mr-2" />
+                    Upload Doc (PDF/Word)
+                    <input type="file" className="hidden" accept=".pdf,.docx,.doc" onChange={handleFileChange} />
+                  </label>
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[250px] p-0">
-                <Command>
-                  <CommandInput placeholder="Search document type..." />
-                  <CommandList>
-                    <CommandEmpty>No schema found.</CommandEmpty>
-                    <CommandGroup>
-                      {FLATTENED_OPTIONS.map((framework) => (
-                        <CommandItem
-                          key={framework.value}
-                          value={framework.value}
-                          onSelect={(currentValue) => {
-                            setSchema(currentValue === schema ? "" : currentValue)
-                            setOpen(false)
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              schema === framework.value ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                          {framework.label}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+                {file && <span className="text-sm text-slate-600 dark:text-slate-300 truncate max-w-[200px]">{file.name}</span>}
+                {file && <Button variant="ghost" size="sm" onClick={() => setFile(null)} className="text-red-500">Remove</Button>}
+            </div>
           </div>
 
           <Textarea
-            placeholder="Paste your contract, ticket, or agreement here..."
+            placeholder={file ? "Document attached. Click Analyze to process." : "Paste your contract, ticket, or agreement here..."}
             className="flex-1 font-mono text-sm resize-none p-4"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => { setText(e.target.value); setFile(null); }}
             maxLength={50000}
+            disabled={!!file}
           />
 
           <div className="flex justify-between items-center text-xs text-slate-500">
-             <span>{text.length} / 50000 chars</span>
+             <span>{file ? 'File attached' : `${text.length} / 50000 chars`}</span>
              <Button onClick={handleExtract} disabled={loading} className="w-32">
                {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                {loading ? 'Analyzing' : 'Analyze'}
@@ -257,7 +269,7 @@ export default function ExtractorPage() {
             </div>
           </div>
 
-          <div className="flex-1 border rounded-md overflow-hidden relative">
+          <div className="flex-1 border rounded-md overflow-hidden relative bg-white dark:bg-[#1e1e1e]">
              <Editor
                height="100%"
                defaultLanguage="json"
@@ -268,12 +280,35 @@ export default function ExtractorPage() {
                  fontSize: 14,
                  readOnly: true,
                  scrollBeyondLastLine: false,
-                 wordWrap: "on"
+                 wordWrap: "on",
+                 automaticLayout: true,
                }}
              />
           </div>
         </Card>
 
+      </div>
+
+      {/* Footer Area */}
+      <div className="flex flex-col gap-4">
+        {/* Security Warning (Moved to Bottom) */}
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3 flex items-start gap-3 text-sm text-amber-800 dark:text-amber-200">
+          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+          <p>
+            <strong>Security Warning:</strong> This tool processes data using Groq AI.
+            Do not upload PII (Personally Identifiable Information) or unredacted confidential data without proper authorization.
+            Data is processed ephemerally and not stored.
+          </p>
+        </div>
+
+        <div className="flex justify-end">
+            <Link href="/resources/api-docs">
+                <Button variant="secondary" className="gap-2">
+                    <Code className="w-4 h-4" />
+                    API Documentation
+                </Button>
+            </Link>
+        </div>
       </div>
     </div>
   )
