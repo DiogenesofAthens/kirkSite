@@ -393,7 +393,7 @@ export default function ExtractorPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans relative pb-20">
       <FloatingNav />
 
-      <div className="p-4 md:p-8 pt-40 max-w-[1600px] mx-auto">
+      <div className="p-4 md:p-8 pt-32 md:pt-52 max-w-[1600px] mx-auto">
       {/* Header */}
       <div className="flex flex-col gap-4 mb-8 items-center text-center">
         <div className="flex flex-col items-center mt-2">
@@ -411,67 +411,79 @@ export default function ExtractorPage() {
 
         {/* Step 1: Input Pane */}
         {step === 'input' && (
-            <Card className="flex flex-col p-6 gap-6 shadow-md bg-white dark:bg-slate-900 h-full border border-slate-200 dark:border-slate-800 animate-in fade-in slide-in-from-left-4 duration-300">
-            <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between">
+            <Card className="flex flex-col p-6 gap-6 shadow-md bg-white dark:bg-slate-900 h-full border border-slate-200 dark:border-slate-800 animate-in fade-in slide-in-from-left-4 duration-300 relative">
+
+            {/* Top Middle Analyze Button for Desktop */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block">
+                 <Button onClick={handleExtract} disabled={loading} size="lg" className="w-48 bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-500/30 rounded-full border-4 border-slate-50 dark:border-slate-950">
+                    {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Sparkles className="w-5 h-5 mr-2" />}
+                    {loading ? 'Analyzing...' : 'Analyze Document'}
+                 </Button>
+            </div>
+
+            <div className="flex flex-col gap-4 mt-4 md:mt-0">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <Label className="font-semibold text-xl text-slate-900 dark:text-slate-50">Input Document</Label>
 
-                <Popover open={open} onOpenChange={setOpen}>
-                    <PopoverTrigger asChild>
-                    <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className="w-[300px] justify-between bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
-                    >
-                        {schema
-                        ? FLATTENED_OPTIONS.find((framework) => framework.value === schema)?.label
-                        : "Select document type..."}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[300px] p-0">
-                    <Command>
-                        <CommandInput placeholder="Search document type..." />
-                        <CommandList>
-                        <CommandEmpty>No schema found.</CommandEmpty>
-                        <CommandGroup>
-                            {FLATTENED_OPTIONS.map((framework) => (
-                            <CommandItem
-                                key={framework.value}
-                                value={framework.value}
-                                onSelect={(currentValue) => {
-                                setSchema(currentValue === schema ? "" : currentValue)
-                                setOpen(false)
-                                }}
-                            >
-                                <Check
-                                className={cn(
-                                    "mr-2 h-4 w-4",
-                                    schema === framework.value ? "opacity-100" : "opacity-0"
-                                )}
-                                />
-                                {framework.label}
-                            </CommandItem>
-                            ))}
-                        </CommandGroup>
-                        </CommandList>
-                    </Command>
-                    </PopoverContent>
-                </Popover>
-                </div>
+                <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
+                    {/* Schema Select */}
+                    <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                        <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={open}
+                            className="w-full md:w-[300px] justify-between bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+                        >
+                            {schema
+                            ? FLATTENED_OPTIONS.find((framework) => framework.value === schema)?.label
+                            : "Select document type..."}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[300px] p-0">
+                        <Command>
+                            <CommandInput placeholder="Search document type..." />
+                            <CommandList>
+                            <CommandEmpty>No schema found.</CommandEmpty>
+                            <CommandGroup>
+                                {FLATTENED_OPTIONS.map((framework) => (
+                                <CommandItem
+                                    key={framework.value}
+                                    value={framework.value}
+                                    onSelect={(currentValue) => {
+                                    setSchema(currentValue === schema ? "" : currentValue)
+                                    setOpen(false)
+                                    }}
+                                >
+                                    <Check
+                                    className={cn(
+                                        "mr-2 h-4 w-4",
+                                        schema === framework.value ? "opacity-100" : "opacity-0"
+                                     )}
+                                    />
+                                    {framework.label}
+                                </CommandItem>
+                                ))}
+                            </CommandGroup>
+                            </CommandList>
+                        </Command>
+                        </PopoverContent>
+                    </Popover>
 
-                {/* File Upload / Text Toggle */}
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" className="relative cursor-pointer bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 h-12 px-6" asChild>
-                    <label>
-                        <Upload className="w-5 h-5 mr-2" />
-                        Upload Document (PDF/Word)
-                        <input type="file" className="hidden" accept=".pdf,.docx,.doc" onChange={handleFileChange} />
-                    </label>
-                    </Button>
-                    {file && <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate max-w-[300px] bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700">{file.name}</span>}
-                    {file && <Button variant="ghost" size="icon" onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"><X className="w-5 h-5" /></Button>}
+                    {/* File Upload / Text Toggle */}
+                    <div className="flex items-center gap-2 w-full md:w-auto">
+                        <Button variant="outline" className="relative cursor-pointer bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 h-10 px-4 w-full md:w-auto" asChild>
+                        <label>
+                            <Upload className="w-4 h-4 mr-2" />
+                            Upload PDF/Word
+                            <input type="file" className="hidden" accept=".pdf,.docx,.doc" onChange={handleFileChange} />
+                        </label>
+                        </Button>
+                        {file && <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate max-w-[150px] bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700">{file.name}</span>}
+                        {file && <Button variant="ghost" size="icon" onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"><X className="w-4 h-4" /></Button>}
+                    </div>
+                </div>
                 </div>
             </div>
 
@@ -502,10 +514,14 @@ export default function ExtractorPage() {
 
             <div className="flex justify-between items-center text-sm text-slate-500 border-t border-slate-100 dark:border-slate-800 pt-6">
                 <span>{file ? 'File attached' : `${text.length} / 50000 chars`}</span>
-                <Button onClick={handleExtract} disabled={loading} size="lg" className="w-48 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">
-                {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                {loading ? 'Analyzing...' : 'Analyze Document'}
-                </Button>
+
+                {/* Mobile Analyze Button (shown if desktop hidden, or just duplicate for safety) */}
+                <div className="md:hidden">
+                    <Button onClick={handleExtract} disabled={loading} size="lg" className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg">
+                    {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
+                    {loading ? 'Analyzing...' : 'Analyze'}
+                    </Button>
+                </div>
             </div>
             </Card>
         )}

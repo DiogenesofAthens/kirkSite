@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -8,8 +8,8 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Loader2, ArrowRightLeft, Code2, Sparkles, ClipboardPaste, Copy, Check, AlertTriangle, Send, X, Info } from "lucide-react"
-import Editor from "@monaco-editor/react"
+import { Loader2, ArrowRightLeft, Sparkles, ClipboardPaste, Copy, Check, AlertTriangle, Send, X, Info, Code2 } from "lucide-react"
+import Editor, { OnMount } from "@monaco-editor/react"
 import { translateCode, askTranslationQuestion } from "@/actions/translate"
 import { toast } from "sonner"
 import { useTheme } from "next-themes"
@@ -56,7 +56,9 @@ const TARGET_OPTIONS = [
 ]
 
 export default function CodeTranslatorPage() {
-  const { theme } = useTheme()
+  const { theme, resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
   const [inputCode, setInputCode] = useState("// Paste your legacy code here...")
   const [outputCode, setOutputCode] = useState("// Translation will appear here...")
   const [explanation, setExplanation] = useState("")
@@ -66,9 +68,12 @@ export default function CodeTranslatorPage() {
   const [targetLanguage, setTargetLanguage] = useState("typescript")
   const [includeExplanation, setIncludeExplanation] = useState(true)
   const [loading, setLoading] = useState(false)
-  const [editorTheme, setEditorTheme] = useState("vs-dark")
   const [copied, setCopied] = useState(false)
   const [showSecurityBanner, setShowSecurityBanner] = useState(true)
+
+  // Auto-select logic
+  const hasAutoSelectedRef = useRef(false)
+  const editorRef = useRef<any>(null)
 
   // Question State
   const [query, setQuery] = useState("")
@@ -76,8 +81,8 @@ export default function CodeTranslatorPage() {
   const [qaHistory, setQaHistory] = useState<{question: string, answer: string}[]>([])
 
   useEffect(() => {
-    setEditorTheme(theme === 'dark' ? "vs-dark" : "light")
-  }, [theme])
+    setMounted(true)
+  }, [])
 
   const handleSwap = () => {
     if (sourceLanguage === "auto") {
@@ -197,16 +202,34 @@ export default function CodeTranslatorPage() {
     return map[lang] || "text"
   }
 
+  // Handle editor mount to setup focus listener for auto-select
+  const handleEditorDidMount: OnMount = (editor, monaco) => {
+    editorRef.current = editor;
+
+    editor.onDidFocusEditorText(() => {
+       if (!hasAutoSelectedRef.current) {
+           const currentValue = editor.getValue();
+           if (currentValue === "// Paste your legacy code here...") {
+               editor.setSelection(editor.getModel()?.getFullModelRange() as any);
+               hasAutoSelectedRef.current = true;
+           }
+       }
+    });
+  }
+
+  // Determine editor theme based on resolved theme (handling system pref)
+  // Default to vs-dark if not mounted to prevent flash, or light if we prefer
+  // Ideally we wait for mounted to render editor to avoid mismatch
+  const editorTheme = mounted ? (resolvedTheme === 'dark' ? "vs-dark" : "light") : "vs-dark"
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans pb-20 relative">
       <FloatingNav />
 
-      <main className="pt-40 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col gap-6">
+      <main className="pt-24 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col gap-6">
         {/* Header */}
-        <div className="flex flex-col items-center justify-center mb-6 gap-4 z-10 relative text-center">
-            <div className="p-4 bg-blue-600/10 rounded-2xl mb-2">
-              <Code2 className="w-10 h-10 text-blue-600 dark:text-blue-400" />
-            </div>
+        <div className="flex flex-col items-center justify-center mb-2 gap-2 z-10 relative text-center">
+            {/* Logo removed as requested */}
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3">
               Enterprise Code Translator
             </h1>
@@ -318,28 +341,39 @@ export default function CodeTranslatorPage() {
                   </Tooltip>
                </div>
                <div className="flex-1 relative bg-slate-50 dark:bg-[#1e1e1e]">
-                 <Editor
-                   height="100%"
-                   defaultLanguage="text"
-                   language={getMonacoLang(sourceLanguage)}
-                   value={inputCode}
-                   onChange={(val) => setInputCode(val || "")}
-                   theme={editorTheme}
-                   options={{
-                     minimap: { enabled: false },
-                     fontSize: 14,
-                     padding: { top: 16 },
-                     scrollBeyondLastLine: false,
-                     automaticLayout: true,
-                   }}
-                 />
+                 {mounted ? (
+                     <Editor
+                       height="100%"
+                       defaultLanguage="text"
+                       language={getMonacoLang(sourceLanguage)}
+                       value={inputCode}
+                       onChange={(val) => {
+                           setInputCode(val || "");
+                           // Reset auto-select if user clears code manually, or keep it true?
+                           // User said "don't do it again if the user pastes in there".
+                           // If they clear it, and type, it shouldn't auto-select again.
+                           // So we never reset hasAutoSelectedRef unless maybe component unmounts.
+                       }}
+                       onMount={handleEditorDidMount}
+                       theme={editorTheme}
+                       options={{
+                         minimap: { enabled: false },
+                         fontSize: 14,
+                         padding: { top: 16 },
+                         scrollBeyondLastLine: false,
+                         automaticLayout: true,
+                       }}
+                     />
+                 ) : (
+                     <div className="flex items-center justify-center h-full text-slate-400">Loading Editor...</div>
+                 )}
                </div>
             </Card>
 
             {/* Output */}
             <Card className="overflow-hidden flex flex-col shadow-lg border-slate-200 dark:border-slate-800 h-full">
                <div className="bg-slate-100 dark:bg-slate-900/50 px-4 py-2 border-b border-slate-200 dark:border-slate-800 text-xs font-mono text-slate-500 flex justify-between items-center h-10">
-                  <span className="font-bold">MODERN STACK</span>
+                  <span className="font-bold">OUTPUT CODE</span>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-slate-200 dark:hover:bg-slate-800 group" onClick={handleCopy}>
@@ -357,21 +391,25 @@ export default function CodeTranslatorPage() {
                   </Tooltip>
                </div>
                <div className="flex-1 relative bg-slate-50 dark:bg-[#1e1e1e]">
-                 <Editor
-                   height="100%"
-                   defaultLanguage="typescript"
-                   language={getMonacoLang(targetLanguage)}
-                   value={outputCode}
-                   theme={editorTheme}
-                   options={{
-                     minimap: { enabled: false },
-                     fontSize: 14,
-                     padding: { top: 16 },
-                     readOnly: true,
-                     scrollBeyondLastLine: false,
-                     automaticLayout: true,
-                   }}
-                 />
+                 {mounted ? (
+                     <Editor
+                       height="100%"
+                       defaultLanguage="typescript"
+                       language={getMonacoLang(targetLanguage)}
+                       value={outputCode}
+                       theme={editorTheme}
+                       options={{
+                         minimap: { enabled: false },
+                         fontSize: 14,
+                         padding: { top: 16 },
+                         readOnly: true,
+                         scrollBeyondLastLine: false,
+                         automaticLayout: true,
+                       }}
+                     />
+                 ) : (
+                    <div className="flex items-center justify-center h-full text-slate-400">Loading Editor...</div>
+                 )}
                </div>
             </Card>
             </TooltipProvider>
