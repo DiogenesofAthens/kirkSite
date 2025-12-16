@@ -393,7 +393,7 @@ export default function ExtractorPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans relative pb-20">
       <FloatingNav />
 
-      <div className="p-4 md:p-8 pt-36 max-w-[1600px] mx-auto">
+      <div className="p-4 md:p-8 pt-40 max-w-[1600px] mx-auto">
       {/* Header */}
       <div className="flex flex-col gap-4 mb-8 items-center text-center">
         <div className="flex flex-col items-center mt-2">
