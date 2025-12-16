@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle, Upload, Code } from "lucide-react"
+import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle, Upload, Code, Send, Info } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   Command,
@@ -20,11 +20,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { extractEntity } from "@/actions/extract-entity"
+import { extractEntity, answerDocumentQuery } from "@/actions/extract-entity"
 import { toast } from "sonner"
 import Editor from "@monaco-editor/react"
 import { useTheme } from "next-themes"
 import Link from "next/link"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 const SCHEMA_OPTIONS = [
   { value: "general", label: "Auto-Detect / General" },
@@ -33,6 +36,7 @@ const SCHEMA_OPTIONS = [
       { value: "sow", label: "Statement of Work (SOW)" },
       { value: "msa", label: "Master Services Agreement (MSA)" },
       { value: "order_form", label: "Order Form" },
+      { value: "estimate", label: "Construction/Service Estimate" },
   ]},
   { label: "Legal", options: [
       { value: "nda", label: "NDA" },
@@ -53,6 +57,7 @@ const FLATTENED_OPTIONS = [
   { value: "sow", label: "Statement of Work (SOW)" },
   { value: "msa", label: "Master Services Agreement (MSA)" },
   { value: "order_form", label: "Order Form" },
+  { value: "estimate", label: "Construction/Service Estimate" },
   { value: "nda", label: "NDA" },
   { value: "lease", label: "Rent/Lease Agreement" },
   { value: "privacy", label: "Privacy Policy" },
@@ -71,6 +76,22 @@ export default function ExtractorPage() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<string>("// Extracted data will appear here...")
 
+  // Options
+  const [negotiationAdvice, setNegotiationAdvice] = useState(false)
+  const [riskAnalysis, setRiskAnalysis] = useState(false)
+  const [missingClauses, setMissingClauses] = useState(false)
+
+  // Interactive Query
+  const [query, setQuery] = useState("")
+  const [queryLoading, setQueryLoading] = useState(false)
+  const [queryAnswer, setQueryAnswer] = useState<string | null>(null)
+
+  // Reset result when schema changes
+  useEffect(() => {
+    setResult("// Extracted data will appear here...")
+    setQueryAnswer(null)
+  }, [schema])
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0])
@@ -86,15 +107,24 @@ export default function ExtractorPage() {
     }
 
     setLoading(true)
+    setQueryAnswer(null)
+
+    const options = {
+        negotiation_advice: negotiationAdvice,
+        risk_analysis: riskAnalysis,
+        missing_clauses: missingClauses,
+    }
+
     try {
       let res;
       if (file) {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('schema', schema);
-        res = await extractEntity(formData as any); // Type cast for Server Action FormData compat
+        formData.append('options', JSON.stringify(options));
+        res = await extractEntity(formData as any);
       } else {
-        res = await extractEntity(text, schema);
+        res = await extractEntity(text, schema, JSON.stringify(options));
       }
 
       if (res.success) {
@@ -109,6 +139,59 @@ export default function ExtractorPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleQuery = async () => {
+      if (!query.trim()) return;
+      if (!text && !file && (!result || result.startsWith("//"))) {
+          toast.error("Please analyze a document first or paste text.");
+          return;
+      }
+
+      // We need the raw text. If file was uploaded, we might not have the text client-side easily
+      // unless we returned it from extractEntity or parsed it here.
+      // For MVP, if file is used, we rely on the user having done an extraction first which implies we might need to store the extracted text or re-send file.
+      // Limitation: Chat with PDF requires text.
+      // Workaround: We will use the 'text' state if available. If file, we warn user or try to grab text from previous result if we echoed it? No.
+      // Better: In `extractEntity`, we can return the parsed text too. But I didn't implement that.
+      // Let's assume text input for now or warn if file.
+      // Or: send file again? Expensive.
+      // Let's rely on `text` state. If file, we can't easily query without re-uploading.
+      // Actually, if I used file, I don't have the text here.
+      // Fix: Let's prompt user to use text for chat features or just support text based chat for now.
+      // Or, I can update extractEntity to return `extracted_text`.
+      // Let's update `extractEntity` return type later or for now just warn if file.
+      // WAIT: I can just implement a `returnText` flag in extractEntity.
+      // But for this patch, let's just handle text input queries, or re-upload file if file exists.
+
+      let docText = text;
+      if (file) {
+         // Re-parse file on server for query?
+         // Let's disable query for file for now unless text is populated?
+         // Or just send file again.
+         toast.info("Querying document...");
+         // We need a specific action that handles file + query.
+         // Let's simpler: answerDocumentQuery takes text.
+         // If file, we can't do it easily without sending file.
+         if (!docText) {
+             toast.error("Interactive query currently only supports pasted text.");
+             return;
+         }
+      }
+
+      setQueryLoading(true);
+      try {
+          const res = await answerDocumentQuery(docText, query);
+          if (res.error) {
+              toast.error(res.error);
+          } else {
+              setQueryAnswer(res.answer);
+          }
+      } catch (e) {
+          toast.error("Failed to get answer");
+      } finally {
+          setQueryLoading(false);
+      }
   }
 
   const handleDownload = (format: 'json' | 'csv') => {
@@ -168,15 +251,23 @@ export default function ExtractorPage() {
             </p>
           </div>
         </div>
+
+        {/* Minimized Security Banner */}
+        <Alert className="bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 py-2">
+            <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            <AlertTitle className="text-xs font-semibold text-amber-800 dark:text-amber-200 mb-0 flex items-center gap-2">
+                Security Note: <span className="font-normal">AI processing active. Please redact strict PII before analysis. Data is ephemeral.</span>
+            </AlertTitle>
+        </Alert>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6 h-[calc(100vh-350px)] min-h-[600px] mb-6">
+      <div className="grid lg:grid-cols-2 gap-6 min-h-[600px] mb-6">
 
         {/* Left: Input */}
-        <Card className="flex flex-col p-4 gap-4 shadow-md h-full">
+        <Card className="flex flex-col p-4 gap-4 shadow-md bg-white dark:bg-slate-900 h-full">
           <div className="flex flex-col gap-4">
              <div className="flex items-center justify-between">
-              <Label className="font-semibold text-lg">Input Document</Label>
+              <Label className="font-semibold text-lg text-slate-900 dark:text-slate-50">Input Document</Label>
 
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
@@ -184,7 +275,7 @@ export default function ExtractorPage() {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[250px] justify-between"
+                    className="w-[250px] justify-between bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
                   >
                     {schema
                       ? FLATTENED_OPTIONS.find((framework) => framework.value === schema)?.label
@@ -225,7 +316,7 @@ export default function ExtractorPage() {
 
             {/* File Upload / Text Toggle */}
             <div className="flex items-center gap-2">
-                <Button variant="outline" className="relative cursor-pointer" asChild>
+                <Button variant="outline" className="relative cursor-pointer bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700" asChild>
                   <label>
                     <Upload className="w-4 h-4 mr-2" />
                     Upload Doc (PDF/Word)
@@ -239,16 +330,32 @@ export default function ExtractorPage() {
 
           <Textarea
             placeholder={file ? "Document attached. Click Analyze to process." : "Paste your contract, ticket, or agreement here..."}
-            className="flex-1 font-mono text-sm resize-none p-4"
+            className="flex-1 font-mono text-sm resize-none p-4 bg-slate-50 dark:bg-slate-950 dark:text-slate-100 border-slate-200 dark:border-slate-800 min-h-[300px]"
             value={text}
             onChange={(e) => { setText(e.target.value); setFile(null); }}
             maxLength={50000}
             disabled={!!file}
           />
 
-          <div className="flex justify-between items-center text-xs text-slate-500">
+          {/* Controls: Advisory Checkboxes */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-2 border-t border-slate-100 dark:border-slate-800">
+              <div className="flex items-center space-x-2">
+                  <Checkbox id="negotiation" checked={negotiationAdvice} onCheckedChange={(c) => setNegotiationAdvice(!!c)} />
+                  <Label htmlFor="negotiation" className="text-sm cursor-pointer">Negotiation Advice</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                  <Checkbox id="risks" checked={riskAnalysis} onCheckedChange={(c) => setRiskAnalysis(!!c)} />
+                  <Label htmlFor="risks" className="text-sm cursor-pointer">Risk Analysis</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                  <Checkbox id="missing" checked={missingClauses} onCheckedChange={(c) => setMissingClauses(!!c)} />
+                  <Label htmlFor="missing" className="text-sm cursor-pointer">Missing Clauses</Label>
+              </div>
+          </div>
+
+          <div className="flex justify-between items-center text-xs text-slate-500 border-t border-slate-100 dark:border-slate-800 pt-4">
              <span>{file ? 'File attached' : `${text.length} / 50000 chars`}</span>
-             <Button onClick={handleExtract} disabled={loading} className="w-32">
+             <Button onClick={handleExtract} disabled={loading} className="w-32 bg-blue-600 hover:bg-blue-700 text-white">
                {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                {loading ? 'Analyzing' : 'Analyze'}
              </Button>
@@ -256,20 +363,20 @@ export default function ExtractorPage() {
         </Card>
 
         {/* Right: Output */}
-        <Card className="flex flex-col p-4 gap-4 shadow-md h-full bg-slate-50 dark:bg-[#1e1e1e]">
+        <Card className="flex flex-col p-4 gap-4 shadow-md h-full bg-slate-50 dark:bg-[#1e1e1e] overflow-hidden">
           <div className="flex items-center justify-between">
-            <Label className="font-semibold text-lg">Structured Output</Label>
+            <Label className="font-semibold text-lg text-slate-900 dark:text-slate-50">Structured Output</Label>
             <div className="flex gap-2">
-               <Button variant="outline" size="sm" onClick={() => handleDownload('json')} disabled={!result || result.startsWith("//")}>
+               <Button variant="outline" size="sm" onClick={() => handleDownload('json')} disabled={!result || result.startsWith("//")} className="bg-white dark:bg-slate-800 dark:text-slate-200">
                  <Download className="w-4 h-4 mr-2" /> JSON
                </Button>
-               <Button variant="outline" size="sm" onClick={() => handleDownload('csv')} disabled={!result || result.startsWith("//")}>
+               <Button variant="outline" size="sm" onClick={() => handleDownload('csv')} disabled={!result || result.startsWith("//")} className="bg-white dark:bg-slate-800 dark:text-slate-200">
                  <Download className="w-4 h-4 mr-2" /> CSV
                </Button>
             </div>
           </div>
 
-          <div className="flex-1 border rounded-md overflow-hidden relative bg-white dark:bg-[#1e1e1e]">
+          <div className="flex-1 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden relative bg-white dark:bg-[#1e1e1e] min-h-[400px]">
              <Editor
                height="100%"
                defaultLanguage="json"
@@ -285,30 +392,38 @@ export default function ExtractorPage() {
                }}
              />
           </div>
+
+          {/* Interactive Query Input */}
+          <div className="flex gap-2 mt-2">
+              <Input
+                placeholder="Ask a question about this document..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleQuery()}
+                className="bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+              />
+              <Button size="icon" onClick={handleQuery} disabled={queryLoading || !query.trim()} className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white">
+                  {queryLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+              </Button>
+          </div>
+          {queryAnswer && (
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md text-sm text-slate-800 dark:text-slate-200 border border-blue-100 dark:border-blue-800 animate-in fade-in slide-in-from-bottom-2">
+                  <span className="font-semibold block mb-1">Answer:</span>
+                  {queryAnswer}
+              </div>
+          )}
         </Card>
 
       </div>
 
       {/* Footer Area */}
-      <div className="flex flex-col gap-4">
-        {/* Security Warning (Moved to Bottom) */}
-        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3 flex items-start gap-3 text-sm text-amber-800 dark:text-amber-200">
-          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
-          <p>
-            <strong>Security Warning:</strong> This tool processes data using Groq AI.
-            Do not upload PII (Personally Identifiable Information) or unredacted confidential data without proper authorization.
-            Data is processed ephemerally and not stored.
-          </p>
-        </div>
-
-        <div className="flex justify-end">
-            <Link href="/resources/api-docs">
-                <Button variant="secondary" className="gap-2">
-                    <Code className="w-4 h-4" />
-                    API Documentation
-                </Button>
-            </Link>
-        </div>
+      <div className="flex justify-end mt-6">
+          <Link href="/resources/api-docs">
+              <Button variant="ghost" size="sm" className="gap-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
+                  <Code className="w-4 h-4" />
+                  API Documentation
+              </Button>
+          </Link>
       </div>
     </div>
   )
