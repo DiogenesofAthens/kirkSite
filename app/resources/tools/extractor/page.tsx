@@ -148,35 +148,12 @@ export default function ExtractorPage() {
           return;
       }
 
-      // We need the raw text. If file was uploaded, we might not have the text client-side easily
-      // unless we returned it from extractEntity or parsed it here.
-      // For MVP, if file is used, we rely on the user having done an extraction first which implies we might need to store the extracted text or re-send file.
-      // Limitation: Chat with PDF requires text.
-      // Workaround: We will use the 'text' state if available. If file, we warn user or try to grab text from previous result if we echoed it? No.
-      // Better: In `extractEntity`, we can return the parsed text too. But I didn't implement that.
-      // Let's assume text input for now or warn if file.
-      // Or: send file again? Expensive.
-      // Let's rely on `text` state. If file, we can't easily query without re-uploading.
-      // Actually, if I used file, I don't have the text here.
-      // Fix: Let's prompt user to use text for chat features or just support text based chat for now.
-      // Or, I can update extractEntity to return `extracted_text`.
-      // Let's update `extractEntity` return type later or for now just warn if file.
-      // WAIT: I can just implement a `returnText` flag in extractEntity.
-      // But for this patch, let's just handle text input queries, or re-upload file if file exists.
-
       let docText = text;
-      if (file) {
-         // Re-parse file on server for query?
-         // Let's disable query for file for now unless text is populated?
-         // Or just send file again.
-         toast.info("Querying document...");
-         // We need a specific action that handles file + query.
-         // Let's simpler: answerDocumentQuery takes text.
-         // If file, we can't do it easily without sending file.
-         if (!docText) {
-             toast.error("Interactive query currently only supports pasted text.");
-             return;
-         }
+      // Note: If using a file, we can't easily query without re-uploading or storing state.
+      // For this implementation, we restrict Query to text mode or warn the user.
+      if (file && !docText) {
+           toast.error("Interactive query currently only supports pasted text. Please copy text into the box for Q&A.");
+           return;
       }
 
       setQueryLoading(true);
@@ -208,6 +185,7 @@ export default function ExtractorPage() {
         type = "application/json"
         ext = "json"
       } else if (format === 'csv') {
+        // Flatten simple CSV
         const keys = Object.keys(data)
         const header = keys.join(",")
         const row = keys.map(k => {
@@ -240,7 +218,15 @@ export default function ExtractorPage() {
 
       {/* Header */}
       <div className="flex flex-col gap-4 mb-4">
-        <div className="flex justify-between items-start">
+         {/* Minimized Security Banner */}
+        <div className="w-full bg-amber-500/10 border border-amber-500/20 rounded-md px-3 py-2 flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 text-amber-600" />
+            <span className="text-xs font-medium text-amber-600">
+                Security Note: AI processing active. Please redact strict PII before analysis. Data is ephemeral.
+            </span>
+        </div>
+
+        <div className="flex justify-between items-start mt-2">
           <div>
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3">
               <FileJson className="w-8 h-8 text-blue-600" />
@@ -251,20 +237,12 @@ export default function ExtractorPage() {
             </p>
           </div>
         </div>
-
-        {/* Minimized Security Banner */}
-        <Alert className="bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 py-2">
-            <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-            <AlertTitle className="text-xs font-semibold text-amber-800 dark:text-amber-200 mb-0 flex items-center gap-2">
-                Security Note: <span className="font-normal">AI processing active. Please redact strict PII before analysis. Data is ephemeral.</span>
-            </AlertTitle>
-        </Alert>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6 min-h-[600px] mb-6">
 
         {/* Left: Input */}
-        <Card className="flex flex-col p-4 gap-4 shadow-md bg-white dark:bg-slate-900 h-full">
+        <Card className="flex flex-col p-4 gap-4 shadow-md bg-white dark:bg-slate-900 h-full border-slate-200 dark:border-slate-800">
           <div className="flex flex-col gap-4">
              <div className="flex items-center justify-between">
               <Label className="font-semibold text-lg text-slate-900 dark:text-slate-50">Input Document</Label>
@@ -330,7 +308,7 @@ export default function ExtractorPage() {
 
           <Textarea
             placeholder={file ? "Document attached. Click Analyze to process." : "Paste your contract, ticket, or agreement here..."}
-            className="flex-1 font-mono text-sm resize-none p-4 bg-slate-50 dark:bg-slate-950 dark:text-slate-100 border-slate-200 dark:border-slate-800 min-h-[300px]"
+            className="flex-1 font-mono text-sm resize-none p-4 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-800 min-h-[300px]"
             value={text}
             onChange={(e) => { setText(e.target.value); setFile(null); }}
             maxLength={50000}
@@ -341,15 +319,15 @@ export default function ExtractorPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-2 border-t border-slate-100 dark:border-slate-800">
               <div className="flex items-center space-x-2">
                   <Checkbox id="negotiation" checked={negotiationAdvice} onCheckedChange={(c) => setNegotiationAdvice(!!c)} />
-                  <Label htmlFor="negotiation" className="text-sm cursor-pointer">Negotiation Advice</Label>
+                  <Label htmlFor="negotiation" className="text-sm cursor-pointer dark:text-slate-200">Negotiation Advice</Label>
               </div>
               <div className="flex items-center space-x-2">
                   <Checkbox id="risks" checked={riskAnalysis} onCheckedChange={(c) => setRiskAnalysis(!!c)} />
-                  <Label htmlFor="risks" className="text-sm cursor-pointer">Risk Analysis</Label>
+                  <Label htmlFor="risks" className="text-sm cursor-pointer dark:text-slate-200">Risk Analysis</Label>
               </div>
               <div className="flex items-center space-x-2">
                   <Checkbox id="missing" checked={missingClauses} onCheckedChange={(c) => setMissingClauses(!!c)} />
-                  <Label htmlFor="missing" className="text-sm cursor-pointer">Missing Clauses</Label>
+                  <Label htmlFor="missing" className="text-sm cursor-pointer dark:text-slate-200">Missing Clauses</Label>
               </div>
           </div>
 
@@ -363,7 +341,7 @@ export default function ExtractorPage() {
         </Card>
 
         {/* Right: Output */}
-        <Card className="flex flex-col p-4 gap-4 shadow-md h-full bg-slate-50 dark:bg-[#1e1e1e] overflow-hidden">
+        <Card className="flex flex-col p-4 gap-4 shadow-md h-full bg-slate-50 dark:bg-[#1e1e1e] overflow-hidden border-slate-200 dark:border-slate-800">
           <div className="flex items-center justify-between">
             <Label className="font-semibold text-lg text-slate-900 dark:text-slate-50">Structured Output</Label>
             <div className="flex gap-2">
@@ -400,7 +378,7 @@ export default function ExtractorPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleQuery()}
-                className="bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+                className="bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700"
               />
               <Button size="icon" onClick={handleQuery} disabled={queryLoading || !query.trim()} className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white">
                   {queryLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}

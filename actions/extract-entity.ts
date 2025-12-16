@@ -47,6 +47,21 @@ const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+// --- JSON Sanitization ---
+
+function sanitizeJsonString(text: string): string {
+    // 1. Remove Markdown code blocks
+    let clean = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
+    // 2. Escape unescaped newlines/tabs inside strings is hard to do perfectly with regex,
+    // but often the issue is literal newlines in values.
+    // Strategy: We will rely on the LLM prompt to return valid JSON,
+    // but as a fallback, we can try to "repair" common errors.
+
+    // Attempt 1: Just return clean text. The prompt is now stricter.
+    return clean;
+}
+
 // --- Zod Schemas ---
 
 const baseSchema = z.object({
@@ -101,12 +116,13 @@ const bantSchema = baseSchema.extend({
 });
 
 const estimateSchema = baseSchema.extend({
-  material_costs: z.array(lineItemSchema).optional(),
-  labor_costs: z.array(lineItemSchema).optional(),
+  material_costs: z.array(lineItemSchema).optional().describe("List of materials with costs"),
+  labor_costs: z.array(lineItemSchema).optional().describe("Labor hours and rates"),
   payment_schedule: z.array(z.string()).optional().describe("Dates or milestones for payments"),
   contractor_obligations: z.array(z.string()).optional(),
   client_obligations: z.array(z.string()).optional(),
   exclusions: z.array(z.string()).optional().describe("What is explicitly NOT included"),
+  permit_requirements: z.string().optional(),
 });
 
 const generalSchema = baseSchema.extend({
@@ -176,16 +192,17 @@ export async function performExtraction(text: string, schemaKey: string, options
 
   INSTRUCTIONS:
   1. Extract strictly valid JSON matching the structure described below.
-  2. Tables: Extract every financial line item into the 'line_items', 'material_costs', or 'labor_costs' arrays (if applicable).
-  3. Obligations: Extract specific duties for 'Party A' (Contractor/Provider) and 'Party B' (Client).
+  2. Tables: Convert every row in the document into the 'line_items', 'material_costs', or 'labor_costs' arrays. Do not summarize; EXTRACT EXACT VALUES.
+  3. Obligations: Explicitly list 'Client Duties' vs 'Vendor Duties' / 'Party A' vs 'Party B'.
   4. Dates: Standardize all dates to YYYY-MM-DD.
-  5. ${analysisInstruction}
+  5. JSON Formatting: Ensure all strings are properly escaped. Do not use unescaped newlines inside strings.
+  6. ${analysisInstruction}
 
   JSON STRUCTURE REQUIREMENTS (Do not include markdown blocks like \`\`\`json):
   - doc_type (string)
   - extraction_date (YYYY-MM-DD)
   - confidence_score (number 0-1)
-  ${schemaKey === 'estimate' ? '- material_costs (array), labor_costs (array), payment_schedule (array), contractor_obligations (array), client_obligations (array), exclusions (array)' : ''}
+  ${schemaKey === 'estimate' ? '- material_costs (array), labor_costs (array), payment_schedule (array), contractor_obligations (array), client_obligations (array), exclusions (array), permit_requirements (string)' : ''}
   ${['sow', 'msa', 'order_form'].includes(schemaKey) ? '- start_date, end_date, total_contract_value, customer_name, deliverables (array), payment_terms, line_items (array of {description, quantity, unit_price, total}), party_obligations ({party_a: [], party_b: []})' : ''}
   ${schemaKey === 'lease' ? '- landlord, tenant, property_address, monthly_rent, lease_term, obligations (array)' : ''}
   ${['ticket', 'incident'].includes(schemaKey) ? '- issue_severity, affected_system, reported_by, resolution_status' : ''}
@@ -207,8 +224,18 @@ ${text}
       prompt: userPrompt,
     });
 
-    const cleanText = result.text.replace(/```json/g, '').replace(/```/g, '').trim();
-    const parsed = JSON.parse(cleanText);
+    const cleanText = sanitizeJsonString(result.text);
+    let parsed;
+
+    try {
+        parsed = JSON.parse(cleanText);
+    } catch (parseError) {
+        // Fallback: Try to strip control chars if simple parse fails
+        // This is a "Hail Mary" repair for bad LLM output
+        console.warn("Initial JSON parse failed, attempting strict control char sanitization.");
+        const strictClean = cleanText.replace(/[\u0000-\u001F]+/g, " ");
+        parsed = JSON.parse(strictClean);
+    }
 
     // Optional: Validate with Zod
     const validated = schema.safeParse(parsed);
@@ -217,7 +244,7 @@ ${text}
       return { success: true, data: validated.data };
     } else {
       console.warn("Schema validation failed, returning raw parsed JSON", validated.error);
-      // Return raw parsed data with a flag? For now just return it.
+      // Return raw parsed data so the user sees something
       return { success: true, data: parsed };
     }
 
