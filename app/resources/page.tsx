@@ -86,6 +86,13 @@ const tools = [
     icon: "FileText",
     link: "/tools/translator",
   },
+  {
+    id: "entity-extractor",
+    title: "Entity Extractor",
+    description: "Extract structured JSON data from contracts, tickets, and agreements using AI.",
+    icon: "FileText",
+    link: "/resources/tools/extractor",
+  },
 ]
 
   return (
