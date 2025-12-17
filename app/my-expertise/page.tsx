@@ -131,9 +131,9 @@ export default function Expertise() {
             </div>
           </div>
 
-          {/* AI Powered App Examples Section - Moved to Bottom */}
+          {/* Live AI Portfolio Section - Moved to Bottom */}
           <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">AI Powered App Examples</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Live AI Portfolio</h2>
             <div className="grid md:grid-cols-3 gap-6">
               <Link href="/resources/tools/extractor">
                 <Card className="glass border-0 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer h-full bg-blue-50/50 dark:bg-slate-900/50">
