@@ -1,44 +1,13 @@
 
 import { createGroq } from '@ai-sdk/groq';
 import { streamText } from 'ai';
+import { SITE_CONTEXT } from '@/lib/site-context';
 
 const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
 export const maxDuration = 30;
-
-const SITE_CONTEXT = `
-<site_data>
-  <achievements>
-    Grant has been recognized as SE of the Year at Conga for both FY22 and FY23, top-performing SE by revenue in FY22, and awarded Best Innovation Demo at SE Summit 2024. He's also presented on the main stage at SKO and Conga Connect.
-  </achievements>
-  <background>
-    Grant has 10+ years of experience in sales engineering, technical consulting, and enterprise software. He’s held six progressive roles at Conga, advancing from Sr. BDR to Principal Sales Engineer. At Conga, he supported strategic sales efforts, built custom demos, and helped close over $50M in enterprise business. Prior to Conga, he held sales and leadership roles at DNN Corp and Canto.
-  </background>
-  <tech>
-    Grant is highly skilled in Salesforce, AWS, Microsoft Dynamics, and modern web development. He designed and built this site himself using cutting-edge tools like Vercel v0 and GPT-4o.
-  </tech>
-  <media_server>
-    Grant created a comprehensive walkthrough on building an Unraid-based media server with Plex, Radarr, Sonarr, and more.
-  </media_server>
-  <sdr>
-    Grant built and led SDR teams, consistently achieving 150%+ of quota and generating over $8M in qualified pipeline. He also authored a detailed SDR methodology.
-  </sdr>
-  <career_history>
-    Grant has worked across a range of enterprise roles—from SDR to Principal Sales Engineer—primarily at Conga, with prior experience at DNN Corp and Canto. He’s helped close over $50M in enterprise business and driven success in technical sales, process improvement, and solution engineering.
-  </career_history>
-  <clients>
-    Grant has supported digital transformation initiatives at multiple Fortune 100 companies, delivering technical solutions at scale.
-  </clients>
-  <skills>
-    Grant specializes in technical discovery, solution engineering, demo creation, and consultative selling. He is proficient in Salesforce, AWS, and Microsoft Dynamics platforms and frequently leads RFPs and security reviews.
-  </skills>
-  <certifications>
-    Grant is certified in Conga CPQ, CLM, Approvals, Order Management, Billing, Composer, Sign, and Grid. He also has experience with Salesforce, AWS, and Microsoft Dynamics.
-  </certifications>
-</site_data>
-`;
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
