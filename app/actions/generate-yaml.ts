@@ -29,7 +29,7 @@ Structure the output cleanly with alias, trigger, condition (if applicable), and
 
 Analyze the request inside <user_description>.
 
-RETURN THE RESULT AS A VALID JSON OBJECT INSIDE <json_output>...</json_output> TAGS.
+RETURN THE RESULT AS A VALID JSON OBJECT.
 The JSON object must have these fields:
 - "yaml_code": The valid Home Assistant YAML automation block (string).
 - "explanation": Brief summary of the logic or syntax errors fixed (string).`;
@@ -47,7 +47,7 @@ Generate the corrected YAML version.
 
 In the explanation field, detail exactly what errors were found and fixed.
 
-RETURN THE RESULT AS A VALID JSON OBJECT INSIDE <json_output>...</json_output> TAGS.
+RETURN THE RESULT AS A VALID JSON OBJECT.
 The JSON object must have these fields:
 - "yaml_code": The valid Home Assistant YAML automation block (string).
 - "explanation": Brief summary of the logic or syntax errors fixed (string).`;
@@ -64,16 +64,18 @@ The JSON object must have these fields:
       prompt: userMessage,
     });
 
-    // Manually extract JSON from XML tags
-    const match = text.match(/<json_output>([\s\S]*?)<\/json_output>/);
+    // Brute Force JSON Extraction
+    const firstOpenBrace = text.indexOf('{');
+    const lastCloseBrace = text.lastIndexOf('}');
 
-    if (match && match[1]) {
+    if (firstOpenBrace !== -1 && lastCloseBrace !== -1 && lastCloseBrace > firstOpenBrace) {
+      const jsonString = text.substring(firstOpenBrace, lastCloseBrace + 1);
       try {
-        const parsedData = JSON.parse(match[1]);
+        const parsedData = JSON.parse(jsonString);
         return { success: true, data: parsedData };
       } catch (parseError) {
         console.error("JSON Parse Error:", parseError);
-        // Fallback: Return raw text if JSON parsing fails but tags exist
+        // Fallback: Return raw text
         return {
              success: true,
              data: {
@@ -83,11 +85,11 @@ The JSON object must have these fields:
         };
       }
     } else {
-      // Fallback: No tags found
+      // Fallback: No JSON structure found
       return {
           success: true,
           data: {
-              yaml_code: "# Error: AI did not return structured output tags.\n# Below is the raw output:\n\n" + text,
+              yaml_code: "# Error: AI did not return a JSON object.\n# Below is the raw output:\n\n" + text,
               explanation: "AI response format mismatch. Raw response provided."
           }
       };

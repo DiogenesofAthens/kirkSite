@@ -13,11 +13,15 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   // 1. Input Sanitization Layer
-  // Truncate history to last 6 turns
-  const truncatedMessages = messages.slice(-6);
+  // Truncate history to last 6 turns, but PRESERVE the System Prompt (usually implicit or 0th index if passed,
+  // but here we are about to inject a system prompt. The 'messages' usually don't contain the system prompt
+  // defined in streamText, they are user/assistant history.
+  // However, we want to keep the most recent context.
+  // If the user sends a long history, we only want the tail.
+  const recentMessages = messages.slice(-6);
 
   // Normalize messages: Ensure content exists (handling 'parts' from UI stream)
-  const normalizedMessages = truncatedMessages.map((msg: any) => {
+  const normalizedMessages = recentMessages.map((msg: any) => {
     if ((!msg.content || msg.content === '') && Array.isArray(msg.parts)) {
       const textContent = msg.parts
         .filter((p: any) => p.type === 'text')
