@@ -32,12 +32,13 @@ export function ThemeToggle() {
   if (isMatrixMode) {
     return (
       <Button
-        variant="default"
-        size="sm"
+        variant="ghost"
+        size="icon"
         onClick={toggleMatrixMode}
-        className="bg-red-600 hover:bg-red-700 text-white rounded-full font-bold shadow-[0_0_10px_rgba(220,38,38,0.7)] animate-pulse px-4"
+        className="text-2xl hover:bg-transparent animate-pulse duration-[3000ms]"
+        title="Exit Matrix"
       >
-        EXIT
+        💊
       </Button>
     )
   }
