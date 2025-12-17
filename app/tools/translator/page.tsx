@@ -231,7 +231,7 @@ export default function CodeTranslatorPage() {
         <div className="flex flex-col items-center justify-center mb-2 gap-2 z-10 relative text-center">
             {/* Logo removed as requested */}
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3">
-              Enterprise Code Translator
+              Code Translator
             </h1>
             <p className="text-slate-500 dark:text-slate-400 max-w-2xl">
               Senior Engineer logic for converting legacy systems to modern stacks.

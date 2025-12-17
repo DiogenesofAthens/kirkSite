@@ -393,13 +393,12 @@ export default function ExtractorPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans relative pb-20">
       <FloatingNav />
 
-      <div className="p-4 md:p-8 pt-32 md:pt-52 max-w-[1600px] mx-auto">
+      <div className="p-4 md:p-8 pt-24 md:pt-32 max-w-[1600px] mx-auto">
       {/* Header */}
       <div className="flex flex-col gap-4 mb-8 items-center text-center">
         <div className="flex flex-col items-center mt-2">
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3 justify-center">
-              <FileJson className="w-8 h-8 text-blue-600" />
-              Enterprise Entity Extractor
+              Entity Extractor
             </h1>
             <p className="text-slate-500 dark:text-slate-400 mt-2 max-w-2xl mx-auto">
               Transform unstructured documents into structured JSON data using Groq AI.
