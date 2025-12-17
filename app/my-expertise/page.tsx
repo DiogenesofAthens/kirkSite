@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Sparkles, Code2, Home } from "lucide-react"
 import Link from "next/link"
 import Lottie from "@/components/lottie-client"
-import manLaptopAnimation from "@/public/images/man-laptop-ani.json"
+import rocketAnimation from "@/public/images/rocket-ani.json"
 
 export default function Expertise() {
   return (
@@ -22,7 +22,7 @@ export default function Expertise() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <div className="w-40 sm:w-48 mx-auto mb-8">
-              <Lottie animationData={manLaptopAnimation} loop autoplay />
+              <Lottie animationData={rocketAnimation} loop autoplay />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">My Expertise</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
