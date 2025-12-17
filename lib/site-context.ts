@@ -151,6 +151,24 @@ export const EXPERIENCES = [
     },
 ];
 
+import { aiTools, utilityTools, blogPosts, games } from "@/lib/tools-config"
+
+const TOOLS_CONTEXT = `
+Available AI Tools:
+${aiTools.map(t => `- ${t.title}: ${t.description}`).join('\n')}
+
+Available Utilities:
+${utilityTools.map(t => `- ${t.title}: ${t.description}`).join('\n')}
+
+Arcade Games:
+${games.map(g => `- ${g.title}: ${g.description}`).join('\n')}
+`;
+
+const BLOG_CONTEXT = `
+Recent Blog Posts:
+${blogPosts.map(p => `- ${p.title} (${p.category}): ${p.excerpt}`).join('\n')}
+`;
+
 export const SKILLS_AND_EXPERTISE = `
 My Expertise:
 Comprehensive business technology and process consulting across multiple domains.
@@ -216,6 +234,10 @@ export const SITE_CONTEXT = `
   <expertise>
     ${SKILLS_AND_EXPERTISE}
   </expertise>
+  <resources>
+    ${TOOLS_CONTEXT}
+    ${BLOG_CONTEXT}
+  </resources>
   <additional_info>
     Grant creates guides on building Unraid-based media servers (Plex, Radarr, Sonarr) and SDR methodologies.
     He built this site using Next.js 16, Vercel AI SDK, and Groq.

@@ -11,6 +11,7 @@ import { useState } from "react"
 import Lottie from "@/components/lottie-client"
 import animationData from "@/public/images/resources-ani.json"
 import { ContactModal } from "@/components/contact-modal"
+import { aiTools, utilityTools } from "@/lib/tools-config"
 
 const iconMap = { FileText, Calculator, QrCode, Clock, DollarSign }
 const donationIconMap = { Coffee, Beer, Heart }
@@ -54,54 +55,6 @@ const guides = [
     icon: "FileText",
     donationIcon: "Heart",
     link: "/launchpad",
-  },
-]
-
-const aiTools = [
-  {
-    id: "entity-extractor",
-    title: "Entity Extractor",
-    description: "Extract structured JSON data from contracts, tickets, and agreements using AI.",
-    icon: "FileText",
-    link: "/resources/tools/extractor",
-  },
-  {
-    id: "code-translator",
-    title: "Code Translator",
-    description: "Enterprise code translator. Convert legacy Apex/SOQL/Java to modern stacks.",
-    icon: "FileText",
-    link: "/tools/translator",
-  },
-  {
-    id: "ha-architect",
-    title: "Home Assistant Architect",
-    description: "Generate and debug Home Assistant YAML automations with AI assistance.",
-    icon: "FileText",
-    link: "/resources/tools/ha-architect",
-  },
-]
-
-const utilityTools = [
-  {
-    id: "timezone-converter",
-    title: "World Clock App",
-    description: "Visualize timezones, schedule meetings, and find the perfect overlap.",
-    icon: "Clock",
-    link: "/clock",
-  },
-  {
-    id: "meeting-cost",
-    title: "Meeting Cost Calculator",
-    description: "Real-time ticker showing exactly how much that meeting costs.",
-    icon: "DollarSign",
-    link: "/resources/meeting-cost",
-  },
-  {
-    id: "qr-generator",
-    title: "QR Code Generator",
-    description: "Create instant QR codes for URLs, Wi-Fi, and more directly in your browser.",
-    icon: "QrCode",
-    link: "/resources/qr-code",
   },
 ]
 
