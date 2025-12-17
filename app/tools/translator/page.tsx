@@ -226,7 +226,8 @@ export default function CodeTranslatorPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans pb-20 relative">
       <FloatingNav />
 
-      <main className="pt-24 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col gap-6">
+      {/* Increased top padding to pt-36 for consistent spacing */}
+      <main className="pt-36 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col items-center justify-center mb-2 gap-2 z-10 relative text-center">
             {/* Logo removed as requested */}
@@ -310,12 +311,12 @@ export default function CodeTranslatorPage() {
            </Button>
         </div>
 
-        {/* Security Alert */}
+        {/* Security Alert - Styled as WARNING not DESTRUCTIVE */}
         {securityWarning && (
-            <Alert variant="destructive" className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 animate-in slide-in-from-top-2">
-                <AlertTriangle className="h-4 w-4" />
-                <AlertTitle>Security Vulnerability Detected</AlertTitle>
-                <AlertDescription>
+            <Alert className="bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 animate-in slide-in-from-top-2">
+                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
+                <AlertTitle className="text-amber-800 dark:text-amber-500">Security Vulnerability Detected</AlertTitle>
+                <AlertDescription className="text-amber-700 dark:text-amber-400">
                     {securityWarning}
                 </AlertDescription>
             </Alert>

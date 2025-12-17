@@ -12,20 +12,26 @@ const groq = createGroq({
 function sanitizeJsonString(text: string): string {
   // 1. Try to find JSON object within Markdown fences
   const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  let cleanText = text;
   if (fenceMatch) {
-    return fenceMatch[1].trim();
+    cleanText = fenceMatch[1].trim();
+  } else {
+    // 2. Try to find the first '{' and last '}' to extract the object
+    const firstBrace = text.indexOf('{');
+    const lastBrace = text.lastIndexOf('}');
+
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      cleanText = text.substring(firstBrace, lastBrace + 1).trim();
+    }
   }
 
-  // 2. Try to find the first '{' and last '}' to extract the object
-  const firstBrace = text.indexOf('{');
-  const lastBrace = text.lastIndexOf('}');
+  // 3. Robust Cleanup for common LLM JSON errors
+  // Fix unescaped newlines inside JSON strings (risky but often needed for LLMs)
+  // This regex looks for newlines that are NOT followed by a control character or valid JSON structural element
+  // Actually, safely replacing newlines in JSON values is hard without a parser.
+  // Instead, rely on the strict system prompt and strict model.
 
-  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-    return text.substring(firstBrace, lastBrace + 1).trim();
-  }
-
-  // 3. Fallback: Return text as-is
-  return text.trim();
+  return cleanText.trim();
 }
 
 // --- Server Actions ---
@@ -54,14 +60,15 @@ Structure:
 
 Security Protocol:
 - Detect hardcoded credentials, SQL injection, or XSS risks in the legacy code.
-- If found, populate "security_warning" with a specific alert.
-- Refactor the "translated_code" to be secure (e.g., use parameterized queries).
+- If found, populate "security_warning" with a specific alert message (e.g. "Hardcoded credentials detected").
+- Refactor the "translated_code" to be secure (e.g., use parameterized queries) even if the original was insecure.
 - "explanation" should focus on modern patterns, performance, and security.
 
-IMPORTANT:
+IMPORTANT JSON RULES:
 - Output MUST be valid parsable JSON.
 - Do NOT include any text before or after the JSON object.
 - Escape all control characters in strings (e.g. use \\n for newlines).
+- Do NOT use unescaped double quotes inside strings.
 `
 
   const userPrompt = `Translate the code inside <legacy_codeblock>...</legacy_codeblock> from ${fromLang} to ${toLang}.
@@ -90,7 +97,27 @@ ${sanitizedInput}
       return { success: true, data };
     } catch (parseError) {
       console.error("JSON Parse Error:", parseError, "Raw Text:", text);
-      // Fallback: Try to recover if it's just a raw string (unlikely given system prompt but good for resilience)
+
+      // FALLBACK RECOVERY: Regex Extraction
+      // If JSON.parse fails, try to extract fields using regex
+      const translatedCodeMatch = text.match(/"translated_code"\s*:\s*"([\s\S]*?)(?<!\\)"/);
+      const explanationMatch = text.match(/"explanation"\s*:\s*"([\s\S]*?)(?<!\\)"/);
+      const securityWarningMatch = text.match(/"security_warning"\s*:\s*"([\s\S]*?)(?<!\\)"/);
+
+      if (translatedCodeMatch) {
+          // Manually unescape the string (basic)
+          const unescapeJson = (str: string) => str.replace(/\\"/g, '"').replace(/\\n/g, '\n').replace(/\\\\/g, '\\');
+
+          return {
+              success: true,
+              data: {
+                  translated_code: unescapeJson(translatedCodeMatch[1]),
+                  explanation: explanationMatch ? unescapeJson(explanationMatch[1]) : "Detailed explanation unavailable due to formatting error.",
+                  security_warning: securityWarningMatch ? unescapeJson(securityWarningMatch[1]) : null
+              }
+          }
+      }
+
       return {
         error: "AI Response Formatting Error. Please try again.",
         raw_text: text
