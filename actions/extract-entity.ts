@@ -217,7 +217,7 @@ ${text}
 
   try {
     const result = await generateText({
-      model: groq('llama-3.3-70b-versatile'),
+      model: groq('llama3-8b-8192'),
       system: systemPrompt,
       prompt: userPrompt,
     });
@@ -311,7 +311,7 @@ export async function answerDocumentQuery(docText: string, question: string) {
 
     try {
         const result = await generateText({
-            model: groq('llama-3.3-70b-versatile'),
+            model: groq('llama3-8b-8192'),
             system: systemPrompt,
             prompt: userPrompt,
         });

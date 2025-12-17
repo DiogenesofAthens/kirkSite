@@ -88,10 +88,10 @@ export function HAConnectModal({ haHook }: HAConnectModalProps) {
                 <div className="bg-red-50 dark:bg-red-950/30 p-4 rounded-md border border-red-200 dark:border-red-800 flex flex-col gap-2 animate-in fade-in slide-in-from-top-2">
                     <div className="flex items-center gap-2 text-red-700 dark:text-red-400 font-semibold text-sm">
                         <AlertTriangle className="w-4 h-4" />
-                        Connection Failed. CORS Error Detected?
+                        Connection Blocked?
                     </div>
                     <p className="text-xs text-red-600 dark:text-red-300">
-                        To allow this browser connection, you likely need to update your <code>configuration.yaml</code> and restart HA:
+                        You must enable CORS in your Home Assistant <code>configuration.yaml</code> to allow this connection:
                     </p>
                     <pre className="bg-slate-100 dark:bg-slate-900 p-2 rounded text-[10px] font-mono overflow-x-auto text-slate-800 dark:text-slate-200">
 {`http:
@@ -99,6 +99,9 @@ export function HAConnectModal({ haHook }: HAConnectModalProps) {
     - https://grantglazer.com
     - http://localhost:3000`}
                     </pre>
+                    <p className="text-xs text-red-600 dark:text-red-300 font-semibold">
+                        Restart Home Assistant after saving.
+                    </p>
                 </div>
             )}
 
