@@ -24,7 +24,7 @@ function sanitizeJsonString(text: string): string {
     return text.substring(firstBrace, lastBrace + 1).trim();
   }
 
-  // 3. Fallback: Return text as-is (sanitization failed or text is pure)
+  // 3. Fallback: Return text as-is
   return text.trim();
 }
 
@@ -39,10 +39,12 @@ export async function translateCode(inputCode: string, fromLang: string, toLang:
   const sanitizedInput = inputCode.trim().substring(0, 50000);
 
   // 2. System Prompt & Sandwich Defense
+  // Enhanced prompt to strictly enforce valid JSON and escaping
   const SYSTEM_PROMPT = `You are a Principal Software Architect and Security Engineer.
 Your goal is to translate legacy code into secure, modern, enterprise-grade code.
 
 RETURN ONLY RAW JSON. DO NOT RETURN MARKDOWN.
+ENSURE ALL STRINGS ARE PROPERLY ESCAPED.
 Structure:
 {
   "translated_code": "string (the translated code)",
@@ -55,6 +57,11 @@ Security Protocol:
 - If found, populate "security_warning" with a specific alert.
 - Refactor the "translated_code" to be secure (e.g., use parameterized queries).
 - "explanation" should focus on modern patterns, performance, and security.
+
+IMPORTANT:
+- Output MUST be valid parsable JSON.
+- Do NOT include any text before or after the JSON object.
+- Escape all control characters in strings (e.g. use \\n for newlines).
 `
 
   const userPrompt = `Translate the code inside <legacy_codeblock>...</legacy_codeblock> from ${fromLang} to ${toLang}.
@@ -85,7 +92,7 @@ ${sanitizedInput}
       console.error("JSON Parse Error:", parseError, "Raw Text:", text);
       // Fallback: Try to recover if it's just a raw string (unlikely given system prompt but good for resilience)
       return {
-        error: "AI Response Formatting Error",
+        error: "AI Response Formatting Error. Please try again.",
         raw_text: text
       };
     }

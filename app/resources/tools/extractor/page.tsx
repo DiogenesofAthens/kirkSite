@@ -393,7 +393,7 @@ export default function ExtractorPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans relative pb-20">
       <FloatingNav />
 
-      <div className="p-4 md:p-8 pt-24 md:pt-32 max-w-[1600px] mx-auto">
+      <div className="p-4 md:p-8 pt-24 max-w-[1600px] mx-auto">
       {/* Header */}
       <div className="flex flex-col gap-4 mb-8 items-center text-center">
         <div className="flex flex-col items-center mt-2">
@@ -422,7 +422,24 @@ export default function ExtractorPage() {
 
             <div className="flex flex-col gap-4 mt-4 md:mt-0">
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <Label className="font-semibold text-xl text-slate-900 dark:text-slate-50">Input Document</Label>
+                <div className="flex items-center gap-4">
+                    <Label className="font-semibold text-xl text-slate-900 dark:text-slate-50">Input Document</Label>
+
+                    {/* File Upload / Text Toggle - Moved Left */}
+                    <div className="flex items-center gap-2">
+                        <Button variant="outline" className="relative cursor-pointer bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 h-9 px-4" asChild>
+                        <label>
+                            <Upload className="w-4 h-4 mr-2" />
+                            Upload PDF/Word
+                            <input type="file" className="hidden" accept=".pdf,.docx,.doc" onChange={handleFileChange} />
+                        </label>
+                        </Button>
+                        {file && <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate max-w-[150px] bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-md border border-slate-200 dark:border-slate-700 flex items-center gap-2">
+                            {file.name}
+                            <button onClick={(e) => { e.preventDefault(); setFile(null); }} className="text-slate-400 hover:text-red-500"><X className="w-3 h-3" /></button>
+                        </span>}
+                    </div>
+                </div>
 
                 <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
                     {/* Schema Select */}
@@ -469,19 +486,6 @@ export default function ExtractorPage() {
                         </Command>
                         </PopoverContent>
                     </Popover>
-
-                    {/* File Upload / Text Toggle */}
-                    <div className="flex items-center gap-2 w-full md:w-auto">
-                        <Button variant="outline" className="relative cursor-pointer bg-white dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 h-10 px-4 w-full md:w-auto" asChild>
-                        <label>
-                            <Upload className="w-4 h-4 mr-2" />
-                            Upload PDF/Word
-                            <input type="file" className="hidden" accept=".pdf,.docx,.doc" onChange={handleFileChange} />
-                        </label>
-                        </Button>
-                        {file && <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate max-w-[150px] bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700">{file.name}</span>}
-                        {file && <Button variant="ghost" size="icon" onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"><X className="w-4 h-4" /></Button>}
-                    </div>
                 </div>
                 </div>
             </div>
