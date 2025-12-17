@@ -10,8 +10,22 @@ const groq = createGroq({
 // --- Helper Functions ---
 
 function sanitizeJsonString(text: string): string {
-  // Remove Markdown code blocks (e.g., ```json ... ```) and trim
-  return text.replace(/^```json\s*/, '').replace(/^```\s*/, '').replace(/```$/, '').trim();
+  // 1. Try to find JSON object within Markdown fences
+  const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  if (fenceMatch) {
+    return fenceMatch[1].trim();
+  }
+
+  // 2. Try to find the first '{' and last '}' to extract the object
+  const firstBrace = text.indexOf('{');
+  const lastBrace = text.lastIndexOf('}');
+
+  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+    return text.substring(firstBrace, lastBrace + 1).trim();
+  }
+
+  // 3. Fallback: Return text as-is (sanitization failed or text is pure)
+  return text.trim();
 }
 
 // --- Server Actions ---
