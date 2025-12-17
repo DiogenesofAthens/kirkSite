@@ -5,7 +5,7 @@ import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { GameSelector } from "@/components/game-selector"
-import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign, Sparkles, Code2, Home, Rocket, Crown, ExternalLink } from "lucide-react"
+import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign, Sparkles, Code2, Home, Rocket, Crown, ExternalLink, Compass, Tv, Pizza, Sandwich } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import Lottie from "@/components/lottie-client"
@@ -21,10 +21,14 @@ const iconMap = {
   DollarSign,
   SparkleIcon: Sparkles,
   CodeIcon: Code2,
-  HomeIcon: Home
+  HomeIcon: Home,
+  Compass,
+  Tv,
+  Mail,
+  Rocket
 }
 
-const donationIconMap = { Coffee, Beer, Heart }
+const donationIconMap = { Coffee, Beer, Heart, Pizza, Sandwich, Home }
 
 export default function Resources() {
   const [showContactForm, setShowContactForm] = useState(false)
@@ -35,7 +39,7 @@ export default function Resources() {
       title: "SDR Process Guide",
       description: "Complete guide to qualifying leads, Salesforce best practices, and SDR workflows",
       funText: "Buy me a coffee ☕",
-      icon: "FileText",
+      icon: "Compass",
       donationIcon: "Coffee",
       link: "/downloads/sdr-process-guide",
     },
@@ -44,8 +48,8 @@ export default function Resources() {
       title: "Complete Media Server Setup Guide",
       description: "Step-by-step guide to building your own Unraid media server with Plex",
       funText: "Buy me a pizza 🍕",
-      icon: "FileText",
-      donationIcon: "Heart",
+      icon: "Tv",
+      donationIcon: "Pizza",
       link: "/downloads/media-server-guide",
     },
     {
@@ -53,8 +57,8 @@ export default function Resources() {
       title: "Enterprise Sales Email Playbook",
       description: "Proven outbound campaigns to cut through noise and drive enterprise pipeline.",
       funText: "Buy me a sandwich 🥪",
-      icon: "FileText",
-      donationIcon: "Heart",
+      icon: "Mail",
+      donationIcon: "Sandwich",
       link: "/sales-playbook",
     },
       {
@@ -62,8 +66,8 @@ export default function Resources() {
       title: "Digital Identity Launchpad",
       description: "Launch your professional presence with a website just like this one!",
       funText: "Help pay my Mortgage 🏠",
-      icon: "FileText",
-      donationIcon: "Heart",
+      icon: "Rocket",
+      donationIcon: "Home",
       link: "/launchpad",
     },
   ]
@@ -98,11 +102,7 @@ export default function Resources() {
 
           {/* Premium Resources Section */}
           <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center flex items-center justify-center gap-2">
-              <Crown className="w-6 h-6 text-yellow-500" />
-              Premium Resources
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
               {guides.map((guide) => {
                 // @ts-ignore
                 const Icon = iconMap[guide.icon] || FileText
@@ -111,33 +111,27 @@ export default function Resources() {
 
                 return (
                   <Link key={guide.id} href={guide.link}>
-                    <Card className="glass border-2 border-yellow-500/10 dark:border-yellow-500/5 shadow-xl hover:shadow-2xl hover:border-yellow-500/30 transition-all duration-300 cursor-pointer group h-full hover:bg-white/60 dark:hover:bg-slate-800/60 flex flex-col">
-                      <CardHeader className="flex-1">
-                        <div className="flex items-start justify-between mb-4">
-                           <div className="w-12 h-12 bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                             <Icon className="w-6 h-6 text-yellow-700 dark:text-yellow-500" />
-                           </div>
-                           {guide.id === 'launchpad' && (
-                             <span className="bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
-                               Featured
-                             </span>
-                           )}
+                    <Card className="bg-[#111827] border-slate-800 shadow-xl hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 cursor-pointer group h-full flex flex-col p-2">
+                      <CardHeader className="flex-1 p-6">
+                        <div className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-900/20 transition-colors">
+                            <Icon className="w-6 h-6 text-blue-500" />
                         </div>
-                        <CardTitle className="text-xl text-slate-900 dark:text-slate-50 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        <CardTitle className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
                           {guide.title}
                         </CardTitle>
-                        <CardDescription className="text-slate-700 dark:text-slate-300 line-clamp-3">
+                        <CardDescription className="text-slate-400 text-sm leading-relaxed">
                           {guide.description}
                         </CardDescription>
                       </CardHeader>
-                      <CardFooter className="pt-0 pb-6 px-6">
-                         <div className="w-full flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 p-2 rounded-lg group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 transition-colors">
-                            <span className="flex items-center gap-1.5">
-                              <DonationIcon className="w-3.5 h-3.5 text-pink-500" />
-                              {guide.funText}
-                            </span>
-                            <ExternalLink className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                         </div>
+                      <CardFooter className="pt-0 pb-4 px-6 mt-auto flex items-center justify-between text-sm">
+                        <span className="flex items-center gap-2 text-slate-400 group-hover:text-slate-300 transition-colors">
+                            <DonationIcon className="w-4 h-4 text-slate-500" />
+                            {guide.funText}
+                        </span>
+                        <div className="flex items-center gap-1.5 text-blue-500 font-medium opacity-100 transition-opacity">
+                            <Heart className="w-4 h-4" />
+                            <span>View Guide</span>
+                        </div>
                       </CardFooter>
                     </Card>
                   </Link>

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
+import { toast } from "sonner"
 
 interface MatrixContextType {
   isMatrixMode: boolean
@@ -31,6 +32,13 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
     "a",
   ], [])
 
+  const triggerMatrixMode = React.useCallback(() => {
+    setIsMatrixMode(true)
+    setShowOverlay(true)
+    setTheme("dark")
+    toast.success("Behold the Matrix - You’ve been living in a dream world. This isn't CSS. This is the truth.", { id: 'matrix-activated' })
+  }, [setTheme])
+
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === konamiCode[konamiIndex]) {
@@ -48,16 +56,10 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [konamiIndex, konamiCode, setTheme]) // Removed triggerMatrixMode from deps to avoid cycle if it was used directly, but it's defined below.
+  }, [konamiIndex, konamiCode, triggerMatrixMode])
 
   const toggleMatrixMode = () => {
     setIsMatrixMode(!isMatrixMode)
-  }
-
-  const triggerMatrixMode = () => {
-    setIsMatrixMode(true)
-    setShowOverlay(true)
-    setTheme("dark")
   }
 
   React.useEffect(() => {
