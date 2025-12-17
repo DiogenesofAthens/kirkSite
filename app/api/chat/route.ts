@@ -80,5 +80,17 @@ ${SITE_CONTEXT}`,
     messages: coreMessages,
   });
 
+  // Use toUIMessageStreamResponse if available, or fallback to text stream
+  // Note: toDataStreamResponse appears missing in this environment's 'ai' package version
+  if (typeof result.toDataStreamResponse === 'function') {
+    return result.toDataStreamResponse();
+  }
+
+  // @ts-ignore
+  if (typeof result.toUIMessageStreamResponse === 'function') {
+     // @ts-ignore
+     return result.toUIMessageStreamResponse();
+  }
+
   return result.toTextStreamResponse();
 }
