@@ -493,7 +493,7 @@ export default function ExtractorPage() {
 
             <Textarea
                 placeholder={file ? "Document attached. Click Analyze to process." : "Paste your contract, ticket, or agreement here..."}
-                className="flex-1 font-mono text-base resize-none p-6 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-800 min-h-[200px] h-[300px]"
+                className="flex-1 font-mono text-base resize-none p-6 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-800 min-h-[200px] h-[300px]"
                 value={text}
                 onChange={(e) => { setText(e.target.value); setFile(null); }}
                 maxLength={50000}

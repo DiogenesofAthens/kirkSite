@@ -188,7 +188,11 @@ export function useHomeAssistant() {
   }
 
   const processEntities = (data: Entity[]) => {
-      const relevantDomains = ["light", "switch", "binary_sensor", "sensor", "media_player", "climate", "lock", "cover", "input_boolean", "input_select", "script", "automation"]
+      const relevantDomains = [
+        "light", "switch", "binary_sensor", "sensor", "media_player", "climate", "lock", "cover",
+        "input_boolean", "input_select", "input_text", "input_number", "input_button",
+        "script", "automation", "device_tracker", "person", "zone", "timer", "counter", "button"
+      ]
 
       const simpleList = data
         .filter(e => {
