@@ -4,105 +4,55 @@ import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { MessageCircle, X, RefreshCw, User, Bot, Mail } from "lucide-react"
+import { MessageCircle, X, RefreshCw, User, Bot, Mail, SendIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ContactModal } from "@/components/contact-modal"
-
-interface Message {
-  id: string
-  content: string
-  isBot: boolean
-  timestamp: Date
-}
-
-const KNOWLEDGE_BASE: Record<string, string> = {
-  "achievements": "Grant has been recognized as SE of the Year at Conga for both FY22 and FY23, top-performing SE by revenue in FY22, and awarded Best Innovation Demo at SE Summit 2024. He's also presented on the main stage at SKO and Conga Connect.",
-  "background": "Grant has 10+ years of experience in sales engineering, technical consulting, and enterprise software. He’s held six progressive roles at Conga, advancing from Sr. BDR to Principal Sales Engineer. At Conga, he supported strategic sales efforts, built custom demos, and helped close over $50M in enterprise business. Prior to Conga, he held sales and leadership roles at DNN Corp and Canto. See his full <a href='https://grantglazer.com/resume' target='_blank' class='underline text-blue-600 dark:text-blue-400'>Resume</a>.",
-  "tech": "Grant is highly skilled in Salesforce, AWS, Microsoft Dynamics, and modern web development. He designed and built this site himself using cutting-edge tools like Vercel v0 and GPT-4o. For a deeper dive, read his insights on the <a href='https://grantglazer.com/blog' target='_blank' class='underline text-blue-600 dark:text-blue-400'>Blog</a>.",
-  "media server": "Grant created a comprehensive walkthrough on building an Unraid-based media server with Plex, Radarr, Sonarr, and more. View the guide here: <a href='https://grantglazer.com/downloads/media-server-guide' target='_blank' class='underline text-blue-600 dark:text-blue-400'>Media Server Guide</a>",
-  "sdr": "Grant built and led SDR teams, consistently achieving 150%+ of quota and generating over $8M in qualified pipeline. He also authored a detailed SDR methodology. Read it here: <a href='https://grantglazer.com/downloads/sdr-process-guide' target='_blank' class='underline text-blue-600 dark:text-blue-400'>SDR Process Guide</a>",
-  "career history": "Grant has worked across a range of enterprise roles—from SDR to Principal Sales Engineer—primarily at Conga, with prior experience at DNN Corp and Canto. He’s helped close over $50M in enterprise business and driven success in technical sales, process improvement, and solution engineering. See full <a href='https://grantglazer.com/resume' target='_blank' class='underline text-blue-600 dark:text-blue-400'>Resume</a>.",
-  "clients": "Grant has supported digital transformation initiatives at multiple Fortune 100 companies, delivering technical solutions at scale. Explore more on his <a href='https://grantglazer.com/my-expertise' target='_blank' class='underline text-blue-600 dark:text-blue-400'>Expertise Page</a>.",
-  "skills": "Grant specializes in technical discovery, solution engineering, demo creation, and consultative selling. He is proficient in Salesforce, AWS, and Microsoft Dynamics platforms and frequently leads RFPs and security reviews.",
-  "certifications": "Grant is certified in Conga CPQ, CLM, Approvals, Order Management, Billing, Composer, Sign, and Grid. He also has experience with Salesforce, AWS, and Microsoft Dynamics."
-}
-
-const FAQ_QUESTIONS = Object.keys(KNOWLEDGE_BASE).map((key) =>
-  key === "tech" ? "What technology does Grant use?" :
-  key === "background" ? "What’s Grant’s background?" :
-  key === "achievements" ? "What are Grant’s most notable achievements?" :
-  key === "media server" ? "Can I view Grant’s media server setup?" :
-  key === "sdr" ? "What is Grant’s experience with SDR teams?" :
-  key === "career history" ? "What is Grant’s career history?" :
-  key === "clients" ? "What industries or clients has Grant supported?" :
-  key === "skills" ? "What are Grant’s technical skills?" :
-  key === "certifications" ? "What certifications does Grant have?" : ""
-).filter(Boolean)
-
-function getGreeting(): string {
-  const hour = new Date().getHours()
-  if (hour < 12) return "Good morning! I'm Grant's AI assistant."
-  if (hour < 18) return "Good afternoon! I'm Grant's AI assistant."
-  return "Good evening! I'm Grant's AI assistant."
-}
+import { useChat } from "@ai-sdk/react"
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
   const [showContactModal, setShowContactModal] = useState(false)
-
-  useEffect(() => {
-    setMessages([{
-      id: "1",
-      content: `${getGreeting()} Select a question from the list to learn more about his work, background, or expertise.`,
-      isBot: true,
-      timestamp: new Date(),
-    }])
-  }, [])
-  const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  const { messages, input, handleInputChange, handleSubmit, setMessages, isLoading, reload } = useChat({
+    api: '/api/chat',
+    initialMessages: [],
+  })
+
+  // Use useEffect to set initial message to avoid hydration mismatch (random ID generation in useChat)
+  useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([{
+        id: "1",
+        content: "Hi! I'm Grant's AI. Ask me about his Sales Engineering experience, Home Lab, or projects.",
+        role: 'assistant',
+      }])
+    }
+  }, [])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages, isTyping])
-
-  const handleSendMessage = (input: string) => {
-    if (!input.trim()) return
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: input,
-      isBot: false,
-      timestamp: new Date(),
-    }
-    setMessages((prev) => [...prev, userMessage])
-    setIsTyping(true)
-
-    setTimeout(() => {
-      const matchedKey = Object.keys(KNOWLEDGE_BASE).find(key =>
-        input.toLowerCase().includes(key.toLowerCase())
-      )
-      const response = matchedKey ? KNOWLEDGE_BASE[matchedKey] : ""
-
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: response,
-        isBot: true,
-        timestamp: new Date(),
-      }
-      setMessages((prev) => [...prev, botMessage])
-      setIsTyping(false)
-    }, 400)
-  }
+  }, [messages, isLoading, isOpen])
 
   const handleReset = () => {
     setMessages([{
       id: "1",
-      content: `${getGreeting()} Select a question from the list to learn more about his work, background, or expertise.`,
-      isBot: true,
-      timestamp: new Date(),
+      content: "Hi! I'm Grant's AI. Ask me about his Sales Engineering experience, Home Lab, or projects.",
+      role: 'assistant',
+    }])
+    reload() // Optional: if we want to reset the chat session on server if needed, but client reset is mostly what is needed here. Actually, reload() re-runs the last message. We just want to clear.
+    // To properly reset, we just setMessages. reload() is not needed unless we want to regenerate.
+  }
+
+  // Override handleReset to just clear messages to initial state.
+  const handleResetChat = () => {
+     setMessages([{
+      id: "1",
+      content: "Hi! I'm Grant's AI. Ask me about his Sales Engineering experience, Home Lab, or projects.",
+      role: 'assistant',
     }])
   }
+
 
   if (!isOpen) {
     return (
@@ -118,7 +68,7 @@ export function Chatbot() {
         <CardHeader className="flex flex-row items-center justify-between bg-blue-600 text-white rounded-t-2xl px-4 py-3">
           <CardTitle className="text-lg">Chat with Grant's AI</CardTitle>
           <div className="flex gap-2">
-            <Button variant="ghost" size="icon" onClick={handleReset} className="text-white hover:bg-blue-700">
+            <Button variant="ghost" size="icon" onClick={handleResetChat} className="text-white hover:bg-blue-700">
               <RefreshCw className="h-4 w-4" />
             </Button>
             <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-white hover:bg-blue-700">
@@ -129,50 +79,43 @@ export function Chatbot() {
         <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message) => (
-              <div key={message.id} className={cn("flex gap-2", message.isBot ? "justify-start" : "justify-end")}>
-                {message.isBot && (
+              <div key={message.id} className={cn("flex gap-2", message.role === 'assistant' ? "justify-start" : "justify-end")}>
+                {message.role === 'assistant' && (
                   <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
                     <Bot className="w-4 h-4 text-blue-600" />
                   </div>
                 )}
                 <div className={cn("max-w-[75%] rounded-lg px-3 py-2 text-sm break-words transition-all duration-200",
-                  message.isBot ? "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100" : "bg-blue-600 text-white")}
+                  message.role === 'assistant' ? "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100" : "bg-blue-600 text-white")}
                 >
-                  <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: message.content.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" class="underline text-blue-600 dark:text-blue-400">$1</a>') }} />
+                  <div className="whitespace-pre-wrap">{message.content}</div>
                 </div>
-                {!message.isBot && (
+                {message.role !== 'assistant' && (
                   <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center flex-shrink-0">
                     <User className="w-4 h-4 text-slate-600 dark:text-slate-300" />
                   </div>
                 )}
               </div>
             ))}
-            {isTyping && (
+            {isLoading && (
               <div className="flex gap-2 justify-start">
                 <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
                   <Bot className="w-4 h-4 text-blue-600" />
                 </div>
                 <div className="max-w-[75%] rounded-lg px-3 py-2 text-sm bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 animate-pulse">
-                  typing...
+                  Typing...
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
-            <div className="pt-4">
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Select a question:</label>
-              <select
-                className="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm"
-                onChange={(e) => handleSendMessage(e.target.value)}
-              >
-                <option value="">-- Choose a question --</option>
-                {FAQ_QUESTIONS.map((q, idx) => (
-                  <option key={idx} value={q}>{q}</option>
-                ))}
-              </select>
-            </div>
           </div>
-          <div className="border-t border-slate-200 dark:border-slate-600 p-4">
-            <Button variant="outline" size="icon" onClick={() => setShowContactModal(true)} className="w-full">
+
+          <div className="p-4 border-t border-slate-200 dark:border-slate-600 space-y-3">
+             <form onSubmit={handleSubmit} className="flex gap-2">
+                <Input value={input} onChange={handleInputChange} placeholder="Ask about Grant..." />
+                <Button type="submit" size="icon"><SendIcon className="h-4 w-4" /></Button>
+             </form>
+            <Button variant="outline" size="sm" onClick={() => setShowContactModal(true)} className="w-full">
               <Mail className="h-4 w-4 mr-2" /> Contact Grant
             </Button>
           </div>
