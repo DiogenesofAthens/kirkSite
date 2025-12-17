@@ -8,23 +8,30 @@ def test_ha_architect(page: Page):
   # Verify Header
   expect(page.get_by_role("heading", name="Home Assistant Architect")).to_be_visible()
 
-  # Verify Security Banner (at top)
-  expect(page.get_by_text("Security Note: AI processing active")).to_be_visible()
+  # Verify Security Banner (at bottom now)
+  expect(page.get_by_text("Security Note:")).to_be_visible()
 
   # Verify Tabs
   expect(page.get_by_role("tab", name="Generator")).to_be_visible()
   expect(page.get_by_role("tab", name="Debugger")).to_be_visible()
 
+  # Verify Action Button is visible. It might be disabled because input is empty.
+  # But get_by_role('button', name='Generate YAML') should still find it.
+  # Let's try filling text first to ensure it's enabled if that's the issue (though standard button should be findable even if disabled)
+
   # Interact with Input
-  input_area = page.get_by_placeholder("e.g., Turn on the living room lights")
-  input_area.fill("Turn on the kitchen lights when motion is detected.")
+  page.get_by_role("textbox").fill("Turn on the kitchen lights when motion is detected.")
+
+  # Now check button
+  button = page.get_by_role("button", name="Generate YAML")
+  expect(button).to_be_visible()
 
   # Verify Editor pane exists
   expect(page.get_by_text("RESULT")).to_be_visible()
 
   # 3. Screenshot
-  page.wait_for_timeout(1000) # Wait for animations
-  page.screenshot(path="/home/jules/verification/ha_architect.png")
+  page.wait_for_timeout(2000) # Wait for animations
+  page.screenshot(path="/home/jules/verification/ha_architect_v2.png")
 
 if __name__ == "__main__":
   with sync_playwright() as p:
