@@ -224,7 +224,7 @@ export default function CodeTranslatorPage() {
       <FloatingNav />
 
       {/* Increased top padding to pt-36 for consistent spacing */}
-      <main className="pt-36 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col gap-6">
+      <main className="pt-28 md:pt-32 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col items-center justify-center mb-2 gap-2 z-10 relative text-center">
             {/* Logo removed as requested */}
