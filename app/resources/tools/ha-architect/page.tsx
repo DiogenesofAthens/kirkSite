@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -27,6 +27,19 @@ export default function HomeAssistantArchitect() {
 
   // Initialize HA Hook
   const haHook = useHomeAssistant()
+
+  // Initialize Security Banner Persistence
+  useEffect(() => {
+    const hidden = localStorage.getItem("hide_ha_security_banner")
+    if (hidden === "true") {
+      setShowSecurityBanner(false)
+    }
+  }, [])
+
+  const handleDismissBanner = () => {
+    setShowSecurityBanner(false)
+    localStorage.setItem("hide_ha_security_banner", "true")
+  }
 
   const handleGenerate = async () => {
     if (!input.trim()) {
@@ -176,7 +189,9 @@ export default function HomeAssistantArchitect() {
                         <span className="sr-only">Copy code</span>
                       </Button>
                    </div>
-                   <div className="flex-1 relative bg-slate-50 dark:bg-[#1e1e1e]">
+                   {/* Explicit dark mode background for the editor container to fix visual glitch.
+                       Using bg-slate-900 to match the card and nav bar aesthetic. */}
+                   <div className="flex-1 relative bg-slate-50 dark:bg-slate-900">
                          <Editor
                            height="100%"
                            defaultLanguage="yaml"
@@ -220,7 +235,7 @@ export default function HomeAssistantArchitect() {
                       <span className="font-bold text-amber-700 dark:text-amber-500">Security Note:</span> AI processing active. Please redact sensitive keys/passwords. Data is ephemeral.
                    </p>
                </div>
-               <Button variant="ghost" size="icon" onClick={() => setShowSecurityBanner(false)} className="h-8 w-8 text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">
+               <Button variant="ghost" size="icon" onClick={handleDismissBanner} className="h-8 w-8 text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">
                    <X className="h-4 w-4" />
                </Button>
            </div>

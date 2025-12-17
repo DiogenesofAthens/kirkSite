@@ -13,12 +13,8 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   // 1. Input Sanitization Layer
-  // Truncate history to last 6 turns, but PRESERVE the System Prompt (usually implicit or 0th index if passed,
-  // but here we are about to inject a system prompt. The 'messages' usually don't contain the system prompt
-  // defined in streamText, they are user/assistant history.
-  // However, we want to keep the most recent context.
-  // If the user sends a long history, we only want the tail.
-  const recentMessages = messages.slice(-6);
+  // Truncate history to last 4 turns for speed and token savings
+  const recentMessages = messages.slice(-4);
 
   // Normalize messages: Ensure content exists (handling 'parts' from UI stream)
   const normalizedMessages = recentMessages.map((msg: any) => {
@@ -50,16 +46,14 @@ export async function POST(req: Request) {
   });
 
   const result = streamText({
-    model: groq('llama-3.3-70b-versatile'),
+    model: groq('llama3-8b-8192'),
     system: `You are Grant Glazer's AI Assistant.
 
-Source of Truth: Answer strictly based on the context provided in <site_data>.
+Priority: Use the <site_context> to answer questions about Grant.
 
-Brevity: Keep answers extremely short (max 2-3 sentences). This is a small chat widget.
+Fallback: If the user asks a general question (e.g., "What is a good way to learn React?"), answer it helpfully using your general knowledge, but keep it brief.
 
-Uncertainty Handling: If the answer is not in the context, do NOT hallucinate. Instead, say exactly: 'I'm not sure about that detail. Please use the Contact form below to ask Grant directly.'
-
-Tone: Professional, concise, and helpful.
+Tone: Professional, concise, and friendly.
 
 ${SITE_CONTEXT}`,
     messages: coreMessages,

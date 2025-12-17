@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useHomeAssistant } from "@/hooks/use-home-assistant"
-import { Wifi, Loader2, Check, AlertTriangle, LogOut } from "lucide-react"
+import { Wifi, Loader2, Check, AlertTriangle, LogOut, HelpCircle, ExternalLink } from "lucide-react"
 
 interface HAConnectModalProps {
   haHook: ReturnType<typeof useHomeAssistant>
@@ -24,12 +24,17 @@ export function HAConnectModal({ haHook }: HAConnectModalProps) {
   const [open, setOpen] = useState(false)
   const [url, setUrl] = useState("")
   const [token, setToken] = useState("")
+  const [connectionError, setConnectionError] = useState(false)
 
   const handleConnect = async () => {
     if (!url || !token) return
+    setConnectionError(false)
     const success = await haHook.connect(url, token)
     if (success) {
         setOpen(false)
+        setConnectionError(false)
+    } else {
+        setConnectionError(true)
     }
   }
 
@@ -41,7 +46,7 @@ export function HAConnectModal({ haHook }: HAConnectModalProps) {
            {haHook.isConnected ? "Connected to HA" : "Connect Home Assistant"}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Connect to Home Assistant</DialogTitle>
           <DialogDescription>
@@ -77,6 +82,26 @@ export function HAConnectModal({ haHook }: HAConnectModalProps) {
                     Credentials are stored <strong>locally in your browser</strong>. We cannot see them. This connection happens directly between your browser and your Home Assistant instance.
                 </p>
             </div>
+
+            {/* CORS Error Help */}
+            {connectionError && (
+                <div className="bg-red-50 dark:bg-red-950/30 p-4 rounded-md border border-red-200 dark:border-red-800 flex flex-col gap-2 animate-in fade-in slide-in-from-top-2">
+                    <div className="flex items-center gap-2 text-red-700 dark:text-red-400 font-semibold text-sm">
+                        <AlertTriangle className="w-4 h-4" />
+                        Connection Failed. CORS Error Detected?
+                    </div>
+                    <p className="text-xs text-red-600 dark:text-red-300">
+                        To allow this browser connection, you likely need to update your <code>configuration.yaml</code> and restart HA:
+                    </p>
+                    <pre className="bg-slate-100 dark:bg-slate-900 p-2 rounded text-[10px] font-mono overflow-x-auto text-slate-800 dark:text-slate-200">
+{`http:
+  cors_allowed_origins:
+    - https://grantglazer.com
+    - http://localhost:3000`}
+                    </pre>
+                </div>
+            )}
+
             </div>
         ) : (
              <div className="py-6 flex flex-col items-center gap-4">
