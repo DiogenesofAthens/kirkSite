@@ -77,7 +77,7 @@ ${sanitizedInput}
 
   try {
     const { text } = await generateText({
-      model: groq("llama3-8b-8192"),
+      model: groq("llama-3.1-8b-instant"),
       system: SYSTEM_PROMPT,
       prompt: userPrompt,
       temperature: 0.1, // Lower temperature for more deterministic output
@@ -146,7 +146,7 @@ Question: ${question}
 
   try {
     const { text } = await generateText({
-      model: groq("llama3-8b-8192"),
+      model: groq("llama-3.1-8b-instant"),
       system: systemPrompt,
       prompt: userPrompt,
     })
