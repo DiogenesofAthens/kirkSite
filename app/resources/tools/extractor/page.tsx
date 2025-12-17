@@ -394,7 +394,7 @@ export default function ExtractorPage() {
       <FloatingNav />
 
       {/* Increased top padding to pt-52 to ensure title is not hidden behind nav */}
-      <div className="p-4 md:p-8 pt-32 md:pt-52 max-w-[1600px] mx-auto">
+      <div className="p-4 md:p-8 pt-28 md:pt-32 max-w-[1600px] mx-auto">
       {/* Header */}
       <div className="flex flex-col gap-4 mb-8 items-center text-center">
         <div className="flex flex-col items-center mt-2">
