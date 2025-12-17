@@ -106,7 +106,11 @@ export function Chatbot() {
                 <div className={cn("max-w-[75%] rounded-lg px-3 py-2 text-sm break-words transition-all duration-200",
                   message.role === 'assistant' ? "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100" : "bg-blue-600 text-white")}
                 >
-                  <div className="whitespace-pre-wrap">{message.content}</div>
+                  <div className="whitespace-pre-wrap">
+                    {message.content || (message as any).parts?.map((part: any, i: number) =>
+                      part.type === 'text' ? part.text : ''
+                    ).join('')}
+                  </div>
                 </div>
                 {message.role !== 'assistant' && (
                   <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-600 flex items-center justify-center flex-shrink-0">
