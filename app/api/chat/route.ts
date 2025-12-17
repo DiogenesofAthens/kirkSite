@@ -46,7 +46,7 @@ export async function POST(req: Request) {
   });
 
   const result = streamText({
-    model: groq('llama3-8b-8192'),
+    model: groq('llama-3.1-8b-instant'),
     system: `You are Grant Glazer's AI Assistant.
 
 Priority: Use the <site_context> to answer questions about Grant.
