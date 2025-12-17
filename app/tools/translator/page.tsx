@@ -62,7 +62,6 @@ export default function CodeTranslatorPage() {
   const [inputCode, setInputCode] = useState("// Paste your legacy code here...")
   const [outputCode, setOutputCode] = useState("// Translation will appear here...")
   const [explanation, setExplanation] = useState("")
-  const [securityWarning, setSecurityWarning] = useState<string | null>(null)
 
   const [sourceLanguage, setSourceLanguage] = useState("auto")
   const [targetLanguage, setTargetLanguage] = useState("typescript")
@@ -130,7 +129,6 @@ export default function CodeTranslatorPage() {
     setLoading(true)
     setOutputCode("// Translation pending...")
     setExplanation("")
-    setSecurityWarning(null)
     setQaHistory([]) // Reset Q&A
 
     try {
@@ -145,7 +143,6 @@ export default function CodeTranslatorPage() {
       } else if (result.success && result.data) {
         setOutputCode(result.data.translated_code)
         setExplanation(result.data.explanation)
-        setSecurityWarning(result.data.security_warning)
         toast.success("Translation complete!")
       } else if (result.raw_text) {
           // Fallback if parsing failed but we got text
@@ -310,17 +307,6 @@ export default function CodeTranslatorPage() {
              )}
            </Button>
         </div>
-
-        {/* Security Alert - Styled as WARNING not DESTRUCTIVE */}
-        {securityWarning && (
-            <Alert className="bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 animate-in slide-in-from-top-2">
-                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
-                <AlertTitle className="text-amber-800 dark:text-amber-500">Security Vulnerability Detected</AlertTitle>
-                <AlertDescription className="text-amber-700 dark:text-amber-400">
-                    {securityWarning}
-                </AlertDescription>
-            </Alert>
-        )}
 
         {/* Editor Area - Split Screen */}
         <div className="grid md:grid-cols-2 gap-6 min-h-[500px]">

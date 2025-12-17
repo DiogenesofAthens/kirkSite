@@ -54,13 +54,10 @@ ENSURE ALL STRINGS ARE PROPERLY ESCAPED.
 Structure:
 {
   "translated_code": "string (the translated code)",
-  "explanation": "string (markdown allowed, architectural reasoning)",
-  "security_warning": "string | null (if original code has hardcoded creds, SQLi, etc.)"
+  "explanation": "string (markdown allowed, architectural reasoning)"
 }
 
 Security Protocol:
-- Detect hardcoded credentials, SQL injection, or XSS risks in the legacy code.
-- If found, populate "security_warning" with a specific alert message (e.g. "Hardcoded credentials detected").
 - Refactor the "translated_code" to be secure (e.g., use parameterized queries) even if the original was insecure.
 - "explanation" should focus on modern patterns, performance, and security.
 
@@ -102,7 +99,6 @@ ${sanitizedInput}
       // If JSON.parse fails, try to extract fields using regex
       const translatedCodeMatch = text.match(/"translated_code"\s*:\s*"([\s\S]*?)(?<!\\)"/);
       const explanationMatch = text.match(/"explanation"\s*:\s*"([\s\S]*?)(?<!\\)"/);
-      const securityWarningMatch = text.match(/"security_warning"\s*:\s*"([\s\S]*?)(?<!\\)"/);
 
       if (translatedCodeMatch) {
           // Manually unescape the string (basic)
@@ -112,8 +108,7 @@ ${sanitizedInput}
               success: true,
               data: {
                   translated_code: unescapeJson(translatedCodeMatch[1]),
-                  explanation: explanationMatch ? unescapeJson(explanationMatch[1]) : "Detailed explanation unavailable due to formatting error.",
-                  security_warning: securityWarningMatch ? unescapeJson(securityWarningMatch[1]) : null
+                  explanation: explanationMatch ? unescapeJson(explanationMatch[1]) : "Detailed explanation unavailable due to formatting error."
               }
           }
       }
