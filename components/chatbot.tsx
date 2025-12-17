@@ -111,7 +111,7 @@ export function Chatbot() {
           </div>
 
           <div className="p-4 border-t border-slate-200 dark:border-slate-600 space-y-3">
-             <form onSubmit={handleSubmit} className="flex gap-2">
+             <form onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }} className="flex gap-2">
                 <Input value={input} onChange={handleInputChange} placeholder="Ask about Grant..." />
                 <Button type="submit" size="icon"><SendIcon className="h-4 w-4" /></Button>
              </form>
