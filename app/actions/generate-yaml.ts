@@ -9,14 +9,21 @@ const groq = createGroq({
 
 function extractJson(text: string) {
   try {
+    // Find the first '{' and the last '}'
     const startIndex = text.indexOf('{');
     const endIndex = text.lastIndexOf('}');
-    if (startIndex === -1 || endIndex === -1) throw new Error("No JSON found");
+    if (startIndex === -1 || endIndex === -1) throw new Error("No JSON object found in response");
+
+    // Extract just the JSON part
     const jsonString = text.substring(startIndex, endIndex + 1);
     return JSON.parse(jsonString);
-  } catch (e) {
-    console.error("JSON Parsing Failed:", text);
-    throw new Error("AI generated invalid format. Raw output: " + text.substring(0, 100) + "...");
+  } catch (error) {
+    console.error("JSON Parsing Failed. Raw text:", text);
+    // FALLBACK: Return the raw text as the 'explanation' so the user sees something
+    return {
+      yaml_code: "# Error parsing AI response. See notes.",
+      explanation: "AI Raw Output: " + text
+    };
   }
 }
 
@@ -43,6 +50,8 @@ Structure the output cleanly with alias, trigger, condition (if applicable), and
 Analyze the request inside <user_description>.
 
 RETURN THE RESULT AS A VALID JSON OBJECT.
+Do not use Markdown formatting. Do not wrap in \`\`\`json. Just return the raw JSON string.
+
 The JSON object must have these fields:
 - "yaml_code": The valid Home Assistant YAML automation block (string).
 - "explanation": Brief summary of the logic or syntax errors fixed (string).`;
@@ -61,6 +70,8 @@ Generate the corrected YAML version.
 In the explanation field, detail exactly what errors were found and fixed.
 
 RETURN THE RESULT AS A VALID JSON OBJECT.
+Do not use Markdown formatting. Do not wrap in \`\`\`json. Just return the raw JSON string.
+
 The JSON object must have these fields:
 - "yaml_code": The valid Home Assistant YAML automation block (string).
 - "explanation": Brief summary of the logic or syntax errors fixed (string).`;
@@ -72,24 +83,13 @@ The JSON object must have these fields:
 
   try {
     const { text } = await generateText({
-      model: groq("llama-3.3-70b-versatile"),
+      model: groq("llama3-8b-8192"),
       system: systemPrompt,
       prompt: userMessage,
     });
 
-    try {
-        const parsedData = extractJson(text);
-        return { success: true, data: parsedData };
-    } catch (parseError) {
-        // Fallback: Return raw text via Partial Success logic
-        return {
-             success: true,
-             data: {
-                 yaml_code: "# Error: AI generated invalid JSON formatting.\n# Below is the raw output:\n\n" + text,
-                 explanation: "Failed to parse structured output from AI. Raw response provided."
-             }
-        };
-    }
+    const parsedData = extractJson(text);
+    return { success: true, data: parsedData };
 
   } catch (error) {
     console.error("Error generating YAML:", error);
