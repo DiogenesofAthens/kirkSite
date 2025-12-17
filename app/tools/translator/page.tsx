@@ -335,7 +335,7 @@ export default function CodeTranslatorPage() {
                     </TooltipContent>
                   </Tooltip>
                </div>
-               <div className="flex-1 relative bg-slate-50 dark:bg-[#1e1e1e]">
+               <div className="flex-1 relative bg-slate-50 dark:bg-slate-950 min-h-[500px]">
                  {mounted ? (
                      <Editor
                        height="100%"
@@ -385,7 +385,7 @@ export default function CodeTranslatorPage() {
                     </TooltipContent>
                   </Tooltip>
                </div>
-               <div className="flex-1 relative bg-slate-50 dark:bg-[#1e1e1e]">
+               <div className="flex-1 relative bg-slate-50 dark:bg-slate-950">
                  {mounted ? (
                      <Editor
                        height="100%"

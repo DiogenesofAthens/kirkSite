@@ -2,10 +2,10 @@
 
 import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { GameSelector } from "@/components/game-selector"
-import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign } from "lucide-react"
+import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign, Sparkles, Code2, Home } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import Lottie from "@/components/lottie-client"
@@ -13,50 +13,19 @@ import animationData from "@/public/images/resources-ani.json"
 import { ContactModal } from "@/components/contact-modal"
 import { aiTools, utilityTools } from "@/lib/tools-config"
 
-const iconMap = { FileText, Calculator, QrCode, Clock, DollarSign }
-const donationIconMap = { Coffee, Beer, Heart }
+const iconMap = {
+  FileText,
+  Calculator,
+  QrCode,
+  Clock,
+  DollarSign,
+  SparkleIcon: Sparkles,
+  CodeIcon: Code2,
+  HomeIcon: Home
+}
 
 export default function Resources() {
   const [showContactForm, setShowContactForm] = useState(false)
-
-const guides = [
-  {
-    id: "sdr-process-guide",
-    title: "SDR Process Guide",
-    description: "Complete guide to qualifying leads, Salesforce best practices, and SDR workflows",
-    funText: "Buy me a coffee ☕",
-    icon: "FileText",
-    donationIcon: "Coffee",
-    link: "/downloads/sdr-process-guide",
-  },
-  {
-    id: "media-server-guide",
-    title: "Complete Media Server Setup Guide",
-    description: "Step-by-step guide to building your own Unraid media server with Plex",
-    funText: "Buy me a pizza 🍕",
-    icon: "FileText",
-    donationIcon: "Heart",
-    link: "/downloads/media-server-guide",
-  },
-  {
-    id: "sales-email-playbook",
-    title: "Enterprise Sales Email Playbook",
-    description: "Proven outbound campaigns to cut through noise and drive enterprise pipeline.",
-    funText: "Buy me a sandwich 🥪",
-    icon: "FileText",
-    donationIcon: "Heart",
-    link: "/sales-playbook",
-  },
-    {
-    id: "launchpad",
-    title: "Digital Identity Launchpad",
-    description: "Launch your professional presence with a website just like this one!",
-    funText: "Help pay my Mortgage 🏠",
-    icon: "FileText",
-    donationIcon: "Heart",
-    link: "/launchpad",
-  },
-]
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -86,49 +55,13 @@ const guides = [
             </p>
           </div>
 
-          <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Premium Resources</h2>
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {guides.map((guide) => {
-                const Icon = iconMap[guide.icon as keyof typeof iconMap]
-                const DonationIcon = donationIconMap[guide.donationIcon as keyof typeof donationIconMap]
-                return (
-                  <Link key={guide.id} href={guide.link}>
-                    <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group">
-                      <CardHeader>
-                        <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                          <Icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                        </div>
-                        <CardTitle className="text-xl text-slate-900 dark:text-slate-50">{guide.title}</CardTitle>
-                        <CardDescription className="text-slate-700 dark:text-slate-300">
-                          {guide.description}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
-                            <DonationIcon className="w-4 h-4" />
-                            {guide.funText}
-                          </span>
-                          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
-                            <Heart className="w-4 h-4" />
-                            <span className="text-sm font-medium">View Guide</span>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-
           {/* AI Tools Section */}
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">AI Assist Tools</h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {aiTools.map((tool) => {
-                const Icon = iconMap[tool.icon as keyof typeof iconMap]
+                // @ts-ignore
+                const Icon = iconMap[tool.icon] || Sparkles
                 return (
                   <Link key={tool.id} href={tool.link}>
                     <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50">
@@ -153,7 +86,8 @@ const guides = [
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Free Utilities</h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {utilityTools.map((tool) => {
-                const Icon = iconMap[tool.icon as keyof typeof iconMap]
+                // @ts-ignore
+                const Icon = iconMap[tool.icon] || FileText
                 return (
                   <Link key={tool.id} href={tool.link}>
                     <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50">

@@ -12,8 +12,8 @@ export default function TowersPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col">
        <div className="p-4 flex items-center gap-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
           <Link href="/resources">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="w-4 h-4 mr-2"/> Back to Arcade
+            <Button variant="outline" size="sm">
+              <ArrowLeft className="w-4 h-4 mr-2"/> Back to Resources
             </Button>
           </Link>
           <h1 className="text-xl font-bold">Tower of Hanoi</h1>
