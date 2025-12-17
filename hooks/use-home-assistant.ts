@@ -23,28 +23,25 @@ export function useHomeAssistant() {
     const token = localStorage.getItem("ha_token")
     if (url && token) {
       setIsConnected(true)
-      // Optionally fetch entities on load?
-      // User prompt says "refreshEntities" does the fetch.
-      // We'll let the UI trigger the fetch to avoid auto-spamming on load,
-      // or we can do a quick check. For now, just set connected state.
+      // Attempt to refresh entities on load if possible, but silently
+      refreshEntities(true)
     }
   }, [])
 
   const connect = async (url: string, token: string) => {
     setLoading(true)
+
+    // Normalize URL
+    let validUrl = url.trim().replace(/\/$/, "")
+    if (!validUrl.startsWith("http")) {
+        validUrl = `http://${validUrl}`
+    }
+    validUrl = validUrl.replace(/\/api$/, "").replace(/\/lovelace$/, "");
+
     try {
-      // Validate URL format - simple check
-      let validUrl = url.replace(/\/$/, "") // remove trailing slash
-      if (!validUrl.startsWith("http")) {
-          validUrl = `http://${validUrl}`
-      }
-
-      // 1. URL Normalization check
-      // Users often paste "https://my-ha.com/lovelace" -> We want base.
-      // Or they might paste "https://my-ha.com/api" -> We want base.
-      // We will blindly strip trailing /api or /lovelace if present for better UX
-      validUrl = validUrl.replace(/\/api$/, "").replace(/\/lovelace$/, "");
-
+      // Strategy 1: Direct Client-Side Connection
+      // Best for local-to-local (HTTP to HTTP) or properly configured CORS
+      console.log("Attempting Direct Connection...")
       const res = await fetch(`${validUrl}/api/states`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,96 +49,145 @@ export function useHomeAssistant() {
         },
       })
 
-      if (!res.ok) {
-        if (res.status === 401) throw new Error("Unauthorized: Invalid Token.");
-        if (res.status === 404) throw new Error("Not Found: Invalid URL.");
-        throw new Error(`Connection failed (Status: ${res.status}).`)
+      if (res.ok) {
+        const data: Entity[] = await res.json()
+        finalizeConnection(validUrl, token, "direct", data)
+        return true
+      } else {
+         // If res is not OK (e.g. 401), throwing here will skip proxy check.
+         // But if it's 401, proxy won't help either.
+         if (res.status === 401) throw new Error("Unauthorized: Invalid Token")
+         throw new Error(`Direct connection failed with status: ${res.status}`)
       }
 
-      // If successful, save credentials
-      localStorage.setItem("ha_url", validUrl)
-      localStorage.setItem("ha_token", token)
-      setIsConnected(true)
-
-      // Process entities immediately
-      const data: Entity[] = await res.json()
-      processEntities(data)
-
-      toast.success("Connected to Home Assistant!")
-      return true
     } catch (e: any) {
-      console.error(e)
+        console.warn("Direct connection failed:", e.message)
 
-      // Mixed Content Check (Heuristic)
+        // If it was a 401, don't try proxy.
+        if (e.message.includes("Unauthorized")) {
+             toast.error(e.message)
+             setLoading(false)
+             return false
+        }
+
+        // Strategy 2: Server-Side Proxy
+        // Best for External HTTPS (CORS) or mixed content scenarios where Server can reach the target
+        try {
+            console.log("Attempting Proxy Connection...")
+            const proxyRes = await fetch('/api/proxy/ha', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: validUrl, token })
+            })
+
+            if (proxyRes.ok) {
+                const data: Entity[] = await proxyRes.json()
+                finalizeConnection(validUrl, token, "proxy", data)
+                return true
+            } else {
+                 const errData = await proxyRes.json().catch(() => ({}))
+                 throw new Error(errData.error || `Proxy connection failed: ${proxyRes.status}`)
+            }
+        } catch (proxyError: any) {
+             console.error("Proxy connection failed:", proxyError)
+             handleConnectionError(e, proxyError, validUrl)
+             setLoading(false)
+             return false
+        }
+    }
+  }
+
+  const finalizeConnection = (url: string, token: string, mode: "direct" | "proxy", data: Entity[]) => {
+      localStorage.setItem("ha_url", url)
+      localStorage.setItem("ha_token", token)
+      localStorage.setItem("ha_mode", mode) // Store connection mode
+
+      setIsConnected(true)
+      processEntities(data)
+      setLoading(false)
+      toast.success(`Connected to Home Assistant (${mode === 'proxy' ? 'via Remote Proxy' : 'Directly'})!`)
+  }
+
+  const handleConnectionError = (directError: any, proxyError: any, url: string) => {
+      // Determine the most helpful error message
       const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
-      const isTargetHttp = validUrl.startsWith("http:");
+      const isTargetHttp = url.startsWith("http:");
 
-      let errorMessage = "Connection Failed. Check URL and Token.";
-
-      if (e.message) {
-          errorMessage = e.message;
-      }
+      let msg = "Connection Failed."
 
       if (isHttps && isTargetHttp) {
-          errorMessage = "Mixed Content Error: Cannot connect to HTTP Home Assistant from HTTPS site. Use HA's external HTTPS URL or run this app locally.";
-      } else if (e.name === 'TypeError' && e.message === 'Failed to fetch') {
-           errorMessage = "Network Error: Could not reach server. Check CORS settings or if URL is correct.";
+          msg = "Mixed Content Error: Cannot connect to HTTP (Local IP) from HTTPS. Use your External HTTPS URL."
+      } else if (directError.name === 'TypeError' && directError.message === 'Failed to fetch') {
+          // Network error on direct fetch (likely CORS)
+          // AND Proxy failed (likely Server cannot reach Local IP)
+          if (url.includes("192.168") || url.includes(".local")) {
+             msg = "Cannot reach Local Home Assistant. If you are using HTTPS, the browser blocks Local HTTP. The server also cannot reach your Local IP."
+          } else {
+             msg = "Could not connect. Check your URL and Token."
+          }
+      } else {
+          msg = proxyError.message || directError.message
       }
 
-      toast.error(errorMessage)
+      toast.error(msg)
       setIsConnected(false)
-      // Return error string to caller if possible, but strict boolean return type matches current usage.
-      // We rely on toast and the caller checking return value.
-      // Wait, we can throw so the caller knows the specific error?
-      // Current implementation returns boolean. We'll stick to boolean but store error state in hook?
-      // No, UI handles generic error state. We updated toast for specific feedback.
-      return false
-    } finally {
-      setLoading(false)
-    }
   }
 
   const disconnect = () => {
       localStorage.removeItem("ha_url")
       localStorage.removeItem("ha_token")
+      localStorage.removeItem("ha_mode")
       setIsConnected(false)
       setEntities([])
       toast.info("Disconnected from Home Assistant")
   }
 
-  const refreshEntities = async () => {
+  const refreshEntities = async (silent = false) => {
     const url = localStorage.getItem("ha_url")
     const token = localStorage.getItem("ha_token")
+    const mode = localStorage.getItem("ha_mode") || "direct"
 
     if (!url || !token) {
-        toast.error("Not connected")
+        if (!silent) toast.error("Not connected")
         return
     }
 
-    setLoading(true)
+    if (!silent) setLoading(true)
+
     try {
-        const res = await fetch(`${url}/api/states`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-        })
+        let data: Entity[] = []
 
-        if (!res.ok) throw new Error("Failed to fetch states")
+        if (mode === 'direct') {
+             const res = await fetch(`${url}/api/states`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+             })
+             if (!res.ok) throw new Error("Failed to fetch states")
+             data = await res.json()
+        } else {
+             // Proxy Mode
+             const res = await fetch('/api/proxy/ha', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url, token })
+            })
+            if (!res.ok) throw new Error("Failed to fetch states via proxy")
+            data = await res.json()
+        }
 
-        const data: Entity[] = await res.json()
         processEntities(data)
-        toast.success("Entities refreshed")
+        if (!silent) toast.success("Entities refreshed")
     } catch (e) {
-        toast.error("Failed to refresh entities")
+        if (!silent) toast.error("Failed to refresh entities")
+        // If refresh fails, maybe we lost connection? Don't disconnect automatically though.
     } finally {
-        setLoading(false)
+        if (!silent) setLoading(false)
     }
   }
 
   const processEntities = (data: Entity[]) => {
-      // Map to simple string array: "Friendly Name (entity_id)"
-      // Filter out some noisy domains if needed, but for now take all or standard ones
       const relevantDomains = ["light", "switch", "binary_sensor", "sensor", "media_player", "climate", "lock", "cover", "input_boolean", "input_select", "script", "automation"]
 
       const simpleList = data
