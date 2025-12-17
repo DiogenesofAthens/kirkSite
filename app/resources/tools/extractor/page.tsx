@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle, Upload, Code, Send, Info, X, ArrowLeft, RefreshCw } from "lucide-react"
+import { Check, ChevronsUpDown, FileJson, Loader2, Download, AlertTriangle, Upload, Code, Send, Info, X, ArrowLeft, RefreshCw, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   Command,
