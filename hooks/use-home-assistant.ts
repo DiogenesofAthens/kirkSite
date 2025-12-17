@@ -39,6 +39,12 @@ export function useHomeAssistant() {
           validUrl = `http://${validUrl}`
       }
 
+      // 1. URL Normalization check
+      // Users often paste "https://my-ha.com/lovelace" -> We want base.
+      // Or they might paste "https://my-ha.com/api" -> We want base.
+      // We will blindly strip trailing /api or /lovelace if present for better UX
+      validUrl = validUrl.replace(/\/api$/, "").replace(/\/lovelace$/, "");
+
       const res = await fetch(`${validUrl}/api/states`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -47,7 +53,9 @@ export function useHomeAssistant() {
       })
 
       if (!res.ok) {
-        throw new Error("Connection failed. Check URL and Token.")
+        if (res.status === 401) throw new Error("Unauthorized: Invalid Token.");
+        if (res.status === 404) throw new Error("Not Found: Invalid URL.");
+        throw new Error(`Connection failed (Status: ${res.status}).`)
       }
 
       // If successful, save credentials
@@ -61,10 +69,32 @@ export function useHomeAssistant() {
 
       toast.success("Connected to Home Assistant!")
       return true
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
-      toast.error("Connection Failed. Check URL (must be reachable from browser) and Token.")
+
+      // Mixed Content Check (Heuristic)
+      const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
+      const isTargetHttp = validUrl.startsWith("http:");
+
+      let errorMessage = "Connection Failed. Check URL and Token.";
+
+      if (e.message) {
+          errorMessage = e.message;
+      }
+
+      if (isHttps && isTargetHttp) {
+          errorMessage = "Mixed Content Error: Cannot connect to HTTP Home Assistant from HTTPS site. Use HA's external HTTPS URL or run this app locally.";
+      } else if (e.name === 'TypeError' && e.message === 'Failed to fetch') {
+           errorMessage = "Network Error: Could not reach server. Check CORS settings or if URL is correct.";
+      }
+
+      toast.error(errorMessage)
       setIsConnected(false)
+      // Return error string to caller if possible, but strict boolean return type matches current usage.
+      // We rely on toast and the caller checking return value.
+      // Wait, we can throw so the caller knows the specific error?
+      // Current implementation returns boolean. We'll stick to boolean but store error state in hook?
+      // No, UI handles generic error state. We updated toast for specific feedback.
       return false
     } finally {
       setLoading(false)

@@ -135,7 +135,15 @@ export default function CodeTranslatorPage() {
       const fromLabel = getLabel(sourceLanguage, SOURCE_OPTIONS)
       const toLabel = getLabel(targetLanguage, TARGET_OPTIONS)
 
-      const result = await translateCode(inputCode, fromLabel, toLabel, includeExplanation)
+      // First Attempt
+      let result = await translateCode(inputCode, fromLabel, toLabel, includeExplanation)
+
+      // Auto-Retry Logic (One time)
+      if (result.error || (!result.success && !result.raw_text)) {
+          console.warn("First translation attempt failed, retrying...")
+          toast.loading("First attempt failed, retrying...", { duration: 2000 })
+          result = await translateCode(inputCode, fromLabel, toLabel, includeExplanation)
+      }
 
       if (result.error) {
         toast.error(result.error)
