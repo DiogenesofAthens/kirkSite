@@ -80,5 +80,5 @@ ${SITE_CONTEXT}`,
     messages: coreMessages,
   });
 
-  return result.toDataStreamResponse();
+  return result.toTextStreamResponse();
 }
