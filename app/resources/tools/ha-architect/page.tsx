@@ -190,8 +190,8 @@ export default function HomeAssistantArchitect() {
                       </Button>
                    </div>
                    {/* Explicit dark mode background for the editor container to fix visual glitch.
-                       Using bg-slate-900 to match the card and nav bar aesthetic. */}
-                   <div className="flex-1 relative bg-slate-50 dark:bg-slate-900">
+                       Using bg-slate-950 to match the card and nav bar aesthetic. */}
+                   <div className="flex-1 relative bg-slate-50 dark:bg-slate-950">
                          <Editor
                            height="100%"
                            defaultLanguage="yaml"

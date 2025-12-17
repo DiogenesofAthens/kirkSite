@@ -71,7 +71,7 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
   return (
     <MatrixContext.Provider value={{ isMatrixMode, toggleMatrixMode, triggerMatrixMode }}>
       {children}
-      {isMatrixMode && showOverlay && (
+      {/* {isMatrixMode && showOverlay && (
         <div className="fixed bottom-4 right-4 z-[9999] bg-black/90 border border-green-500 p-3 font-mono text-xs text-green-500 rounded shadow-[0_0_15px_#00ff00] min-w-[150px]">
             <div className="flex justify-between items-start mb-2 border-b border-green-500/30 pb-1">
                 <span className="font-bold">DEBUG_MODE</span>
@@ -84,7 +84,7 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
             </div>
             <DebugStats />
         </div>
-      )}
+      )} */}
     </MatrixContext.Provider>
   )
 }

@@ -34,7 +34,7 @@ export function GameSelector() {
       const count = tapCountRef.current
       if (count === 7) {
         triggerMatrixMode()
-        toast.success("Matrix Mode Activated! Follow the white rabbit...", { id: 'matrix-activated' })
+        toast.success("Behold the Matrix - You’ve been living in a dream world. This isn't CSS. This is the truth.", { id: 'matrix-activated' })
         tapCountRef.current = 0
         hasWarnedRef.current = false
       }

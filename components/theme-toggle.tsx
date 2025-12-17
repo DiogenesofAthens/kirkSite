@@ -28,6 +28,7 @@ export function ThemeToggle() {
     setTheme(resolvedTheme === "dark" ? "light" : "dark")
   }
 
+  // If in Matrix Mode, the button should allow exiting matrix mode
   if (isMatrixMode) {
     return null
   }

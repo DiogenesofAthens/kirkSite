@@ -1,4 +1,3 @@
-
 import { FileText, Calculator, Mail, QrCode, Clock, DollarSign } from "lucide-react"
 
 export const aiTools = [
@@ -6,21 +5,21 @@ export const aiTools = [
     id: "entity-extractor",
     title: "Entity Extractor",
     description: "Extract structured JSON data from contracts, tickets, and agreements using AI.",
-    icon: "FileText",
+    icon: "SparkleIcon",
     link: "/resources/tools/extractor",
   },
   {
     id: "code-translator",
     title: "Code Translator",
     description: "Enterprise code translator. Convert legacy Apex/SOQL/Java to modern stacks.",
-    icon: "FileText",
+    icon: "CodeIcon",
     link: "/tools/translator",
   },
   {
     id: "ha-architect",
     title: "Home Assistant Architect",
     description: "Generate and debug Home Assistant YAML automations with AI assistance.",
-    icon: "FileText",
+    icon: "HomeIcon",
     link: "/resources/tools/ha-architect",
   },
 ]
