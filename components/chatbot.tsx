@@ -14,10 +14,13 @@ export function Chatbot() {
   const [showContactModal, setShowContactModal] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const { messages, input, handleInputChange, handleSubmit, setMessages, isLoading, reload } = useChat({
+  const { messages, setMessages, status, sendMessage } = useChat({
     api: '/api/chat',
     initialMessages: [],
   })
+
+  const [input, setInput] = useState("")
+  const isLoading = status === "streaming" || status === "submitted"
 
   // Use useEffect to set initial message to avoid hydration mismatch (random ID generation in useChat)
   useEffect(() => {
@@ -29,6 +32,21 @@ export function Chatbot() {
       }])
     }
   }, [])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!input.trim()) return
+
+    await sendMessage({
+      content: input,
+      role: 'user'
+    })
+    setInput("")
+  }
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -111,7 +129,7 @@ export function Chatbot() {
           </div>
 
           <div className="p-4 border-t border-slate-200 dark:border-slate-600 space-y-3">
-             <form onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }} className="flex gap-2">
+             <form onSubmit={handleSubmit} className="flex gap-2">
                 <Input value={input} onChange={handleInputChange} placeholder="Ask about Grant..." />
                 <Button type="submit" size="icon"><SendIcon className="h-4 w-4" /></Button>
              </form>
