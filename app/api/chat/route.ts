@@ -47,14 +47,26 @@ export async function POST(req: Request) {
   // Truncate history to last 6 turns
   const truncatedMessages = messages.slice(-6);
 
+  // Normalize messages: Ensure content exists (handling 'parts' from UI stream)
+  const normalizedMessages = truncatedMessages.map((msg: any) => {
+    if ((!msg.content || msg.content === '') && Array.isArray(msg.parts)) {
+      const textContent = msg.parts
+        .filter((p: any) => p.type === 'text')
+        .map((p: any) => p.text)
+        .join('');
+      return { ...msg, content: textContent, parts: undefined };
+    }
+    return msg;
+  });
+
   // Limit latest message content to 1000 chars
-  const lastMessage = truncatedMessages[truncatedMessages.length - 1];
+  const lastMessage = normalizedMessages[normalizedMessages.length - 1];
   if (lastMessage && typeof lastMessage.content === 'string') {
     lastMessage.content = lastMessage.content.slice(0, 1000);
   }
 
   // Sandwich Defense: Wrap user input
-  const coreMessages = truncatedMessages.map((msg: any) => {
+  const coreMessages = normalizedMessages.map((msg: any) => {
     if (msg.role === 'user') {
       return {
         ...msg,
