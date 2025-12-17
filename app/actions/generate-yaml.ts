@@ -1,17 +1,10 @@
 "use server";
 
-import { generateObject } from "ai";
+import { generateText } from "ai";
 import { createGroq } from "@ai-sdk/groq";
-import { z } from "zod";
 
 const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
-});
-
-// Unified schema for both modes
-const HaResponseSchema = z.object({
-  yaml_code: z.string().describe("Valid Home Assistant YAML automation block without markdown formatting"),
-  explanation: z.string().describe("Brief summary of the logic implemented or syntax errors corrected")
 });
 
 export async function generateYaml(input: string, mode: "generator" | "debugger") {
@@ -34,7 +27,12 @@ Focus on standard entities (binary_sensor.*, light.*, switch.*).
 
 Structure the output cleanly with alias, trigger, condition (if applicable), and action.
 
-Analyze the request inside <user_description>. Return the result matching the defined JSON schema.`;
+Analyze the request inside <user_description>.
+
+RETURN THE RESULT AS A VALID JSON OBJECT INSIDE <json_output>...</json_output> TAGS.
+The JSON object must have these fields:
+- "yaml_code": The valid Home Assistant YAML automation block (string).
+- "explanation": Brief summary of the logic or syntax errors fixed (string).`;
 
     userMessage = `<user_description>${sanitizedInput}</user_description>`;
 
@@ -47,7 +45,12 @@ Identify indentation errors, invalid keys, or logical flaws.
 
 Generate the corrected YAML version.
 
-In the explanation field, detail exactly what errors were found and fixed.`;
+In the explanation field, detail exactly what errors were found and fixed.
+
+RETURN THE RESULT AS A VALID JSON OBJECT INSIDE <json_output>...</json_output> TAGS.
+The JSON object must have these fields:
+- "yaml_code": The valid Home Assistant YAML automation block (string).
+- "explanation": Brief summary of the logic or syntax errors fixed (string).`;
 
     userMessage = `<broken_yaml>${sanitizedInput}</broken_yaml>`;
   } else {
@@ -55,14 +58,40 @@ In the explanation field, detail exactly what errors were found and fixed.`;
   }
 
   try {
-    const result = await generateObject({
+    const { text } = await generateText({
       model: groq("llama-3.3-70b-versatile"),
-      schema: HaResponseSchema,
       system: systemPrompt,
       prompt: userMessage,
     });
 
-    return { success: true, data: result.object };
+    // Manually extract JSON from XML tags
+    const match = text.match(/<json_output>([\s\S]*?)<\/json_output>/);
+
+    if (match && match[1]) {
+      try {
+        const parsedData = JSON.parse(match[1]);
+        return { success: true, data: parsedData };
+      } catch (parseError) {
+        console.error("JSON Parse Error:", parseError);
+        // Fallback: Return raw text if JSON parsing fails but tags exist
+        return {
+             success: true,
+             data: {
+                 yaml_code: "# Error: AI generated invalid JSON formatting.\n# Below is the raw output:\n\n" + text,
+                 explanation: "Failed to parse structured output from AI. Raw response provided."
+             }
+        };
+      }
+    } else {
+      // Fallback: No tags found
+      return {
+          success: true,
+          data: {
+              yaml_code: "# Error: AI did not return structured output tags.\n# Below is the raw output:\n\n" + text,
+              explanation: "AI response format mismatch. Raw response provided."
+          }
+      };
+    }
 
   } catch (error) {
     console.error("Error generating YAML:", error);

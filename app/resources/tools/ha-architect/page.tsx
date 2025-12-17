@@ -14,7 +14,7 @@ import { toast } from "sonner"
 import { generateYaml } from "@/app/actions/generate-yaml"
 
 export default function HomeAssistantArchitect() {
-  const { theme } = useTheme()
+  const { theme, resolvedTheme } = useTheme()
   const [mode, setMode] = useState<"generator" | "debugger">("generator")
   const [input, setInput] = useState("")
   const [yamlCode, setYamlCode] = useState("// Generated YAML will appear here...")
@@ -60,32 +60,20 @@ export default function HomeAssistantArchitect() {
     toast.success("Copied to clipboard")
   }
 
+  // Determine Monaco Editor Theme
+  // If mounted, check resolvedTheme. If not mounted, default to something safe or light/dark depending on preference.
+  // Using resolvedTheme ensures we handle system preferences correctly.
+  const editorTheme = resolvedTheme === 'dark' ? "vs-dark" : "light"
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans pb-20 relative">
       <FloatingNav />
 
-      {/* Security Banner - Positioned at the top as requested */}
-      {showSecurityBanner && (
-        <div className="fixed top-0 left-0 right-0 z-[60] p-4 bg-amber-50 dark:bg-slate-900 border-b border-amber-200 dark:border-amber-900 shadow-md animate-in slide-in-from-top-full duration-300">
-           <div className="max-w-6xl mx-auto flex items-center justify-between gap-4 mt-16 md:mt-0"> {/* Margin top added for mobile nav overlap handling if needed, but fixed top usually overlays everything. Checking Z-index. FloatingNav z-index might be high. */}
-               <div className="flex items-center gap-3">
-                   <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0" />
-                   <p className="text-sm text-slate-700 dark:text-slate-300">
-                      <span className="font-bold text-amber-700 dark:text-amber-500">Security Note:</span> AI processing active. Please redact sensitive keys/passwords. Data is ephemeral.
-                   </p>
-               </div>
-               <Button variant="ghost" size="icon" onClick={() => setShowSecurityBanner(false)} className="h-8 w-8 text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">
-                   <X className="h-4 w-4" />
-               </Button>
-           </div>
-        </div>
-      )}
-
-      {/* Main Content - Adjusted padding for top banner */}
-      <main className={`pt-32 md:pt-40 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col gap-6 transition-all duration-300 ${showSecurityBanner ? 'mt-12' : 'mt-0'}`}>
+      {/* Main Content */}
+      <main className="pt-24 md:pt-28 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col gap-6">
 
         {/* Header */}
-        <div className="flex flex-col items-center justify-center mb-6 gap-2 text-center">
+        <div className="flex flex-col items-center justify-center mb-2 gap-2 text-center">
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3 flex-wrap justify-center">
               Home Assistant Architect
               <span className="text-xs font-normal bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-800">
@@ -101,14 +89,35 @@ export default function HomeAssistantArchitect() {
         <div className="grid md:grid-cols-2 gap-6 min-h-[600px]">
 
             {/* Left Pane: Input & Controls */}
-            <Card className="flex flex-col p-6 gap-4 shadow-lg border-slate-200 dark:border-slate-800 h-full bg-white dark:bg-slate-900">
-                <Tabs value={mode} onValueChange={(v) => { setMode(v as "generator" | "debugger"); setInput(""); }} className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 mb-4">
-                        <TabsTrigger value="generator">Generator</TabsTrigger>
-                        <TabsTrigger value="debugger">Debugger</TabsTrigger>
-                    </TabsList>
+            <Card className="flex flex-col p-6 gap-4 shadow-lg border-slate-200 dark:border-slate-800 h-full bg-white dark:bg-slate-900 relative">
+                <Tabs value={mode} onValueChange={(v) => { setMode(v as "generator" | "debugger"); setInput(""); }} className="w-full flex flex-col h-full">
+                    <div className="flex items-center justify-between mb-4">
+                        <TabsList className="grid w-[200px] grid-cols-2">
+                            <TabsTrigger value="generator">Generator</TabsTrigger>
+                            <TabsTrigger value="debugger">Debugger</TabsTrigger>
+                        </TabsList>
 
-                    <div className="flex flex-col h-full gap-4">
+                        {/* Action Button Moved to Header */}
+                         <Button
+                            onClick={handleGenerate}
+                            disabled={loading || !input.trim()}
+                            className="bg-blue-600 hover:bg-blue-700 text-white shadow-md"
+                         >
+                             {loading ? (
+                                 <>
+                                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                     Processing...
+                                 </>
+                             ) : (
+                                 <>
+                                     <Sparkles className="w-4 h-4 mr-2" />
+                                     {mode === "generator" ? "Generate YAML" : "Fix YAML"}
+                                 </>
+                             )}
+                         </Button>
+                    </div>
+
+                    <div className="flex flex-col flex-1 gap-4">
                         <div className="flex flex-col gap-2">
                              <Label className="text-base font-semibold text-slate-900 dark:text-slate-100">
                                  {mode === "generator" ? "Describe your desired automation" : "Paste broken/invalid YAML here"}
@@ -132,23 +141,6 @@ export default function HomeAssistantArchitect() {
 
                         <div className="flex justify-between items-center text-xs text-slate-400">
                              <span>{input.length} / 15000 chars</span>
-                             <Button
-                                onClick={handleGenerate}
-                                disabled={loading || !input.trim()}
-                                className="bg-blue-600 hover:bg-blue-700 text-white min-w-[140px]"
-                             >
-                                 {loading ? (
-                                     <>
-                                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                         Processing...
-                                     </>
-                                 ) : (
-                                     <>
-                                         <Sparkles className="w-4 h-4 mr-2" />
-                                         {mode === "generator" ? "Generate YAML" : "Fix YAML"}
-                                     </>
-                                 )}
-                             </Button>
                         </div>
                     </div>
                 </Tabs>
@@ -169,13 +161,14 @@ export default function HomeAssistantArchitect() {
                         <span className="sr-only">Copy code</span>
                       </Button>
                    </div>
+                   {/* Explicit dark mode background for the editor container to fix visual glitch */}
                    <div className="flex-1 relative bg-slate-50 dark:bg-[#1e1e1e]">
                          <Editor
                            height="100%"
                            defaultLanguage="yaml"
                            language="yaml"
                            value={yamlCode}
-                           theme={theme === 'dark' ? "vs-dark" : "light"}
+                           theme={editorTheme}
                            options={{
                              minimap: { enabled: false },
                              fontSize: 14,
@@ -202,6 +195,23 @@ export default function HomeAssistantArchitect() {
         </div>
 
       </main>
+
+       {/* Security Banner - Moved to Footer */}
+       {showSecurityBanner && (
+        <div className="fixed bottom-0 left-0 right-0 z-[60] p-4 bg-amber-50 dark:bg-slate-900 border-t border-amber-200 dark:border-amber-900 shadow-md animate-in slide-in-from-bottom-full duration-300">
+           <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+               <div className="flex items-center gap-3">
+                   <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0" />
+                   <p className="text-sm text-slate-700 dark:text-slate-300">
+                      <span className="font-bold text-amber-700 dark:text-amber-500">Security Note:</span> AI processing active. Please redact sensitive keys/passwords. Data is ephemeral.
+                   </p>
+               </div>
+               <Button variant="ghost" size="icon" onClick={() => setShowSecurityBanner(false)} className="h-8 w-8 text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">
+                   <X className="h-4 w-4" />
+               </Button>
+           </div>
+        </div>
+      )}
     </div>
   )
 }

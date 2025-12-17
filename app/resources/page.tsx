@@ -93,6 +93,13 @@ const tools = [
     icon: "FileText",
     link: "/resources/tools/extractor",
   },
+  {
+    id: "ha-architect",
+    title: "Home Assistant Architect",
+    description: "Generate and debug Home Assistant YAML automations with AI assistance.",
+    icon: "FileText",
+    link: "/resources/tools/ha-architect",
+  },
 ]
 
   return (
