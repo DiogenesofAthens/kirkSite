@@ -133,4 +133,12 @@ body {
   .matrix-mode * {
     font-family: 'Courier New', monospace !important;
   }
+
+  /* Matrix Mode Overrides for Tool Editors */
+  .matrix-mode .bg-slate-950,
+  .matrix-mode .dark\:bg-slate-950 {
+    background-color: #000000 !important;
+    border: 1px solid #00ff00 !important;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+  }
 }

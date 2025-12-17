@@ -30,7 +30,16 @@ export function ThemeToggle() {
 
   // If in Matrix Mode, the button should allow exiting matrix mode
   if (isMatrixMode) {
-    return null
+    return (
+      <Button
+        variant="default"
+        size="sm"
+        onClick={toggleMatrixMode}
+        className="bg-red-600 hover:bg-red-700 text-white rounded-full font-bold shadow-[0_0_10px_rgba(220,38,38,0.7)] animate-pulse px-4"
+      >
+        EXIT
+      </Button>
+    )
   }
 
   return (
