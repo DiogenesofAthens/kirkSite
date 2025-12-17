@@ -57,7 +57,31 @@ const guides = [
   },
 ]
 
-const tools = [
+const aiTools = [
+  {
+    id: "entity-extractor",
+    title: "Entity Extractor",
+    description: "Extract structured JSON data from contracts, tickets, and agreements using AI.",
+    icon: "FileText",
+    link: "/resources/tools/extractor",
+  },
+  {
+    id: "code-translator",
+    title: "Code Translator",
+    description: "Enterprise code translator. Convert legacy Apex/SOQL/Java to modern stacks.",
+    icon: "FileText",
+    link: "/tools/translator",
+  },
+  {
+    id: "ha-architect",
+    title: "Home Assistant Architect",
+    description: "Generate and debug Home Assistant YAML automations with AI assistance.",
+    icon: "FileText",
+    link: "/resources/tools/ha-architect",
+  },
+]
+
+const utilityTools = [
   {
     id: "timezone-converter",
     title: "World Clock App",
@@ -78,27 +102,6 @@ const tools = [
     description: "Create instant QR codes for URLs, Wi-Fi, and more directly in your browser.",
     icon: "QrCode",
     link: "/resources/qr-code",
-  },
-  {
-    id: "code-translator",
-    title: "Code Translator",
-    description: "Enterprise code translator. Convert legacy Apex/SOQL/Java to modern stacks.",
-    icon: "FileText",
-    link: "/tools/translator",
-  },
-  {
-    id: "entity-extractor",
-    title: "Entity Extractor",
-    description: "Extract structured JSON data from contracts, tickets, and agreements using AI.",
-    icon: "FileText",
-    link: "/resources/tools/extractor",
-  },
-  {
-    id: "ha-architect",
-    title: "Home Assistant Architect",
-    description: "Generate and debug Home Assistant YAML automations with AI assistance.",
-    icon: "FileText",
-    link: "/resources/tools/ha-architect",
   },
 ]
 
@@ -167,10 +170,36 @@ const tools = [
             </div>
           </div>
 
+          {/* AI Tools Section */}
           <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Free Tools</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">AI Assist Tools</h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {tools.map((tool) => {
+              {aiTools.map((tool) => {
+                const Icon = iconMap[tool.icon as keyof typeof iconMap]
+                return (
+                  <Link key={tool.id} href={tool.link}>
+                    <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50">
+                      <CardHeader>
+                        <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                          <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{tool.title}</CardTitle>
+                        <CardDescription className="text-slate-700 dark:text-slate-300">
+                          {tool.description}
+                        </CardDescription>
+                      </CardHeader>
+                    </Card>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Utility Tools Section */}
+          <div className="mb-16">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Free Utilities</h2>
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {utilityTools.map((tool) => {
                 const Icon = iconMap[tool.icon as keyof typeof iconMap]
                 return (
                   <Link key={tool.id} href={tool.link}>

@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Lottie from "@/components/lottie-client"
 import rocketAnimation from "@/public/images/rocket-ani.json"
+import Link from "next/link"
+import { Sparkles, Code2, Home } from "lucide-react"
 
 export default function AreasOfExpertise() {
   return (
@@ -32,6 +34,60 @@ export default function AreasOfExpertise() {
             <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
               "Bridging the gap between sales, tech, and process with proven results."
             </p>
+          </div>
+
+          {/* Live AI Portfolio Section */}
+          <div className="mb-16">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Live AI Portfolio</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              <Link href="/resources/tools/extractor">
+                <Card className="glass border-0 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer h-full bg-blue-50/50 dark:bg-slate-900/50">
+                  <CardHeader>
+                    <div className="flex items-center gap-3 mb-2">
+                       <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg">
+                          <Sparkles className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                       </div>
+                       <CardTitle className="text-lg">Entity Extractor</CardTitle>
+                    </div>
+                    <CardDescription>
+                      AI-powered document analysis converting unstructured text to JSON.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              <Link href="/tools/translator">
+                <Card className="glass border-0 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer h-full bg-blue-50/50 dark:bg-slate-900/50">
+                  <CardHeader>
+                     <div className="flex items-center gap-3 mb-2">
+                       <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg">
+                          <Code2 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                       </div>
+                       <CardTitle className="text-lg">Code Translator</CardTitle>
+                    </div>
+                    <CardDescription>
+                      Legacy code modernization tool using LLMs for architectural translation.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              <Link href="/resources/tools/ha-architect">
+                <Card className="glass border-0 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer h-full bg-blue-50/50 dark:bg-slate-900/50">
+                  <CardHeader>
+                     <div className="flex items-center gap-3 mb-2">
+                       <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg">
+                          <Home className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                       </div>
+                       <CardTitle className="text-lg">HA Architect</CardTitle>
+                    </div>
+                    <CardDescription>
+                      Natural language to YAML generator for Home Assistant automations.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">

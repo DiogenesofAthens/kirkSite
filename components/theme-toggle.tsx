@@ -28,23 +28,21 @@ export function ThemeToggle() {
     setTheme(resolvedTheme === "dark" ? "light" : "dark")
   }
 
+  if (isMatrixMode) {
+    return null
+  }
+
   return (
     <Button
       variant="ghost"
       size="icon"
-      onClick={isMatrixMode ? toggleMatrixMode : toggleTheme}
-      className={`h-9 w-9 transition-all duration-200 ${isMatrixMode ? "text-red-500 hover:text-red-400 hover:bg-red-950/50" : "text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800"}`}
-      title={isMatrixMode ? "Disable Developer Mode" : "Toggle theme"}
+      onClick={toggleTheme}
+      className="h-9 w-9 transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800"
+      title="Toggle theme"
     >
-      {isMatrixMode ? (
-         <Terminal className="h-4 w-4" />
-      ) : (
-        <>
-            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-        </>
-      )}
-      <span className="sr-only">{isMatrixMode ? "Disable Matrix Mode" : "Toggle theme"}</span>
+      <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <span className="sr-only">Toggle theme</span>
     </Button>
   )
 }

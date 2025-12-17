@@ -572,7 +572,7 @@ export default function ExtractorPage() {
                     </Button>
                 </div>
 
-                <div className="flex-1 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden relative bg-white dark:bg-slate-900 min-h-[500px]">
+                <div className="flex-1 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden relative bg-white dark:bg-slate-950 min-h-[500px]">
                     <TabsContent value="smart" className="h-full m-0 overflow-auto">
                         {parsedData ? <SmartView data={parsedData} key={parsedData.user_questions?.length} /> : <div className="p-4 text-slate-400 text-sm">Extraction pending...</div>}
                     </TabsContent>
