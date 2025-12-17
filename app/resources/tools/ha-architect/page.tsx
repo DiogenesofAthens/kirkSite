@@ -12,6 +12,8 @@ import Editor from "@monaco-editor/react"
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
 import { generateYaml } from "@/app/actions/generate-yaml"
+import { useHomeAssistant } from "@/hooks/use-home-assistant"
+import { HAConnectModal } from "@/components/ha-connect-modal"
 
 export default function HomeAssistantArchitect() {
   const { theme, resolvedTheme } = useTheme()
@@ -23,6 +25,9 @@ export default function HomeAssistantArchitect() {
   const [showSecurityBanner, setShowSecurityBanner] = useState(true)
   const [copied, setCopied] = useState(false)
 
+  // Initialize HA Hook
+  const haHook = useHomeAssistant()
+
   const handleGenerate = async () => {
     if (!input.trim()) {
       toast.error("Please provide some input.")
@@ -33,8 +38,15 @@ export default function HomeAssistantArchitect() {
     setYamlCode("// Processing...")
     setExplanation("")
 
+    // Context Injection
+    let finalInput = input;
+    if (haHook.isConnected && haHook.entities.length > 0) {
+        const entityContext = `\n\n<user_devices>${haHook.entities.join(', ')}</user_devices>`;
+        finalInput += entityContext;
+    }
+
     try {
-      const result = await generateYaml(input, mode)
+      const result = await generateYaml(finalInput, mode)
 
       if (result.error) {
         toast.error(result.error)
@@ -60,9 +72,6 @@ export default function HomeAssistantArchitect() {
     toast.success("Copied to clipboard")
   }
 
-  // Determine Monaco Editor Theme
-  // If mounted, check resolvedTheme. If not mounted, default to something safe or light/dark depending on preference.
-  // Using resolvedTheme ensures we handle system preferences correctly.
   const editorTheme = resolvedTheme === 'dark' ? "vs-dark" : "light"
 
   return (
@@ -91,30 +100,35 @@ export default function HomeAssistantArchitect() {
             {/* Left Pane: Input & Controls */}
             <Card className="flex flex-col p-6 gap-4 shadow-lg border-slate-200 dark:border-slate-800 h-full bg-white dark:bg-slate-900 relative">
                 <Tabs value={mode} onValueChange={(v) => { setMode(v as "generator" | "debugger"); setInput(""); }} className="w-full flex flex-col h-full">
-                    <div className="flex items-center justify-between mb-4">
-                        <TabsList className="grid w-[200px] grid-cols-2">
+                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 gap-4">
+                        <TabsList className="grid w-full md:w-[200px] grid-cols-2">
                             <TabsTrigger value="generator">Generator</TabsTrigger>
                             <TabsTrigger value="debugger">Debugger</TabsTrigger>
                         </TabsList>
 
-                        {/* Action Button Moved to Header */}
-                         <Button
-                            onClick={handleGenerate}
-                            disabled={loading || !input.trim()}
-                            className="bg-blue-600 hover:bg-blue-700 text-white shadow-md"
-                         >
-                             {loading ? (
-                                 <>
-                                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                     Processing...
-                                 </>
-                             ) : (
-                                 <>
-                                     <Sparkles className="w-4 h-4 mr-2" />
-                                     {mode === "generator" ? "Generate YAML" : "Fix YAML"}
-                                 </>
-                             )}
-                         </Button>
+                        <div className="flex gap-2 w-full md:w-auto">
+                            {/* Connect Button */}
+                            <HAConnectModal haHook={haHook} />
+
+                            {/* Generate Button */}
+                            <Button
+                                onClick={handleGenerate}
+                                disabled={loading || !input.trim()}
+                                className="flex-1 md:flex-none bg-blue-600 hover:bg-blue-700 text-white shadow-md min-w-[140px]"
+                            >
+                                {loading ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                        Processing...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Sparkles className="w-4 h-4 mr-2" />
+                                        {mode === "generator" ? "Generate YAML" : "Fix YAML"}
+                                    </>
+                                )}
+                            </Button>
+                        </div>
                     </div>
 
                     <div className="flex flex-col flex-1 gap-4">
@@ -141,6 +155,7 @@ export default function HomeAssistantArchitect() {
 
                         <div className="flex justify-between items-center text-xs text-slate-400">
                              <span>{input.length} / 15000 chars</span>
+                             {haHook.isConnected && <span className="text-green-600 dark:text-green-400 font-medium flex items-center"><Check className="w-3 h-3 mr-1" /> Using {haHook.entities.length} local entities</span>}
                         </div>
                     </div>
                 </Tabs>
@@ -161,7 +176,6 @@ export default function HomeAssistantArchitect() {
                         <span className="sr-only">Copy code</span>
                       </Button>
                    </div>
-                   {/* Explicit dark mode background for the editor container to fix visual glitch */}
                    <div className="flex-1 relative bg-slate-50 dark:bg-[#1e1e1e]">
                          <Editor
                            height="100%"
@@ -196,7 +210,7 @@ export default function HomeAssistantArchitect() {
 
       </main>
 
-       {/* Security Banner - Moved to Footer */}
+       {/* Security Banner */}
        {showSecurityBanner && (
         <div className="fixed bottom-0 left-0 right-0 z-[60] p-4 bg-amber-50 dark:bg-slate-900 border-t border-amber-200 dark:border-amber-900 shadow-md animate-in slide-in-from-bottom-full duration-300">
            <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
