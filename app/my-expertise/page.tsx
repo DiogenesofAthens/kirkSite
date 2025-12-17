@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Sparkles, Code2, Home } from "lucide-react"
 import Link from "next/link"
+import Lottie from "@/components/lottie-client"
+import manLaptopAnimation from "@/public/images/man-laptop-ani.json"
 
 export default function Expertise() {
   return (
@@ -19,6 +21,9 @@ export default function Expertise() {
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
+            <div className="w-40 sm:w-48 mx-auto mb-8">
+              <Lottie animationData={manLaptopAnimation} loop autoplay />
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">My Expertise</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Comprehensive business technology and process consulting across multiple domains.
@@ -128,7 +133,7 @@ export default function Expertise() {
 
           {/* AI Powered App Examples Section - Moved to Bottom */}
           <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Live AI Portfolio</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">AI Powered App Examples</h2>
             <div className="grid md:grid-cols-3 gap-6">
               <Link href="/resources/tools/extractor">
                 <Card className="glass border-0 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer h-full bg-blue-50/50 dark:bg-slate-900/50">

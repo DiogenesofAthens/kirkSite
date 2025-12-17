@@ -5,7 +5,7 @@ import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { GameSelector } from "@/components/game-selector"
-import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign, Sparkles, Code2, Home } from "lucide-react"
+import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign, Sparkles, Code2, Home, Rocket, Crown } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import Lottie from "@/components/lottie-client"
@@ -53,6 +53,37 @@ export default function Resources() {
             <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
               "Engineer. Consultant. Tinkerer. I turn complexity into solutions."
             </p>
+          </div>
+
+          {/* Premium Resources Section */}
+          <div className="mb-16">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center flex items-center justify-center gap-2">
+              <Crown className="w-6 h-6 text-yellow-500" />
+              Premium Resources
+            </h2>
+            <div className="max-w-4xl mx-auto">
+              <Link href="/launchpad">
+                <Card className="glass border-2 border-blue-500/20 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group hover:bg-white/60 dark:hover:bg-slate-800/60 relative overflow-hidden">
+                   <div className="absolute top-0 right-0 p-2">
+                      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                        POPULAR
+                      </div>
+                   </div>
+                  <CardHeader className="flex flex-row items-center gap-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform shrink-0">
+                      <Rocket className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl md:text-2xl text-slate-900 dark:text-slate-50 mb-2">Digital Identity Launchpad</CardTitle>
+                      <CardDescription className="text-base text-slate-700 dark:text-slate-300">
+                        Launch your professional presence with a fully managed, custom-built portfolio site.
+                        Includes design, development, content strategy, and SEO optimization.
+                      </CardDescription>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </Link>
+            </div>
           </div>
 
           {/* AI Tools Section */}
