@@ -7,6 +7,19 @@ const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+function extractJson(text: string) {
+  try {
+    const startIndex = text.indexOf('{');
+    const endIndex = text.lastIndexOf('}');
+    if (startIndex === -1 || endIndex === -1) throw new Error("No JSON found");
+    const jsonString = text.substring(startIndex, endIndex + 1);
+    return JSON.parse(jsonString);
+  } catch (e) {
+    console.error("JSON Parsing Failed:", text);
+    throw new Error("AI generated invalid format. Raw output: " + text.substring(0, 100) + "...");
+  }
+}
+
 export async function generateYaml(input: string, mode: "generator" | "debugger") {
   // 1. Security Protocol
   // Input Sanitization
@@ -64,18 +77,11 @@ The JSON object must have these fields:
       prompt: userMessage,
     });
 
-    // Brute Force JSON Extraction
-    const firstOpenBrace = text.indexOf('{');
-    const lastCloseBrace = text.lastIndexOf('}');
-
-    if (firstOpenBrace !== -1 && lastCloseBrace !== -1 && lastCloseBrace > firstOpenBrace) {
-      const jsonString = text.substring(firstOpenBrace, lastCloseBrace + 1);
-      try {
-        const parsedData = JSON.parse(jsonString);
+    try {
+        const parsedData = extractJson(text);
         return { success: true, data: parsedData };
-      } catch (parseError) {
-        console.error("JSON Parse Error:", parseError);
-        // Fallback: Return raw text
+    } catch (parseError) {
+        // Fallback: Return raw text via Partial Success logic
         return {
              success: true,
              data: {
@@ -83,16 +89,6 @@ The JSON object must have these fields:
                  explanation: "Failed to parse structured output from AI. Raw response provided."
              }
         };
-      }
-    } else {
-      // Fallback: No JSON structure found
-      return {
-          success: true,
-          data: {
-              yaml_code: "# Error: AI did not return a JSON object.\n# Below is the raw output:\n\n" + text,
-              explanation: "AI response format mismatch. Raw response provided."
-          }
-      };
     }
 
   } catch (error) {
