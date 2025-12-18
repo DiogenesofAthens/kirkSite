@@ -11,7 +11,11 @@ const colors = [
 
 const frequencies = [329.63, 261.63, 220.00, 164.81]
 
-export function SimonGame() {
+interface SimonGameProps {
+  onGameOver?: (score: number) => void
+}
+
+export function SimonGame({ onGameOver }: SimonGameProps) {
   const [sequence, setSequence] = useState<number[]>([])
   const [userInput, setUserInput] = useState<number[]>([])
   const [isPlaying, setIsPlaying] = useState(false)
@@ -21,17 +25,9 @@ export function SimonGame() {
   const [score, setScore] = useState(0)
   const [isGameOver, setIsGameOver] = useState(false)
   const [activeButton, setActiveButton] = useState<number | null>(null)
-  const [scoreHistory, setScoreHistory] = useState<{ score: number; date: string }[]>([])
   const [isMuted, setIsMuted] = useState(false)
 
   const audioContextRef = useRef<AudioContext | null>(null)
-
-  useEffect(() => {
-    const stored = localStorage.getItem("simon-leaderboard")
-    if (stored) {
-      setScoreHistory(JSON.parse(stored))
-    }
-  }, [])
 
   useEffect(() => {
     if (isPlaying && showIndex < sequence.length && showIndex !== -1) {
@@ -98,13 +94,6 @@ export function SimonGame() {
     setStatus(`Level ${level + 1}`)
   }
 
-  const updateScoreHistory = (finalScore: number) => {
-    const newEntry = { score: finalScore, date: new Date().toLocaleDateString() }
-    const updated = [...scoreHistory, newEntry].slice(-5)
-    setScoreHistory(updated)
-    localStorage.setItem("simon-leaderboard", JSON.stringify(updated))
-  }
-
   const handleClick = (index: number) => {
     if (!isPlaying || showIndex !== -1) return
 
@@ -120,7 +109,7 @@ export function SimonGame() {
       setStatus("Wrong! Game Over.")
       setIsGameOver(true)
       setIsPlaying(false)
-      updateScoreHistory(score)
+      if (onGameOver) onGameOver(score)
       return
     }
 
@@ -132,80 +121,63 @@ export function SimonGame() {
     }
   }
 
-  const resetGame = () => {
-    setSequence([])
-    setUserInput([])
-    setIsPlaying(false)
-    setShowIndex(-1)
-    setLevel(0)
-    setScore(0)
-    setStatus("Click Start to Begin")
-    setIsGameOver(false)
-  }
-
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen px-4 py-10 text-black dark:text-white transition-colors duration-300">
-      <h1 className="text-4xl sm:text-5xl font-extrabold mb-2 drop-shadow-lg text-center">Simon Says</h1>
-      <p className="italic text-base sm:text-lg mb-2 text-center">Repeat the sequence to level up</p>
-      <p className="text-sm mb-4">{status} | Score: {score}</p>
+    <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto py-8 text-black dark:text-white transition-colors duration-300 relative">
+      <div className="mb-8 text-center">
+        <p className="text-2xl font-bold mb-2">{status}</p>
+        <p className="text-lg opacity-80">Score: {score}</p>
+      </div>
 
-      <div className="relative aspect-square w-full max-w-[20rem] sm:max-w-sm mb-8">
+      <div className="relative aspect-square w-full max-w-[300px] sm:max-w-[400px] mb-8">
         {colors.map((color) => (
           <button
             key={color.id}
             onClick={() => handleClick(color.id)}
+            disabled={!isPlaying && !isGameOver && sequence.length === 0}
             className={`absolute w-1/2 h-1/2 ${color.position} 
-              ${activeButton === color.id ? `${color.base} ${color.glow} scale-110 shadow-2xl` : color.base}
-              border-4 border-black transition-all duration-200 ease-in-out transform focus:outline-none`}
+              ${activeButton === color.id ? `${color.base} ${color.glow} scale-105 z-10 brightness-110` : color.base}
+              border-4 border-slate-900/10 dark:border-slate-100/10 transition-all duration-150 ease-in-out transform focus:outline-none hover:brightness-110 active:scale-95`}
             aria-label={color.label}
           />
         ))}
-        <div className="absolute top-1/2 left-1/2 w-24 h-24 -translate-x-1/2 -translate-y-1/2 bg-white/10 text-white dark:text-white rounded-full border-4 border-white flex items-center justify-center text-center font-bold backdrop-blur-lg shadow-xl">
-          {isGameOver ? "Game Over" : `Lvl ${level}`}
+
+        {/* Center Hub */}
+        <div className="absolute top-1/2 left-1/2 w-1/3 h-1/3 -translate-x-1/2 -translate-y-1/2 bg-slate-100 dark:bg-slate-900 rounded-full border-8 border-slate-200 dark:border-slate-800 flex items-center justify-center shadow-2xl z-20">
+          <div className="text-center">
+            <div className="text-xs uppercase font-bold tracking-widest text-slate-400">Simon</div>
+            {isGameOver && <div className="text-red-500 font-bold text-sm">GAME OVER</div>}
+          </div>
         </div>
+
+        {/* Start Overlay */}
+        {!isPlaying && !isGameOver && sequence.length === 0 && (
+            <div className="absolute inset-0 flex items-center justify-center z-30 bg-black/40 backdrop-blur-[2px] rounded-full">
+                <button
+                    onClick={startGame}
+                    className="bg-white text-black px-8 py-4 rounded-full font-bold text-xl shadow-[0_0_20px_rgba(255,255,255,0.5)] hover:scale-110 transition-transform animate-pulse"
+                >
+                    START GAME
+                </button>
+            </div>
+        )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-4 mb-8">
-        {!isGameOver ? (
+      <div className="flex items-center gap-4">
+        {isGameOver && (
           <button
             onClick={startGame}
-            className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105 font-bold"
           >
-            {sequence.length ? "Restart" : "Start"}
-          </button>
-        ) : (
-          <button
-            onClick={resetGame}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105"
-          >
-            Play Again
+            Try Again
           </button>
         )}
 
-        {/* Mute Toggle */}
         <button
           onClick={() => setIsMuted(!isMuted)}
-          className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full shadow transition"
+          className="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-100 px-4 py-2 rounded-full shadow transition text-sm font-medium"
         >
           {isMuted ? "Unmute" : "Mute"}
         </button>
-      </div>
-
-      {/* Score History */}
-      <div className="w-full max-w-xs text-center">
-        <h2 className="text-lg font-semibold mb-2 underline">🧠 Your Past Attempts</h2>
-        <ul className="space-y-1">
-          {scoreHistory.length > 0 ? (
-            scoreHistory.map((entry, idx) => (
-              <li key={idx} className="bg-white/10 rounded px-3 py-1 shadow text-sm flex justify-between">
-                <span>{entry.date}</span>
-                <span className="font-semibold">{entry.score} pts</span>
-              </li>
-            ))
-          ) : (
-            <li className="text-gray-400 text-sm">No attempts yet</li>
-          )}
-        </ul>
       </div>
     </div>
   )

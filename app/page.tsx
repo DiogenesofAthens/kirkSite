@@ -8,17 +8,20 @@ import { ContactModal } from "@/components/contact-modal"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Link from "next/link"
 import Image from "next/image"
-import Lottie from "lottie-react"
+import Lottie from "@/components/lottie-client"
 
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false)
   const [animationData, setAnimationData] = useState<any>(null)
+  const [year, setYear] = useState<number | null>(null)
 
   useEffect(() => {
     fetch("/images/pc-coffee-ani.json")
       .then((res) => res.json())
       .then(setAnimationData)
       .catch((err) => console.error("Failed to load Lottie animation:", err))
+
+    setYear(new Date().getFullYear())
   }, [])
 
   return (
@@ -140,7 +143,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-slate-600 dark:text-slate-400 mb-4 md:mb-0">
-              © 2025 Grant Glazer. All rights reserved.
+              © {year || 2025} Grant Glazer. All rights reserved.
             </div>
             <div className="text-slate-500 dark:text-slate-500 text-sm">GrantGlazer.com</div>
           </div>

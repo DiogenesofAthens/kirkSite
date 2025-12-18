@@ -545,7 +545,13 @@ function ClockPageContent() {
                         )}
 
                         {entries.map((entry) => (
-                             <div key={entry.id} className="h-20 flex border-b border-border/50">
+                             <div key={entry.id} className="h-20 flex border-b border-border/50 relative">
+                                 {/* Mobile City Indicator (Sticky Label) */}
+                                 <div className="md:hidden sticky left-0 z-20 flex flex-col justify-center px-2 bg-background/95 backdrop-blur-sm border-r border-border shadow-[2px_0_5px_rgba(0,0,0,0.05)] w-[50px] flex-shrink-0">
+                                     <span className="font-bold text-xs text-foreground truncate">{entry.city.substring(0, 3).toUpperCase()}</span>
+                                     <span className="text-[9px] text-muted-foreground truncate opacity-70">{entry.timezone.split('/')[1]}</span>
+                                 </div>
+
                                  {Array.from({ length: 48 }).map((_, i) => {
                                      const { time, isBusiness, isNight, isMidnight } = getColumnData(entry.timezone, i)
 

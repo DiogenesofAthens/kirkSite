@@ -2,16 +2,21 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
+import { toast } from "sonner"
+import { MatrixRain } from "@/components/matrix-rain"
 
 interface MatrixContextType {
   isMatrixMode: boolean
   toggleMatrixMode: () => void
+  triggerMatrixMode: () => void
 }
 
 const MatrixContext = React.createContext<MatrixContextType | undefined>(undefined)
 
 export function MatrixProvider({ children }: { children: React.ReactNode }) {
   const [isMatrixMode, setIsMatrixMode] = React.useState(false)
+  const [showOverlay, setShowOverlay] = React.useState(true)
+  const [showRain, setShowRain] = React.useState(false)
   const { setTheme } = useTheme()
   const [konamiIndex, setKonamiIndex] = React.useState(0)
 
@@ -29,13 +34,25 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
     "a",
   ], [])
 
+  const triggerMatrixMode = React.useCallback(() => {
+    setIsMatrixMode(true)
+    setShowOverlay(true)
+    setShowRain(true)
+    setTheme("dark")
+    toast.success("Behold the Matrix - You’ve been living in a dream world. This isn't CSS. This is the truth.", { id: 'matrix-activated' })
+
+    // Rain effect duration (3 seconds)
+    setTimeout(() => {
+        setShowRain(false)
+    }, 3000)
+  }, [setTheme])
+
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === konamiCode[konamiIndex]) {
         const nextIndex = konamiIndex + 1
         if (nextIndex === konamiCode.length) {
-          setIsMatrixMode(true)
-          setTheme("dark")
+          triggerMatrixMode()
           setKonamiIndex(0)
         } else {
           setKonamiIndex(nextIndex)
@@ -47,7 +64,7 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [konamiIndex, konamiCode, setTheme])
+  }, [konamiIndex, konamiCode, triggerMatrixMode])
 
   const toggleMatrixMode = () => {
     setIsMatrixMode(!isMatrixMode)
@@ -62,13 +79,23 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
   }, [isMatrixMode])
 
   return (
-    <MatrixContext.Provider value={{ isMatrixMode, toggleMatrixMode }}>
+    <MatrixContext.Provider value={{ isMatrixMode, toggleMatrixMode, triggerMatrixMode }}>
+      {showRain && <MatrixRain />}
       {children}
-      {isMatrixMode && (
-        <div className="fixed top-4 right-16 z-50 bg-black/80 border border-green-500 p-2 font-mono text-xs text-green-500 rounded shadow-[0_0_10px_#00ff00]">
+      {/* {isMatrixMode && showOverlay && (
+        <div className="fixed bottom-4 right-4 z-[9999] bg-black/90 border border-green-500 p-3 font-mono text-xs text-green-500 rounded shadow-[0_0_15px_#00ff00] min-w-[150px]">
+            <div className="flex justify-between items-start mb-2 border-b border-green-500/30 pb-1">
+                <span className="font-bold">DEBUG_MODE</span>
+                <button
+                  onClick={() => setShowOverlay(false)}
+                  className="text-green-500 hover:text-white hover:bg-green-500/20 px-1 rounded"
+                >
+                  [x]
+                </button>
+            </div>
             <DebugStats />
         </div>
-      )}
+      )} */}
     </MatrixContext.Provider>
   )
 }

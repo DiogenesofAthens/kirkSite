@@ -1,0 +1,14 @@
+
+> my-v0-project@0.1.0 start
+> next start
+
+   ▲ Next.js 16.0.10
+   - Local:         http://localhost:3000
+   - Network:       http://192.168.0.2:3000
+
+ ✓ Starting...
+ ✓ Ready in 547ms
+Warning: Cannot load "@napi-rs/canvas" package: "Error: Cannot find module '@napi-rs/canvas'
+Require stack:
+- /ROOT/node_modules/pdf-parse/dist/pdf-parse/cjs/index.cjs".
+Killed

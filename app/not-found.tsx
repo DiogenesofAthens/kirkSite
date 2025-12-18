@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import Lottie from "lottie-react";
+import Lottie from "@/components/lottie-client";
 import Link from "next/link";
 import { FloatingNav } from "@/components/floating-nav";
 import { useEffect, useState } from "react";
