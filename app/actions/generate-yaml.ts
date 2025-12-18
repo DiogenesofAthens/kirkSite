@@ -92,8 +92,9 @@ The JSON object must have these fields:
     const parsedData = extractJson(text);
     return { success: true, data: parsedData };
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error generating YAML:", error);
-    return { error: "Failed to generate YAML. Please try again." };
+    // Return specific error message for easier debugging
+    return { error: `AI Generation Failed: ${error.message || "Unknown error"}` };
   }
 }

@@ -49,10 +49,29 @@ const groq = createGroq({
 
 // --- JSON Sanitization ---
 
-function sanitizeJsonString(text: string): string {
-    // 1. Remove Markdown code blocks
+function extractJsonFromText(text: string): any {
+    // 1. Try to find JSON block by looking for first { and last }
+    const startIndex = text.indexOf('{');
+    const endIndex = text.lastIndexOf('}');
+
+    if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+        const jsonCandidate = text.substring(startIndex, endIndex + 1);
+        try {
+            return JSON.parse(jsonCandidate);
+        } catch (e) {
+            // If failed, try stripping control characters that might break JSON
+            // But be careful not to strip valid whitespace if possible
+            const cleaned = jsonCandidate.replace(/[\u0000-\u001F]+/g, (match) => {
+                if (match === '\n' || match === '\r' || match === '\t') return match;
+                return '';
+            });
+            return JSON.parse(cleaned);
+        }
+    }
+
+    // Fallback: Try cleaning markdown and parsing whole text
     let clean = text.replace(/```json/g, '').replace(/```/g, '').trim();
-    return clean;
+    return JSON.parse(clean);
 }
 
 // --- Zod Schemas ---
@@ -222,15 +241,12 @@ ${text}
       prompt: userPrompt,
     });
 
-    const cleanText = sanitizeJsonString(result.text);
     let parsed;
-
     try {
-        parsed = JSON.parse(cleanText);
+        parsed = extractJsonFromText(result.text);
     } catch (parseError) {
-        console.warn("Initial JSON parse failed, attempting strict control char sanitization.");
-        const strictClean = cleanText.replace(/[\u0000-\u001F]+/g, " ");
-        parsed = JSON.parse(strictClean);
+        console.warn("JSON Extraction failed:", parseError);
+        return { success: false, error: "AI Output Formatting Error: " + (parseError as any).message, raw_text: result.text };
     }
 
     // Optional: Validate with Zod
