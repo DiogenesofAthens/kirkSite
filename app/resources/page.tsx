@@ -111,8 +111,8 @@ export default function Resources() {
 
                 return (
                   <Link key={guide.id} href={guide.link}>
-                    <Card className="bg-[#111827] border-slate-800 shadow-xl hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 cursor-pointer group h-full flex flex-col p-2">
-                      <CardHeader className="flex-1 p-6">
+                    <Card className="bg-[#111827] border-slate-800 shadow-xl hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 cursor-pointer group h-full flex flex-col p-2 text-center">
+                      <CardHeader className="flex-1 p-6 flex flex-col items-center">
                         <div className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-900/20 transition-colors">
                             <Icon className="w-6 h-6 text-blue-500" />
                         </div>
@@ -149,8 +149,8 @@ export default function Resources() {
                 const Icon = iconMap[tool.icon] || Sparkles
                 return (
                   <Link key={tool.id} href={tool.link}>
-                    <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50">
-                      <CardHeader>
+                    <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50 text-center">
+                      <CardHeader className="flex flex-col items-center">
                         <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                           <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
@@ -175,8 +175,8 @@ export default function Resources() {
                 const Icon = iconMap[tool.icon] || FileText
                 return (
                   <Link key={tool.id} href={tool.link}>
-                    <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50">
-                      <CardHeader>
+                    <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50 text-center">
+                      <CardHeader className="flex flex-col items-center">
                         <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                           <Icon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                         </div>
@@ -196,7 +196,7 @@ export default function Resources() {
             <GameSelector />
           </div>
 
-          <div className="glass rounded-3xl p-8 shadow-xl">
+          <div className="glass rounded-3xl p-8 shadow-xl text-center">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Get In Touch</h2>
               <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">

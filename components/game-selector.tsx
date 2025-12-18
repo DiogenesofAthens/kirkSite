@@ -99,9 +99,9 @@ export function GameSelector() {
         {games.map((game) => (
           <Link key={game.id} href={game.href} className="block h-full">
             <Card
-              className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group hover:scale-[1.02] h-full flex flex-col"
+              className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group hover:scale-[1.02] h-full flex flex-col text-center"
             >
-              <CardHeader className="text-center flex-1">
+              <CardHeader className="text-center flex-1 flex flex-col items-center">
                 <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">{game.emoji}</div>
                 <CardTitle className="text-xl text-slate-900 dark:text-slate-50">{game.title}</CardTitle>
                 <CardDescription className="text-slate-700 dark:text-slate-300">{game.description}</CardDescription>
