@@ -69,7 +69,7 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
           <div className="glass rounded-3xl p-8 md:p-12 shadow-xl">
-            <div className="flex flex-col items-center gap-8 text-center">
+            <div className="flex flex-col lg:flex-row items-center gap-8">
               <div className="flex-shrink-0">
                 <div className="relative">
                   <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
@@ -86,7 +86,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="flex-1 text-center">
+              <div className="flex-1 text-center lg:text-left">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Grant</h2>
                 <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
                   <p className="text-xl font-semibold">
@@ -122,7 +122,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">Ready to Get Started?</h2>
           <p className="text-xl text-slate-600 dark:text-slate-400 mb-10">I welcome your interest!</p>
-          <div className="glass rounded-3xl p-8 max-w-2xl mx-auto text-center">
+          <div className="glass rounded-3xl p-8 max-w-2xl mx-auto">
             <p className="text-slate-700 dark:text-slate-300 mb-8 leading-relaxed">
               Ready to drive your business forward with proven technology solutions and sales expertise? Let's discuss how I can help your organization achieve its goals.
             </p>
