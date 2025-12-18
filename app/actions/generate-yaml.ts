@@ -34,7 +34,8 @@ export async function generateYaml(input: string, mode: "generator" | "debugger"
     return { error: "Input cannot be empty" };
   }
 
-  const sanitizedInput = input.trim().slice(0, 30000); // Limit to 30,000 chars
+  const sanitizedInput = input.trim().slice(0, 100000); // Limit to 100,000 chars (Llama 3.1 128k context)
+  console.log(`[GenerateYAML] Input Length: ${sanitizedInput.length} chars`);
 
   // Sandwich Defense & Prompt Selection
   let systemPrompt = "";
