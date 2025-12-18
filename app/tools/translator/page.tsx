@@ -214,7 +214,10 @@ export default function CodeTranslatorPage() {
        if (!hasAutoSelectedRef.current) {
            const currentValue = editor.getValue();
            if (currentValue === "// Paste your legacy code here...") {
-               editor.setSelection(editor.getModel()?.getFullModelRange() as any);
+               // Use setTimeout to ensure selection happens after mouse click processing
+               setTimeout(() => {
+                   editor.setSelection(editor.getModel()?.getFullModelRange() as any);
+               }, 50);
                hasAutoSelectedRef.current = true;
            }
        }
