@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
+import { MatrixRain } from "@/components/matrix-rain"
 
 interface MatrixContextType {
   isMatrixMode: boolean
@@ -15,6 +16,7 @@ const MatrixContext = React.createContext<MatrixContextType | undefined>(undefin
 export function MatrixProvider({ children }: { children: React.ReactNode }) {
   const [isMatrixMode, setIsMatrixMode] = React.useState(false)
   const [showOverlay, setShowOverlay] = React.useState(true)
+  const [showRain, setShowRain] = React.useState(false)
   const { setTheme } = useTheme()
   const [konamiIndex, setKonamiIndex] = React.useState(0)
 
@@ -35,8 +37,14 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
   const triggerMatrixMode = React.useCallback(() => {
     setIsMatrixMode(true)
     setShowOverlay(true)
+    setShowRain(true)
     setTheme("dark")
     toast.success("Behold the Matrix - You’ve been living in a dream world. This isn't CSS. This is the truth.", { id: 'matrix-activated' })
+
+    // Rain effect duration (3 seconds)
+    setTimeout(() => {
+        setShowRain(false)
+    }, 3000)
   }, [setTheme])
 
   React.useEffect(() => {
@@ -72,6 +80,7 @@ export function MatrixProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <MatrixContext.Provider value={{ isMatrixMode, toggleMatrixMode, triggerMatrixMode }}>
+      {showRain && <MatrixRain />}
       {children}
       {/* {isMatrixMode && showOverlay && (
         <div className="fixed bottom-4 right-4 z-[9999] bg-black/90 border border-green-500 p-3 font-mono text-xs text-green-500 rounded shadow-[0_0_15px_#00ff00] min-w-[150px]">

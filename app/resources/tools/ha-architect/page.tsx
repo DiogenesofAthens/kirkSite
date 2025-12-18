@@ -25,24 +25,10 @@ export default function HomeAssistantArchitect() {
   const [yamlCode, setYamlCode] = useState("// Generated YAML will appear here...")
   const [explanation, setExplanation] = useState("")
   const [loading, setLoading] = useState(false)
-  const [showSecurityBanner, setShowSecurityBanner] = useState(true)
   const [copied, setCopied] = useState(false)
 
   // Initialize HA Hook
   const haHook = useHomeAssistant()
-
-  // Initialize Security Banner Persistence
-  useEffect(() => {
-    const hidden = localStorage.getItem("hide_ha_security_banner")
-    if (hidden === "true") {
-      setShowSecurityBanner(false)
-    }
-  }, [])
-
-  const handleDismissBanner = () => {
-    setShowSecurityBanner(false)
-    localStorage.setItem("hide_ha_security_banner", "true")
-  }
 
   const handleGenerate = async () => {
     if (!input.trim()) {
@@ -278,22 +264,12 @@ export default function HomeAssistantArchitect() {
 
       </main>
 
-       {/* Security Banner */}
-       {showSecurityBanner && (
-        <div className="fixed bottom-0 left-0 right-0 z-[60] p-4 bg-amber-50 dark:bg-slate-900 border-t border-amber-200 dark:border-amber-900 shadow-md animate-in slide-in-from-bottom-full duration-300">
-           <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-               <div className="flex items-center gap-3">
-                   <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0" />
-                   <p className="text-sm text-slate-700 dark:text-slate-300">
-                      <span className="font-bold text-amber-700 dark:text-amber-500">Security Note:</span> AI processing active. Please redact sensitive keys/passwords. Data is ephemeral.
-                   </p>
-               </div>
-               <Button variant="ghost" size="icon" onClick={handleDismissBanner} className="h-8 w-8 text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">
-                   <X className="h-4 w-4" />
-               </Button>
-           </div>
-        </div>
-      )}
+      {/* Static Security Footer */}
+      <div className="flex justify-center pb-8">
+          <p className="text-xs text-slate-500 text-center mt-4 opacity-70">
+            Security Note: AI processing active. Please redact sensitive information. Data is never stored on my site.
+          </p>
+      </div>
     </div>
   )
 }

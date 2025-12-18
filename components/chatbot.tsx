@@ -137,6 +137,9 @@ export function Chatbot() {
                 <Input value={input} onChange={handleInputChange} placeholder="Ask about Grant..." />
                 <Button type="submit" size="icon"><SendIcon className="h-4 w-4" /></Button>
              </form>
+             <p className="text-[10px] text-slate-600 dark:text-slate-400 text-center mt-1">
+               Powered by AI. Answers may be incorrect. Contact Grant for clarification.
+             </p>
             <Button variant="outline" size="sm" onClick={() => setShowContactModal(true)} className="w-full">
               <Mail className="h-4 w-4 mr-2" /> Contact Grant
             </Button>
