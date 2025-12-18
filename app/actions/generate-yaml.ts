@@ -42,56 +42,101 @@ function extractJson(text: string) {
 }
 
 export async function generateYaml(input: string, mode: "generator" | "debugger") {
-  // 1. Security Protocol
   // Input Sanitization
   if (!input || input.trim().length === 0) {
     return { error: "Input cannot be empty" };
   }
 
-  const sanitizedInput = input.trim().slice(0, 100000); // Limit to 100,000 chars (Llama 3.1 128k context)
-  console.log(`[GenerateYAML] Input Length: ${sanitizedInput.length} chars`);
+  const sanitizedInput = input.trim().slice(0, 100000); // Limit to 100,000 chars
 
-  // Sandwich Defense & Prompt Selection
+  // 1. THE "GOLD STANDARD" STYLE GUIDE (The Brain)
+  const HA_STYLE_GUIDE = `
+### HOME ASSISTANT STYLE GUIDE (2025 PRESETS)
+You are a logic engine. You do not think; you generate code matching these rules exactly.
+
+#### RULE 1: NOTIFICATIONS
+- NEVER use 'notify.notify'. It is deprecated/unreliable.
+- ALWAYS use 'notify.mobile_app_<device_name>'.
+- IF the user does not specify a device, default to 'notify.mobile_app_iphone' and add a comment.
+- BAD: service: notify.notify
+- GOOD: service: notify.mobile_app_pixel_10
+
+#### RULE 2: ENTITY IDS
+- Input entities are provided in <available_entities>.
+- PRIORITY 1: Match user intent to an entity in that list.
+- PRIORITY 2: If no match, generate a logical ID in snake_case (e.g., 'light.kitchen_main') and append comment '# CHECK ID'.
+
+#### RULE 3: SYNTAX & STRUCTURE
+- Indentation: Strictly 2 spaces.
+- Conditions: If no conditions, OMIT the block completely. DO NOT write 'condition: []'.
+- Attributes: When using 'numeric_state', always include 'above' or 'below'.
+
+#### RULE 4: OUTPUT FORMAT
+- You must return valid JSON.
+- The 'yaml_code' string must use \\n for newlines.
+`;
+
+  // 2. FEW-SHOT EXAMPLES (The "Monkey See, Monkey Do" Pattern)
+  const FEW_SHOT_EXAMPLES = `
+### EXAMPLES
+User: "Turn on porch light when motion detected"
+Response: {
+  "yaml_code": "alias: Porch Light Motion\\ntrigger:\\n  - platform: state\\n    entity_id: binary_sensor.porch_motion\\n    to: 'on'\\naction:\\n  - service: light.turn_on\\n    target:\\n      entity_id: light.porch\\nmode: single",
+  "explanation": "Standard motion automation."
+}
+
+User: "Notify pixel 10 when back door opens"
+Response: {
+  "yaml_code": "alias: Notify Back Door\\ntrigger:\\n  - platform: state\\n    entity_id: binary_sensor.back_door\\n    from: 'off'\\n    to: 'on'\\naction:\\n  - service: notify.mobile_app_pixel_10\\n    data:\\n      message: 'Back door opened!'\\n      title: 'Security Alert'",
+  "explanation": "Used specific mobile_app service for pixel 10."
+}
+`;
+
+  const commonJsonInstruction = `
+FINAL INSTRUCTION:
+Return ONLY the raw JSON object. Do not use Markdown. Do not explain outside the JSON.
+`;
+
+  // Extract entities if present (Client appends <user_devices>...</user_devices>)
+  let entitiesList = "None provided (Guess logical IDs)";
+  let userRequest = sanitizedInput;
+
+  // Check for the format used by the frontend
+  const deviceMatch = sanitizedInput.match(/<user_devices>(.*?)<\/user_devices>/s);
+  if (deviceMatch) {
+    entitiesList = deviceMatch[1].trim();
+    userRequest = sanitizedInput.replace(deviceMatch[0], "").trim();
+  }
+
   let systemPrompt = "";
   let userMessage = "";
 
-  const commonInstructions = `
-RETURN THE RESULT AS A VALID JSON OBJECT.
-Do not use Markdown formatting. Do not wrap in \`\`\`json. Just return the raw JSON string.
-
-IMPORTANT: The "yaml_code" field will be a multi-line string. You MUST strictly escape all newlines as \\n within the JSON string. Do not output raw newlines inside the JSON string values.
-
-The JSON object must have these fields:
-- "yaml_code": The valid Home Assistant YAML automation block (string).
-- "explanation": Brief summary of the logic or syntax errors fixed (string).`;
-
+  // 3. CONSTRUCT THE PROMPT
   if (mode === "generator") {
-    systemPrompt = `You are a Home Assistant Core expert. Your task is to convert natural language descriptions into valid, best-practice YAML automations.
+    systemPrompt = `You are a Home Assistant Architect.
+${HA_STYLE_GUIDE}
+${FEW_SHOT_EXAMPLES}
+${commonJsonInstruction}`;
 
-Focus on standard entities (binary_sensor.*, light.*, switch.*).
+    // Inject Context carefully
+    userMessage = `
+<available_entities>
+${entitiesList}
+</available_entities>
 
-Structure the output cleanly with alias, trigger, condition (if applicable), and action.
-
-Analyze the request inside <user_description>.
-
-${commonInstructions}`;
-
-    userMessage = `<user_description>${sanitizedInput}</user_description>`;
+<user_request>
+${userRequest}
+</user_request>
+`;
 
   } else if (mode === "debugger") {
-    systemPrompt = `You are a YAML syntax expert specialized in Home Assistant configuration.
+    systemPrompt = `You are a YAML Syntax Repair Engine.
+${HA_STYLE_GUIDE}
+Analyze the code in <broken_yaml>. Fix indentation, service calls, and deprecated syntax.
+${commonJsonInstruction}`;
 
-Analyze the code inside <broken_yaml>.
-
-Identify indentation errors, invalid keys, or logical flaws.
-
-Generate the corrected YAML version.
-
-In the explanation field, detail exactly what errors were found and fixed.
-
-${commonInstructions}`;
-
-    userMessage = `<broken_yaml>${sanitizedInput}</broken_yaml>`;
+    // We use userRequest to ensure we don't accidentally include XML tags if they were appended
+    userMessage = `<broken_yaml>${userRequest}</broken_yaml>`;
   } else {
     return { error: "Invalid mode selected" };
   }
