@@ -2,9 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { RotateCcw, Play, Star, Trophy } from "lucide-react"
-import { motion, AnimatePresence, PanInfo, useAnimation } from "framer-motion"
+import { RotateCcw, Star } from "lucide-react"
+import { motion, AnimatePresence, PanInfo } from "framer-motion"
 import confetti from "canvas-confetti"
 import { cn } from "@/lib/utils"
 
@@ -27,18 +26,17 @@ type Ring = {
 
 type Peg = Ring[]
 
-export function TowerOfHanoi() {
+interface TowerOfHanoiProps {
+  onGameWin?: (moves: number) => void
+}
+
+export function TowerOfHanoi({ onGameWin }: TowerOfHanoiProps) {
   const [difficulty, setDifficulty] = useState(3)
   const [pegs, setPegs] = useState<[Peg, Peg, Peg]>([[], [], []])
   const [selectedPeg, setSelectedPeg] = useState<number | null>(null)
   const [moves, setMoves] = useState(0)
   const [isWon, setIsWon] = useState(false)
   const [bestScores, setBestScores] = useState<Record<number, number>>({})
-
-  // Audio hooks
-  const playPop = () => { /* Placeholder for sound */ }
-  const playSlide = () => { /* Placeholder for sound */ }
-  const playWin = () => { /* Placeholder for sound */ }
 
   const pegRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -69,7 +67,6 @@ export function TowerOfHanoi() {
     setSelectedPeg(null)
     setMoves(0)
     setIsWon(false)
-    playPop()
   }, [difficulty])
 
   useEffect(() => {
@@ -81,45 +78,27 @@ export function TowerOfHanoi() {
       if (!isWon) {
         setIsWon(true)
         saveBestScore(difficulty, moves)
-        playWin()
+        if (onGameWin) onGameWin(moves)
         triggerConfetti()
       }
     }
-  }, [pegs, difficulty, moves, saveBestScore, isWon])
+  }, [pegs, difficulty, moves, saveBestScore, isWon, onGameWin])
 
   const triggerConfetti = () => {
     const duration = 3000
     const end = Date.now() + duration
-
     const frame = () => {
-      confetti({
-        particleCount: 2,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-        colors: ['#ef4444', '#f59e0b', '#3b82f6']
-      })
-      confetti({
-        particleCount: 2,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-        colors: ['#ef4444', '#f59e0b', '#3b82f6']
-      })
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame)
-      }
+      confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ef4444', '#f59e0b', '#3b82f6'] })
+      confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ef4444', '#f59e0b', '#3b82f6'] })
+      if (Date.now() < end) requestAnimationFrame(frame)
     }
     frame()
   }
 
   const attemptMove = (fromIndex: number, toIndex: number) => {
     if (fromIndex === toIndex) return
-
     const fromPeg = pegs[fromIndex]
     const toPeg = pegs[toIndex]
-
     if (fromPeg.length === 0) return
 
     const movingRing = fromPeg[fromPeg.length - 1]
@@ -130,20 +109,13 @@ export function TowerOfHanoi() {
       newPegs[toIndex].push(newPegs[fromIndex].pop()!)
       setPegs(newPegs)
       setMoves(m => m + 1)
-      playSlide()
-    } else {
-      // Invalid move shake or feedback?
     }
   }
 
   const handlePegClick = (pegIndex: number) => {
     if (isWon) return
-
     if (selectedPeg === null) {
-      if (pegs[pegIndex].length > 0) {
-        setSelectedPeg(pegIndex)
-        playPop()
-      }
+      if (pegs[pegIndex].length > 0) setSelectedPeg(pegIndex)
     } else {
       attemptMove(selectedPeg, pegIndex)
       setSelectedPeg(null)
@@ -152,8 +124,6 @@ export function TowerOfHanoi() {
 
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo, fromIndex: number) => {
     const dropPoint = { x: info.point.x, y: info.point.y }
-
-    // Find nearest peg
     let nearestIndex = -1
     let minDistance = Infinity
 
@@ -161,9 +131,7 @@ export function TowerOfHanoi() {
       if (ref) {
         const rect = ref.getBoundingClientRect()
         const center = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
-        const dist = Math.abs(dropPoint.x - center.x) // Mainly care about X axis for columns
-
-        // Check if within reasonable range (e.g., width of the column)
+        const dist = Math.abs(dropPoint.x - center.x)
         if (dist < rect.width && dist < minDistance) {
             minDistance = dist
             nearestIndex = idx
@@ -174,13 +142,11 @@ export function TowerOfHanoi() {
     if (nearestIndex !== -1 && nearestIndex !== fromIndex) {
       attemptMove(fromIndex, nearestIndex)
     }
-
     setSelectedPeg(null)
   }
 
   const minMoves = getMinMoves(difficulty)
 
-  // Star Calculation
   const getStars = () => {
     if (moves === 0) return 3
     if (moves <= minMoves) return 3
@@ -198,27 +164,25 @@ export function TowerOfHanoi() {
         animate={{ y: 0, opacity: 1 }}
         className="relative z-50 mb-8"
       >
-        <div className="mx-auto max-w-2xl bg-slate-900/5 dark:bg-white/10 backdrop-blur-xl border border-slate-900/10 dark:border-white/20 rounded-2xl p-4 shadow-xl flex items-center justify-between text-slate-900 dark:text-white transition-colors duration-300">
-          <div className="flex flex-col">
+        <div className="mx-auto max-w-2xl bg-slate-900/5 dark:bg-white/10 backdrop-blur-xl border border-slate-900/10 dark:border-white/20 rounded-2xl p-4 shadow-xl flex flex-col md:flex-row items-center justify-between text-slate-900 dark:text-white transition-colors duration-300 gap-4">
+          <div className="flex flex-col items-center md:items-start">
             <span className="text-xs text-slate-500 dark:text-white/60 font-semibold tracking-wider uppercase transition-colors">Difficulty</span>
-            <div className="flex items-center gap-2 mt-1">
-               <div className="flex gap-1">
-                 {[3, 4, 5, 6].map(level => (
-                   <button
-                     key={level}
-                     onClick={() => !isWon && setDifficulty(level)}
-                     disabled={isWon || moves > 0}
-                     className={cn(
-                       "w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold transition-all",
-                       difficulty === level
-                        ? "bg-slate-900 text-white dark:bg-white dark:text-black shadow-md translate-y-0"
-                        : "bg-transparent text-slate-500 hover:bg-slate-900/5 dark:text-white dark:hover:bg-white/20"
-                     )}
-                   >
-                     {level}
-                   </button>
-                 ))}
-               </div>
+            <div className="flex gap-1 mt-1">
+               {[3, 4, 5, 6].map(level => (
+                 <button
+                   key={level}
+                   onClick={() => !isWon && setDifficulty(level)}
+                   disabled={isWon || moves > 0}
+                   className={cn(
+                     "w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold transition-all",
+                     difficulty === level
+                      ? "bg-slate-900 text-white dark:bg-white dark:text-black shadow-md"
+                      : "bg-transparent text-slate-500 hover:bg-slate-900/5 dark:text-white dark:hover:bg-white/20"
+                   )}
+                 >
+                   {level}
+                 </button>
+               ))}
             </div>
           </div>
 
@@ -239,43 +203,37 @@ export function TowerOfHanoi() {
              </div>
           </div>
 
-          <div className="flex gap-2">
-            <Button variant="ghost" size="icon" onClick={initializeGame} className="text-slate-500 hover:text-slate-900 hover:bg-slate-900/5 dark:text-white dark:hover:bg-white/10 dark:hover:text-white transition-colors">
-                <RotateCcw className="w-5 h-5" />
-            </Button>
-          </div>
+          {/* New Distinct Reset Button */}
+          <Button
+            onClick={initializeGame}
+            className="bg-slate-200 hover:bg-slate-300 text-slate-900 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white font-bold"
+          >
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Reset Board
+          </Button>
         </div>
       </motion.div>
 
       {/* Game Board */}
-      <div className="relative h-[350px] md:h-[450px] flex items-end justify-center perspective-origin-bottom">
-
-          {/* Spotlight Effect when Won */}
-          {isWon && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="absolute top-[-50%] left-1/2 -translate-x-1/2 w-[600px] h-[800px] bg-gradient-to-b from-yellow-100/20 via-yellow-100/5 to-transparent blur-3xl pointer-events-none z-0"
-              />
-          )}
+      <div className="relative h-[300px] md:h-[400px] flex items-end justify-center perspective-origin-bottom">
 
           {/* Base Platform */}
-          <div className="absolute bottom-0 w-[90%] md:w-[80%] h-12 bg-neutral-800 rounded-lg shadow-2xl transform-style-3d rotate-x-12 origin-bottom overflow-hidden">
+          <div className="absolute bottom-0 w-[95%] md:w-[85%] h-12 bg-neutral-800 rounded-lg shadow-2xl transform-style-3d rotate-x-12 origin-bottom overflow-hidden">
              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
              <div className="absolute top-0 w-full h-[2px] bg-white/10" />
           </div>
 
           {/* Pegs Container */}
-          <div className="relative z-10 flex justify-between w-[80%] md:w-[60%] mb-4">
+          <div className="relative z-10 flex justify-between w-[90%] md:w-[70%] mb-4">
               {pegs.map((peg, pegIndex) => (
                   <div
                     key={pegIndex}
                     ref={el => { pegRefs.current[pegIndex] = el }}
-                    className="relative flex flex-col justify-end items-center w-32 group"
+                    className="relative flex flex-col justify-end items-center w-40 group" // Increased width
                     onClick={() => handlePegClick(pegIndex)}
                   >
-                      {/* Peg Cylinder */}
-                      <div className="absolute bottom-0 w-4 md:w-6 h-64 md:h-80 bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300 rounded-t-full shadow-[inset_0_-10px_20px_rgba(0,0,0,0.2)]">
+                      {/* Peg Cylinder (Increased size) */}
+                      <div className="absolute bottom-0 w-6 md:w-8 h-64 md:h-80 bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300 rounded-t-full shadow-[inset_0_-10px_20px_rgba(0,0,0,0.2)]">
                           <div className="absolute top-0 left-0 right-0 h-4 bg-white/40 rounded-full blur-[1px]" />
                       </div>
 
@@ -304,12 +262,7 @@ export function TowerOfHanoi() {
                                     scale: isSelected ? 1.05 : 1,
                                     zIndex: isSelected ? 50 : 0
                                   }}
-                                  transition={{
-                                      type: "spring",
-                                      stiffness: 500,
-                                      damping: 30,
-                                      mass: 1
-                                  }}
+                                  transition={{ type: "spring", stiffness: 500, damping: 30, mass: 1 }}
                                   className={cn(
                                       "relative rounded-xl cursor-pointer transition-colors",
                                       ring.color,
@@ -317,26 +270,21 @@ export function TowerOfHanoi() {
                                       isSelected ? "ring-2 ring-white ring-offset-2 ring-offset-black/50" : ""
                                   )}
                                   style={{
-                                      width: `${40 + (ring.size * 20)}px`,
-                                      height: "36px",
-                                      marginBottom: "2px"
+                                      width: `${60 + (ring.size * 25)}px`, // Increased sizes
+                                      height: "40px",
+                                      marginBottom: "4px"
                                   }}
                                 >
                                     {/* Specular Highlight */}
                                     <div className="absolute inset-x-0 top-0 h-[40%] bg-gradient-to-b from-white/30 to-transparent rounded-t-xl" />
-                                    {/* Inner Texture/Hole hint */}
-                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 md:w-6 h-full bg-black/10 blur-[1px]" />
                                 </motion.div>
                               )
                           })}
                         </AnimatePresence>
                       </div>
 
-                      {/* Hover Target Area */}
-                      <div className="absolute inset-0 z-0 bg-transparent" />
-
                       {/* Peg Label */}
-                      <div className="absolute -bottom-10 font-bold text-slate-400 dark:text-neutral-500 font-mono text-xl transition-colors">
+                      <div className="absolute -bottom-10 font-bold text-slate-400 dark:text-neutral-500 font-mono text-2xl transition-colors">
                           {String.fromCharCode(65 + pegIndex)}
                       </div>
                   </div>
@@ -357,18 +305,6 @@ export function TowerOfHanoi() {
                   <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-4 drop-shadow-sm">
                       VICTORY!
                   </h2>
-                  <div className="flex justify-center gap-2 mb-6">
-                      {[1, 2, 3].map(s => (
-                          <motion.div
-                             key={s}
-                             initial={{ scale: 0, rotate: -180 }}
-                             animate={{ scale: 1, rotate: 0 }}
-                             transition={{ delay: s * 0.2, type: "spring" }}
-                          >
-                            <Star className={cn("w-12 h-12 fill-yellow-400 text-yellow-500", s > stars && "fill-gray-600 text-gray-700")} />
-                          </motion.div>
-                      ))}
-                  </div>
                   <p className="text-white/80 mb-6 text-lg">
                       Completed in <strong className="text-white">{moves}</strong> moves <br/>
                       <span className="text-sm opacity-60">(Minimum: {minMoves})</span>
@@ -381,7 +317,6 @@ export function TowerOfHanoi() {
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   )
 }
