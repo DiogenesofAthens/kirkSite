@@ -184,7 +184,6 @@ export default function ExtractorPage() {
   const [parsedData, setParsedData] = useState<any>(null)
   const [isError, setIsError] = useState(false)
   const [extractedContext, setExtractedContext] = useState<string>("")
-  const [showSecurityBanner, setShowSecurityBanner] = useState(true)
 
   // Workflow Step
   const [step, setStep] = useState<'input' | 'output'>('input')
@@ -600,31 +599,17 @@ export default function ExtractorPage() {
       </div>
 
       {/* Footer Area */}
-      <div className="flex justify-end mt-6 pb-8 pr-8">
+      <div className="flex flex-col items-center justify-center mt-6 pb-8 gap-4">
           <Link href="/resources/api-docs">
               <Button variant="ghost" size="sm" className="gap-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
                   <Code className="w-4 h-4" />
                   API Documentation
               </Button>
           </Link>
+          <p className="text-xs text-slate-500 text-center mt-4 opacity-70">
+            Security Note: AI processing active. Please redact sensitive information. Data is never stored on my site.
+          </p>
       </div>
-
-      {/* Bottom Fixed Security Banner */}
-      {showSecurityBanner && (
-          <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-amber-50 dark:bg-slate-900 border-t border-amber-200 dark:border-amber-900 shadow-lg animate-in slide-in-from-bottom-full duration-300">
-             <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-                 <div className="flex items-center gap-3">
-                     <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0" />
-                     <p className="text-sm text-slate-700 dark:text-slate-300">
-                        <span className="font-bold text-amber-700 dark:text-amber-500">Security Note:</span> AI processing active. Please redact strict PII (SSN, Bank Info) before analysis. Data is ephemeral and not stored.
-                     </p>
-                 </div>
-                 <Button variant="ghost" size="icon" onClick={() => setShowSecurityBanner(false)} className="h-8 w-8 text-slate-500 hover:text-slate-900 dark:hover:text-slate-100">
-                     <X className="h-4 w-4" />
-                 </Button>
-             </div>
-          </div>
-      )}
 
       </div>
     </div>
