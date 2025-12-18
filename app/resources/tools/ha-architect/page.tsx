@@ -7,13 +7,16 @@ import { Card } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AlertTriangle, Copy, Loader2, Info, Sparkles, X, Check } from "lucide-react"
+import { AlertTriangle, Copy, Loader2, Info, Sparkles, X, Check, Eye } from "lucide-react"
 import Editor from "@monaco-editor/react"
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
 import { generateYaml } from "@/app/actions/generate-yaml"
 import { useHomeAssistant } from "@/hooks/use-home-assistant"
 import { HAConnectModal } from "@/components/ha-connect-modal"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Badge } from "@/components/ui/badge"
 
 export default function HomeAssistantArchitect() {
   const { theme, resolvedTheme } = useTheme()
@@ -51,11 +54,30 @@ export default function HomeAssistantArchitect() {
     setYamlCode("// Processing...")
     setExplanation("")
 
-    // Context Injection
+    // Context Injection (Prioritized)
     let finalInput = input;
     if (haHook.isConnected && haHook.entities.length > 0) {
-        const entityContext = `\n\n<user_devices>${haHook.entities.join(', ')}</user_devices>`;
+        // Simple prioritization: move matching entities to the front
+        const keywords = input.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+        const scored = haHook.entities.map(e => {
+            const eLower = e.toLowerCase();
+            let score = 0;
+            keywords.forEach(k => { if (eLower.includes(k)) score += 10; });
+            // Boost exact matches or high relevance
+            return { entity: e, score };
+        });
+
+        // Sort descending by score
+        scored.sort((a, b) => b.score - a.score);
+
+        const sortedEntities = scored.map(s => s.entity);
+
+        // Use a more compact separator
+        const entityContext = `\n\n<user_devices>${sortedEntities.join(', ')}</user_devices>`;
         finalInput += entityContext;
+
+        // Debug Log
+        console.log(`Injected ${sortedEntities.length} entities. Top 3: ${sortedEntities.slice(0, 3).join(', ')}`);
     }
 
     try {
@@ -168,7 +190,37 @@ export default function HomeAssistantArchitect() {
 
                         <div className="flex justify-between items-center text-xs text-slate-400">
                              <span>{input.length} / 15000 chars</span>
-                             {haHook.isConnected && <span className="text-green-600 dark:text-green-400 font-medium flex items-center"><Check className="w-3 h-3 mr-1" /> Using {haHook.entities.length} local entities</span>}
+                             {haHook.isConnected && (
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button variant="ghost" size="sm" className="h-auto p-0 text-green-600 dark:text-green-400 hover:text-green-700 hover:bg-transparent font-medium flex items-center">
+                                            <Check className="w-3 h-3 mr-1" />
+                                            Using {haHook.entities.length} local entities
+                                            <Eye className="w-3 h-3 ml-2 opacity-50" />
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="max-w-2xl max-h-[80vh] flex flex-col bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
+                                        <DialogHeader>
+                                            <DialogTitle>Available Entities ({haHook.entities.length})</DialogTitle>
+                                        </DialogHeader>
+                                        <div className="flex-1 overflow-hidden">
+                                            <ScrollArea className="h-[400px] w-full rounded-md border p-4">
+                                                <div className="flex flex-wrap gap-2">
+                                                    {haHook.entities.map((ent, i) => (
+                                                        <Badge key={i} variant="outline" className="font-mono text-xs">
+                                                            {ent.split('(')[1]?.replace(')', '') || ent}
+                                                        </Badge>
+                                                    ))}
+                                                </div>
+                                            </ScrollArea>
+                                        </div>
+                                        <p className="text-xs text-slate-500">
+                                            These entities are injected into the AI context to help generate accurate automations.
+                                            Prioritized based on your prompt keywords.
+                                        </p>
+                                    </DialogContent>
+                                </Dialog>
+                             )}
                         </div>
                     </div>
                 </Tabs>
