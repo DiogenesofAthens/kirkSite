@@ -8,22 +8,36 @@ const groq = createGroq({
 });
 
 function extractJson(text: string) {
-  try {
-    // Find the first '{' and the last '}'
-    const startIndex = text.indexOf('{');
-    const endIndex = text.lastIndexOf('}');
-    if (startIndex === -1 || endIndex === -1) throw new Error("No JSON object found in response");
+  // 1. Try to find JSON block by looking for first { and last }
+  const startIndex = text.indexOf('{');
+  const endIndex = text.lastIndexOf('}');
 
-    // Extract just the JSON part
-    const jsonString = text.substring(startIndex, endIndex + 1);
-    return JSON.parse(jsonString);
-  } catch (error) {
-    console.error("JSON Parsing Failed. Raw text:", text);
-    // FALLBACK: Return the raw text as the 'explanation' so the user sees something
-    return {
-      yaml_code: "# Error parsing AI response. See notes.",
-      explanation: "AI Raw Output: " + text
-    };
+  if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+    const jsonCandidate = text.substring(startIndex, endIndex + 1);
+    try {
+      return JSON.parse(jsonCandidate);
+    } catch (e) {
+      // If failed, try stripping control characters that might break JSON
+      // But be careful not to strip valid whitespace if possible
+      const cleaned = jsonCandidate.replace(/[\u0000-\u001F]+/g, (match) => {
+        if (match === '\n' || match === '\r' || match === '\t') return match;
+        return '';
+      });
+      try {
+        return JSON.parse(cleaned);
+      } catch (e2) {
+        // Double parsing failed
+        throw new Error("JSON Parsing Failed after cleanup");
+      }
+    }
+  }
+
+  // Fallback: Try cleaning markdown and parsing whole text
+  let clean = text.replace(/```json/g, '').replace(/```/g, '').trim();
+  try {
+    return JSON.parse(clean);
+  } catch (e) {
+    throw new Error("No valid JSON object found in response");
   }
 }
 
@@ -41,6 +55,16 @@ export async function generateYaml(input: string, mode: "generator" | "debugger"
   let systemPrompt = "";
   let userMessage = "";
 
+  const commonInstructions = `
+RETURN THE RESULT AS A VALID JSON OBJECT.
+Do not use Markdown formatting. Do not wrap in \`\`\`json. Just return the raw JSON string.
+
+IMPORTANT: The "yaml_code" field will be a multi-line string. You MUST strictly escape all newlines as \\n within the JSON string. Do not output raw newlines inside the JSON string values.
+
+The JSON object must have these fields:
+- "yaml_code": The valid Home Assistant YAML automation block (string).
+- "explanation": Brief summary of the logic or syntax errors fixed (string).`;
+
   if (mode === "generator") {
     systemPrompt = `You are a Home Assistant Core expert. Your task is to convert natural language descriptions into valid, best-practice YAML automations.
 
@@ -50,12 +74,7 @@ Structure the output cleanly with alias, trigger, condition (if applicable), and
 
 Analyze the request inside <user_description>.
 
-RETURN THE RESULT AS A VALID JSON OBJECT.
-Do not use Markdown formatting. Do not wrap in \`\`\`json. Just return the raw JSON string.
-
-The JSON object must have these fields:
-- "yaml_code": The valid Home Assistant YAML automation block (string).
-- "explanation": Brief summary of the logic or syntax errors fixed (string).`;
+${commonInstructions}`;
 
     userMessage = `<user_description>${sanitizedInput}</user_description>`;
 
@@ -70,31 +89,46 @@ Generate the corrected YAML version.
 
 In the explanation field, detail exactly what errors were found and fixed.
 
-RETURN THE RESULT AS A VALID JSON OBJECT.
-Do not use Markdown formatting. Do not wrap in \`\`\`json. Just return the raw JSON string.
-
-The JSON object must have these fields:
-- "yaml_code": The valid Home Assistant YAML automation block (string).
-- "explanation": Brief summary of the logic or syntax errors fixed (string).`;
+${commonInstructions}`;
 
     userMessage = `<broken_yaml>${sanitizedInput}</broken_yaml>`;
   } else {
     return { error: "Invalid mode selected" };
   }
 
-  try {
-    const { text } = await generateText({
-      model: groq("llama-3.1-8b-instant"),
-      system: systemPrompt,
-      prompt: userMessage,
-    });
+  const MAX_RETRIES = 2; // 1 initial + 1 retry
+  let lastError: any = null;
+  let lastText = "";
 
-    const parsedData = extractJson(text);
-    return { success: true, data: parsedData };
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      console.log(`[GenerateYAML] Attempt ${attempt}/${MAX_RETRIES}`);
 
-  } catch (error: any) {
-    console.error("Error generating YAML:", error);
-    // Return specific error message for easier debugging
-    return { error: `AI Generation Failed: ${error.message || "Unknown error"}` };
+      const { text } = await generateText({
+        model: groq("llama-3.1-8b-instant"),
+        system: systemPrompt + (attempt > 1 ? " \n\nPREVIOUS ATTEMPT FAILED. ENSURE VALID JSON FORMAT." : ""),
+        prompt: userMessage,
+      });
+
+      lastText = text;
+      const parsedData = extractJson(text);
+      return { success: true, data: parsedData };
+
+    } catch (error: any) {
+      console.warn(`[GenerateYAML] Attempt ${attempt} failed:`, error.message);
+      lastError = error;
+      // If it's the last attempt, fall through to error return
+      if (attempt === MAX_RETRIES) break;
+    }
   }
+
+  console.error("All retry attempts failed. Last Raw text:", lastText);
+  // FALLBACK: Return the raw text as the 'explanation' so the user sees something
+  return {
+    success: true, // Return success true so the UI doesn't crash, but show error in fields
+    data: {
+      yaml_code: "# Error parsing AI response. See notes.",
+      explanation: "AI Raw Output (JSON Parsing Failed):\n" + lastText
+    }
+  };
 }
