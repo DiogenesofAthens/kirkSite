@@ -3,10 +3,11 @@
 import { FloatingNav } from "@/components/floating-nav"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Sparkles, Code2, Home } from "lucide-react"
+import { Sparkles, Code2, Home, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Lottie from "@/components/lottie-client"
 import rocketAnimation from "@/public/images/rocket-ani.json"
+import { Button } from "@/components/ui/button"
 
 export default function Expertise() {
   return (
@@ -183,6 +184,15 @@ export default function Expertise() {
                 </Card>
               </Link>
             </div>
+          </div>
+
+          <div className="flex justify-center pb-8">
+            <Link href="/resources">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg transform hover:scale-105 transition-all text-lg px-8 py-6 rounded-full">
+                View My Content & Tools
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
           </div>
 
         </div>
