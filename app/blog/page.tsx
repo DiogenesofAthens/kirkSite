@@ -178,9 +178,9 @@ export default function Blog() {
             {filteredPosts.length > 0 ? (
                 filteredPosts.map((post) => (
                 <div key={post.slug} className="relative group">
-                    <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group cursor-pointer h-full flex flex-col">
-                    <CardHeader>
-                        <div className="flex items-center justify-between mb-2">
+                    <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group cursor-pointer h-full flex flex-col text-center">
+                    <CardHeader className="flex flex-col items-center">
+                        <div className="flex items-center justify-center gap-4 mb-2 w-full">
                         <Badge
                             variant="secondary"
                             className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
@@ -192,7 +192,7 @@ export default function Blog() {
                             {new Date(post.date + "T12:00:00").toLocaleDateString()}
                         </div>
                         </div>
-                        <CardTitle className="text-xl group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-slate-50">
+                        <CardTitle className="text-xl group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-slate-50 text-center">
                         <Link
                             href={`/blog/${post.slug}`}
                             className="hover:underline focus:underline focus:outline-none"
@@ -203,11 +203,11 @@ export default function Blog() {
                         </Link>
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="flex-1 flex flex-col justify-between">
-                        <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
+                    <CardContent className="flex-1 flex flex-col justify-between items-center">
+                        <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300 text-center">
                         {post.excerpt}
                         </CardDescription>
-                        <div className="flex items-center justify-between mt-auto">
+                        <div className="flex items-center justify-center gap-4 mt-auto w-full">
                         <div className="flex items-center text-sm text-slate-600 dark:text-slate-400">
                             <Clock className="w-4 h-4 mr-1" />
                             {post.readTime}
@@ -238,7 +238,7 @@ export default function Blog() {
             )}
           </div>
 
-          <div className="mt-16 glass rounded-3xl p-8">
+          <div className="mt-16 glass rounded-3xl p-8 text-center">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Let's Connect</h2>
               <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
