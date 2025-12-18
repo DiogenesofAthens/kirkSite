@@ -70,7 +70,8 @@ export default function HomeAssistantArchitect() {
         // Sort descending by score
         scored.sort((a, b) => b.score - a.score);
 
-        const sortedEntities = scored.map(s => s.entity);
+        // Limit to Top 100 entities to prevent context overflow/rate limits
+        const sortedEntities = scored.map(s => s.entity).slice(0, 100);
 
         // Use a more compact separator
         const entityContext = `\n\n<user_devices>${sortedEntities.join(', ')}</user_devices>`;
