@@ -20,7 +20,7 @@ export default function Blog() {
   const [showContactForm, setShowContactForm] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
   const [open, setOpen] = useState(false)
 
   // Use blogPosts from config directly
@@ -80,7 +80,7 @@ export default function Blog() {
                 <div className="relative w-full sm:flex-1">
                     <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                        placeholder="Search articles..."
+                        placeholder="Search"
                         className="pl-9 bg-white/50 dark:bg-slate-900/50"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -130,13 +130,13 @@ export default function Blog() {
 
                 <div className="w-full sm:w-[200px]">
                   <select
-                    className="w-full h-10 rounded-md border border-input bg-white/50 dark:bg-slate-900/50 px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    className="w-full h-10 rounded-md border border-input bg-white/50 dark:bg-slate-900/50 dark:text-slate-100 px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     value={sortOrder}
                     onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
                     aria-label="Sort posts"
                   >
-                    <option value="asc">Oldest to Newest</option>
-                    <option value="desc">Newest to Oldest</option>
+                    <option value="desc" className="text-slate-900 dark:text-slate-100 dark:bg-slate-900">Newest to Oldest</option>
+                    <option value="asc" className="text-slate-900 dark:text-slate-100 dark:bg-slate-900">Oldest to Newest</option>
                   </select>
                 </div>
             </div>
