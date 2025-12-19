@@ -50,6 +50,13 @@ export const utilityTools = [
 
 export const blogPosts = [
     {
+      title: "The \"Where's the Remote?\" Solution: Building a Universal Controller in Home Assistant",
+      excerpt: "The couch cushions ate it. The dog hid it. Here is how I designed my \"always-there\" universal remote in Home Assistant.",
+      date: "2025-09-20",
+      category: "Smart Home",
+      slug: "universal-remote",
+    },
+    {
       title: "Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV",
       excerpt: "How I dropped my cable bill and built a better live TV experience with Plex and HDHomeRun.",
       date: "2025-07-15",
