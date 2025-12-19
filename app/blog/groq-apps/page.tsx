@@ -42,8 +42,8 @@ Naturally, I decided to abuse this power to automate my life. Here are the four 
 
 When you are building a chatbot or a tool that needs to "think" in real-time, latency is the enemy. Waiting 5 seconds for a chatbot to reply feels like an eternity. Groq returns answers in milliseconds. It makes the AI feel like it's actually chatting, not buffering.
 
-• **The Model:** I mostly use llama-3.1-8b-instant for speed or llama-3.3-70b-versatile for complex logic.
-• **The Cost:** $0 (up to reasonable rate limits, which I haven't hit yet).`
+• The Model: I mostly use llama-3.1-8b-instant for speed or llama-3.3-70b-versatile for complex logic.
+• The Cost: $0 (up to reasonable rate limits, which I haven't hit yet).`
       },
       {
         type: "markdown",
@@ -55,9 +55,9 @@ I am not a coder by trade but I am a Prompt Engineer / Product Manager. Sometime
 
 I built a simple tool where I paste code, and Groq instantly rewrites it for my stack.
 
-• **The Setup:** A simple input box.
-• **The Prompt:** "You are an expert software engineer. Translate the following Python code into idiomatic TypeScript for a Next.js 14 application. Do not explain the code, just return the translated code block."
-• **The Result:** Because Groq is so fast, the translation happens almost as soon as I click the button. No more waiting for ChatGPT to "type" out the answer character by character.`
+• The Setup: A simple input box.
+• The Prompt: "You are an expert software engineer. Translate the following Python code into idiomatic TypeScript for a Next.js 14 application. Do not explain the code, just return the translated code block."
+• The Result: Because Groq is so fast, the translation happens almost as soon as I click the button. No more waiting for ChatGPT to "type" out the answer character by character.`
       },
       {
         type: "markdown",
@@ -65,9 +65,9 @@ I built a simple tool where I paste code, and Groq instantly rewrites it for my 
 
 I get a lot of emails and logs that are just messy blocks of text. I wanted to turn them into structured data (JSON) so I could use them in other automations.
 
-• **The Use Case:** Extracting specific details from agreements or other important documents to summarize it.
-• **The "Secret Sauce":** Groq supports JSON Mode. This guarantees that the AI will only output valid JSON, not a bunch of conversational fluff like "Here is the data you requested..."
-• **The Prompt:** "Extract the 'device_name', 'battery_level', and 'last_seen' timestamp from this log. Return ONLY JSON."`
+• The Use Case: Extracting specific details from agreements or other important documents to summarize it.
+• The "Secret Sauce": Groq supports JSON Mode. This guarantees that the AI will only output valid JSON, not a bunch of conversational fluff like "Here is the data you requested..."
+• The Prompt: "Extract the 'device_name', 'battery_level', and 'last_seen' timestamp from this log. Return ONLY JSON."`
       },
       {
         type: "markdown",
@@ -75,9 +75,9 @@ I get a lot of emails and logs that are just messy blocks of text. I wanted to t
 
 My Home Assistant setup is complex. I use "Picture-Elements" cards that require precise X/Y coordinate positioning in YAML. Writing this manually is torture. I built a "Home Assistant Architect" bot.
 
-• **How it works:** I tell it: "I want a floorplan card with a light toggle for the Kitchen at 40% top, 20% left, and a temperature sensor for the Living Room at 60% top, 50% left."
-• **The Groq Magic:** It churns out 50 lines of perfectly formatted YAML in under a second. I copy, paste, and reload my dashboard.
-• **Why Speed Matters:** When I'm tweaking a dashboard, I want to iterate fast. Groq keeps up with my "trial and error" workflow.`
+• How it works: I tell it: "I want a floorplan card with a light toggle for the Kitchen at 40% top, 20% left, and a temperature sensor for the Living Room at 60% top, 50% left."
+• The Groq Magic: It churns out 50 lines of perfectly formatted YAML in under a second. I copy, paste, and reload my dashboard.
+• Why Speed Matters: When I'm tweaking a dashboard, I want to iterate fast. Groq keeps up with my "trial and error" workflow.`
       },
       {
         type: "markdown",
@@ -85,10 +85,10 @@ My Home Assistant setup is complex. I use "Picture-Elements" cards that require 
 
 I wanted a chatbot on this website that could answer questions as me, using data from my actual blog posts. To do this, I used RAG (Retrieval-Augmented Generation).
 
-1. **The Index:** I scraped my own blog posts and stored them as "vectors" (math representations of text).
-2. **The Search:** When you ask the bot "What did Grant do at DNN?", my system finds the relevant paragraphs from my resume.
-3. **The Generation:** I send those paragraphs + your question to Groq.
-4. **The Response:** Groq reads the context and answers: " Grant held various positions at DNN Corp., including Enterprise Account Executive, Inside Sales Development Team Manager, and Inside Sales Development Representative. In these roles, he achieved notable successes such as exceeding sales targets and implementing effective training processes."
+1. The Index: I scraped my own blog posts and stored them as "vectors" (math representations of text).
+2. The Search: When you ask the bot "What did Grant do at DNN?", my system finds the relevant paragraphs from my resume.
+3. The Generation: I send those paragraphs + your question to Groq.
+4. The Response: Groq reads the context and answers: " Grant held various positions at DNN Corp., including Enterprise Account Executive, Inside Sales Development Team Manager, and Inside Sales Development Representative. In these roles, he achieved notable successes such as exceeding sales targets and implementing effective training processes."
 
 Because Groq is free, I don't have to worry about a surprise $500 bill if one of my posts goes viral and everyone starts chatting with the bot.`
       },

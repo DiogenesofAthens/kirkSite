@@ -20,48 +20,28 @@ export default function Blog() {
   const [showContactForm, setShowContactForm] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
   const [open, setOpen] = useState(false)
 
-  // Use blogPosts from config directly, assuming it includes the new post
-  // If we need to hardcode it as per previous instructions to ensure it appears:
-  const localBlogPosts = [
-    {
-      title: "I Built 4 AI Apps for $0: How Groq’s Free API Powers My Life",
-      excerpt: "I love free stuff. I also love fast stuff. Here are the four apps I built using Groq’s free API, and how you can do it too.",
-      date: "2025-12-18",
-      readTime: "8 min read",
-      category: "Technology",
-      slug: "groq-apps",
-    },
-    {
-      title: "I Hired an AI Developer (And It’s Free): How I Use Google Jules to Build My Site",
-      excerpt: "I built this latest version of my website without writing a single line of code. Here is exactly how I use Gemini and Google Jules to build features.",
-      date: "2025-11-08",
-      readTime: "6 min read",
-      category: "Technology",
-      slug: "jules-developer",
-    },
-    {
-      title: "The \"Where's the Remote?\" Solution: Building a Universal Controller in Home Assistant",
-      excerpt: "The couch cushions ate it. The dog hid it. Here is how I designed my \"always-there\" universal remote in Home Assistant.",
-      date: "2025-09-20",
-      readTime: "7 min read",
-      category: "Smart Home",
-      slug: "universal-remote",
-    },
-    ...blogPosts.filter(p => p.slug !== "universal-remote" && p.slug !== "jules-developer" && p.slug !== "groq-apps") // Avoid duplicates if it is already in config
-  ]
+  // Use blogPosts from config directly
+  const localBlogPosts = blogPosts
 
   const categories = Array.from(new Set(localBlogPosts.map(post => post.category)))
 
   const filteredPosts = useMemo(() => {
-    return localBlogPosts.filter(post => {
-      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
-      const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category)
-      return matchesSearch && matchesCategory
-    })
-  }, [searchQuery, selectedCategories, localBlogPosts])
+    return localBlogPosts
+      .filter(post => {
+        const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category)
+        return matchesSearch && matchesCategory
+      })
+      .sort((a, b) => {
+        const dateA = new Date(a.date).getTime()
+        const dateB = new Date(b.date).getTime()
+        return sortOrder === "asc" ? dateA - dateB : dateB - dateA
+      })
+  }, [searchQuery, selectedCategories, sortOrder, localBlogPosts])
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -147,6 +127,18 @@ export default function Blog() {
                     </Command>
                   </PopoverContent>
                 </Popover>
+
+                <div className="w-full sm:w-[200px]">
+                  <select
+                    className="w-full h-10 rounded-md border border-input bg-white/50 dark:bg-slate-900/50 px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+                    aria-label="Sort posts"
+                  >
+                    <option value="asc">Oldest to Newest</option>
+                    <option value="desc">Newest to Oldest</option>
+                  </select>
+                </div>
             </div>
           </div>
 

@@ -36,10 +36,10 @@ I hired a team of AI agents. Gemini is my Architect, and Google Jules is my Deve
         type: "markdown",
         text: `## The Stack
 
-• **Gemini:** The Architect. I use this to brainstorm logic and generate the technical instructions for the developer.
-• **Google Jules:** The Developer. An asynchronous agent that has direct access to my GitHub repo. It writes the code, creates branches, and fixes bugs.
-• **Vercel:** The Staging & Production Environment. It automatically builds my site so I can see changes live.
-• **GitHub:** The Version Control. Where I approve the work and push it live.`
+• Gemini: The Architect. I use this to brainstorm logic and generate the technical instructions for the developer.
+• Google Jules: The Developer. An asynchronous agent that has direct access to my GitHub repo. It writes the code, creates branches, and fixes bugs.
+• Vercel: The Staging & Production Environment. It automatically builds my site so I can see changes live.
+• GitHub: The Version Control. Where I approve the work and push it live.`
       },
       {
         type: "markdown",
@@ -51,28 +51,28 @@ I don't write code; I manage a process. Here is the lifecycle of a new feature o
 
 I start by telling Gemini exactly what I want in plain English.
 
-• **Me:** "I want to add a dark mode toggle to the header. It should save the user's preference."
-• **Gemini:** Analyzes the request and writes a detailed, technical prompt optimized for Jules.
+• Me: "I want to add a dark mode toggle to the header. It should save the user's preference."
+• Gemini: Analyzes the request and writes a detailed, technical prompt optimized for Jules.
 
 ### 2. The Assignment (Jules)
 
 I take that prompt and feed it to Jules. I make sure Jules is building off the latest branch of my site.
 
-• **Crucial Step:** Jules creates a new branch (e.g., feature-dark-mode) for every task. This keeps my main live site safe while we experiment.
+• Crucial Step: Jules creates a new branch (e.g., feature-dark-mode) for every task. This keeps my main live site safe while we experiment.
 
 ### 3. The Build & Test (Vercel)
 
 Jules writes the code and updates the repo. I don't even look at the code files. Instead, I wait for the Vercel Deployment. Vercel automatically builds a preview URL for that specific branch.
 
-• **If it fails:** I copy the error logs from Vercel and feed them back to Jules: "Fix this error."
-• **If it works:** I open the preview URL on my phone and desktop. I click around. Does it look good? Is the animation smooth?
+• If it fails: I copy the error logs from Vercel and feed them back to Jules: "Fix this error."
+• If it works: I open the preview URL on my phone and desktop. I click around. Does it look good? Is the animation smooth?
 
 ### 4. The Feedback Loop
 
 If I don't like something, I don't try to fix the CSS myself. I just tell the bots.
 
-• **Me:** "The button is too small on mobile. Make it 20% larger and round the corners."
-• **Jules:** Updates the branch, Vercel updates the preview, and I test again.
+• Me: "The button is too small on mobile. Make it 20% larger and round the corners."
+• Jules: Updates the branch, Vercel updates the preview, and I test again.
 
 ### 5. The Launch (GitHub)
 
@@ -88,13 +88,13 @@ After hundreds of deployments, I’ve learned that Jules is like a brilliant but
 
 Most people don't know this exists. You can add a file called AGENTS.md to the root of your repository. Think of this as an "Onboarding Manual" for your AI employee. In this file, I list my project's specific quirks so I don't have to repeat them in every prompt.
 
-• **Example content:** "Always use Tailwind for styling. We use the 'app' router in Next.js. Never install new npm packages without asking first." Jules reads this before every task. It saves me hours of correcting the same mistakes.
+• Example content: "Always use Tailwind for styling. We use the 'app' router in Next.js. Never install new npm packages without asking first." Jules reads this before every task. It saves me hours of correcting the same mistakes.
 
 ### One Feature per Session
 
 Don't try to be efficient and cram five different requests into one chat. The longer the chat, the slower Jules gets.
 
-• **My Rule:** One feature per session. If I want to build a "Related Posts" section, that's one session. Once it's merged, I start a brand new session for the next feature. A fresh brain works better.
+• My Rule: One feature per session. If I want to build a "Related Posts" section, that's one session. Once it's merged, I start a brand new session for the next feature. A fresh brain works better.
 
 ### Review the "Plan," Ignore the Code
 
@@ -104,14 +104,14 @@ When you give Jules a task, it pauses and presents a Plan. Do not skip this. If 
 
 Sometimes Jules gets stuck. It tries to fix a bug, fails, apologizes, and tries the exact same fix again.
 
-• **The Fix:** Don't argue with it. Pause. Close the tab. Start a new session and give it the error message from the start.
+• The Fix: Don't argue with it. Pause. Close the tab. Start a new session and give it the error message from the start.
 
 ### Gemini is Your Translator
 
 Since I focus on the "What" and not the "How," I use Gemini to translate my user feedback into developer speak.
 
-• **Me:** "I want the text to look less squished."
-• **Gemini translates to Jules:** "Increase the line-height to 1.6 and add padding-bottom to the paragraph elements."`
+• Me: "I want the text to look less squished."
+• Gemini translates to Jules: "Increase the line-height to 1.6 and add padding-bottom to the paragraph elements."`
       },
       {
         type: "markdown",
