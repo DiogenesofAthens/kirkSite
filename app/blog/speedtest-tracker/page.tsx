@@ -268,7 +268,7 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
                   alt={content.title}
                   width={800}
                   height={400}
-                  className="w-full h-64 object-cover rounded-lg cursor-pointer"
+                  className="w-full h-auto object-contain rounded-lg cursor-pointer"
                   sizes="(max-width: 768px) 100vw, 800px"
                   priority
                   onClick={

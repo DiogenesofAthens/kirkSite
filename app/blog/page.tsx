@@ -14,78 +14,34 @@ import { useState, useMemo } from "react"
 import Lottie from "@/components/lottie-client"
 import { ContactModal } from "@/components/contact-modal"
 import { cn } from "@/lib/utils"
+import { blogPosts } from "@/lib/tools-config"
 
 export default function Blog() {
   const [showContactForm, setShowContactForm] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
   const [open, setOpen] = useState(false)
 
-  const blogPosts = [
-    {
-      title: "Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV",
-      excerpt:
-        "How I dropped my cable bill and built a better live TV experience with Plex and HDHomeRun.",
-      date: "2025-07-15",
-      readTime: "5 min read",
-      category: "Smart Home",
-      slug: "cut-cable",
-    },
-    {
-      title: "From Scripts to Speedtest Tracker: How I Monitor My Internet Like a Pro (2025 Edition)",
-      excerpt:
-        "From using a Raspberry Pi, IFTTT and Google sheets in 2017 to using Docker and Unraid today. Here's how you can log your internet speeds too.",
-      date: "2025-05-24",
-      readTime: "9 min read",
-      category: "Home Networking",
-      slug: "speedtest-tracker",
-    },
-    {
-      title: "AI in CPQ and CLM: Hype vs Reality in 2025",
-      excerpt:
-        "AI in CPQ and CLM? Not everything you hear is real! Here’s what’s working, where the technology struggles, and what to expect next as these tools evolve.",
-      date: "2025-03-28",
-      readTime: "4 min read",
-      category: "Technology",
-      slug: "ai-hype",
-    },
-    {
-      title: "The Future of SaaS Sales: Trends to Watch in 2024",
-      excerpt:
-        "Exploring emerging trends in software sales and how businesses can adapt to changing customer expectations.",
-      date: "2024-01-15",
-      readTime: "5 min read",
-      category: "Sales",
-      slug: "future-of-saas-sales-2024",
-    },
-    {
-      title: "Optimizing Enterprise Technology Implementations",
-      excerpt: "Best practices for successful technology rollouts in large organizations, from planning to execution.",
-      date: "2024-01-10",
-      readTime: "8 min read",
-      category: "Technology",
-      slug: "optimizing-enterprise-tech-implementations",
-    },
-    {
-      title: "Selling Enterprise Contract Management Software: Strategy, Discovery, and Results",
-      excerpt: "How to uncover pain, match solutions to problems, and deliver ROI with modern CLM platforms.",
-      date: "2024-01-05",
-      readTime: "6 min read",
-      category: "Enterprise Sales",
-      slug: "enterprise-contract-sales-processes",
-    },
-  ]
+  // Use blogPosts from config directly
+  const localBlogPosts = blogPosts
 
-  const categories = Array.from(new Set(blogPosts.map(post => post.category)))
+  const categories = Array.from(new Set(localBlogPosts.map(post => post.category)))
 
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter(post => {
-      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
-      const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category)
-      return matchesSearch && matchesCategory
-    })
-  }, [searchQuery, selectedCategories, blogPosts])
+    return localBlogPosts
+      .filter(post => {
+        const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category)
+        return matchesSearch && matchesCategory
+      })
+      .sort((a, b) => {
+        const dateA = new Date(a.date).getTime()
+        const dateB = new Date(b.date).getTime()
+        return sortOrder === "asc" ? dateA - dateB : dateB - dateA
+      })
+  }, [searchQuery, selectedCategories, sortOrder, localBlogPosts])
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -124,7 +80,7 @@ export default function Blog() {
                 <div className="relative w-full sm:flex-1">
                     <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                        placeholder="Search articles..."
+                        placeholder="Search"
                         className="pl-9 bg-white/50 dark:bg-slate-900/50"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -171,6 +127,18 @@ export default function Blog() {
                     </Command>
                   </PopoverContent>
                 </Popover>
+
+                <div className="w-full sm:w-[200px]">
+                  <select
+                    className="w-full h-10 rounded-md border border-input bg-white/50 dark:bg-slate-900/50 dark:text-slate-100 px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+                    aria-label="Sort posts"
+                  >
+                    <option value="desc" className="text-slate-900 dark:text-slate-100 dark:bg-slate-900">Newest to Oldest</option>
+                    <option value="asc" className="text-slate-900 dark:text-slate-100 dark:bg-slate-900">Oldest to Newest</option>
+                  </select>
+                </div>
             </div>
           </div>
 
