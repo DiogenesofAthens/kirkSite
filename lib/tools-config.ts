@@ -50,6 +50,14 @@ export const utilityTools = [
 
 export const blogPosts = [
     {
+      title: "I Built 4 AI Apps for $0: How Groq’s Free API Powers My Life",
+      excerpt: "I love free stuff. I also love fast stuff. Here are the four apps I built using Groq’s free API, and how you can do it too.",
+      date: "2025-12-18",
+      readTime: "8 min read",
+      category: "Technology",
+      slug: "groq-apps",
+    },
+    {
       title: "I Hired an AI Developer (And It’s Free): How I Use Google Jules to Build My Site",
       excerpt: "I built this latest version of my website without writing a single line of code. Here is exactly how I use Gemini and Google Jules to build features.",
       date: "2025-11-08",
