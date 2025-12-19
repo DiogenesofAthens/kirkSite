@@ -26,6 +26,14 @@ export default function Blog() {
   // If we need to hardcode it as per previous instructions to ensure it appears:
   const localBlogPosts = [
     {
+      title: "I Hired an AI Developer (And It’s Free): How I Use Google Jules to Build My Site",
+      excerpt: "I built this latest version of my website without writing a single line of code. Here is exactly how I use Gemini and Google Jules to build features.",
+      date: "2025-11-08",
+      readTime: "6 min read",
+      category: "Technology",
+      slug: "jules-developer",
+    },
+    {
       title: "The \"Where's the Remote?\" Solution: Building a Universal Controller in Home Assistant",
       excerpt: "The couch cushions ate it. The dog hid it. Here is how I designed my \"always-there\" universal remote in Home Assistant.",
       date: "2025-09-20",
@@ -33,7 +41,7 @@ export default function Blog() {
       category: "Smart Home",
       slug: "universal-remote",
     },
-    ...blogPosts.filter(p => p.slug !== "universal-remote") // Avoid duplicates if it is already in config
+    ...blogPosts.filter(p => p.slug !== "universal-remote" && p.slug !== "jules-developer") // Avoid duplicates if it is already in config
   ]
 
   const categories = Array.from(new Set(localBlogPosts.map(post => post.category)))
