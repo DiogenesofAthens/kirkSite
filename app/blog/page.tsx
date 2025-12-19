@@ -14,6 +14,7 @@ import { useState, useMemo } from "react"
 import Lottie from "@/components/lottie-client"
 import { ContactModal } from "@/components/contact-modal"
 import { cn } from "@/lib/utils"
+import { blogPosts } from "@/lib/tools-config"
 
 export default function Blog() {
   const [showContactForm, setShowContactForm] = useState(false)
@@ -21,71 +22,30 @@ export default function Blog() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [open, setOpen] = useState(false)
 
-  const blogPosts = [
+  // Use blogPosts from config directly, assuming it includes the new post
+  // If we need to hardcode it as per previous instructions to ensure it appears:
+  const localBlogPosts = [
     {
-      title: "Ditching Cable for Good: My OTA + Plex Setup That Replaced Xfinity TV",
-      excerpt:
-        "How I dropped my cable bill and built a better live TV experience with Plex and HDHomeRun.",
-      date: "2025-07-15",
-      readTime: "5 min read",
+      title: "The \"Where's the Remote?\" Solution: Building a Universal Controller in Home Assistant",
+      excerpt: "The couch cushions ate it. The dog hid it. Here is how I designed my \"always-there\" universal remote in Home Assistant.",
+      date: "2025-09-20",
+      readTime: "7 min read",
       category: "Smart Home",
-      slug: "cut-cable",
+      slug: "universal-remote",
     },
-    {
-      title: "From Scripts to Speedtest Tracker: How I Monitor My Internet Like a Pro (2025 Edition)",
-      excerpt:
-        "From using a Raspberry Pi, IFTTT and Google sheets in 2017 to using Docker and Unraid today. Here's how you can log your internet speeds too.",
-      date: "2025-05-24",
-      readTime: "9 min read",
-      category: "Home Networking",
-      slug: "speedtest-tracker",
-    },
-    {
-      title: "AI in CPQ and CLM: Hype vs Reality in 2025",
-      excerpt:
-        "AI in CPQ and CLM? Not everything you hear is real! Here’s what’s working, where the technology struggles, and what to expect next as these tools evolve.",
-      date: "2025-03-28",
-      readTime: "4 min read",
-      category: "Technology",
-      slug: "ai-hype",
-    },
-    {
-      title: "The Future of SaaS Sales: Trends to Watch in 2024",
-      excerpt:
-        "Exploring emerging trends in software sales and how businesses can adapt to changing customer expectations.",
-      date: "2024-01-15",
-      readTime: "5 min read",
-      category: "Sales",
-      slug: "future-of-saas-sales-2024",
-    },
-    {
-      title: "Optimizing Enterprise Technology Implementations",
-      excerpt: "Best practices for successful technology rollouts in large organizations, from planning to execution.",
-      date: "2024-01-10",
-      readTime: "8 min read",
-      category: "Technology",
-      slug: "optimizing-enterprise-tech-implementations",
-    },
-    {
-      title: "Selling Enterprise Contract Management Software: Strategy, Discovery, and Results",
-      excerpt: "How to uncover pain, match solutions to problems, and deliver ROI with modern CLM platforms.",
-      date: "2024-01-05",
-      readTime: "6 min read",
-      category: "Enterprise Sales",
-      slug: "enterprise-contract-sales-processes",
-    },
+    ...blogPosts.filter(p => p.slug !== "universal-remote") // Avoid duplicates if it is already in config
   ]
 
-  const categories = Array.from(new Set(blogPosts.map(post => post.category)))
+  const categories = Array.from(new Set(localBlogPosts.map(post => post.category)))
 
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter(post => {
+    return localBlogPosts.filter(post => {
       const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
       const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category)
       return matchesSearch && matchesCategory
     })
-  }, [searchQuery, selectedCategories, blogPosts])
+  }, [searchQuery, selectedCategories, localBlogPosts])
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
