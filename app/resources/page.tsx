@@ -111,24 +111,24 @@ export default function Resources() {
 
                 return (
                   <Link key={guide.id} href={guide.link}>
-                    <Card className="bg-[#111827] border-slate-800 shadow-xl hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 cursor-pointer group h-full flex flex-col p-2 text-center">
+                    <Card className="bg-white dark:bg-[#111827] border-slate-200 dark:border-slate-800 shadow-xl hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 cursor-pointer group h-full flex flex-col p-2 text-center">
                       <CardHeader className="flex-1 p-6 flex flex-col items-center">
-                        <div className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-900/20 transition-colors">
-                            <Icon className="w-6 h-6 text-blue-500" />
+                        <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 transition-colors">
+                            <Icon className="w-6 h-6 text-blue-600 dark:text-blue-500" />
                         </div>
-                        <CardTitle className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                        <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                           {guide.title}
                         </CardTitle>
-                        <CardDescription className="text-slate-400 text-sm leading-relaxed">
+                        <CardDescription className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                           {guide.description}
                         </CardDescription>
                       </CardHeader>
                       <CardFooter className="pt-0 pb-4 px-6 mt-auto flex items-center justify-between text-sm">
-                        <span className="flex items-center gap-2 text-slate-400 group-hover:text-slate-300 transition-colors">
-                            <DonationIcon className="w-4 h-4 text-slate-500" />
+                        <span className="flex items-center gap-2 text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
+                            <DonationIcon className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                             {guide.funText}
                         </span>
-                        <div className="flex items-center gap-1.5 text-blue-500 font-medium opacity-100 transition-opacity">
+                        <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-500 font-medium opacity-100 transition-opacity">
                             <Heart className="w-4 h-4" />
                             <span>View Guide</span>
                         </div>
