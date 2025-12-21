@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Suspense } from "react"
+import { Analytics } from "@vercel/analytics/next"
 import { Chatbot } from "@/components/chatbot"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
@@ -49,6 +50,7 @@ export default function RootLayout({
               <Chatbot />
             </Suspense>
             <Toaster />
+            <Analytics />
           </MatrixProvider>
         </ThemeProvider>
       </body>
