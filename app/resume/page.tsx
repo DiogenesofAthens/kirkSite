@@ -14,8 +14,36 @@ import { Calendar, MapPin, Award, ChevronDown } from "lucide-react";
 import { TimezoneClock } from "@/components/timezone-clock";
 import Lottie from "@/components/lottie-client";
 import laptopAnimation from "@/public/images/man-laptop-ani.json";
+import { differenceInMonths, parse } from "date-fns";
+import { useEffect } from "react";
+
+const calculateDuration = (start: string, end: string, currentDate: Date) => {
+  const referenceDate = new Date(2020, 0, 1);
+  const startDate = parse(start, "MMM yyyy", referenceDate);
+  const endDate = end === "Present" ? currentDate : parse(end, "MMM yyyy", referenceDate);
+
+  const totalMonths = differenceInMonths(endDate, startDate) + 1;
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+
+  const parts = [];
+  if (years > 0) parts.push(`${years} ${years === 1 ? "yr" : "yrs"}`);
+  if (months > 0) parts.push(`${months} ${months === 1 ? "mo" : "mos"}`);
+
+  return parts.join(" ");
+};
 
 export default function Resume() {
+  const [currentDate, setCurrentDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setCurrentDate(new Date());
+  }, []);
+
+  // Use a fixed date for server-side rendering to avoid build errors and hydration mismatches
+  // This date should be relatively recent so the initial render is reasonable
+  const effectiveDate = currentDate || new Date(2025, 1, 1);
+
   const [openCompanyIndex, setOpenCompanyIndex] = useState<number | null>(0);
 
   const experiences = [
@@ -25,7 +53,8 @@ export default function Resume() {
       positions: [
         {
           title: "Principal Sales Engineer",
-          duration: "Mar 2024 - Present · 1 yr 11 mos",
+          startDate: "Mar 2024",
+          endDate: "Present",
           location: "San Francisco Bay Area",
           type: "Full-time",
           description:
@@ -55,7 +84,8 @@ export default function Resume() {
         },
         {
           title: "Lead Sales Engineer",
-          duration: "Sep 2019 - Mar 2024 · 4 yrs 7 mos",
+          startDate: "Sep 2019",
+          endDate: "Mar 2024",
           location: "San Francisco Bay Area",
           type: "Full-time",
           description:
@@ -71,7 +101,8 @@ export default function Resume() {
         },
         {
           title: "Sales Engineer",
-          duration: "Jan 2019 - Sep 2019 · 9 mos",
+          startDate: "Jan 2019",
+          endDate: "Sep 2019",
           location: "San Francisco Bay Area",
           type: "Full-time",
           description:
@@ -83,7 +114,8 @@ export default function Resume() {
         },
         {
           title: "Account Executive",
-          duration: "Jun 2018 - Jan 2019 · 8 mos",
+          startDate: "Jun 2018",
+          endDate: "Jan 2019",
           location: "San Francisco Bay Area",
           type: "Full-time",
           description:
@@ -92,7 +124,8 @@ export default function Resume() {
         },
         {
           title: "Sr. BDR Enterprise Business Unit",
-          duration: "Sep 2017 - Jun 2018 · 10 mos",
+          startDate: "Sep 2017",
+          endDate: "Jun 2018",
           location: "San Mateo",
           type: "Full-time",
           description:
@@ -111,7 +144,8 @@ export default function Resume() {
       positions: [
         {
           title: "Enterprise Account Executive",
-          duration: "Oct 2016 - Jun 2017 · 9 mos",
+          startDate: "Oct 2016",
+          endDate: "Jun 2017",
           location: "San Francisco Bay Area",
           type: "Full-time",
           achievements: [
@@ -124,7 +158,8 @@ export default function Resume() {
         },
         {
           title: "Inside Sales Development Team Manager",
-          duration: "Mar 2016 - Oct 2016 · 8 mos",
+          startDate: "Mar 2016",
+          endDate: "Oct 2016",
           location: "San Francisco Bay Area",
           type: "Full-time",
           achievements: [
@@ -136,7 +171,8 @@ export default function Resume() {
         },
         {
           title: "Inside Sales Development Representative",
-          duration: "Sep 2015 - Feb 2016 · 6 mos",
+          startDate: "Sep 2015",
+          endDate: "Feb 2016",
           location: "San Francisco Bay Area",
           type: "Full-time",
           achievements: [
@@ -155,7 +191,8 @@ export default function Resume() {
       positions: [
         {
           title: "Account Executive / Product Support Specialist",
-          duration: "Mar 2015 - Sep 2015 · 7 mos",
+          startDate: "Mar 2015",
+          endDate: "Sep 2015",
           location: "San Francisco",
           type: "Full-time",
           achievements: [
@@ -252,9 +289,17 @@ const collapseAll = () => setOpenCompanyIndex(-1);
                       <div className="text-left flex flex-col justify-start">
                         <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">{company.company}</CardTitle>
                         <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
-                          {company.company === "Conga"
-                            ? "Sep 2017 - Present"
-                            : company.positions[0].duration}
+                          {company.company === "Conga" ? (
+                            "Sep 2017 - Present"
+                          ) : (
+                            <span suppressHydrationWarning>{`${company.positions[0].startDate} - ${
+                              company.positions[0].endDate
+                            } · ${calculateDuration(
+                              company.positions[0].startDate,
+                              company.positions[0].endDate!,
+                              effectiveDate
+                            )}`}</span>
+                          )}
                         </CardDescription>
                       </div>
                     </div>
@@ -280,7 +325,14 @@ const collapseAll = () => setOpenCompanyIndex(-1);
                                 <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mt-1">
                                   <div className="flex items-center gap-1">
                                     <Calendar className="w-4 h-4" />
-                                    {position.duration}
+                                    <span suppressHydrationWarning>
+                                      {position.startDate} - {position.endDate} ·{" "}
+                                      {calculateDuration(
+                                        position.startDate,
+                                        position.endDate!,
+                                        effectiveDate
+                                      )}
+                                    </span>
                                   </div>
                                   {position.location && (
                                     <div className="flex items-center gap-1">
