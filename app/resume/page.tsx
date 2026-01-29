@@ -25,7 +25,7 @@ export default function Resume() {
       positions: [
         {
           title: "Principal Sales Engineer",
-          duration: "Mar 2024 - Present · 1 yr 4 mos",
+          duration: "Mar 2024 - Present · 1 yr 11 mos",
           location: "San Francisco Bay Area",
           type: "Full-time",
           description:
@@ -42,7 +42,7 @@ export default function Resume() {
             "Personally helped close over $41 million in business across 90+ customers",
             "Top performing SE by revenue FY 2022",
             "Awarded SE of the Year in both FY 2022 and 2023",
-            "Overachieved quota in FY 2020, 2021, 2022, 2023",
+            "Overachieved quota in FY 2021, 2022, 2023, 2024, and 2026",
             "SKO Mainstage Presenter 2023, 2024",
             "Conga Connect Mainstage Presenter 2024 (Over 600 people in audience)",
             "SE Summit 2024 - Awarded for Best Innovation Demo of the year",
