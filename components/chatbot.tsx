@@ -22,12 +22,11 @@ export function Chatbot() {
   const [input, setInput] = useState("")
   const isLoading = status === "streaming" || status === "submitted"
 
-  // Use useEffect to set initial message to avoid hydration mismatch (random ID generation in useChat)
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([{
         id: "1",
-        content: "Hi! I'm Grant's AI. Ask me about his Sales Engineering experience, Home Lab, or projects.",
+        content: "Hi! I'm Kirk's AI assistant. Ask me about his solutions engineering experience, career background, or this site.",
         role: 'assistant',
       }])
     }
@@ -52,21 +51,10 @@ export function Chatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages, isLoading, isOpen])
 
-  const handleReset = () => {
-    setMessages([{
-      id: "1",
-      content: "Hi! I'm Grant's AI. Ask me about his Sales Engineering experience, Home Lab, or projects.",
-      role: 'assistant',
-    }])
-    reload() // Optional: if we want to reset the chat session on server if needed, but client reset is mostly what is needed here. Actually, reload() re-runs the last message. We just want to clear.
-    // To properly reset, we just setMessages. reload() is not needed unless we want to regenerate.
-  }
-
-  // Override handleReset to just clear messages to initial state.
   const handleResetChat = () => {
      setMessages([{
       id: "1",
-      content: "Hi! I'm Grant's AI. Ask me about his Sales Engineering experience, Home Lab, or projects.",
+      content: "Hi! I'm Kirk's AI assistant. Ask me about his solutions engineering experience, career background, or this site.",
       role: 'assistant',
     }])
   }
@@ -84,7 +72,7 @@ export function Chatbot() {
     <>
       <Card className="fixed bottom-6 right-6 w-96 h-[540px] shadow-xl z-50 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800 backdrop-blur-md bg-white/70 dark:bg-slate-900/70">
         <CardHeader className="flex flex-row items-center justify-between bg-blue-600 text-white rounded-t-2xl px-4 py-3">
-          <CardTitle className="text-lg">Chat with Grant's AI</CardTitle>
+          <CardTitle className="text-lg">Chat with Kirk&apos;s AI</CardTitle>
           <div className="flex gap-2">
             <Button variant="ghost" size="icon" onClick={handleResetChat} className="text-white hover:bg-blue-700">
               <RefreshCw className="h-4 w-4" />
@@ -134,14 +122,14 @@ export function Chatbot() {
 
           <div className="p-4 border-t border-slate-200 dark:border-slate-600 space-y-3">
              <form onSubmit={handleSubmit} className="flex gap-2">
-                <Input value={input} onChange={handleInputChange} placeholder="Ask about Grant..." />
+                <Input value={input} onChange={handleInputChange} placeholder="Ask about Kirk..." />
                 <Button type="submit" size="icon"><SendIcon className="h-4 w-4" /></Button>
              </form>
              <p className="text-[10px] text-slate-600 dark:text-slate-400 text-center mt-1">
-               Powered by AI. Answers may be incorrect. Contact Grant for clarification.
+               Powered by AI. Answers may be incorrect. Contact Kirk for clarification.
              </p>
             <Button variant="outline" size="sm" onClick={() => setShowContactModal(true)} className="w-full">
-              <Mail className="h-4 w-4 mr-2" /> Contact Grant
+              <Mail className="h-4 w-4 mr-2" /> Contact Kirk
             </Button>
           </div>
         </CardContent>

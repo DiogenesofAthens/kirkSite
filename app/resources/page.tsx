@@ -96,7 +96,7 @@ export default function Resources() {
               Helpful tools, guides, and insights for business technology and sales optimization
             </p>
             <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
-              "Engineer. Consultant. Tinkerer. I turn complexity into solutions."
+              "Solutions engineer. Product thinker. AI enthusiast. I turn complexity into solutions."
             </p>
           </div>
 

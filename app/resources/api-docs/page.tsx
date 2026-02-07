@@ -38,7 +38,7 @@ export default function ApiDocsPage() {
           <CardContent className="space-y-4">
              <div className="flex items-center gap-2 p-4 bg-slate-100 dark:bg-slate-900 rounded-lg font-mono text-sm border border-slate-200 dark:border-slate-800">
                <Badge variant="default" className="bg-blue-600 hover:bg-blue-700">POST</Badge>
-               <span className="text-slate-700 dark:text-slate-300 font-medium">https://grantglazer.com/api/extract</span>
+               <span className="text-slate-700 dark:text-slate-300 font-medium">https://kirkwessman.com/api/extract</span>
              </div>
 
              <Alert variant="destructive" className="bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-900 text-red-800 dark:text-red-300">
@@ -68,7 +68,7 @@ export default function ApiDocsPage() {
                     <TabsContent value="curl">
                         <div className="relative">
                             <pre className="p-4 bg-slate-900 text-slate-50 rounded-lg overflow-x-auto font-mono text-sm border border-slate-700">
-{`curl -X POST https://grantglazer.com/api/extract \\
+{`curl -X POST https://kirkwessman.com/api/extract \\
   -H "Content-Type: application/json" \\
   -H "x-api-key: YOUR_API_KEY" \\
   -d '{
@@ -82,7 +82,7 @@ export default function ApiDocsPage() {
                     <TabsContent value="js">
                         <div className="relative">
                             <pre className="p-4 bg-slate-900 text-slate-50 rounded-lg overflow-x-auto font-mono text-sm border border-slate-700">
-{`const response = await fetch('https://grantglazer.com/api/extract', {
+{`const response = await fetch('https://kirkwessman.com/api/extract', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ console.log(data);`}
                             <pre className="p-4 bg-slate-900 text-slate-50 rounded-lg overflow-x-auto font-mono text-sm border border-slate-700">
 {`import requests
 
-url = "https://grantglazer.com/api/extract"
+url = "https://kirkwessman.com/api/extract"
 headers = {
     "x-api-key": "YOUR_API_KEY",
     "Content-Type": "application/json"

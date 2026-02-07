@@ -2,82 +2,39 @@
 
 import { FloatingNav } from "@/components/floating-nav"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Quote, Award, Users } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Award, Bot, Linkedin, ArrowRight } from "lucide-react"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Lottie from "@/components/lottie-client"
 import animationData from "@/public/images/reviews-ani.json"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function Recommendations() {
-  const recommendations = [
+  const highlights = [
     {
-      name: "Franck Ardourel",
-      title: "Director of Marketing",
-      content:
-        "It’s my absolute pleasure to recommend Grant. I thoroughly enjoyed my time working with such a reliable professional, and came to know him as a truly valuable asset to absolutely any team. He is honest, dependable, and incredibly hard-working. Beyond that, he has impressive sales skills to drive high results. His knowledge of marketing combined with his expertise in sales was a huge advantage to our marketing department. Along with his undeniable talent, Grant has always been an absolute joy to work with. He is a true team player, and always manages to foster positive discussions and bring the best out of other employees. Without a doubt, I confidently recommend Grant.",
-      company: "DNN",
+      stat: "#1 Globally",
+      label: "Quota Attainment (2x)",
+      description: "Ranked first across an 80-person Solutions Engineering organization — not once, but twice.",
+      color: "text-blue-600 dark:text-blue-400",
     },
     {
-      name: "Tony Mai",
-      title: "Business Development Manager",
-      content:
-        "Strategic-minded, proactive, process driven, solution focused, and knack for identifying enterprise inefficiencies – Grant was a privilege to manage. Grant naturally exhibits these qualities and consistently approach his work with care and quality. I’ve hired many reps in the past and would consider Grant one of our department’s top talents. Grant is an unbelievable asset to his organization and any company fortunate of hiring him would be smiling all the way to the bank.",
-      company: "Apttus",
+      stat: "$10M+",
+      label: "Portfolio Managed",
+      description: "Owned and grew an eight-figure portfolio of investment banking and private equity clients at S&P Global.",
+      color: "text-green-600 dark:text-green-400",
     },
     {
-      name: "Noah Vo",
-      title: "Enterprise Business Development",
-      content:
-        "I had the pleasure of working with Grant during my time at Apttus and it has been an amazing experience. He is one of the hardest working individuals I’ve met and he is always there to help a colleague, whether it is proof-reading an email template or troubleshooting technical issues with the CRM. He is very analytical and always excels at his job responsibilities, and I can fully recommend him to any team lucky enough to have his talents!",
-      company: "Apttus",
+      stat: "Phi Beta Kappa",
+      label: "USC Marshall",
+      description: "B.S. Cum Laude in Business Administration with a 3.7 GPA. Presidential Scholar and Dean's List all four years.",
+      color: "text-purple-600 dark:text-purple-400",
     },
     {
-      name: "Jack McGannon",
-      title: "Chief Executive Officer",
-      content:
-        "I have had the pleasure of working with Grant Glazer, an account executive for our new SaaS digital asset management offering. Grant consistently exhibits a strong work ethic, an important strength in sales and customer success. This is reflected in his clients, with whom he maintains positive relations. Grant is definitely a team player, working well with others in the organization. Impressively, he is extremely enthusiastic and displays a tenacity that is a key ingredient in his bright future. On top of that, Grant is an overall good person.",
-      company: "Canto",
-    },
-    {
-      name: "Navin Nagiah",
-      title: "Chief Executive Officer",
-      content:
-        "Grant Glazer worked at DNN for about 2 years. During this time, I was impressed by Grant’s intelligence and his energy. He is also very good at both project and process management. He started as an SDR and quickly moved to be the lead for the SDR team at DNN, and then to a New Business AE. I still remember him writing a “handbook / manual” so that new SDRs could come up to speed quickly. The manual was both expansive & thorough, and immensely helpful to new hires we brought on-board. Grant’s intelligence, energy and attention to detail will be a huge asset to both himself and any company he chooses to work at.",
-      company: "DNN",
-    },
-    {
-      name: "John Malamud",
-      title: "Account Executive",
-      content:
-        "I had the distinct pleasure of working with Grant while he ran the SDR team at DNN. I can say with confidence that Grant is one the sharpest and hardest working individuals I have ever worked with, and his accomplishments at DNN are evidence of this. While he was one of the younger team members, management saw his potential and made him team lead, a role in which he flourished. His dedication to the team he oversaw was admirable, and he never lost focus of the goals that were put in front of him. I highly recommend Grant for any team that is looking for smart and hungry players that can contribute off the bat.",
-      company: "DNN",
-    },
-    {
-      name: "Ian Ray",
-      title: "Full Stack Web Developer",
-      content:
-        "Grant is a real team player, willing to roll up his sleeves and approach any task with confident optimism. Grant is highly computer literate. Which allows him to quickly learn and adapt with constantly evolving technology, which he can accurately articulate to customers. Working with Grant was not only fun, but very consistent and reliable. As a fellow Eagle Scout, Grant was incredibly trustworthy, loyal, helpful, friendly, courteous, kind, obedient, cheerful, thrifty, brave, clean, and reverent!",
-      company: "Canto",
-    },
-    {
-      name: "Lawrence Woo",
-      title: "Enterprise Account Executive",
-      content:
-        "I worked with Grant in both roles when he was the SDR Team Manager and I continued to work alongside him when he was promoted to an Account Executive here at DNN. Throughout his time here at DNN, Grant consistently brought a tenacious drive to the table, always exceeding management’s expectations and never losing focus on the long term goals. Being an exceptional team player, he was often designated as a resource for newer team members, however he was never afraid to strategize with his colleagues or senior management to discuss alternate solutions when difficult roadblocks arose in deals. Grant’s rate of promotion here at DNN is a testament of what management sees in him, I know he will go far in his personal career and I can fully recommend his talents.",
-      company: "DNN",
-    },
-    {
-      name: "Michael Kutulas",
-      title: "Sales Development",
-      content:
-        "I have had the great fortune and pleasure to work with Grant at DNN during my time there. Grant was the Team Lead for the SDR group.",
-      company: "DNN",
-    },
-    {
-      name: "Katherine Andruha",
-      title: "Executive Vice President of Sales & Marketing",
-      content:
-        "Grant hits the top of the list when evaluating A-players! Not only does he hit quota consistently, he goes above and beyond to target each account meticulously. Grant provides each of his customers with the support and respect they deserve. He takes guidance well and provides suggestions for the betterment of the organization.",
-      company: "Apttus (now Conga)",
+      stat: "15+ Years",
+      label: "Cross-Functional Experience",
+      description: "From Wall Street data platforms to enterprise SaaS to independent consulting — a career built on translating complexity into clarity.",
+      color: "text-orange-600 dark:text-orange-400",
     },
   ];
 
@@ -100,38 +57,74 @@ export default function Recommendations() {
       <div className="pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Recommendations</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Career Highlights</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
-              A few friendly words about Grant from his past colleagues
+              A track record of delivering results across solutions engineering, product management, and enterprise data platforms.
             </p>
             <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
-              "From smart homes to smart sales — I help people work better with the right tech."
+              &quot;I build systems that work in the real world — not just on paper.&quot;
             </p>
           </div>
 
+          {/* Career Highlights Grid */}
           <div className="grid md:grid-cols-2 gap-8 mb-16">
-            {recommendations.map((rec, index) => (
+            {highlights.map((highlight, index) => (
               <Card
                 key={index}
                 className="glass border-0 shadow-xl transition-all duration-300 h-full flex flex-col animate-fade-in"
               >
                 <CardHeader>
                   <div className="flex items-center gap-2 mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
+                    <Award className="w-5 h-5 text-yellow-500" />
                   </div>
-                  <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{rec.name}</CardTitle>
-                  <CardDescription className="text-sm text-slate-600 dark:text-slate-400">
-                    {rec.title} • {rec.company}
+                  <CardTitle className={`text-3xl font-bold ${highlight.color}`}>{highlight.stat}</CardTitle>
+                  <CardDescription className="text-base font-medium text-slate-700 dark:text-slate-300">
+                    {highlight.label}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1">
-                  <Quote className="w-6 h-6 text-slate-400 dark:text-slate-500 mb-3" />
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">{rec.content}</p>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{highlight.description}</p>
                 </CardContent>
               </Card>
             ))}
+          </div>
+
+          {/* Vibe-Coded Section */}
+          <div className="glass rounded-3xl p-8 md:p-12 shadow-xl mb-16">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-6">
+                <Bot className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-50 mb-4">
+                This Site Was Vibe-Coded with Claude
+              </h2>
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mb-4">
+                I didn&apos;t just update a template — I used Claude (Anthropic&apos;s AI) as a collaborative coding partner to transform a friend&apos;s Next.js site into my own professional presence. From rewriting data models to restructuring pages to crafting copy, every change was a conversation between domain expertise and AI capability.
+              </p>
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl">
+                It&apos;s a small example of something I believe deeply: the best results come from pairing human judgment with the right tools. That&apos;s true whether you&apos;re architecting an enterprise CPQ deployment or building a personal website.
+              </p>
+            </div>
+          </div>
+
+          {/* LinkedIn CTA */}
+          <div className="glass rounded-3xl p-8 shadow-xl text-center">
+            <div className="flex flex-col items-center">
+              <Linkedin className="w-10 h-10 text-blue-600 dark:text-blue-400 mb-4" />
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">
+                Connect on LinkedIn
+              </h2>
+              <p className="text-slate-700 dark:text-slate-300 max-w-xl mx-auto mb-6">
+                Want to know what colleagues and clients say about working with me? Check out my LinkedIn profile for endorsements, recommendations, and more.
+              </p>
+              <a href="https://www.linkedin.com/in/kwessman" target="_blank" rel="noopener noreferrer">
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Linkedin className="w-4 h-4 mr-2" />
+                  View LinkedIn Profile
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -112,7 +112,7 @@ export default function SDRProcessGuidePage() {
                   This 25-page guide represents hours of research and real-world experience. Your support helps me create more valuable resources like this.
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-500">
-                  Questions? <Link href="/" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 underline">Contact Grant</Link>
+                  Questions? <Link href="/" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 underline">Contact Kirk</Link>
                 </p>
               </div>
             </CardContent>

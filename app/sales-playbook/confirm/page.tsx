@@ -26,7 +26,7 @@ export default function SalesPlaybookConfirmPage() {
     }, 300)
   }
 
-  const paypalLink = "https://paypal.me/grantglazer/20"
+  const paypalLink = "https://paypal.me/kirkwessman/20"
 
   return (
     <div className="min-h-screen gradient-bg relative">

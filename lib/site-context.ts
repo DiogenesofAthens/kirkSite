@@ -5,146 +5,97 @@ export const EXPERIENCES = [
       logo: "CG",
       positions: [
         {
-          title: "Principal Sales Engineer",
-          duration: "Mar 2024 - Present · 1 yr 4 mos",
-          location: "San Francisco Bay Area",
+          title: "Principal Solutions Engineer",
+          duration: "2019 - Present · 7 yrs",
+          location: "Santa Monica, CA",
           type: "Full-time",
           description:
-            "Being a technical resource for our Sales team here at Conga (formerly Apttus), I help with the discovery process as well as demonstrating the value of our Quote-to-Cash and Procure-to-Pay solutions to help transform the revenue lifecycle at each of my clients.",
+            "Lead solution architect on complex enterprise engagements, owning discovery, system design, and deployment strategy for Conga's Quote-to-Cash and CLM platform. Build custom demos and proof-of-concepts integrating APIs, data models, and workflow automation.",
           responsibilities: [
-            "Building and delivering custom product demonstrations to strategic & enterprise customers",
-            "Executing intensive qualification and discovery calls",
-            "Configuring and utilizing Salesforce.com and AWS platforms",
-            "Conducting Technical Security Calls",
-            "Assisting Professional Services with scoping/implementation",
-            "Completing technical RFP/RFI responses",
+            "Leading solution architecture on complex enterprise engagements",
+            "Owning discovery, system design, and deployment strategy",
+            "Building custom demos and proof-of-concepts integrating APIs, data models, and workflow automation",
+            "Partnering with product and engineering to translate customer needs into deployable architectures",
+            "Completing technical RFP/RFI responses for strategic accounts",
           ],
           achievements: [
-            "Personally helped close over $41 million in business across 90+ customers",
-            "Top performing SE by revenue FY 2022",
-            "Awarded SE of the Year in both FY 2022 and 2023",
-            "Overachieved quota in FY 2020, 2021, 2022, 2023",
-            "SKO Mainstage Presenter 2023, 2024",
-            "Conga Connect Mainstage Presenter 2024 (Over 600 people in audience)",
-            "SE Summit 2024 - Awarded for Best Innovation Demo of the year",
-            "Promoted to support the Strategic Sales team Feb 2025",
+            "Ranked #1 globally in quota attainment across an 80-person Solutions Engineering org (2x)",
+            "Lead solution architect on the most complex enterprise engagements",
+            "Built production-ready demos and POCs integrating APIs, data models, and workflow automation",
+            "Partnered directly with product and engineering to shape product direction",
           ],
           certifications: [
-            "Conga / Apttus CPQ, CLM, Approvals, Order Management & Billing Certified",
-            "CongaSign, Composer, & Conga Grid Certified",
-          ],
-        },
-        {
-          title: "Lead Sales Engineer",
-          duration: "Sep 2019 - Mar 2024 · 4 yrs 7 mos",
-          location: "San Francisco Bay Area",
-          type: "Full-time",
-          description:
-            "I consistently overachieved my quota 4 years straight, and helped our west enterprise sales team set new records. I personally helped impact transformational deals at some of the biggest companies in the world.",
-          achievements: [
-            "Multi-million dollar deals at companies like Salesforce & Docusign",
-            "Major deals at Workday, Twilio, HealthEquity, Splunk, TriNet, ServiceNow",
-            "Helped enable and train new staff",
-            "Presented solutions on main-stage at sales kick off events 2023 and 2024",
-            "Became SME for Generative AI impact on products",
-            "Promoted to Principal Sales Engineer",
-          ],
-        },
-        {
-          title: "Sales Engineer",
-          duration: "Jan 2019 - Sep 2019 · 9 mos",
-          location: "San Francisco Bay Area",
-          type: "Full-time",
-          description:
-            "I reinforced the enterprise sales team by helping with discovery, delivering demos, POC's, answering technical questions, and completing RFP's.",
-          achievements: [
-            "Developed and built the CLM demo script to enable other Sales Engineers",
-            "Promoted to Lead Sales Engineer",
-          ],
-        },
-        {
-          title: "Account Executive",
-          duration: "Jun 2018 - Jan 2019 · 8 mos",
-          location: "San Francisco Bay Area",
-          type: "Full-time",
-          description:
-            "I supported the enterprise sales team focusing on solely on high-velocity contract management sales.",
-          achievements: ["Technical acumen recognized by management", "Promoted to Sales Engineer"],
-        },
-        {
-          title: "Sr. BDR Enterprise Business Unit",
-          duration: "Sep 2017 - Jun 2018 · 10 mos",
-          location: "San Mateo",
-          type: "Full-time",
-          description:
-            "I helped Apttus (now named Conga) build new business relationships with the top Fortune 500 companies and helped enable our customers to sell faster using Apttus' suite of solutions.",
-          achievements: [
-            "Consistently over-achieved quota by 150%",
-            "Generated and qualified over eight million dollars in pipeline",
-            "Opened new business opportunities with Apple, Tesla, Western Union, and Hitachi Vantara",
+            "Apttus CPQ Levels 1 & 2",
+            "Apttus Billing Management",
+            "Conga Grid Certified",
           ],
         },
       ],
     },
     {
-      company: "DNN Corp.",
-      logo: "DN",
+      company: "S&P Global",
+      logo: "SP",
       positions: [
         {
-          title: "Enterprise Account Executive",
-          duration: "Oct 2016 - Jun 2017 · 9 mos",
-          location: "San Francisco Bay Area",
+          title: "Senior Relationship Manager — Investment Banking & Private Equity",
+          duration: "2017 · 1 yr",
+          location: "Santa Monica, CA",
           type: "Full-time",
+          description:
+            "Managed an eight-figure portfolio of banking and private equity clients. Focused on mutually beneficial outcomes, embedding with clients to achieve their objectives while growing the book of business.",
           achievements: [
-            "Top Sales Rep Q1 2017",
-            "Generated 5 new business opportunities as an AE per week",
-            "Simultaneously managed 30-40 relationships from SMB through Enterprise",
-            "Sold over $200k in licensing and services through consultative approach",
-            "Worked closely with CEO, VP of Product, and Director of Professional Services",
+            "Owned and grew a $10M+ portfolio across investment banks and private equity firms",
+            "Helped clients optimize analytics workflows and data access patterns",
+            "Earned internal distinction for portfolio growth and client relationship depth",
           ],
         },
         {
-          title: "Inside Sales Development Team Manager",
-          duration: "Mar 2016 - Oct 2016 · 8 mos",
-          location: "San Francisco Bay Area",
+          title: "Associate Director, Product Management — Enterprise Feeds / APIs",
+          duration: "2013 - 2015 · 3 yrs",
+          location: "New York, NY",
           type: "Full-time",
+          description:
+            "Led product strategy for S&P's award-winning API and data-feed platforms, delivering equity and debt capital markets data to some of the world's largest financial institutions.",
           achievements: [
-            "Promoted to SDR Team Manager after 6 months of exceeding quota",
-            "Implemented training process, increasing opportunities passed to AEs by 25%",
-            "Provided detailed performance reports daily, weekly, monthly and quarterly",
-            "Still produced 20 new opportunities each month while coaching team",
+            "Managed award-winning enterprise delivery vehicle (FTP/API) for equity and debt capital markets data",
+            "Led product strategy for platforms with eight-figure recurring revenue",
+            "Owned roadmap, pricing, and go-to-market execution in partnership with engineering",
+            "Worked directly with the world's largest financial institutions as a hands-on PM",
           ],
         },
         {
-          title: "Inside Sales Development Representative",
-          duration: "Sep 2015 - Feb 2016 · 6 mos",
-          location: "San Francisco Bay Area",
+          title: "Product Manager — Enterprise Feeds / APIs",
+          duration: "2010 - 2012 · 2 yrs",
+          location: "New York, NY",
           type: "Full-time",
-          achievements: [
-            "Managed lead queue of 1000 prospects",
-            "Exceeded 60 calls and emails per day target",
-            "Qualified 25-30 new opportunities each month",
-            "Achieved 125% of Quota in first two quarters",
-            "Designed original documentation and standardized process for new SDR hires",
-          ],
+          description:
+            "Managed enterprise data feed and API products, partnering with engineering and clients to drive platform adoption.",
+        },
+        {
+          title: "Analyst",
+          duration: "2009 - 2010 · 1 yr",
+          location: "New York, NY",
+          type: "Full-time",
+          description:
+            "Supported the Capital IQ platform team with data analysis, client research, and product development.",
         },
       ],
     },
     {
-      company: "Canto",
-      logo: "CA",
+      company: "Independent Consultant",
+      logo: "IC",
       positions: [
         {
-          title: "Account Executive / Product Support Specialist",
-          duration: "Mar 2015 - Sep 2015 · 7 mos",
-          location: "San Francisco",
-          type: "Full-time",
+          title: "Strategy Adviser",
+          duration: "2016 - 2019 · 3 yrs",
+          location: "New Orleans, LA & Santa Monica, CA",
+          type: "Contract",
+          description:
+            "Advised startups, public-sector organizations, and political campaigns in ill-defined problem spaces. Delivered strategy and analytical frameworks across finance, operations, and communications.",
           achievements: [
-            "Led 5-8 new business demos per week of Digital Asset Management Platform",
-            "Closed over $60k in SaaS deals with average deal size of $4k",
-            "Researched and called 40-50 clients each day",
-            "Used ToutApp to manage outbound lists with 5000+ contacts",
-            "Solved issues for 2-3 current clients each week as first level support",
+            "Advised a CPG startup, a US Senatorial campaign, and an economic development agency",
+            "Delivered strategy and analytical frameworks across finance, operations, and communications",
+            "Operated in ambiguous environments where the path to solution wasn't predefined",
           ],
         },
       ],
@@ -171,56 +122,56 @@ ${blogPosts.map(p => `- ${p.title} (${p.category}): ${p.excerpt}`).join('\n')}
 
 export const SKILLS_AND_EXPERTISE = `
 My Expertise:
-Comprehensive business technology and process consulting across multiple domains.
-"Bridging the gap between sales, tech, and process with proven results."
+Customer-facing technical leader designing, prototyping, and deploying complex API- and data-driven systems.
+"Translating ambiguous requirements into production-grade solutions."
 
-Sales & Marketing Knowledge:
-Deep experience sourcing and closing sales across software and consumer goods, including both on-premise and cloud-based solutions. I apply practical strategies that generate real results and long-term value.
-- SaaS Sales
-- Enterprise Solutions
-- Lead Generation
-- Cold Calling
+Solution Architecture & Enterprise Engagement:
+Deep experience leading complex enterprise engagements from discovery through deployment. I design systems that work in the real world — not just on paper — through close collaboration with product, engineering, and executive stakeholders.
+- Enterprise Solution Design
+- API & Data Architecture
+- Technical Discovery & Scoping
+- Proof-of-Concept Development
 
-Website Design & Implementation:
-I build scalable, modern web apps with Next.js and Vercel, and have hands-on experience with AI-powered UI tools. I'm also comfortable with legacy platforms like WordPress and DNN for migrations and integrations.
-- Next.js
-- Vercel
-- WordPress
-- DNN
+Product Management & Data Platforms:
+Led product strategy for enterprise API and data-feed platforms with eight-figure recurring revenue. Hands-on PM who works directly with engineering and with the world's largest financial institutions.
+- Product Strategy & Roadmap
+- API / Data Feed Platforms
+- Go-to-Market Execution
+- Revenue Lifecycle Management
 
-Technology Consulting:
-Whether it's optimizing devices, building custom PCs, setting up servers, or automating your home — I help people get the most out of their tech. Hands-on and strategy-driven.
-- System Integration
-- Home Automation
-- Server Setup
-- Device Optimization
+AI & Emerging Technology:
+Passionate about AI, LLMs, and generative AI. This website itself was vibe-coded with Claude — a testament to what's possible when you pair domain expertise with modern AI tools.
+- Artificial Intelligence (AI)
+- Large Language Models (LLMs)
+- Generative AI
+- Workflow Automation
 
 Strengths at a Glance:
-Sales & Business Development:
-- Solution-Oriented Selling
-- Strategic Account Growth
-- Customer Success Leadership
-- Scalable Lead Generation
-- Complex Deal Execution
+Technical Leadership:
+- Solution Architecture
+- API & Data System Design
+- Cross-Functional Collaboration
+- Complex Enterprise Engagements
+- Technical RFP/RFI Execution
 
-Technology & Operations:
-- Technical Diagnostics
-- Data-Driven Systems Analysis
-- Cross-Functional Team Leadership
-- Workflow Design & Optimization
-- Operational Process Improvement
+Business & Strategy:
+- Product Management
+- Client Relationship Management
+- Strategic Account Growth
+- Revenue Lifecycle Optimization
+- Go-to-Market Strategy
 `;
 
 export const ABOUT_ME = `
 Summary:
-Over 10 years of experience in sales engineering, business development, and technology consulting.
-"Sales engineer with a builder's mindset — helping teams improve processes through smart tech and strategy."
+Customer-facing technical leader with 15+ years of experience spanning solutions engineering, product management, and enterprise data platforms.
+"Translating ambiguous requirements into production-grade solutions — in environments where the problem space is evolving."
 
 Key Stats:
-- $50M+ Revenue Generated
-- 100+ Enterprise Customers
-- 10+ Years Experience
-- 2x SE of the Year (Conga)
+- #1 Globally in Quota Attainment (2x) across 80-person SE org
+- $10M+ Portfolio Managed at S&P Global
+- 15+ Years Experience
+- Phi Beta Kappa, USC
 `;
 
 export const SITE_CONTEXT = `
@@ -239,8 +190,11 @@ export const SITE_CONTEXT = `
     ${BLOG_CONTEXT}
   </resources>
   <additional_info>
-    Grant creates guides on building Unraid-based media servers (Plex, Radarr, Sonarr) and SDR methodologies.
-    He built this site using Next.js 16, Vercel AI SDK, and Groq.
+    Kirk Wessman is a Principal Solutions Engineer at Conga based in Santa Monica, CA.
+    He holds a B.S. Cum Laude in Business Administration from USC Marshall School of Business, where he was Phi Beta Kappa and a Presidential Scholar.
+    Before Conga, Kirk spent 6 years at S&P Global in product management and relationship management roles, and also worked as an independent strategy consultant.
+    He built this site by vibe-coding with Claude (Anthropic's AI) — adapting a friend's Next.js template into his own professional presence.
+    Kirk is passionate about AI, LLMs, and building things at the intersection of technology and business.
   </additional_info>
 </site_data>
 `;

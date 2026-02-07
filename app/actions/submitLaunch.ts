@@ -17,8 +17,8 @@ export async function submitLaunchForm(formData: FormData) {
 
   try {
     await resend.emails.send({
-      from: "contact@grantglazer.com", // You must have this verified in Resend
-      to: "edgewaterglazer@gmail.com",
+      from: "contact@kirkwessman.com", // You must have this verified in Resend
+      to: "kwessman@gmail.com",
       subject: `New Launch Request from ${launchData.name}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px;">

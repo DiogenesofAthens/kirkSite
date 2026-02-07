@@ -66,7 +66,7 @@ export default function LaunchpadPage() {
             <div className="absolute inset-0 z-50 bg-transparent flex flex-col items-center justify-center text-center px-4">
               <h2 className="text-4xl font-bold text-white mb-4">Thank you!</h2>
               <p className="text-lg text-slate-300 mb-6">
-                Grant will be in touch soon to start your launch journey 🚀
+                Kirk will be in touch soon to start your launch journey 🚀
               </p>
               <div className={`w-40 sm:w-52 md:w-64 transition-transform duration-[10000ms] ${launching ? "animate-rocket" : ""}`}>
                 <Lottie animationData={rocketAnimation} loop={false} autoplay />
@@ -84,7 +84,7 @@ export default function LaunchpadPage() {
 
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-4">Digital Identity Launchpad</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mb-6">
-              Launch your professional presence with a website just like this one — designed, built, and powered by Grant.
+              Launch your professional presence with a website just like this one — designed, built, and powered by Kirk.
             </p>
             <p className="text-base text-slate-600 dark:text-slate-400 mb-10">
               Your custom site includes light/dark mode, mobile responsiveness, a live timezone clock — and will be fully personalized to you.
