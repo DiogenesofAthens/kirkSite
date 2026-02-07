@@ -169,7 +169,7 @@ Customer-facing technical leader with 15+ years of experience spanning solutions
 
 Key Stats:
 - Top-Performing SE across 80-person global org
-- $10M+ Portfolio Managed at S&P Global
+- Sophisticated Client Management — global investment banks, PE firms, Fortune 500 pharma/biomedical companies
 - 15+ Years Experience
 - Phi Beta Kappa, USC
 `;

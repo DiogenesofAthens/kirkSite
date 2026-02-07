@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { ContactModal } from "@/components/contact-modal"
 import { TimezoneClock } from "@/components/timezone-clock"
+import Image from "next/image"
 import Link from "next/link"
 
 export default function Home() {
@@ -21,11 +22,19 @@ export default function Home() {
       <TimezoneClock />
 
       {/* Hero */}
-      <section className="pt-40 sm:pt-48 pb-24 px-6 sm:px-8 lg:px-12">
+      <section className="pt-32 sm:pt-40 pb-24 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-normal tracking-tight text-foreground leading-[1.1] mb-8">
-            Kirk Wessman
-          </h1>
+          <div className="mb-12">
+            <div className="relative w-full aspect-[3/4] max-w-sm overflow-hidden">
+              <Image
+                src="/images/kirk-wessman.jpg"
+                alt="Kirk Wessman"
+                fill
+                className="object-cover object-top"
+                priority
+              />
+            </div>
+          </div>
           <p className="text-xl sm:text-2xl text-muted-foreground font-light leading-relaxed max-w-2xl mb-4">
             Solutions Engineer & Technical Leader
           </p>
@@ -33,17 +42,17 @@ export default function Home() {
             Translating ambiguous requirements into production-grade solutions — then shipping them.
           </p>
           <div className="flex gap-6 items-center">
-            <button
-              onClick={() => setShowContactForm(true)}
-              className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-            >
-              Get in touch
-            </button>
             <Link
               href="/my-expertise"
-              className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
             >
               View expertise
+            </Link>
+            <Link
+              href="/resume"
+              className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Resume
             </Link>
           </div>
         </div>
@@ -57,8 +66,8 @@ export default function Home() {
       {/* About */}
       <section className="py-24 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
-          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-10">
-            About
+          <h2 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight text-foreground mb-10">
+            Kirk Wessman
           </h2>
           <div className="space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
             <p>
@@ -93,20 +102,20 @@ export default function Home() {
         <div className="border-t border-border" />
       </div>
 
-      {/* Connect */}
+      {/* Contact */}
       <section className="py-24 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-6">
-            Let&apos;s Connect
+            Contact
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-xl">
-            Whether you&apos;re looking for a solutions engineer who can own complex enterprise engagements end-to-end, or you&apos;re curious about how AI can accelerate your workflow — I&apos;d love to talk.
+            If something here resonated, or you&apos;d like to discuss a problem worth solving, you&apos;re welcome to reach out.
           </p>
           <button
             onClick={() => setShowContactForm(true)}
             className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
           >
-            Contact me
+            Send a message
           </button>
         </div>
       </section>

@@ -11,8 +11,8 @@ export default function Recommendations() {
       description: "Consistently among the highest-performing Solutions Engineers across an 80-person global SE organization.",
     },
     {
-      label: "Portfolio Managed",
-      description: "Owned and grew an eight-figure portfolio of investment banking and private equity clients at S&P Global.",
+      label: "Sophisticated Client Management",
+      description: "Managed relationships with some of the most sophisticated organizations in the world — from global investment banks and private equity firms at S&P Global to Fortune 500 pharmaceutical and biomedical companies at Conga.",
     },
     {
       label: "USC Marshall",

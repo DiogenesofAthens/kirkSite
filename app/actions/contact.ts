@@ -19,7 +19,7 @@ export async function submitContactForm(formData: FormData) {
     // Send email using Resend
     const emailResult = await resend.emails.send({
       from: "contact@kirkwessman.com", // You'll need to verify this domain with Resend
-      to: "kwessman@gmail.com",
+      to: "kwessman+inbound@gmail.com",
       subject: `New Contact Form Submission from ${contactData.name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
