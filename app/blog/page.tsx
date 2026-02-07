@@ -29,8 +29,11 @@ export default function Journal() {
             <h1 className="font-serif text-5xl md:text-6xl font-normal tracking-tight text-foreground mb-4">
               Journal
             </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-4">
               Thoughts on business technology, strategy, and the intersection of intellectual rigor and practical application.
+            </p>
+            <p className="text-sm text-muted-foreground/60 italic">
+              Not &quot;my&quot; journal so much as my machine analogue&apos;s — these are placeholder articles entirely written by AI. Human ones coming soon.
             </p>
           </div>
 
