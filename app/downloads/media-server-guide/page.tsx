@@ -9,8 +9,6 @@ export default function MediaServerGuidePage() {
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse dark:bg-blue-800/20"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000 dark:bg-purple-800/20"></div>
       </div>
 
       <FloatingNav />
@@ -18,7 +16,7 @@ export default function MediaServerGuidePage() {
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
-          <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm dark:bg-slate-800/90 dark:border dark:border-slate-700">
+          <Card className="border-0 shadow-sm bg-white/90 backdrop-blur-sm dark:bg-slate-800/90 dark:border dark:border-slate-700">
             <CardHeader className="text-center pb-6">
               <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FileText className="w-10 h-10 text-white" />
@@ -41,7 +39,7 @@ export default function MediaServerGuidePage() {
                   <p className="text-sm text-slate-600 dark:text-slate-400">Comprehensive step-by-step guide</p>
                 </div>
                 <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                  <Users className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
+                  <Users className="w-8 h-8 text-amber-700 dark:text-amber-400 mx-auto mb-2" />
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">Beginner Friendly</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400">No prior experience required</p>
                 </div>
@@ -119,7 +117,7 @@ export default function MediaServerGuidePage() {
                 <a href="https://ko-fi.com/s/305aedade0" target="_blank" rel="noopener noreferrer">
                   <Button
                     size="lg"
-                    className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all dark:bg-blue-500 dark:hover:bg-blue-600"
+                    className="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white font-bold text-lg px-8 py-4 shadow-lg hover:shadow-sm transition-all dark:bg-blue-500 dark:hover:bg-neutral-900"
                   >
                     ❤️ Access This Guide
                   </Button>
@@ -133,7 +131,7 @@ export default function MediaServerGuidePage() {
                   This guide includes real hardware recommendations and tested configurations.
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-500">
-                  Questions? <Link href="/" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 underline">Contact Kirk</Link>
+                  Questions? <Link href="/" className="text-amber-700 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-300 underline">Contact Kirk</Link>
                 </p>
               </div>
             </CardContent>

@@ -5,39 +5,30 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Sparkles, Code2, Home, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import Lottie from "@/components/lottie-client"
-import rocketAnimation from "@/public/images/rocket-ani.json"
 import { Button } from "@/components/ui/button"
 
 export default function Expertise() {
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl"></div>
-      </div>
 
       <FloatingNav />
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <div className="w-40 sm:w-48 mx-auto mb-8">
-              <Lottie animationData={rocketAnimation} loop autoplay />
-            </div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">My Expertise</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Customer-facing technical leader designing, prototyping, and deploying complex API- and data-driven systems.
             </p>
-            <p className="text-blue-600 dark:text-blue-400 font-medium italic mt-4">
+            <p className="text-amber-700 dark:text-amber-400 font-medium italic mt-4">
               "Translating ambiguous requirements into production-grade solutions."
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-16">
-            <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+            <Card className="glass border-0 shadow-sm hover:shadow-md transition-all duration-300 group">
               <CardHeader className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                   <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   </svg>
@@ -57,10 +48,10 @@ export default function Expertise() {
               </CardContent>
             </Card>
 
-            <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+            <Card className="glass border-0 shadow-sm hover:shadow-md transition-all duration-300 group">
               <CardHeader className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                  <svg className="w-6 h-6 text-amber-700 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                   </svg>
                 </div>
@@ -79,9 +70,9 @@ export default function Expertise() {
               </CardContent>
             </Card>
 
-            <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+            <Card className="glass border-0 shadow-sm hover:shadow-md transition-all duration-300 group">
               <CardHeader className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                   <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
@@ -103,7 +94,7 @@ export default function Expertise() {
           </div>
 
           {/* Detailed Skills Section */}
-          <div className="glass rounded-3xl p-8 shadow-xl mb-16">
+          <div className="glass rounded-2xl p-8 shadow-sm mb-16">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-6 text-center">Strengths at a Glance</h2>
             <p className="text-slate-700 dark:text-slate-300 mb-6 text-center">
               These are the skills I draw from every day — whether architecting enterprise solutions, managing data platforms, or exploring what&apos;s next with AI.
@@ -137,11 +128,11 @@ export default function Expertise() {
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Live AI Portfolio</h2>
             <div className="grid md:grid-cols-3 gap-6">
               <Link href="/resources/tools/extractor">
-                <Card className="glass border-0 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer h-full bg-blue-50/50 dark:bg-slate-900/50">
+                <Card className="glass border-0 shadow-lg hover:shadow-sm hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full bg-neutral-50 dark:bg-neutral-900/50">
                   <CardHeader className="flex flex-col items-center text-center">
                     <div className="flex items-center gap-3 mb-2">
-                       <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg">
-                          <Sparkles className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                       <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+                          <Sparkles className="w-5 h-5 text-amber-700 dark:text-amber-400" />
                        </div>
                        <CardTitle className="text-lg">Entity Extractor</CardTitle>
                     </div>
@@ -153,11 +144,11 @@ export default function Expertise() {
               </Link>
 
               <Link href="/tools/translator">
-                <Card className="glass border-0 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer h-full bg-blue-50/50 dark:bg-slate-900/50">
+                <Card className="glass border-0 shadow-lg hover:shadow-sm hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full bg-neutral-50 dark:bg-neutral-900/50">
                   <CardHeader className="flex flex-col items-center text-center">
                      <div className="flex items-center gap-3 mb-2">
-                       <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg">
-                          <Code2 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                       <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+                          <Code2 className="w-5 h-5 text-amber-700 dark:text-amber-400" />
                        </div>
                        <CardTitle className="text-lg">Code Translator</CardTitle>
                     </div>
@@ -169,11 +160,11 @@ export default function Expertise() {
               </Link>
 
               <Link href="/resources/tools/ha-architect">
-                <Card className="glass border-0 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer h-full bg-blue-50/50 dark:bg-slate-900/50">
+                <Card className="glass border-0 shadow-lg hover:shadow-sm hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full bg-neutral-50 dark:bg-neutral-900/50">
                   <CardHeader className="flex flex-col items-center text-center">
                      <div className="flex items-center gap-3 mb-2">
-                       <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg">
-                          <Home className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                       <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+                          <Home className="w-5 h-5 text-amber-700 dark:text-amber-400" />
                        </div>
                        <CardTitle className="text-lg">HA Architect</CardTitle>
                     </div>
@@ -188,7 +179,7 @@ export default function Expertise() {
 
           <div className="flex justify-center pb-8">
             <Link href="/resources">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg transform hover:scale-105 transition-all text-lg px-8 py-6 rounded-full">
+              <Button size="lg" className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white shadow-lg transform hover:scale-[1.02] transition-all text-lg px-8 py-6 rounded-full">
                 View My Content & Tools
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>

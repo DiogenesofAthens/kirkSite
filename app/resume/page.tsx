@@ -12,9 +12,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Award, ChevronDown, GraduationCap } from "lucide-react";
 import { TimezoneClock } from "@/components/timezone-clock";
-import Lottie from "@/components/lottie-client";
-import laptopAnimation from "@/public/images/man-laptop-ani.json";
-import { useEffect } from "react";
 
 export default function Resume() {
   const [openCompanyIndex, setOpenCompanyIndex] = useState<number | null>(0);
@@ -41,7 +38,7 @@ export default function Resume() {
             "Completing technical RFP/RFI responses for strategic accounts",
           ],
           achievements: [
-            "Ranked #1 globally in quota attainment across an 80-person Solutions Engineering org (2x)",
+            "Consistently among the top-performing Solutions Engineers across an 80-person global SE org",
             "Lead solution architect on the most complex enterprise engagements",
             "Built production-ready demos and POCs integrating APIs, data models, and workflow automation",
             "Partnered directly with product and engineering to shape product direction",
@@ -144,40 +141,36 @@ export default function Resume() {
 
         <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto text-center">
-            <div className="w-40 md:w-52 mx-auto mb-12 pt-4">
-              <Lottie animationData={laptopAnimation} loop={true} />
-            </div>
-
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-2">
               Resume
             </h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               15+ years spanning solutions engineering, product management, and enterprise data platforms
             </p>
-            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-2">
+            <p className="text-lg text-amber-700 dark:text-amber-400 font-medium italic mt-2">
               "I&apos;m most effective in environments where the problem space is evolving and the path to deployment isn&apos;t fully defined."
             </p>
 
             <div className="grid md:grid-cols-4 gap-6 mt-10 mb-10">
-              <Card className="glass border-0 shadow-xl text-center">
+              <Card className="glass border-0 shadow-sm text-center">
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">#1</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">Global Quota Attainment (2x)</div>
+                  <div className="text-3xl font-bold text-amber-700 dark:text-amber-400 mb-2">Top SE</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Consistently Top-Performing</div>
                 </CardContent>
               </Card>
-              <Card className="glass border-0 shadow-xl text-center">
+              <Card className="glass border-0 shadow-sm text-center">
                 <CardContent className="pt-6">
                   <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">$10M+</div>
                   <div className="text-sm text-slate-600 dark:text-slate-400">Portfolio Managed</div>
                 </CardContent>
               </Card>
-              <Card className="glass border-0 shadow-xl text-center">
+              <Card className="glass border-0 shadow-sm text-center">
                 <CardContent className="pt-6">
                   <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">15+ Years</div>
                   <div className="text-sm text-slate-600 dark:text-slate-400">Experience</div>
                 </CardContent>
               </Card>
-              <Card className="glass border-0 shadow-xl text-center">
+              <Card className="glass border-0 shadow-sm text-center">
                 <CardContent className="pt-6">
                   <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">ΦΒΚ</div>
                   <div className="text-sm text-slate-600 dark:text-slate-400">Phi Beta Kappa, USC</div>
@@ -191,7 +184,7 @@ export default function Resume() {
               const isCompanyOpen = openCompanyIndex === null || openCompanyIndex === companyIndex;
 
               return (
-                <Card key={companyIndex} className="glass border-0 shadow-xl">
+                <Card key={companyIndex} className="glass border-0 shadow-sm">
                   <CardHeader
                     onClick={() =>
                       setOpenCompanyIndex(openCompanyIndex === companyIndex ? -1 : companyIndex)
@@ -199,7 +192,7 @@ export default function Resume() {
                     className="cursor-pointer flex justify-between items-center"
                   >
                     <div className="flex items-center gap-4 text-left w-full" style={{ justifyContent: 'flex-start' }}>
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                      <div className="w-12 h-12 bg-neutral-900 dark:bg-neutral-100 rounded-lg flex items-center justify-center">
                         <span className="text-white font-bold text-sm">{company.logo}</span>
                       </div>
                       <div className="text-left flex flex-col justify-start">
@@ -309,10 +302,10 @@ export default function Resume() {
             })}
 
             {/* Education Section */}
-            <Card className="glass border-0 shadow-xl">
+            <Card className="glass border-0 shadow-sm">
               <CardHeader>
                 <div className="flex items-center gap-4 text-left w-full" style={{ justifyContent: 'flex-start' }}>
-                  <div className="w-12 h-12 bg-gradient-to-br from-cardinal-red to-gold-500 rounded-lg flex items-center justify-center bg-gradient-to-br from-red-700 to-yellow-500">
+                  <div className="w-12 h-12 bg-red-800 rounded-lg flex items-center justify-center">
                     <GraduationCap className="w-6 h-6 text-white" />
                   </div>
                   <div className="text-left flex flex-col justify-start">
@@ -336,7 +329,7 @@ export default function Resume() {
                     <Badge variant="outline" className="text-xs border-red-500 text-red-700 dark:text-red-400">
                       USC Presidential Scholar
                     </Badge>
-                    <Badge variant="outline" className="text-xs border-blue-500 text-blue-700 dark:text-blue-400">
+                    <Badge variant="outline" className="text-xs border-neutral-400 text-neutral-700 dark:text-neutral-300">
                       Dean&apos;s List (All Years)
                     </Badge>
                   </div>
@@ -347,7 +340,7 @@ export default function Resume() {
             <div className="flex justify-center gap-4 mt-12 mb-10">
               <button
                 onClick={expandAll}
-                className="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
+                className="px-6 py-2 rounded-md bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
               >
                 Expand All
               </button>

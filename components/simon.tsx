@@ -6,7 +6,7 @@ const colors = [
   { id: 0, label: "Green", base: "bg-green-600", glow: "shadow-green-400", position: "top-0 left-0 rounded-tl-full" },
   { id: 1, label: "Red", base: "bg-red-600", glow: "shadow-red-400", position: "top-0 right-0 rounded-tr-full" },
   { id: 2, label: "Yellow", base: "bg-yellow-400", glow: "shadow-yellow-300", position: "bottom-0 left-0 rounded-bl-full" },
-  { id: 3, label: "Blue", base: "bg-blue-600", glow: "shadow-blue-400", position: "bottom-0 right-0 rounded-br-full" },
+  { id: 3, label: "Blue", base: "bg-neutral-900", glow: "shadow-blue-400", position: "bottom-0 right-0 rounded-br-full" },
 ]
 
 const frequencies = [329.63, 261.63, 220.00, 164.81]
@@ -142,7 +142,7 @@ export function SimonGame({ onGameOver }: SimonGameProps) {
         ))}
 
         {/* Center Hub */}
-        <div className="absolute top-1/2 left-1/2 w-1/3 h-1/3 -translate-x-1/2 -translate-y-1/2 bg-slate-100 dark:bg-slate-900 rounded-full border-8 border-slate-200 dark:border-slate-800 flex items-center justify-center shadow-2xl z-20">
+        <div className="absolute top-1/2 left-1/2 w-1/3 h-1/3 -translate-x-1/2 -translate-y-1/2 bg-slate-100 dark:bg-slate-900 rounded-full border-8 border-slate-200 dark:border-slate-800 flex items-center justify-center shadow-md z-20">
           <div className="text-center">
             <div className="text-xs uppercase font-bold tracking-widest text-slate-400">Simon</div>
             {isGameOver && <div className="text-red-500 font-bold text-sm">GAME OVER</div>}
@@ -166,7 +166,7 @@ export function SimonGame({ onGameOver }: SimonGameProps) {
         {isGameOver && (
           <button
             onClick={startGame}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-105 font-bold"
+            className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white px-6 py-2 rounded-full shadow-md transition hover:scale-[1.02] font-bold"
           >
             Try Again
           </button>

@@ -46,7 +46,7 @@ export function MeetingCostCalculator() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto glass shadow-xl">
+    <Card className="w-full max-w-md mx-auto glass shadow-sm">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <DollarSign className="w-6 h-6 text-green-600" /> Meeting Cost Calculator

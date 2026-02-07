@@ -35,7 +35,7 @@ export default function SalesPlaybookConfirmPage() {
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-2xl mx-auto">
-          <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm dark:bg-slate-800/90 dark:border dark:border-slate-700">
+          <Card className="border-0 shadow-sm bg-white/90 backdrop-blur-sm dark:bg-slate-800/90 dark:border dark:border-slate-700">
             <CardHeader className="text-center pb-4">
               <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Heart className="w-8 h-8 text-white" />
@@ -68,7 +68,7 @@ export default function SalesPlaybookConfirmPage() {
                     window.open(paypalLink, "_blank")
                   }}
                   size="lg"
-                  className="mt-6 w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
+                  className="mt-6 w-full sm:w-auto px-4 py-3 sm:px-12 sm:py-4 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white font-bold text-lg shadow-lg hover:shadow-sm transition-all dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg"
                 >
                   Donate $20 via PayPal
                   <ExternalLink className="w-4 h-4 ml-2" />
@@ -79,7 +79,7 @@ export default function SalesPlaybookConfirmPage() {
                     onClick={handleFreeClick}
                     variant="outline"
                     size="lg"
-                    className="w-full sm:w-auto border-slate-300 text-blue-700 hover:bg-blue-100 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-900 font-semibold"
+                    className="w-full sm:w-auto border-slate-300 text-blue-700 hover:bg-amber-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-900 font-semibold"
                   >
                     Just give it to me already!
                   </Button>

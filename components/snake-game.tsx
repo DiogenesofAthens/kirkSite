@@ -119,13 +119,13 @@ export function SnakeGame() {
   }
 
   return (
-    <Card className="glass border-0 shadow-xl max-w-md mx-auto">
+    <Card className="glass border-0 shadow-sm max-w-md mx-auto">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">Snake Game</CardTitle>
         <div className="flex justify-between items-center">
           <span className="text-lg font-semibold text-slate-700 dark:text-slate-300">Score: {score}</span>
           <div className="flex gap-2">
-            <Button size="sm" onClick={toggleGame} className="bg-blue-600 hover:bg-blue-700">
+            <Button size="sm" onClick={toggleGame} className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900">
               {gameOver ? (
                 <RotateCcw className="w-4 h-4" />
               ) : gameRunning ? (
@@ -175,7 +175,7 @@ export function SnakeGame() {
               <div className="text-center text-white">
                 <h3 className="text-xl font-bold mb-2">Game Over!</h3>
                 <p className="mb-4">Final Score: {score}</p>
-                <Button onClick={resetGame} className="bg-blue-600 hover:bg-blue-700">
+                <Button onClick={resetGame} className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900">
                   Play Again
                 </Button>
               </div>

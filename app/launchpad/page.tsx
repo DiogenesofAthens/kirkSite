@@ -54,8 +54,6 @@ export default function LaunchpadPage() {
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 dark:bg-blue-800/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 dark:bg-purple-800/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <FloatingNav />
@@ -71,7 +69,7 @@ export default function LaunchpadPage() {
               <div className={`w-40 sm:w-52 md:w-64 transition-transform duration-[10000ms] ${launching ? "animate-rocket" : ""}`}>
                 <Lottie animationData={rocketAnimation} loop={false} autoplay />
               </div>
-              <Button onClick={() => window.location.reload()} className="mt-8 bg-blue-600 hover:bg-blue-700 text-white">
+              <Button onClick={() => window.location.reload()} className="mt-8 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white">
                 Back to Launchpad
               </Button>
             </div>
@@ -91,21 +89,21 @@ export default function LaunchpadPage() {
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 text-left mb-10">
-              <Card className="glass border-0 shadow-xl text-center">
+              <Card className="glass border-0 shadow-sm text-center">
                 <CardContent className="pt-6">
                   <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">6 Pages</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400">Home, Expertise, Resume, Recommendations, Resources (3 games included), Blog</p>
                 </CardContent>
               </Card>
-              <Card className="glass border-0 shadow-xl text-center">
+              <Card className="glass border-0 shadow-sm text-center">
                 <CardContent className="pt-6">
-                  <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
+                  <FileText className="w-8 h-8 text-amber-700 dark:text-amber-400 mx-auto mb-2" />
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">Blog & Guides</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400">Base: 1 sample post. Premium: 5 posts & 2 paid guides</p>
                 </CardContent>
               </Card>
-              <Card className="glass border-0 shadow-xl text-center">
+              <Card className="glass border-0 shadow-sm text-center">
                 <CardContent className="pt-6">
                   <PenTool className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
                   <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1">Custom Setup</h3>
@@ -116,7 +114,7 @@ export default function LaunchpadPage() {
 
             <div className="grid md:grid-cols-2 gap-6 mb-10">
               <a href="https://ko-fi.com/s/c8409694f8" target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700 text-white">Base Package – $1000</Button>
+                <Button size="lg" className="w-full bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white">Base Package – $1000</Button>
               </a>
               <a href="https://ko-fi.com/s/cbee7f8511" target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white">Premium Package – $2500</Button>

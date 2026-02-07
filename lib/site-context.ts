@@ -19,7 +19,7 @@ export const EXPERIENCES = [
             "Completing technical RFP/RFI responses for strategic accounts",
           ],
           achievements: [
-            "Ranked #1 globally in quota attainment across an 80-person Solutions Engineering org (2x)",
+            "Consistently among the top-performing Solutions Engineers across an 80-person global SE org",
             "Lead solution architect on the most complex enterprise engagements",
             "Built production-ready demos and POCs integrating APIs, data models, and workflow automation",
             "Partnered directly with product and engineering to shape product direction",
@@ -168,7 +168,7 @@ Customer-facing technical leader with 15+ years of experience spanning solutions
 "Translating ambiguous requirements into production-grade solutions — in environments where the problem space is evolving."
 
 Key Stats:
-- #1 Globally in Quota Attainment (2x) across 80-person SE org
+- Top-Performing SE across 80-person global org
 - $10M+ Portfolio Managed at S&P Global
 - 15+ Years Experience
 - Phi Beta Kappa, USC

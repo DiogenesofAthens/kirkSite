@@ -302,7 +302,7 @@ export default function CodeTranslatorPage() {
            <Button
              onClick={handleTranslate}
              disabled={loading}
-             className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white min-w-[140px] shadow-lg shadow-blue-500/20"
+             className="w-full md:w-auto bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white min-w-[140px] shadow-lg shadow-blue-500/20"
            >
              {loading ? (
                <>
@@ -416,7 +416,7 @@ export default function CodeTranslatorPage() {
         {explanation && (
             <Card className="p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm animate-in fade-in slide-in-from-bottom-4">
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4 flex items-center gap-2">
-                    <Info className="w-5 h-5 text-blue-600" />
+                    <Info className="w-5 h-5 text-amber-700" />
                     Architectural Analysis
                 </h3>
                 <div className="prose prose-slate dark:prose-invert max-w-none text-sm text-slate-600 dark:text-slate-300 whitespace-pre-wrap">

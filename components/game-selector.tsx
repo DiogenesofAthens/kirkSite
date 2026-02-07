@@ -47,7 +47,7 @@ export function GameSelector() {
       id: "simon",
       title: "Simon Says",
       description: "Repeat the pattern! Classic color memory game with difficulty scaling.",
-      color: "bg-blue-500 hover:bg-blue-600",
+      color: "bg-blue-500 hover:bg-neutral-900",
       emoji: "🔵",
       href: "/resources/games/simon"
     },
@@ -83,7 +83,7 @@ export function GameSelector() {
                    <Gamepad2 className="w-6 h-6" />
                 </div>
               </TooltipTrigger>
-              <TooltipContent className="bg-slate-950 text-green-400 font-mono border-slate-800 text-xs tracking-widest shadow-2xl">
+              <TooltipContent className="bg-slate-950 text-green-400 font-mono border-slate-800 text-xs tracking-widest shadow-md">
                 <p>↑ ↑ ↓ ↓ ← → ← → B A</p>
               </TooltipContent>
             </Tooltip>
@@ -99,10 +99,10 @@ export function GameSelector() {
         {games.map((game) => (
           <Link key={game.id} href={game.href} className="block h-full">
             <Card
-              className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group hover:scale-[1.02] h-full flex flex-col text-center"
+              className="glass border-0 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group hover:scale-[1.02] h-full flex flex-col text-center"
             >
               <CardHeader className="text-center flex-1 flex flex-col items-center">
-                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">{game.emoji}</div>
+                <div className="text-5xl mb-4 group-hover:scale-105 transition-transform duration-300">{game.emoji}</div>
                 <CardTitle className="text-xl text-slate-900 dark:text-slate-50">{game.title}</CardTitle>
                 <CardDescription className="text-slate-700 dark:text-slate-300">{game.description}</CardDescription>
               </CardHeader>

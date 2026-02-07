@@ -11,7 +11,6 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Calendar, Clock, ArrowRight, Mail, Search, Check, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { useState, useMemo } from "react"
-import Lottie from "@/components/lottie-client"
 import { ContactModal } from "@/components/contact-modal"
 import { cn } from "@/lib/utils"
 import { blogPosts } from "@/lib/tools-config"
@@ -53,21 +52,10 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
       <FloatingNav />
       <TimezoneClock />
 
-      <div className="pt-28 pb-2 flex justify-center">
-        <div className="w-40 sm:w-48 md:w-56">
-          <Lottie animationData={require("@/public/images/blog-ani.json")} loop autoplay />
-        </div>
-      </div>
-
-      <div className="pt-8 pb-20 px-4 sm:px-6 lg:px-8 relative">
+      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mt-2 mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Blog</h1>
@@ -146,7 +134,7 @@ export default function Blog() {
             {filteredPosts.length > 0 ? (
                 filteredPosts.map((post) => (
                 <div key={post.slug} className="relative group">
-                    <Card className="glass border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group cursor-pointer h-full flex flex-col text-center">
+                    <Card className="glass border-0 shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer h-full flex flex-col text-center">
                     <CardHeader className="flex flex-col items-center">
                         <div className="flex items-center justify-center gap-4 mb-2 w-full">
                         <Badge
@@ -160,7 +148,7 @@ export default function Blog() {
                             {new Date(post.date + "T12:00:00").toLocaleDateString()}
                         </div>
                         </div>
-                        <CardTitle className="text-xl group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-slate-50 text-center">
+                        <CardTitle className="text-xl group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors text-slate-900 dark:text-slate-50 text-center">
                         <Link
                             href={`/blog/${post.slug}`}
                             className="hover:underline focus:underline focus:outline-none"
@@ -182,7 +170,7 @@ export default function Blog() {
                         </div>
                         <Link
                             href={`/blog/${post.slug}`}
-                            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center"
+                            className="text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 font-medium flex items-center"
                         >
                             Read More
                             <ArrowRight className="w-4 h-4 ml-1" />
@@ -206,7 +194,7 @@ export default function Blog() {
             )}
           </div>
 
-          <div className="mt-16 glass rounded-3xl p-8 text-center">
+          <div className="mt-16 glass rounded-2xl p-8 text-center">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Let's Connect</h2>
               <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
@@ -217,7 +205,7 @@ export default function Blog() {
             <div className="flex justify-center">
               <Button
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+                className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white"
                 onClick={() => setShowContactForm(true)}
               >
                 <Mail className="w-4 h-4 mr-2" />
