@@ -77,7 +77,7 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
       "Executive Presentation Templates",
     ],
     testimonial: {
-      text: "Grant's enterprise playbook helped us close our first $2M government deal. The RFP templates were game-changers.",
+      text: "Kirk's enterprise playbook helped us close our first $2M government deal. The RFP templates were game-changers.",
       author: "Mike Rodriguez",
       role: "Enterprise AE, CloudSoft",
     },

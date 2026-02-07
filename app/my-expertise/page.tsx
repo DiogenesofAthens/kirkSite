@@ -27,10 +27,10 @@ export default function Expertise() {
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">My Expertise</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
-              Comprehensive business technology and process consulting across multiple domains.
+              Customer-facing technical leader designing, prototyping, and deploying complex API- and data-driven systems.
             </p>
             <p className="text-blue-600 dark:text-blue-400 font-medium italic mt-4">
-              "Bridging the gap between sales, tech, and process with proven results."
+              "Translating ambiguous requirements into production-grade solutions."
             </p>
           </div>
 
@@ -42,17 +42,17 @@ export default function Expertise() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   </svg>
                 </div>
-                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Sales & Marketing Knowledge</CardTitle>
+                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Solution Architecture & Enterprise Engagement</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
-                  Deep experience sourcing and closing sales across software and consumer goods, including both on-premise and cloud-based solutions. I apply practical strategies that generate real results and long-term value.
+                  Deep experience leading complex enterprise engagements from discovery through deployment. I design systems that work in the real world — not just on paper — through close collaboration with product, engineering, and executive stakeholders.
                 </CardDescription>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">SaaS Sales</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Enterprise Solutions</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Lead Generation</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Cold Calling</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Enterprise Solution Design</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">API & Data Architecture</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Technical Discovery</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">POC Development</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -64,17 +64,17 @@ export default function Expertise() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                   </svg>
                 </div>
-                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Website Design & Implementation</CardTitle>
+                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Product Management & Data Platforms</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
-                  I build scalable, modern web apps with Next.js and Vercel, and have hands-on experience with AI-powered UI tools. I'm also comfortable with legacy platforms like WordPress and DNN for migrations and integrations.
+                  Led product strategy for enterprise API and data-feed platforms with eight-figure recurring revenue. Hands-on PM who works directly with engineering and with the world&apos;s largest financial institutions.
                 </CardDescription>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Next.js</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Vercel</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">WordPress</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">DNN</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Product Strategy</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">API / Data Feeds</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Go-to-Market</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Revenue Lifecycle</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -83,20 +83,20 @@ export default function Expertise() {
               <CardHeader className="flex flex-col items-center text-center">
                 <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
                 </div>
-                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Technology Consulting</CardTitle>
+                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">AI & Emerging Technology</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
-                  Whether it's optimizing devices, building custom PCs, setting up servers, or automating your home — I help people get the most out of their tech. Hands-on and strategy-driven.
+                  Passionate about AI, LLMs, and generative AI. This website itself was vibe-coded with Claude — a testament to what&apos;s possible when you pair domain expertise with modern AI tools.
                 </CardDescription>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">System Integration</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Home Automation</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Server Setup</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Device Optimization</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Artificial Intelligence</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">LLMs</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Generative AI</Badge>
+                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Workflow Automation</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -106,33 +106,33 @@ export default function Expertise() {
           <div className="glass rounded-3xl p-8 shadow-xl mb-16">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-6 text-center">Strengths at a Glance</h2>
             <p className="text-slate-700 dark:text-slate-300 mb-6 text-center">
-              These are the skills I draw from every day — whether solving business challenges, improving technical systems, or launching new ideas.
+              These are the skills I draw from every day — whether architecting enterprise solutions, managing data platforms, or exploring what&apos;s next with AI.
             </p>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="text-center">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Sales & Business Development</h3>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Technical Leadership</h3>
                 <ul className="space-y-2 text-slate-700 dark:text-slate-300 inline-block text-left">
-                  <li>• Solution-Oriented Selling</li>
-                  <li>• Strategic Account Growth</li>
-                  <li>• Customer Success Leadership</li>
-                  <li>• Scalable Lead Generation</li>
-                  <li>• Complex Deal Execution</li>
+                  <li>• Solution Architecture</li>
+                  <li>• API & Data System Design</li>
+                  <li>• Cross-Functional Collaboration</li>
+                  <li>• Complex Enterprise Engagements</li>
+                  <li>• Technical RFP/RFI Execution</li>
                 </ul>
               </div>
               <div className="text-center">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Technology & Operations</h3>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Business & Strategy</h3>
                 <ul className="space-y-2 text-slate-700 dark:text-slate-300 inline-block text-left">
-                  <li>• Technical Diagnostics</li>
-                  <li>• Data-Driven Systems Analysis</li>
-                  <li>• Cross-Functional Team Leadership</li>
-                  <li>• Workflow Design & Optimization</li>
-                  <li>• Operational Process Improvement</li>
+                  <li>• Product Management</li>
+                  <li>• Client Relationship Management</li>
+                  <li>• Strategic Account Growth</li>
+                  <li>• Revenue Lifecycle Optimization</li>
+                  <li>• Go-to-Market Strategy</li>
                 </ul>
               </div>
             </div>
           </div>
 
-          {/* Live AI Portfolio Section - Moved to Bottom */}
+          {/* Live AI Portfolio Section */}
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Live AI Portfolio</h2>
             <div className="grid md:grid-cols-3 gap-6">

@@ -123,7 +123,7 @@ export default function SalesPlaybookPage() {
                     href="/"
                     className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 underline"
                   >
-                    Contact Grant
+                    Contact Kirk
                   </Link>
                 </p>
               </div>

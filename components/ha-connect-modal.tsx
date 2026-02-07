@@ -96,7 +96,7 @@ export function HAConnectModal({ haHook }: HAConnectModalProps) {
                     <pre className="bg-slate-100 dark:bg-slate-900 p-2 rounded text-[10px] font-mono overflow-x-auto text-slate-800 dark:text-slate-200">
 {`http:
   cors_allowed_origins:
-    - https://grantglazer.com
+    - https://kirkwessman.com
     - http://localhost:3000`}
                     </pre>
                     <p className="text-xs text-red-600 dark:text-red-300 font-semibold">

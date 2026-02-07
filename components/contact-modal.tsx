@@ -71,7 +71,7 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <Card className="w-full max-w-md glass">
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Contact Grant</CardTitle>
+          <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Contact Kirk</CardTitle>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>
@@ -118,7 +118,7 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
               <div>
                 <Textarea
                   name="message"
-                  placeholder="How can Grant help you? *"
+                  placeholder="How can Kirk help you? *"
                   required
                   rows={4}
                   className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"

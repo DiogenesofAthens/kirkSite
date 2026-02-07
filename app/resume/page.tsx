@@ -10,197 +10,121 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin, Award, ChevronDown } from "lucide-react";
+import { Calendar, MapPin, Award, ChevronDown, GraduationCap } from "lucide-react";
 import { TimezoneClock } from "@/components/timezone-clock";
 import Lottie from "@/components/lottie-client";
 import laptopAnimation from "@/public/images/man-laptop-ani.json";
-import { differenceInMonths, parse } from "date-fns";
 import { useEffect } from "react";
 
-const calculateDuration = (start: string, end: string, currentDate: Date) => {
-  const referenceDate = new Date(2020, 0, 1);
-  const startDate = parse(start, "MMM yyyy", referenceDate);
-  const endDate = end === "Present" ? currentDate : parse(end, "MMM yyyy", referenceDate);
-
-  const totalMonths = differenceInMonths(endDate, startDate) + 1;
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
-
-  const parts = [];
-  if (years > 0) parts.push(`${years} ${years === 1 ? "yr" : "yrs"}`);
-  if (months > 0) parts.push(`${months} ${months === 1 ? "mo" : "mos"}`);
-
-  return parts.join(" ");
-};
-
 export default function Resume() {
-  const [currentDate, setCurrentDate] = useState<Date | null>(null);
-
-  useEffect(() => {
-    setCurrentDate(new Date());
-  }, []);
-
-  // Use a fixed date for server-side rendering to avoid build errors and hydration mismatches
-  // This date should be relatively recent so the initial render is reasonable
-  const effectiveDate = currentDate || new Date(2025, 1, 1);
-
   const [openCompanyIndex, setOpenCompanyIndex] = useState<number | null>(0);
 
   const experiences = [
     {
       company: "Conga",
       logo: "CG",
+      duration: "2019 - Present",
       positions: [
         {
-          title: "Principal Sales Engineer",
-          startDate: "Mar 2024",
+          title: "Principal Solutions Engineer",
+          startDate: "2019",
           endDate: "Present",
-          location: "San Francisco Bay Area",
+          location: "Santa Monica, CA",
           type: "Full-time",
           description:
-            "Being a technical resource for our Sales team here at Conga (formerly Apttus), I help with the discovery process as well as demonstrating the value of our Quote-to-Cash and Procure-to-Pay solutions to help transform the revenue lifecycle at each of my clients.",
+            "Lead solution architect on complex enterprise engagements, owning discovery, system design, and deployment strategy for Conga's Quote-to-Cash and CLM platform.",
           responsibilities: [
-            "Building and delivering custom product demonstrations to strategic & enterprise customers",
-            "Executing intensive qualification and discovery calls",
-            "Configuring and utilizing Salesforce.com and AWS platforms",
-            "Conducting Technical Security Calls",
-            "Assisting Professional Services with scoping/implementation",
-            "Completing technical RFP/RFI responses",
+            "Leading solution architecture on complex enterprise engagements",
+            "Owning discovery, system design, and deployment strategy",
+            "Building custom demos and proof-of-concepts integrating APIs, data models, and workflow automation",
+            "Partnering with product and engineering to translate customer needs into deployable architectures",
+            "Completing technical RFP/RFI responses for strategic accounts",
           ],
           achievements: [
-            "Personally helped close over $41 million in business across 90+ customers",
-            "Top performing SE by revenue FY 2022",
-            "Awarded SE of the Year in both FY 2022 and 2023",
-            "Overachieved quota in FY 2021, 2022, 2023, 2024, and 2026",
-            "SKO Mainstage Presenter 2023, 2024",
-            "Conga Connect Mainstage Presenter 2024 (Over 600 people in audience)",
-            "SE Summit 2024 - Awarded for Best Innovation Demo of the year",
-            "Promoted to support the Strategic Sales team Feb 2025",
+            "Ranked #1 globally in quota attainment across an 80-person Solutions Engineering org (2x)",
+            "Lead solution architect on the most complex enterprise engagements",
+            "Built production-ready demos and POCs integrating APIs, data models, and workflow automation",
+            "Partnered directly with product and engineering to shape product direction",
           ],
           certifications: [
-            "Conga / Apttus CPQ, CLM, Approvals, Order Management & Billing Certified",
-            "CongaSign, Composer, & Conga Grid Certified",
-          ],
-        },
-        {
-          title: "Lead Sales Engineer",
-          startDate: "Sep 2019",
-          endDate: "Mar 2024",
-          location: "San Francisco Bay Area",
-          type: "Full-time",
-          description:
-            "I consistently overachieved my quota 4 years straight, and helped our west enterprise sales team set new records. I personally helped impact transformational deals at some of the biggest companies in the world.",
-          achievements: [
-            "Multi-million dollar deals at companies like Salesforce & Docusign",
-            "Major deals at Workday, Twilio, HealthEquity, Splunk, TriNet, ServiceNow",
-            "Helped enable and train new staff",
-            "Presented solutions on main-stage at sales kick off events 2023 and 2024",
-            "Became SME for Generative AI impact on products",
-            "Promoted to Principal Sales Engineer",
-          ],
-        },
-        {
-          title: "Sales Engineer",
-          startDate: "Jan 2019",
-          endDate: "Sep 2019",
-          location: "San Francisco Bay Area",
-          type: "Full-time",
-          description:
-            "I reinforced the enterprise sales team by helping with discovery, delivering demos, POC's, answering technical questions, and completing RFP's.",
-          achievements: [
-            "Developed and built the CLM demo script to enable other Sales Engineers",
-            "Promoted to Lead Sales Engineer",
-          ],
-        },
-        {
-          title: "Account Executive",
-          startDate: "Jun 2018",
-          endDate: "Jan 2019",
-          location: "San Francisco Bay Area",
-          type: "Full-time",
-          description:
-            "I supported the enterprise sales team focusing on solely on high-velocity contract management sales.",
-          achievements: ["Technical acumen recognized by management", "Promoted to Sales Engineer"],
-        },
-        {
-          title: "Sr. BDR Enterprise Business Unit",
-          startDate: "Sep 2017",
-          endDate: "Jun 2018",
-          location: "San Mateo",
-          type: "Full-time",
-          description:
-            "I helped Apttus (now named Conga) build new business relationships with the top Fortune 500 companies and helped enable our customers to sell faster using Apttus' suite of solutions.",
-          achievements: [
-            "Consistently over-achieved quota by 150%",
-            "Generated and qualified over eight million dollars in pipeline",
-            "Opened new business opportunities with Apple, Tesla, Western Union, and Hitachi Vantara",
+            "Apttus CPQ Levels 1 & 2",
+            "Apttus Billing Management",
+            "Conga Grid Certified",
           ],
         },
       ],
     },
     {
-      company: "DNN Corp.",
-      logo: "DN",
+      company: "S&P Global",
+      logo: "SP",
+      duration: "2009 - 2017",
       positions: [
         {
-          title: "Enterprise Account Executive",
-          startDate: "Oct 2016",
-          endDate: "Jun 2017",
-          location: "San Francisco Bay Area",
+          title: "Senior Relationship Manager — Investment Banking & Private Equity",
+          startDate: "2017",
+          endDate: "2017",
+          location: "Santa Monica, CA",
           type: "Full-time",
+          description:
+            "Managed an eight-figure portfolio of banking and private equity clients. Focused on mutually beneficial outcomes, embedding with clients to achieve their objectives while growing the book of business.",
           achievements: [
-            "Top Sales Rep Q1 2017",
-            "Generated 5 new business opportunities as an AE per week",
-            "Simultaneously managed 30-40 relationships from SMB through Enterprise",
-            "Sold over $200k in licensing and services through consultative approach",
-            "Worked closely with CEO, VP of Product, and Director of Professional Services",
+            "Owned and grew a $10M+ portfolio across investment banks and private equity firms",
+            "Helped clients optimize analytics workflows and data access patterns",
+            "Earned internal distinction for portfolio growth and client relationship depth",
           ],
         },
         {
-          title: "Inside Sales Development Team Manager",
-          startDate: "Mar 2016",
-          endDate: "Oct 2016",
-          location: "San Francisco Bay Area",
+          title: "Associate Director, Product Management — Enterprise Feeds / APIs",
+          startDate: "2013",
+          endDate: "2015",
+          location: "New York, NY",
           type: "Full-time",
+          description:
+            "Led product strategy for S&P's award-winning API and data-feed platforms, delivering equity and debt capital markets data to some of the world's largest financial institutions.",
           achievements: [
-            "Promoted to SDR Team Manager after 6 months of exceeding quota",
-            "Implemented training process, increasing opportunities passed to AEs by 25%",
-            "Provided detailed performance reports daily, weekly, monthly and quarterly",
-            "Still produced 20 new opportunities each month while coaching team",
+            "Managed award-winning enterprise delivery vehicle (FTP/API) for equity and debt capital markets data",
+            "Led product strategy for platforms with eight-figure recurring revenue",
+            "Owned roadmap, pricing, and go-to-market execution in partnership with engineering",
+            "Worked directly with the world's largest financial institutions as a hands-on PM",
           ],
         },
         {
-          title: "Inside Sales Development Representative",
-          startDate: "Sep 2015",
-          endDate: "Feb 2016",
-          location: "San Francisco Bay Area",
+          title: "Product Manager — Enterprise Feeds / APIs",
+          startDate: "2010",
+          endDate: "2012",
+          location: "New York, NY",
           type: "Full-time",
-          achievements: [
-            "Managed lead queue of 1000 prospects",
-            "Exceeded 60 calls and emails per day target",
-            "Qualified 25-30 new opportunities each month",
-            "Achieved 125% of Quota in first two quarters",
-            "Designed original documentation and standardized process for new SDR hires",
-          ],
+          description:
+            "Managed enterprise data feed and API products, partnering with engineering and clients to drive platform adoption.",
+        },
+        {
+          title: "Analyst",
+          startDate: "2009",
+          endDate: "2010",
+          location: "New York, NY",
+          type: "Full-time",
+          description:
+            "Supported the Capital IQ platform team with data analysis, client research, and product development.",
         },
       ],
     },
     {
-      company: "Canto",
-      logo: "CA",
+      company: "Independent Consultant",
+      logo: "IC",
+      duration: "2016 - 2019",
       positions: [
         {
-          title: "Account Executive / Product Support Specialist",
-          startDate: "Mar 2015",
-          endDate: "Sep 2015",
-          location: "San Francisco",
-          type: "Full-time",
+          title: "Strategy Adviser",
+          startDate: "2016",
+          endDate: "2019",
+          location: "New Orleans, LA & Santa Monica, CA",
+          type: "Contract",
+          description:
+            "Advised startups, public-sector organizations, and political campaigns in ill-defined problem spaces. Delivered strategy and analytical frameworks across finance, operations, and communications.",
           achievements: [
-            "Led 5-8 new business demos per week of Digital Asset Management Platform",
-            "Closed over $60k in SaaS deals with average deal size of $4k",
-            "Researched and called 40-50 clients each day",
-            "Used ToutApp to manage outbound lists with 5000+ contacts",
-            "Solved issues for 2-3 current clients each week as first level support",
+            "Advised a CPG startup, a US Senatorial campaign, and an economic development agency",
+            "Delivered strategy and analytical frameworks across finance, operations, and communications",
+            "Operated in ambiguous environments where the path to solution wasn't predefined",
           ],
         },
       ],
@@ -209,14 +133,8 @@ export default function Resume() {
 
   const scrollRefs = useRef<any>({});
 
-  const scrollToPosition = (companyIndex: number, positionIndex: number) => {
-    const key = `${companyIndex}-${positionIndex}`;
-    scrollRefs.current[key]?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setOpenCompanyIndex(companyIndex);
-  };
-
   const expandAll = () => setOpenCompanyIndex(null);
-const collapseAll = () => setOpenCompanyIndex(-1);
+  const collapseAll = () => setOpenCompanyIndex(-1);
 
   return (
     <>
@@ -234,44 +152,42 @@ const collapseAll = () => setOpenCompanyIndex(-1);
               Resume
             </h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
-              Over 10 years of experience in sales engineering, business development, and technology consulting
+              15+ years spanning solutions engineering, product management, and enterprise data platforms
             </p>
             <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-2">
-              "Sales engineer with a builder's mindset — helping teams improve processes through smart tech and strategy."
+              "I&apos;m most effective in environments where the problem space is evolving and the path to deployment isn&apos;t fully defined."
             </p>
 
             <div className="grid md:grid-cols-4 gap-6 mt-10 mb-10">
               <Card className="glass border-0 shadow-xl text-center">
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">$50M+</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">Revenue Generated</div>
+                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">#1</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Global Quota Attainment (2x)</div>
                 </CardContent>
               </Card>
               <Card className="glass border-0 shadow-xl text-center">
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">100+</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">Enterprise Customers</div>
+                  <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">$10M+</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Portfolio Managed</div>
                 </CardContent>
               </Card>
               <Card className="glass border-0 shadow-xl text-center">
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">10+ Years</div>
+                  <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">15+ Years</div>
                   <div className="text-sm text-slate-600 dark:text-slate-400">Experience</div>
                 </CardContent>
               </Card>
               <Card className="glass border-0 shadow-xl text-center">
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">2x</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">SE of the Year</div>
+                  <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">ΦΒΚ</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Phi Beta Kappa, USC</div>
                 </CardContent>
               </Card>
             </div>
-
-            
           </div>
 
           <div className="max-w-6xl mx-auto space-y-6">
-    {experiences.map((company, companyIndex) => {
+            {experiences.map((company, companyIndex) => {
               const isCompanyOpen = openCompanyIndex === null || openCompanyIndex === companyIndex;
 
               return (
@@ -289,17 +205,7 @@ const collapseAll = () => setOpenCompanyIndex(-1);
                       <div className="text-left flex flex-col justify-start">
                         <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">{company.company}</CardTitle>
                         <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
-                          {company.company === "Conga" ? (
-                            "Sep 2017 - Present"
-                          ) : (
-                            <span suppressHydrationWarning>{`${company.positions[0].startDate} - ${
-                              company.positions[0].endDate
-                            } · ${calculateDuration(
-                              company.positions[0].startDate,
-                              company.positions[0].endDate!,
-                              effectiveDate
-                            )}`}</span>
-                          )}
+                          {company.duration}
                         </CardDescription>
                       </div>
                     </div>
@@ -325,13 +231,8 @@ const collapseAll = () => setOpenCompanyIndex(-1);
                                 <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mt-1">
                                   <div className="flex items-center gap-1">
                                     <Calendar className="w-4 h-4" />
-                                    <span suppressHydrationWarning>
-                                      {position.startDate} - {position.endDate} ·{" "}
-                                      {calculateDuration(
-                                        position.startDate,
-                                        position.endDate!,
-                                        effectiveDate
-                                      )}
+                                    <span>
+                                      {position.startDate} - {position.endDate}
                                     </span>
                                   </div>
                                   {position.location && (
@@ -406,22 +307,60 @@ const collapseAll = () => setOpenCompanyIndex(-1);
                 </Card>
               );
             })}
-          <div className="flex justify-center gap-4 mt-12 mb-10">
-  <button
-    onClick={expandAll}
-    className="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
-  >
-    Expand All
-  </button>
-  <button
-    onClick={collapseAll}
-    className="px-6 py-2 rounded-md bg-gray-500 hover:bg-gray-600 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
-  >
-    Collapse All
-  </button>
-</div>
-              </div>
+
+            {/* Education Section */}
+            <Card className="glass border-0 shadow-xl">
+              <CardHeader>
+                <div className="flex items-center gap-4 text-left w-full" style={{ justifyContent: 'flex-start' }}>
+                  <div className="w-12 h-12 bg-gradient-to-br from-cardinal-red to-gold-500 rounded-lg flex items-center justify-center bg-gradient-to-br from-red-700 to-yellow-500">
+                    <GraduationCap className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="text-left flex flex-col justify-start">
+                    <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">University of Southern California</CardTitle>
+                    <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
+                      Marshall School of Business · 2004 - 2008
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
+                    B.S., Cum Laude — Business Administration
+                  </h3>
+                  <p className="text-slate-700 dark:text-slate-300">GPA: 3.7 / 4.0 (Major: 3.8)</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <Badge variant="outline" className="text-xs border-yellow-500 text-yellow-700 dark:text-yellow-400">
+                      Phi Beta Kappa
+                    </Badge>
+                    <Badge variant="outline" className="text-xs border-red-500 text-red-700 dark:text-red-400">
+                      USC Presidential Scholar
+                    </Badge>
+                    <Badge variant="outline" className="text-xs border-blue-500 text-blue-700 dark:text-blue-400">
+                      Dean&apos;s List (All Years)
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="flex justify-center gap-4 mt-12 mb-10">
+              <button
+                onClick={expandAll}
+                className="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
+              >
+                Expand All
+              </button>
+              <button
+                onClick={collapseAll}
+                className="px-6 py-2 rounded-md bg-gray-500 hover:bg-gray-600 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
+              >
+                Collapse All
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </>);
+    </>
+  );
 }

@@ -13,18 +13,18 @@ import { Toaster } from "@/components/ui/sonner"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Grant Glazer - Business Technology & Process Consultant",
+  title: "Kirk Wessman — Solutions Engineer & Technical Leader",
   description:
-    "Business Technology & Process Consultant specializing in sales optimization, technology solutions, and operational excellence. Based in San Francisco Bay Area.",
+    "Customer-facing technical leader specializing in designing, prototyping, and deploying complex API- and data-driven systems. Based in Santa Monica, CA.",
   keywords:
-    "business consultant, technology consultant, sales consultant, SaaS, enterprise solutions, San Francisco Bay Area",
-  authors: [{ name: "Grant Glazer" }],
+    "solutions engineer, technical leader, API, data platforms, enterprise, CPQ, CLM, AI, Santa Monica",
+  authors: [{ name: "Kirk Wessman" }],
   openGraph: {
-    title: "Grant Glazer - Business Technology & Process Consultant",
+    title: "Kirk Wessman — Solutions Engineer & Technical Leader",
     description:
-      "Helping organizations drive revenue through strategic technology solutions, sales optimization, and operational excellence.",
-    url: "https://grantglazer.com",
-    siteName: "Grant Glazer",
+      "Translating ambiguous requirements into production-grade solutions through close collaboration with product, engineering, and executive stakeholders.",
+    url: "https://kirkwessman.com",
+    siteName: "Kirk Wessman",
     type: "website",
   },
   generator: 'v0.dev'
@@ -39,7 +39,6 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         <link rel="icon" href="/images/g-logo.png" type="image/png" />
-        {/* You can add other <meta> or <link> tags here if needed */}
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

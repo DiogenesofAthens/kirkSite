@@ -18,8 +18,8 @@ export async function submitContactForm(formData: FormData) {
   try {
     // Send email using Resend
     const emailResult = await resend.emails.send({
-      from: "contact@grantglazer.com", // You'll need to verify this domain with Resend
-      to: "edgewaterglazer@gmail.com",
+      from: "contact@kirkwessman.com", // You'll need to verify this domain with Resend
+      to: "kwessman@gmail.com",
       subject: `New Contact Form Submission from ${contactData.name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -53,7 +53,7 @@ export async function submitContactForm(formData: FormData) {
 
     return {
       success: true,
-      message: "Thank you for your message! Grant will get back to you within 24 hours.",
+      message: "Thank you for your message! Kirk will get back to you within 24 hours.",
     }
   } catch (error) {
     console.error("Error sending email:", error)
@@ -63,7 +63,7 @@ export async function submitContactForm(formData: FormData) {
 
     return {
       success: true,
-      message: "Thank you for your message! Grant will get back to you within 24 hours.",
+      message: "Thank you for your message! Kirk will get back to you within 24 hours.",
     }
   }
 }

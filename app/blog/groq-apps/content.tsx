@@ -81,14 +81,14 @@ My Home Assistant setup is complex. I use "Picture-Elements" cards that require 
       },
       {
         type: "markdown",
-        text: `## App 4: The "Grant Glazer" Chatbot (RAG)
+        text: `## App 4: The "Kirk Wessman" Chatbot (RAG)
 
 I wanted a chatbot on this website that could answer questions as me, using data from my actual blog posts. To do this, I used RAG (Retrieval-Augmented Generation).
 
 1. The Index: I scraped my own blog posts and stored them as "vectors" (math representations of text).
-2. The Search: When you ask the bot "What did Grant do at DNN?", my system finds the relevant paragraphs from my resume.
+2. The Search: When you ask the bot "What has Kirk done at Conga?", my system finds the relevant paragraphs from my resume.
 3. The Generation: I send those paragraphs + your question to Groq.
-4. The Response: Groq reads the context and answers: " Grant held various positions at DNN Corp., including Enterprise Account Executive, Inside Sales Development Team Manager, and Inside Sales Development Representative. In these roles, he achieved notable successes such as exceeding sales targets and implementing effective training processes."
+4. The Response: Groq reads the context and answers: " Kirk is a Principal Solutions Engineer at Conga., including Enterprise Account Executive, Inside Sales Development Team Manager, and Inside Sales Development Representative. In these roles, he achieved notable successes such as exceeding sales targets and implementing effective training processes."
 
 Because Groq is free, I don't have to worry about a surprise $500 bill if one of my posts goes viral and everyone starts chatting with the bot.`
       },

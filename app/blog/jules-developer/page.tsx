@@ -30,7 +30,7 @@ In the past, maintaining a site meant wrestling with WordPress themes or getting
 
 But recently, I found a workflow that actually scales. I stopped trying to be a developer and started acting like a Product Manager.
 
-I hired a team of AI agents. Gemini is my Architect, and Google Jules is my Developer. Here is exactly how I use them to build features for grantglazer.com.`
+I hired a team of AI agents. Gemini is my Architect, and Google Jules is my Developer. Here is exactly how I use them to build features for kirkwessman.com.`
       },
       {
         type: "markdown",

@@ -43,12 +43,12 @@ export default function Home() {
                 <Lottie animationData={animationData} loop autoplay style={{ width: "100%", height: "100%" }} />
               </div>
             )}
-            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 mb-3">Grant Glazer</h1>
+            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 mb-3">Kirk Wessman</h1>
             <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-4 max-w-2xl">
-              Business Technology & Process Consultant
+              Solutions Engineer & Technical Leader — API & Data-Driven Systems
             </p>
             <p className="text-base text-blue-600 dark:text-blue-400 mb-6 max-w-xl font-medium italic">
-              "Sales engineer by day, smart home architect by night — solving problems in business and life"
+              "Translating ambiguous requirements into production-grade solutions — then shipping them."
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setShowContactForm(true)}>
@@ -74,41 +74,36 @@ export default function Home() {
                 <div className="relative">
                   <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
                     <div className="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden">
-                      <Image
-                        src="/images/grant-profile.jpg"
-                        alt="Grant Glazer Profile"
-                        width={120}
-                        height={120}
-                        className="w-full h-full object-cover rounded-full"
-                        sizes="(max-width: 768px) 128px, 128px"
-                      />
+                      <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center">
+                        <span className="text-white font-bold text-4xl">KW</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="flex-1 text-center lg:text-left">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Grant</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Kirk</h2>
                 <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
                   <p className="text-xl font-semibold">
-                    Helping enterprise teams shorten sales cycles and scale revenue through smart, consultative SaaS solutions.
+                    Customer-facing technical leader with 15+ years designing, prototyping, and deploying complex systems at the intersection of business and technology.
                   </p>
                   <p>
-                    Driven by curiosity and a love of well-designed systems, both digital and physical, I’m passionate about creating structured, scalable solutions to complex enterprise challenges. Starting in outbound sales gave me a strong foundation in communication and strategy, which I later built upon in technical roles as a solutions consultant.
+                    I specialize in translating ambiguous requirements into production-grade solutions through close collaboration with product, engineering, and executive stakeholders. My background spans solution architecture, product management, and enterprise technical engagements — with a focus on building systems that work in the real world, not just on paper.
                   </p>
                   <p>
-                    I hold a <strong className="text-slate-900 dark:text-slate-100">Bachelor of Science in Business Administration</strong> from California State University, Sacramento, with concentrations in <strong className="text-slate-900 dark:text-slate-100">Marketing</strong>, <strong className="text-slate-900 dark:text-slate-100">General Management</strong>, and <strong className="text-slate-900 dark:text-slate-100">Entrepreneurship</strong>.
+                    I hold a <strong className="text-slate-900 dark:text-slate-100">B.S. Cum Laude in Business Administration</strong> from the <strong className="text-slate-900 dark:text-slate-100">University of Southern California — Marshall School of Business</strong>, where I was inducted into <strong className="text-slate-900 dark:text-slate-100">Phi Beta Kappa</strong> and named a <strong className="text-slate-900 dark:text-slate-100">USC Presidential Scholar</strong>.
                   </p>
                   <p>
-                    My expertise spans Customer Relationship Management (CRM), Configure–Price–Quote (CPQ), Contract Lifecycle Management (CLM), Billing and Order Management (OM), Document Generation, Approval Workflows, e-Signature, AI integrations, and Digital Asset Management. I focus on aligning software capabilities with real business goals, reducing cycle times, improving quote accuracy, and unlocking data for smarter decisions.
+                    My expertise spans CPQ, CLM, enterprise API and data-feed platforms, AI integrations, and revenue lifecycle management. At Conga I&apos;ve been ranked #1 globally in quota attainment across an 80-person SE org — twice. At S&amp;P Global I managed API products with eight-figure recurring revenue and a $10M+ client portfolio.
                   </p>
                   <p>
-                    Outside of work, I enjoy building, whether automating my home or taking on hands-on DIY projects. That same mindset shows up in client work: practical, curious, and always focused on results.
+                    I&apos;m passionate about AI and what it makes possible. This site itself was vibe-coded with Claude — proof that pairing domain expertise with modern AI tools can produce real results, fast.
                   </p>
                 </div>
                 <div className="mt-8">
                   <Link href="/resume">
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                      View Grant's Resume
+                      View My Resume
                     </Button>
                   </Link>
                 </div>
@@ -120,14 +115,14 @@ export default function Home() {
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">Ready to Get Started?</h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 mb-10">I welcome your interest!</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">Let&apos;s Connect</h2>
+          <p className="text-xl text-slate-600 dark:text-slate-400 mb-10">I welcome your interest.</p>
           <div className="glass rounded-3xl p-8 max-w-2xl mx-auto">
             <p className="text-slate-700 dark:text-slate-300 mb-8 leading-relaxed">
-              Ready to drive your business forward with proven technology solutions and sales expertise? Let's discuss how I can help your organization achieve its goals.
+              Whether you&apos;re looking for a solutions engineer who can own complex enterprise engagements end-to-end, or you&apos;re curious about how AI can accelerate your workflow — I&apos;d love to talk.
             </p>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 italic">
-              "Solving business problems with smart processes, strategic thinking, and hands-on tech know-how."
+              "I&apos;m most effective in environments where the problem space is evolving and the path to deployment isn&apos;t fully defined."
             </p>
             <div className="flex justify-center mt-6">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setShowContactForm(true)}>
@@ -143,9 +138,9 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-slate-600 dark:text-slate-400 mb-4 md:mb-0">
-              © {year || 2025} Grant Glazer. All rights reserved.
+              © {year || 2026} Kirk Wessman. All rights reserved.
             </div>
-            <div className="text-slate-500 dark:text-slate-500 text-sm">GrantGlazer.com</div>
+            <div className="text-slate-500 dark:text-slate-500 text-sm">Vibe-coded with Claude</div>
           </div>
         </div>
       </footer>
