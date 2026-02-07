@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -14,56 +10,56 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 99%;
-    --foreground: 0 0% 9%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%;
+    --card-foreground: 0 0% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 30 10% 96%;
-    --secondary-foreground: 0 0% 9%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 0 0% 10%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 15% 97%;
+    --secondary-foreground: 0 0% 10%;
     --muted: 30 10% 96%;
     --muted-foreground: 0 0% 45%;
-    --accent: 30 10% 96%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 30 15% 97%;
+    --accent-foreground: 0 0% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 30 50% 50%;
-    --radius: 0.625rem;
+    --border: 30 10% 91%;
+    --input: 30 10% 91%;
+    --ring: 0 0% 10%;
+    --radius: 0.375rem;
 
-    --gradient-from: 0 0% 99%;
-    --gradient-via: 30 10% 98%;
-    --gradient-to: 0 0% 99%;
+    --gradient-from: 0 0% 100%;
+    --gradient-via: 0 0% 100%;
+    --gradient-to: 0 0% 100%;
   }
 
   .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 95%;
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 0 0% 95%;
-    --primary-foreground: 0 0% 9%;
+    --background: 0 0% 6%;
+    --foreground: 30 10% 90%;
+    --card: 0 0% 8%;
+    --card-foreground: 30 10% 90%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 30 10% 90%;
+    --primary: 30 10% 90%;
+    --primary-foreground: 0 0% 6%;
     --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 95%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 55%;
+    --secondary-foreground: 30 10% 90%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 30 5% 55%;
     --accent: 0 0% 12%;
-    --accent-foreground: 0 0% 95%;
+    --accent-foreground: 30 10% 90%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 95%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 30 40% 55%;
+    --destructive-foreground: 30 10% 90%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 30 10% 90%;
 
-    --gradient-from: 0 0% 4%;
-    --gradient-via: 0 0% 5%;
-    --gradient-to: 0 0% 4%;
+    --gradient-from: 0 0% 6%;
+    --gradient-via: 0 0% 6%;
+    --gradient-to: 0 0% 6%;
   }
 
   .matrix-mode {
@@ -106,7 +102,7 @@ body {
   }
 
   .glass {
-    @apply bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800;
+    @apply bg-white dark:bg-neutral-900/80;
   }
 
   .matrix-mode .glass {
@@ -114,7 +110,7 @@ body {
   }
 
   .glass-nav {
-    @apply bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm border border-neutral-200/80 dark:border-neutral-800/80;
+    @apply bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm;
   }
 
   .matrix-mode .glass-nav {

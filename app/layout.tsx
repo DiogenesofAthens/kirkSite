@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { Suspense } from "react"
 import { Analytics } from "@vercel/analytics/next"
@@ -10,7 +10,8 @@ import { ScrollToTop } from "@/components/scroll-to-top"
 import { MatrixProvider } from "@/components/matrix-provider"
 import { Toaster } from "@/components/ui/sonner"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif" })
 
 export const metadata: Metadata = {
   title: "Kirk Wessman — Solutions Engineer & Technical Leader",
@@ -40,7 +41,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/images/g-logo.png" type="image/png" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${playfair.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <MatrixProvider>
             <ScrollToTop />
