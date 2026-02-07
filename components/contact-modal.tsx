@@ -1,10 +1,8 @@
 "use client"
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { X, Mail, CheckCircle } from "lucide-react"
+import { X, Mail } from "lucide-react"
 import { submitContactForm } from "@/app/actions/contact"
 import Lottie from "@/components/lottie-client"
 import planeAnimation from "@/public/images/plane-ani.json"
@@ -68,93 +66,72 @@ export function ContactModal({ isOpen, onClose, source = "Contact Modal" }: Cont
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-md glass">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Contact Kirk</CardTitle>
-          <Button variant="ghost" size="icon" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+      <div className="w-full max-w-md bg-background border border-border rounded-sm p-8">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="font-serif text-2xl font-normal tracking-tight text-foreground">Contact</h2>
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors">
             <X className="h-4 w-4" />
-          </Button>
-        </CardHeader>
+          </button>
+        </div>
 
-        <CardContent>
-          {isSubmitted ? (
-            <div className="text-center py-8">
-              <div className="max-w-full w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 mx-auto mb-4">
-                <Lottie animationData={planeAnimation} loop={false} />
-              </div>
-              <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-slate-50">Message Sent!</h3>
-              <p className="text-slate-600 dark:text-slate-400">{submitMessage}</p>
+        {isSubmitted ? (
+          <div className="text-center py-8">
+            <div className="max-w-full w-72 h-72 sm:w-80 sm:h-80 mx-auto mb-4">
+              <Lottie animationData={planeAnimation} loop={false} />
             </div>
-          ) : (
-            <form action={handleSubmit} className="space-y-4">
-              <div>
-                <Input
-                  name="name"
-                  placeholder="Your Name *"
-                  required
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <div>
-                <Input
-                  name="email"
-                  type="email"
-                  placeholder="Your Email *"
-                  required
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <div>
-                <Input
-                  name="company"
-                  placeholder="Company (Optional)"
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <div>
-                <Textarea
-                  name="message"
-                  placeholder="How can Kirk help you? *"
-                  required
-                  rows={4}
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium block mb-2 text-slate-700 dark:text-slate-300">
-                  Security Check: {captchaQuestion.question}
-                </label>
-                <Input
-                  name="captcha"
-                  type="number"
-                  placeholder="Answer"
-                  required
-                  className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600"
-                />
-              </div>
-
-              <Button type="submit" className="w-full bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Mail className="w-4 h-4 mr-2" />
-                    Send Message
-                  </>
-                )}
-              </Button>
-            </form>
-          )}
-        </CardContent>
-      </Card>
+            <h3 className="font-serif text-xl font-normal mb-2 text-foreground">Sent</h3>
+            <p className="text-sm text-muted-foreground">{submitMessage}</p>
+          </div>
+        ) : (
+          <form action={handleSubmit} className="space-y-5">
+            <Input
+              name="name"
+              placeholder="Name"
+              required
+              className="border-border rounded-sm text-sm"
+            />
+            <Input
+              name="email"
+              type="email"
+              placeholder="Email"
+              required
+              className="border-border rounded-sm text-sm"
+            />
+            <Input
+              name="company"
+              placeholder="Company (optional)"
+              className="border-border rounded-sm text-sm"
+            />
+            <Textarea
+              name="message"
+              placeholder="Message"
+              required
+              rows={4}
+              className="border-border rounded-sm text-sm"
+            />
+            <div>
+              <label className="text-xs text-muted-foreground block mb-2">
+                {captchaQuestion.question}
+              </label>
+              <Input
+                name="captcha"
+                type="number"
+                placeholder="Answer"
+                required
+                className="border-border rounded-sm text-sm"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-3 bg-foreground text-background text-sm tracking-wide uppercase rounded-sm hover:opacity-80 transition-opacity disabled:opacity-50"
+            >
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   )
 }

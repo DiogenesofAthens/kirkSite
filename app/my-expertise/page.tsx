@@ -1,11 +1,7 @@
 "use client"
 
 import { FloatingNav } from "@/components/floating-nav"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Sparkles, Code2, Home, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 
 export default function Expertise() {
   return (
@@ -13,177 +9,132 @@ export default function Expertise() {
 
       <FloatingNav />
 
-      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">My Expertise</h1>
-            <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
+      <div className="pt-32 pb-20 px-6 sm:px-8 lg:px-12 relative">
+        <div className="max-w-3xl mx-auto">
+          {/* Header Section */}
+          <div className="mb-20">
+            <h1 className="font-serif text-5xl md:text-6xl font-normal tracking-tight text-foreground mb-8">
+              My Expertise
+            </h1>
+            <p className="text-lg leading-relaxed text-muted-foreground mb-6">
               Customer-facing technical leader designing, prototyping, and deploying complex API- and data-driven systems.
             </p>
-            <p className="text-amber-700 dark:text-amber-400 font-medium italic mt-4">
+            <p className="text-base italic text-muted-foreground">
               "Translating ambiguous requirements into production-grade solutions."
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
-            <Card className="glass border-0 shadow-sm hover:shadow-md transition-all duration-300 group">
-              <CardHeader className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                  <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                  </svg>
-                </div>
-                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Solution Architecture & Enterprise Engagement</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
-                  Deep experience leading complex enterprise engagements from discovery through deployment. I design systems that work in the real world — not just on paper — through close collaboration with product, engineering, and executive stakeholders.
-                </CardDescription>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Enterprise Solution Design</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">API & Data Architecture</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Technical Discovery</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">POC Development</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="glass border-0 shadow-sm hover:shadow-md transition-all duration-300 group">
-              <CardHeader className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                  <svg className="w-6 h-6 text-amber-700 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                  </svg>
-                </div>
-                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">Product Management & Data Platforms</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
-                  Led product strategy for enterprise API and data-feed platforms with eight-figure recurring revenue. Hands-on PM who works directly with engineering and with the world&apos;s largest financial institutions.
-                </CardDescription>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Product Strategy</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">API / Data Feeds</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Go-to-Market</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Revenue Lifecycle</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="glass border-0 shadow-sm hover:shadow-md transition-all duration-300 group">
-              <CardHeader className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                  <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                  </svg>
-                </div>
-                <CardTitle className="text-xl text-slate-900 dark:text-slate-50">AI & Emerging Technology</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <CardDescription className="text-base leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
-                  Passionate about AI, LLMs, and generative AI. This website itself was vibe-coded with Claude — a testament to what&apos;s possible when you pair domain expertise with modern AI tools.
-                </CardDescription>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Artificial Intelligence</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">LLMs</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Generative AI</Badge>
-                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Workflow Automation</Badge>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Solution Architecture Section */}
+          <div className="mb-20 pb-20 border-b border-muted-foreground/20">
+            <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground mb-6">
+              Solution Architecture & Enterprise Engagement
+            </h2>
+            <p className="text-base leading-relaxed text-muted-foreground mb-8">
+              Deep experience leading complex enterprise engagements from discovery through deployment. I design systems that work in the real world — not just on paper — through close collaboration with product, engineering, and executive stakeholders.
+            </p>
+            <div className="space-y-2 text-muted-foreground">
+              <p className="text-sm">Enterprise Solution Design</p>
+              <p className="text-sm">API & Data Architecture</p>
+              <p className="text-sm">Technical Discovery</p>
+              <p className="text-sm">POC Development</p>
+            </div>
           </div>
 
-          {/* Detailed Skills Section */}
-          <div className="glass rounded-2xl p-8 shadow-sm mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-6 text-center">Strengths at a Glance</h2>
-            <p className="text-slate-700 dark:text-slate-300 mb-6 text-center">
+          {/* Product Management Section */}
+          <div className="mb-20 pb-20 border-b border-muted-foreground/20">
+            <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground mb-6">
+              Product Management & Data Platforms
+            </h2>
+            <p className="text-base leading-relaxed text-muted-foreground mb-8">
+              Led product strategy for enterprise API and data-feed platforms with eight-figure recurring revenue. Hands-on PM who works directly with engineering and with the world&apos;s largest financial institutions.
+            </p>
+            <div className="space-y-2 text-muted-foreground">
+              <p className="text-sm">Product Strategy</p>
+              <p className="text-sm">API & Data Feeds</p>
+              <p className="text-sm">Go-to-Market Strategy</p>
+              <p className="text-sm">Revenue Lifecycle Optimization</p>
+            </div>
+          </div>
+
+          {/* AI & Emerging Technology Section */}
+          <div className="mb-20 pb-20 border-b border-muted-foreground/20">
+            <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground mb-6">
+              AI & Emerging Technology
+            </h2>
+            <p className="text-base leading-relaxed text-muted-foreground mb-8">
+              Passionate about AI, LLMs, and generative AI. This website itself was vibe-coded with Claude — a testament to what&apos;s possible when you pair domain expertise with modern AI tools.
+            </p>
+            <div className="space-y-2 text-muted-foreground">
+              <p className="text-sm">Artificial Intelligence</p>
+              <p className="text-sm">Large Language Models</p>
+              <p className="text-sm">Generative AI</p>
+              <p className="text-sm">Workflow Automation</p>
+            </div>
+          </div>
+
+          {/* Strengths at a Glance Section */}
+          <div className="mb-20 pb-20 border-b border-muted-foreground/20">
+            <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground mb-10">
+              Strengths at a Glance
+            </h2>
+            <p className="text-base text-muted-foreground mb-12">
               These are the skills I draw from every day — whether architecting enterprise solutions, managing data platforms, or exploring what&apos;s next with AI.
             </p>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="text-center">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Technical Leadership</h3>
-                <ul className="space-y-2 text-slate-700 dark:text-slate-300 inline-block text-left">
-                  <li>• Solution Architecture</li>
-                  <li>• API & Data System Design</li>
-                  <li>• Cross-Functional Collaboration</li>
-                  <li>• Complex Enterprise Engagements</li>
-                  <li>• Technical RFP/RFI Execution</li>
+            <div className="grid md:grid-cols-2 gap-12">
+              <div>
+                <h3 className="font-serif text-xl font-normal tracking-tight text-foreground mb-6">Technical Leadership</h3>
+                <ul className="space-y-3 text-muted-foreground text-sm">
+                  <li>Solution Architecture</li>
+                  <li>API & Data System Design</li>
+                  <li>Cross-Functional Collaboration</li>
+                  <li>Complex Enterprise Engagements</li>
+                  <li>Technical RFP/RFI Execution</li>
                 </ul>
               </div>
-              <div className="text-center">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Business & Strategy</h3>
-                <ul className="space-y-2 text-slate-700 dark:text-slate-300 inline-block text-left">
-                  <li>• Product Management</li>
-                  <li>• Client Relationship Management</li>
-                  <li>• Strategic Account Growth</li>
-                  <li>• Revenue Lifecycle Optimization</li>
-                  <li>• Go-to-Market Strategy</li>
+              <div>
+                <h3 className="font-serif text-xl font-normal tracking-tight text-foreground mb-6">Business & Strategy</h3>
+                <ul className="space-y-3 text-muted-foreground text-sm">
+                  <li>Product Management</li>
+                  <li>Client Relationship Management</li>
+                  <li>Strategic Account Growth</li>
+                  <li>Revenue Lifecycle Optimization</li>
+                  <li>Go-to-Market Strategy</li>
                 </ul>
               </div>
             </div>
           </div>
 
           {/* Live AI Portfolio Section */}
-          <div className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8 text-center">Live AI Portfolio</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              <Link href="/resources/tools/extractor">
-                <Card className="glass border-0 shadow-lg hover:shadow-sm hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full bg-neutral-50 dark:bg-neutral-900/50">
-                  <CardHeader className="flex flex-col items-center text-center">
-                    <div className="flex items-center gap-3 mb-2">
-                       <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
-                          <Sparkles className="w-5 h-5 text-amber-700 dark:text-amber-400" />
-                       </div>
-                       <CardTitle className="text-lg">Entity Extractor</CardTitle>
-                    </div>
-                    <CardDescription className="text-center">
-                      AI-powered document analysis converting unstructured text to JSON.
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
-
-              <Link href="/tools/translator">
-                <Card className="glass border-0 shadow-lg hover:shadow-sm hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full bg-neutral-50 dark:bg-neutral-900/50">
-                  <CardHeader className="flex flex-col items-center text-center">
-                     <div className="flex items-center gap-3 mb-2">
-                       <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
-                          <Code2 className="w-5 h-5 text-amber-700 dark:text-amber-400" />
-                       </div>
-                       <CardTitle className="text-lg">Code Translator</CardTitle>
-                    </div>
-                    <CardDescription className="text-center">
-                      Legacy code modernization tool using LLMs for architectural translation.
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
-
-              <Link href="/resources/tools/ha-architect">
-                <Card className="glass border-0 shadow-lg hover:shadow-sm hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full bg-neutral-50 dark:bg-neutral-900/50">
-                  <CardHeader className="flex flex-col items-center text-center">
-                     <div className="flex items-center gap-3 mb-2">
-                       <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
-                          <Home className="w-5 h-5 text-amber-700 dark:text-amber-400" />
-                       </div>
-                       <CardTitle className="text-lg">HA Architect</CardTitle>
-                    </div>
-                    <CardDescription className="text-center">
-                      Natural language to YAML generator for Home Assistant automations.
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
+          <div>
+            <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground mb-12">
+              Live AI Portfolio
+            </h2>
+            <div className="space-y-8">
+              <div>
+                <Link href="/tools/extractor" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
+                  Entity Extractor
+                </Link>
+                <p className="text-muted-foreground text-sm mt-3">
+                  AI-powered document analysis converting unstructured text to JSON.
+                </p>
+              </div>
+              <div>
+                <Link href="/tools/translator" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
+                  Code Translator
+                </Link>
+                <p className="text-muted-foreground text-sm mt-3">
+                  Legacy code modernization tool using LLMs for architectural translation.
+                </p>
+              </div>
+              <div>
+                <Link href="/tools/ha-architect" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
+                  HA Architect
+                </Link>
+                <p className="text-muted-foreground text-sm mt-3">
+                  Natural language to YAML generator for Home Assistant automations.
+                </p>
+              </div>
             </div>
-          </div>
-
-          <div className="flex justify-center pb-8">
-            <Link href="/resources">
-              <Button size="lg" className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white shadow-lg transform hover:scale-[1.02] transition-all text-lg px-8 py-6 rounded-full">
-                View My Content & Tools
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </Link>
           </div>
 
         </div>

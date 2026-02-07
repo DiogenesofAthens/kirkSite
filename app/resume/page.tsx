@@ -2,15 +2,7 @@
 
 import { useRef, useState } from "react";
 import { FloatingNav } from "@/components/floating-nav";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin, Award, ChevronDown, GraduationCap } from "lucide-react";
+import { Calendar, MapPin, ChevronDown } from "lucide-react";
 import { TimezoneClock } from "@/components/timezone-clock";
 
 export default function Resume() {
@@ -130,164 +122,159 @@ export default function Resume() {
 
   const scrollRefs = useRef<any>({});
 
-  const expandAll = () => setOpenCompanyIndex(null);
-  const collapseAll = () => setOpenCompanyIndex(-1);
-
   return (
     <>
-      <div className="min-h-screen gradient-bg relative overflow-hidden">
+      <div className="bg-background relative overflow-hidden">
         <FloatingNav />
         <TimezoneClock />
 
-        <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-2">
-              Resume
-            </h1>
-            <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
-              15+ years spanning solutions engineering, product management, and enterprise data platforms
-            </p>
-            <p className="text-lg text-amber-700 dark:text-amber-400 font-medium italic mt-2">
-              "I&apos;m most effective in environments where the problem space is evolving and the path to deployment isn&apos;t fully defined."
-            </p>
-
-            <div className="grid md:grid-cols-4 gap-6 mt-10 mb-10">
-              <Card className="glass border-0 shadow-sm text-center">
-                <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-amber-700 dark:text-amber-400 mb-2">Top SE</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">Consistently Top-Performing</div>
-                </CardContent>
-              </Card>
-              <Card className="glass border-0 shadow-sm text-center">
-                <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">$10M+</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">Portfolio Managed</div>
-                </CardContent>
-              </Card>
-              <Card className="glass border-0 shadow-sm text-center">
-                <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">15+ Years</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">Experience</div>
-                </CardContent>
-              </Card>
-              <Card className="glass border-0 shadow-sm text-center">
-                <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">ΦΒΚ</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">Phi Beta Kappa, USC</div>
-                </CardContent>
-              </Card>
+        <div className="min-h-screen pt-32 pb-20 px-6 sm:px-8 lg:px-12">
+          <div className="max-w-3xl mx-auto">
+            {/* Header */}
+            <div className="mb-16">
+              <h1 className="font-serif text-5xl md:text-6xl font-normal tracking-tight text-foreground mb-4">
+                Resume
+              </h1>
+              <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
+                15+ years spanning solutions engineering, product management, and enterprise data platforms
+              </p>
+              <p className="text-base text-muted-foreground italic">
+                "I'm most effective in environments where the problem space is evolving and the path to deployment isn't fully defined."
+              </p>
             </div>
-          </div>
 
-          <div className="max-w-6xl mx-auto space-y-6">
-            {experiences.map((company, companyIndex) => {
-              const isCompanyOpen = openCompanyIndex === null || openCompanyIndex === companyIndex;
+            {/* Experiences */}
+            <div className="space-y-12">
+              {experiences.map((company, companyIndex) => {
+                const isCompanyOpen = openCompanyIndex === null || openCompanyIndex === companyIndex;
 
-              return (
-                <Card key={companyIndex} className="glass border-0 shadow-sm">
-                  <CardHeader
-                    onClick={() =>
-                      setOpenCompanyIndex(openCompanyIndex === companyIndex ? -1 : companyIndex)
-                    }
-                    className="cursor-pointer flex justify-between items-center"
-                  >
-                    <div className="flex items-center gap-4 text-left w-full" style={{ justifyContent: 'flex-start' }}>
-                      <div className="w-12 h-12 bg-neutral-900 dark:bg-neutral-100 rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">{company.logo}</span>
-                      </div>
-                      <div className="text-left flex flex-col justify-start">
-                        <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">{company.company}</CardTitle>
-                        <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
+                return (
+                  <div key={companyIndex} className="border-b border-border pb-12 last:border-b-0">
+                    {/* Company Header */}
+                    <button
+                      onClick={() =>
+                        setOpenCompanyIndex(openCompanyIndex === companyIndex ? -1 : companyIndex)
+                      }
+                      className="w-full text-left flex items-start justify-between gap-4 group mb-6 focus:outline-none"
+                    >
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-1">
+                          <div className="w-8 h-8 rounded-full bg-muted-foreground/10 flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs font-semibold text-muted-foreground">
+                              {company.logo}
+                            </span>
+                          </div>
+                          <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground">
+                            {company.company}
+                          </h2>
+                        </div>
+                        <p className="text-muted-foreground text-sm ml-11">
                           {company.duration}
-                        </CardDescription>
+                        </p>
                       </div>
-                    </div>
-                    <ChevronDown
-                      className={`w-5 h-5 text-slate-600 dark:text-slate-300 transition-transform duration-300 ${isCompanyOpen ? "rotate-180" : "rotate-0"}`}
-                    />
-                  </CardHeader>
+                      <ChevronDown
+                        className={`w-5 h-5 text-muted-foreground mt-1 transition-transform duration-300 flex-shrink-0 ${
+                          isCompanyOpen ? "rotate-180" : "rotate-0"
+                        }`}
+                      />
+                    </button>
 
-                  {isCompanyOpen && (
-                    <CardContent className="pt-0">
-                      <div className="space-y-8">
+                    {/* Positions */}
+                    {isCompanyOpen && (
+                      <div className="space-y-8 ml-11">
                         {company.positions.map((position, positionIndex) => (
                           <div
                             key={positionIndex}
                             ref={el => (scrollRefs.current[`${companyIndex}-${positionIndex}`] = el)}
-                            className={`${positionIndex > 0 ? "border-t border-slate-200 dark:border-slate-700 pt-8" : ""}`}
+                            className={`${
+                              positionIndex > 0 ? "border-t border-border pt-8" : ""
+                            }`}
                           >
-                            <div className="flex flex-col md:flex-row md:items-start gap-4 mb-4">
-                              <div className="flex-1">
-                                <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
-                                  {position.title}
-                                </h3>
-                                <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mt-1">
-                                  <div className="flex items-center gap-1">
-                                    <Calendar className="w-4 h-4" />
-                                    <span>
-                                      {position.startDate} - {position.endDate}
-                                    </span>
-                                  </div>
-                                  {position.location && (
-                                    <div className="flex items-center gap-1">
-                                      <MapPin className="w-4 h-4" />
-                                      {position.location}
-                                    </div>
-                                  )}
-                                  <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                                    {position.type}
-                                  </Badge>
+                            {/* Position Title */}
+                            <h3 className="font-serif text-2xl font-normal tracking-tight text-foreground mb-3">
+                              {position.title}
+                            </h3>
+
+                            {/* Meta Information */}
+                            <div className="flex flex-col gap-2 text-sm text-muted-foreground mb-4">
+                              <div className="flex flex-wrap items-center gap-4">
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="w-4 h-4" />
+                                  <span>
+                                    {position.startDate} - {position.endDate}
+                                  </span>
                                 </div>
+                                {position.location && (
+                                  <div className="flex items-center gap-1">
+                                    <MapPin className="w-4 h-4" />
+                                    {position.location}
+                                  </div>
+                                )}
+                                <span className="text-xs bg-muted/50 px-2.5 py-1 rounded">
+                                  {position.type}
+                                </span>
                               </div>
                             </div>
 
+                            {/* Description */}
                             {position.description && (
-                              <p className="text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
+                              <p className="text-foreground mb-6 leading-relaxed">
                                 {position.description}
                               </p>
                             )}
 
+                            {/* Responsibilities */}
                             {position.responsibilities && (
-                              <div className="mb-4">
-                                <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">Key Responsibilities:</h4>
-                                <ul className="space-y-1">
-                                  {position.responsibilities.map((resp, respIndex) => (
-                                    <li key={respIndex} className="text-slate-700 dark:text-slate-300 text-sm">
-                                      • {resp}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-
-                            {position.achievements && (
-                              <div className="mb-4">
-                                <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2 flex items-center gap-2">
-                                  <Award className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
-                                  Key Achievements:
+                              <div className="mb-6">
+                                <h4 className="font-serif text-sm font-normal tracking-tight text-foreground mb-3 uppercase letter-spacing">
+                                  Key Responsibilities
                                 </h4>
-                                <ul className="space-y-1">
-                                  {position.achievements.map((achievement, achIndex) => (
-                                    <li key={achIndex} className="text-slate-700 dark:text-slate-300 text-sm">
-                                      • {achievement}
+                                <ul className="space-y-2">
+                                  {position.responsibilities.map((resp, respIndex) => (
+                                    <li
+                                      key={respIndex}
+                                      className="text-foreground text-sm leading-relaxed pl-4 border-l border-muted-foreground/20"
+                                    >
+                                      {resp}
                                     </li>
                                   ))}
                                 </ul>
                               </div>
                             )}
 
+                            {/* Achievements */}
+                            {position.achievements && (
+                              <div className="mb-6">
+                                <h4 className="font-serif text-sm font-normal tracking-tight text-foreground mb-3 uppercase letter-spacing">
+                                  Key Achievements
+                                </h4>
+                                <ul className="space-y-2">
+                                  {position.achievements.map((achievement, achIndex) => (
+                                    <li
+                                      key={achIndex}
+                                      className="text-foreground text-sm leading-relaxed pl-4 border-l border-muted-foreground/20"
+                                    >
+                                      {achievement}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Certifications */}
                             {position.certifications && (
                               <div>
-                                <h4 className="font-semibold text-slate-900 dark:text-slate-50 mb-2">Certifications:</h4>
+                                <h4 className="font-serif text-sm font-normal tracking-tight text-foreground mb-3 uppercase letter-spacing">
+                                  Certifications
+                                </h4>
                                 <div className="flex flex-wrap gap-2">
                                   {position.certifications.map((cert, certIndex) => (
-                                    <Badge
+                                    <span
                                       key={certIndex}
-                                      variant="outline"
-                                      className="text-xs border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300"
+                                      className="text-xs text-muted-foreground border border-muted-foreground/30 px-3 py-1.5 rounded"
                                     >
                                       {cert}
-                                    </Badge>
+                                    </span>
                                   ))}
                                 </div>
                               </div>
@@ -295,61 +282,61 @@ export default function Resume() {
                           </div>
                         ))}
                       </div>
-                    </CardContent>
-                  )}
-                </Card>
-              );
-            })}
+                    )}
+                  </div>
+                );
+              })}
+            </div>
 
             {/* Education Section */}
-            <Card className="glass border-0 shadow-sm">
-              <CardHeader>
-                <div className="flex items-center gap-4 text-left w-full" style={{ justifyContent: 'flex-start' }}>
-                  <div className="w-12 h-12 bg-red-800 rounded-lg flex items-center justify-center">
-                    <GraduationCap className="w-6 h-6 text-white" />
+            <div className="mt-16 pt-12 border-t border-border">
+              <button
+                onClick={() => setOpenCompanyIndex(3)}
+                className="w-full text-left focus:outline-none mb-6"
+              >
+                <div className="flex items-center gap-3 mb-1">
+                  <div className="w-8 h-8 rounded-full bg-muted-foreground/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-semibold text-muted-foreground">◉</span>
                   </div>
-                  <div className="text-left flex flex-col justify-start">
-                    <CardTitle className="text-2xl text-slate-900 dark:text-slate-50">University of Southern California</CardTitle>
-                    <CardDescription className="text-lg text-slate-600 dark:text-slate-400">
-                      Marshall School of Business · 2004 - 2008
-                    </CardDescription>
-                  </div>
+                  <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground">
+                    Education
+                  </h2>
                 </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
-                    B.S., Cum Laude — Business Administration
-                  </h3>
-                  <p className="text-slate-700 dark:text-slate-300">GPA: 3.7 / 4.0 (Major: 3.8)</p>
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    <Badge variant="outline" className="text-xs border-yellow-500 text-yellow-700 dark:text-yellow-400">
-                      Phi Beta Kappa
-                    </Badge>
-                    <Badge variant="outline" className="text-xs border-red-500 text-red-700 dark:text-red-400">
-                      USC Presidential Scholar
-                    </Badge>
-                    <Badge variant="outline" className="text-xs border-neutral-400 text-neutral-700 dark:text-neutral-300">
-                      Dean&apos;s List (All Years)
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              </button>
 
-            <div className="flex justify-center gap-4 mt-12 mb-10">
-              <button
-                onClick={expandAll}
-                className="px-6 py-2 rounded-md bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
-              >
-                Expand All
-              </button>
-              <button
-                onClick={collapseAll}
-                className="px-6 py-2 rounded-md bg-gray-500 hover:bg-gray-600 text-white font-medium transition duration-300 shadow-md hover:shadow-lg"
-              >
-                Collapse All
-              </button>
+              <div className="ml-11">
+                <div className="mb-6">
+                  <h3 className="font-serif text-2xl font-normal tracking-tight text-foreground mb-1">
+                    University of Southern California
+                  </h3>
+                  <p className="text-muted-foreground text-sm">
+                    Marshall School of Business · 2004 - 2008
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-serif text-lg font-normal tracking-tight text-foreground">
+                      B.S., Cum Laude — Business Administration
+                    </p>
+                    <p className="text-muted-foreground text-sm mt-1">
+                      GPA: 3.7 / 4.0 (Major: 3.8)
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <span className="text-xs text-muted-foreground border border-muted-foreground/30 px-3 py-1.5 rounded">
+                      Phi Beta Kappa
+                    </span>
+                    <span className="text-xs text-muted-foreground border border-muted-foreground/30 px-3 py-1.5 rounded">
+                      USC Presidential Scholar
+                    </span>
+                    <span className="text-xs text-muted-foreground border border-muted-foreground/30 px-3 py-1.5 rounded">
+                      Dean's List (All Years)
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

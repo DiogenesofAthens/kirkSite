@@ -2,17 +2,14 @@
 
 import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
 export default function VibeCodingWithClaude() {
   const content = {
     title: "What I Learned Vibe-Coding This Site with Claude",
-    category: "AI & Technology",
-    readTime: "5 min read",
     publishDate: "2026-02-01",
+    readTime: "5 min read",
     body: [
       {
         type: "markdown",
@@ -62,55 +59,42 @@ If you have domain expertise and clear taste, AI coding tools can get you from z
   function renderBody() {
     return content.body.map((block, index) =>
       block.text.split("\n").map((line, i) => {
-        if (line.startsWith("# ")) return <h1 key={`${index}-${i}`} className="text-3xl font-bold mt-8 mb-4">{line.slice(2)}</h1>
-        if (line.startsWith("## ")) return <h2 key={`${index}-${i}`} className="text-2xl font-bold mt-6 mb-3">{line.slice(3)}</h2>
-        if (line.startsWith("### ")) return <h3 key={`${index}-${i}`} className="text-xl font-bold mt-4 mb-2">{line.slice(4)}</h3>
-        if (line.startsWith("- ")) return <li key={`${index}-${i}`} className="ml-4 list-disc">{line.slice(2)}</li>
+        if (line.startsWith("# ")) return <h1 key={`${index}-${i}`} className="text-4xl font-serif font-normal tracking-tight mt-12 mb-6">{line.slice(2)}</h1>
+        if (line.startsWith("## ")) return <h2 key={`${index}-${i}`} className="text-2xl font-serif font-normal tracking-tight mt-10 mb-4">{line.slice(3)}</h2>
+        if (line.startsWith("### ")) return <h3 key={`${index}-${i}`} className="text-xl font-serif font-normal tracking-tight mt-8 mb-3">{line.slice(4)}</h3>
+        if (line.startsWith("- ")) return <li key={`${index}-${i}`} className="ml-6 list-disc text-muted-foreground leading-relaxed mb-3">{line.slice(2)}</li>
         if (line.trim() === "") return <br key={`${index}-${i}`} />
-        return <p key={`${index}-${i}`} className="mb-4 leading-relaxed">{line}</p>
+        return <p key={`${index}-${i}`} className="text-muted-foreground leading-relaxed mb-6">{line}</p>
       })
     )
   }
 
   return (
-    <div className="min-h-screen gradient-bg">
+    <div className="min-h-screen">
       <FloatingNav />
       <TimezoneClock />
 
-      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-4xl mx-auto">
-          <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+      <div className="pt-32 pb-20 px-6 sm:px-8 lg:px-12 relative">
+        <div className="max-w-3xl mx-auto">
+          <Link href="/blog" className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground mb-12 inline-block transition-colors">
+            <ArrowLeft className="w-4 h-4 inline mr-2" />
             Back to Blog
           </Link>
 
-          <Card className="glass border-0 shadow-sm mb-8">
-            <CardContent className="p-8">
-              <Badge variant="secondary" className="mb-4">{content.category}</Badge>
-              <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 dark:text-gray-100">{content.title}</h1>
-              <div className="flex items-center gap-6 text-sm text-slate-600 mb-6 dark:text-gray-400">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  {new Date(content.publishDate + "T12:00:00").toLocaleDateString()}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  {content.readTime}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <header className="mb-12">
+            <h1 className="text-5xl font-serif font-normal tracking-tight mb-6">{content.title}</h1>
+            <div className="flex items-center gap-8 text-sm text-muted-foreground">
+              <time>{new Date(content.publishDate + "T12:00:00").toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+              <span>{content.readTime}</span>
+            </div>
+          </header>
 
-          <Card className="glass border-0 shadow-sm mb-8">
-            <CardContent className="p-8">
-              <div className="prose prose-lg max-w-none dark:text-gray-400 dark:prose-invert whitespace-pre-wrap">
-                {renderBody()}
-              </div>
-            </CardContent>
-          </Card>
+          <article className="prose prose-lg max-w-none">
+            {renderBody()}
+          </article>
 
-          <div className="flex justify-between items-center">
-            <Link href="/blog" className="text-amber-700 hover:text-amber-800">
+          <div className="mt-12 pt-8 border-t border-muted">
+            <Link href="/blog" className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors">
               &larr; Back to all posts
             </Link>
           </div>

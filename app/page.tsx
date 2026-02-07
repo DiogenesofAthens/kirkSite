@@ -1,139 +1,124 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { ArrowRight, Mail } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react"
 import { FloatingNav } from "@/components/floating-nav"
 import { ContactModal } from "@/components/contact-modal"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Link from "next/link"
-import Image from "next/image"
-import Lottie from "@/components/lottie-client"
 
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false)
-  const [animationData, setAnimationData] = useState<any>(null)
   const [year, setYear] = useState<number | null>(null)
 
   useEffect(() => {
-    fetch("/images/pc-coffee-ani.json")
-      .then((res) => res.json())
-      .then(setAnimationData)
-      .catch((err) => console.error("Failed to load Lottie animation:", err))
-
     setYear(new Date().getFullYear())
   }, [])
 
   return (
-    <div className="min-h-screen gradient-bg relative overflow-hidden">
+    <div className="min-h-screen bg-background relative">
 
       <FloatingNav />
       <TimezoneClock />
 
-      <section className="pt-28 sm:pt-32 pb-16 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col items-center text-center">
-            {animationData && (
-              <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mb-6">
-                <Lottie animationData={animationData} loop autoplay style={{ width: "100%", height: "100%" }} />
-              </div>
-            )}
-            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-slate-50 mb-3">Kirk Wessman</h1>
-            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-4 max-w-2xl">
-              Solutions Engineer & Technical Leader — API & Data-Driven Systems
-            </p>
-            <p className="text-base text-amber-700 dark:text-amber-400 mb-6 max-w-xl font-medium italic">
-              "Translating ambiguous requirements into production-grade solutions — then shipping them."
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white" onClick={() => setShowContactForm(true)}>
-                <Mail className="w-4 h-4 mr-2" />
-                Contact Me
-              </Button>
-              <Link href="/my-expertise">
-                <Button variant="outline" size="lg" className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-                  My Expertise
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-            </div>
+      {/* Hero */}
+      <section className="pt-40 sm:pt-48 pb-24 px-6 sm:px-8 lg:px-12">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-normal tracking-tight text-foreground leading-[1.1] mb-8">
+            Kirk Wessman
+          </h1>
+          <p className="text-xl sm:text-2xl text-muted-foreground font-light leading-relaxed max-w-2xl mb-4">
+            Solutions Engineer & Technical Leader
+          </p>
+          <p className="text-lg text-muted-foreground/70 leading-relaxed max-w-xl mb-12">
+            Translating ambiguous requirements into production-grade solutions — then shipping them.
+          </p>
+          <div className="flex gap-6 items-center">
+            <button
+              onClick={() => setShowContactForm(true)}
+              className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+            >
+              Get in touch
+            </button>
+            <Link
+              href="/my-expertise"
+              className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors"
+            >
+              View expertise
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-4xl mx-auto">
-          <div className="glass rounded-2xl p-8 md:p-12 shadow-sm">
-            <div className="flex flex-col lg:flex-row items-center gap-8">
-              <div className="flex-shrink-0">
-                <div className="relative">
-                  <div className="w-32 h-32 rounded-full bg-neutral-900 dark:bg-white p-1">
-                    <div className="w-full h-full rounded-full bg-neutral-900 dark:bg-white flex items-center justify-center">
-                      <span className="text-white dark:text-neutral-900 font-bold text-4xl">KW</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 text-center lg:text-left">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">About Kirk</h2>
-                <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
-                  <p className="text-xl font-semibold">
-                    Customer-facing technical leader with 15+ years designing, prototyping, and deploying complex systems at the intersection of business and technology.
-                  </p>
-                  <p>
-                    I specialize in translating ambiguous requirements into production-grade solutions through close collaboration with product, engineering, and executive stakeholders. My background spans solution architecture, product management, and enterprise technical engagements — with a focus on building systems that work in the real world, not just on paper.
-                  </p>
-                  <p>
-                    I hold a <strong className="text-slate-900 dark:text-slate-100">B.S. Cum Laude in Business Administration</strong> from the <strong className="text-slate-900 dark:text-slate-100">University of Southern California — Marshall School of Business</strong>, where I was inducted into <strong className="text-slate-900 dark:text-slate-100">Phi Beta Kappa</strong> and named a <strong className="text-slate-900 dark:text-slate-100">USC Presidential Scholar</strong>.
-                  </p>
-                  <p>
-                    My expertise spans CPQ, CLM, enterprise API and data-feed platforms, AI integrations, and revenue lifecycle management. At Conga I&apos;ve been consistently among the top-performing SEs across an 80-person global org. At S&amp;P Global I managed API products with eight-figure recurring revenue and a $10M+ client portfolio.
-                  </p>
-                  <p>
-                    I&apos;m passionate about AI and what it makes possible. This site itself was vibe-coded with Claude — proof that pairing domain expertise with modern AI tools can produce real results, fast.
-                  </p>
-                </div>
-                <div className="mt-8">
-                  <Link href="/resume">
-                    <Button className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white">
-                      View My Resume
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
+      {/* Divider */}
+      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="border-t border-border" />
+      </div>
+
+      {/* About */}
+      <section className="py-24 px-6 sm:px-8 lg:px-12">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-10">
+            About
+          </h2>
+          <div className="space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
+            <p>
+              Customer-facing technical leader with 15+ years designing, prototyping, and deploying complex systems at the intersection of business and technology.
+            </p>
+            <p>
+              I specialize in translating ambiguous requirements into production-grade solutions through close collaboration with product, engineering, and executive stakeholders. My background spans solution architecture, product management, and enterprise technical engagements — with a focus on building systems that work in the real world, not just on paper.
+            </p>
+            <p>
+              At Conga, I&apos;ve been consistently among the top-performing Solutions Engineers across an 80-person global organization. At S&P Global, I managed API products with eight-figure recurring revenue and a $10M+ client portfolio serving the world&apos;s largest financial institutions.
+            </p>
+            <p>
+              I hold a B.S. Cum Laude in Business Administration from the University of Southern California — Marshall School of Business, where I was inducted into Phi Beta Kappa and named a Presidential Scholar.
+            </p>
+            <p>
+              This site was built with Claude as a collaborative coding partner — a small example of pairing domain expertise with modern AI tools to produce real results, fast.
+            </p>
+          </div>
+          <div className="mt-10">
+            <Link
+              href="/resume"
+              className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+            >
+              View full resume
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">Let&apos;s Connect</h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 mb-10">I welcome your interest.</p>
-          <div className="glass rounded-2xl p-8 max-w-2xl mx-auto">
-            <p className="text-slate-700 dark:text-slate-300 mb-8 leading-relaxed">
-              Whether you&apos;re looking for a solutions engineer who can own complex enterprise engagements end-to-end, or you&apos;re curious about how AI can accelerate your workflow — I&apos;d love to talk.
-            </p>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 italic">
-              "I&apos;m most effective in environments where the problem space is evolving and the path to deployment isn&apos;t fully defined."
-            </p>
-            <div className="flex justify-center mt-6">
-              <Button size="lg" className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white" onClick={() => setShowContactForm(true)}>
-                <Mail className="w-4 h-4 mr-2" />
-                Contact Me
-              </Button>
-            </div>
-          </div>
+      {/* Divider */}
+      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="border-t border-border" />
+      </div>
+
+      {/* Connect */}
+      <section className="py-24 px-6 sm:px-8 lg:px-12">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-6">
+            Let&apos;s Connect
+          </h2>
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-xl">
+            Whether you&apos;re looking for a solutions engineer who can own complex enterprise engagements end-to-end, or you&apos;re curious about how AI can accelerate your workflow — I&apos;d love to talk.
+          </p>
+          <button
+            onClick={() => setShowContactForm(true)}
+            className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+          >
+            Contact me
+          </button>
         </div>
       </section>
 
-      <footer className="py-8 px-4 sm:px-6 lg:px-8 relative border-t border-slate-200 dark:border-slate-700">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-slate-600 dark:text-slate-400 mb-4 md:mb-0">
-              © {year || 2026} Kirk Wessman. All rights reserved.
-            </div>
-            <div className="text-slate-500 dark:text-slate-500 text-sm">Vibe-coded with Claude</div>
+      {/* Footer */}
+      <footer className="py-12 px-6 sm:px-8 lg:px-12 border-t border-border">
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="text-sm text-muted-foreground">
+            © {year || 2026} Kirk Wessman
+          </div>
+          <div className="text-xs text-muted-foreground/50 tracking-wide">
+            Built with Claude
           </div>
         </div>
       </footer>

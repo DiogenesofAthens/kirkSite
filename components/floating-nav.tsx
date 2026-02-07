@@ -2,30 +2,26 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, Briefcase, Star, BookOpen, PenTool, FileText } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 const navItems = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/my-expertise", label: "My Expertise", icon: Briefcase },
-  { href: "/resume", label: "Resume", icon: FileText },
-  { href: "/recommendations", label: "Highlights", icon: Star },
-  { href: "/resources", label: "Resources", icon: BookOpen },
-  { href: "/blog", label: "Blog", icon: PenTool },
+  { href: "/", label: "Home" },
+  { href: "/my-expertise", label: "Expertise" },
+  { href: "/resume", label: "Resume" },
+  { href: "/recommendations", label: "Highlights" },
+  { href: "/blog", label: "Journal" },
 ]
 
 export function FloatingNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[calc(100vw-32px)] max-w-4xl">
-      <div className="glass-nav rounded-full px-2 sm:px-4 py-2 shadow-lg shadow-black/5 dark:shadow-black/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
+      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 py-5">
         <div className="flex items-center justify-between">
-          {/* Navigation Items */}
-          <div className="flex items-center space-x-0.5 sm:space-x-1 flex-1 justify-center">
+          <div className="flex items-center gap-6 sm:gap-8">
             {navItems.map((item) => {
-              const Icon = item.icon
               const isActive = pathname === item.href
 
               return (
@@ -33,26 +29,19 @@ export function FloatingNav() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center space-x-1 sm:space-x-2 px-1.5 sm:px-3 py-2 rounded-full transition-all duration-200 text-xs sm:text-sm font-medium",
-                    "hover:bg-slate-100 dark:hover:bg-slate-800",
+                    "text-xs sm:text-sm tracking-wide uppercase transition-opacity duration-200",
                     isActive
-                      ? "bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-white"
-                      : "text-slate-700 dark:text-slate-300",
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
                   )}
-                  title={item.label}
                 >
-                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                  <span className="hidden md:inline whitespace-nowrap text-xs sm:text-sm">{item.label}</span>
+                  {item.label}
                 </Link>
               )
             })}
           </div>
 
-          {/* Theme Toggle */}
-          <div className="flex items-center ml-2">
-            <div className="w-px h-4 sm:h-6 bg-slate-200 dark:bg-slate-700 mr-2"></div>
-            <ThemeToggle />
-          </div>
+          <ThemeToggle />
         </div>
       </div>
     </nav>
