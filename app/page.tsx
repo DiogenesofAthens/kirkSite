@@ -27,7 +27,7 @@ export default function Home() {
           <div className="mb-12">
             <div className="relative w-full aspect-[3/4] max-w-sm overflow-hidden">
               <Image
-                src="/images/kirk-wessman.jpg"
+                src="/images/kirk_wessman.jpg"
                 alt="Kirk Wessman"
                 fill
                 className="object-cover object-top"
