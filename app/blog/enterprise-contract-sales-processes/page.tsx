@@ -204,7 +204,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
             alt={image.alt}
             width={1200}
             height={800}
-            className="rounded shadow-xl max-h-[80vh] w-auto object-contain bg-white"
+            className="rounded shadow-sm max-h-[80vh] w-auto object-contain bg-white"
             priority
           />
         </div>
@@ -215,8 +215,6 @@ In this space, you’re not just selling automation—you’re helping teams reg
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <FloatingNav />
@@ -228,7 +226,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
-          <Link href="/blog" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8">
+          <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
           </Link>
@@ -239,7 +237,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
             </Button>
           </div>
 
-          <Card className="glass border-0 shadow-xl mb-8">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               <div className="mb-6">
                 <Badge variant="secondary" className="mb-4">
@@ -320,7 +318,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
                       alt={content.title}
                       width={800}
                       height={400}
-                  className="w-full h-auto object-contain rounded-lg transition-transform hover:scale-105 duration-200"
+                  className="w-full h-auto object-contain rounded-lg transition-transform hover:scale-[1.02] duration-200"
                   sizes="(max-width: 768px) 100vw, 800px"
                   priority
                     />
@@ -342,7 +340,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
             </CardContent>
           </Card>
 
-          <Card className="glass border-0 shadow-xl mb-8">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               {isEditing ? (
                 <textarea
@@ -396,7 +394,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
             </CardContent>
           </Card>
 
-          <Card className="glass border-0 shadow-xl mb-8">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold dark:text-gray-100">Article Images</h3>
@@ -448,7 +446,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
                           alt={image.alt}
                           width={600}
                           height={300}
-                          className="w-full h-48 object-cover rounded-lg transition-transform hover:scale-105 duration-200"
+                          className="w-full h-48 object-cover rounded-lg transition-transform hover:scale-[1.02] duration-200"
                         />
                       </button>
                     )}
@@ -494,7 +492,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
           </Card>
 
           <div className="flex justify-between items-center">
-            <Link href="/blog" className="text-blue-600 hover:text-blue-700">
+            <Link href="/blog" className="text-amber-700 hover:text-amber-800">
               ← Back to all posts
             </Link>
           </div>

@@ -143,7 +143,7 @@ const SmartView = ({ data }: { data: any }) => {
           {/* Advisory Report */}
           {analysisReport && (
               <Alert className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
-                  <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <Info className="h-4 w-4 text-amber-700 dark:text-amber-400" />
                   <AlertTitle className="text-blue-800 dark:text-blue-200">Advisory Report</AlertTitle>
                   <AlertDescription className="mt-2 whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-300 font-mono">
                       {analysisReport}
@@ -414,7 +414,7 @@ export default function ExtractorPage() {
 
             {/* Top Middle Analyze Button for Desktop */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block">
-                 <Button onClick={handleExtract} disabled={loading} size="lg" className="w-48 bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-500/30 rounded-full border-4 border-slate-50 dark:border-slate-950">
+                 <Button onClick={handleExtract} disabled={loading} size="lg" className="w-48 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white shadow-sm shadow-blue-500/30 rounded-full border-4 border-slate-50 dark:border-slate-950">
                     {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Sparkles className="w-5 h-5 mr-2" />}
                     {loading ? 'Analyzing...' : 'Analyze Document'}
                  </Button>
@@ -520,7 +520,7 @@ export default function ExtractorPage() {
 
                 {/* Mobile Analyze Button (shown if desktop hidden, or just duplicate for safety) */}
                 <div className="md:hidden">
-                    <Button onClick={handleExtract} disabled={loading} size="lg" className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg">
+                    <Button onClick={handleExtract} disabled={loading} size="lg" className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white shadow-lg">
                     {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                     {loading ? 'Analyzing...' : 'Analyze'}
                     </Button>
@@ -566,7 +566,7 @@ export default function ExtractorPage() {
                         onKeyDown={(e) => e.key === 'Enter' && handleQuery()}
                         className="bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
                     />
-                    <Button size="icon" onClick={handleQuery} disabled={queryLoading || !query.trim()} className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white">
+                    <Button size="icon" onClick={handleQuery} disabled={queryLoading || !query.trim()} className="shrink-0 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white">
                         {queryLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
                     </Button>
                 </div>

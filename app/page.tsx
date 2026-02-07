@@ -26,11 +26,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-500/5 to-purple-500/5 dark:from-blue-400/3 dark:to-purple-400/3 rounded-full blur-3xl animate-pulse delay-500"></div>
-      </div>
 
       <FloatingNav />
       <TimezoneClock />
@@ -47,11 +42,11 @@ export default function Home() {
             <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-4 max-w-2xl">
               Solutions Engineer & Technical Leader — API & Data-Driven Systems
             </p>
-            <p className="text-base text-blue-600 dark:text-blue-400 mb-6 max-w-xl font-medium italic">
+            <p className="text-base text-amber-700 dark:text-amber-400 mb-6 max-w-xl font-medium italic">
               "Translating ambiguous requirements into production-grade solutions — then shipping them."
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setShowContactForm(true)}>
+              <Button size="lg" className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white" onClick={() => setShowContactForm(true)}>
                 <Mail className="w-4 h-4 mr-2" />
                 Contact Me
               </Button>
@@ -68,15 +63,13 @@ export default function Home() {
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
-          <div className="glass rounded-3xl p-8 md:p-12 shadow-xl">
+          <div className="glass rounded-2xl p-8 md:p-12 shadow-sm">
             <div className="flex flex-col lg:flex-row items-center gap-8">
               <div className="flex-shrink-0">
                 <div className="relative">
-                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-1">
-                    <div className="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center overflow-hidden">
-                      <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center">
-                        <span className="text-white font-bold text-4xl">KW</span>
-                      </div>
+                  <div className="w-32 h-32 rounded-full bg-neutral-900 dark:bg-white p-1">
+                    <div className="w-full h-full rounded-full bg-neutral-900 dark:bg-white flex items-center justify-center">
+                      <span className="text-white dark:text-neutral-900 font-bold text-4xl">KW</span>
                     </div>
                   </div>
                 </div>
@@ -94,7 +87,7 @@ export default function Home() {
                     I hold a <strong className="text-slate-900 dark:text-slate-100">B.S. Cum Laude in Business Administration</strong> from the <strong className="text-slate-900 dark:text-slate-100">University of Southern California — Marshall School of Business</strong>, where I was inducted into <strong className="text-slate-900 dark:text-slate-100">Phi Beta Kappa</strong> and named a <strong className="text-slate-900 dark:text-slate-100">USC Presidential Scholar</strong>.
                   </p>
                   <p>
-                    My expertise spans CPQ, CLM, enterprise API and data-feed platforms, AI integrations, and revenue lifecycle management. At Conga I&apos;ve been ranked #1 globally in quota attainment across an 80-person SE org — twice. At S&amp;P Global I managed API products with eight-figure recurring revenue and a $10M+ client portfolio.
+                    My expertise spans CPQ, CLM, enterprise API and data-feed platforms, AI integrations, and revenue lifecycle management. At Conga I&apos;ve been consistently among the top-performing SEs across an 80-person global org. At S&amp;P Global I managed API products with eight-figure recurring revenue and a $10M+ client portfolio.
                   </p>
                   <p>
                     I&apos;m passionate about AI and what it makes possible. This site itself was vibe-coded with Claude — proof that pairing domain expertise with modern AI tools can produce real results, fast.
@@ -102,7 +95,7 @@ export default function Home() {
                 </div>
                 <div className="mt-8">
                   <Link href="/resume">
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                    <Button className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white">
                       View My Resume
                     </Button>
                   </Link>
@@ -117,7 +110,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-6">Let&apos;s Connect</h2>
           <p className="text-xl text-slate-600 dark:text-slate-400 mb-10">I welcome your interest.</p>
-          <div className="glass rounded-3xl p-8 max-w-2xl mx-auto">
+          <div className="glass rounded-2xl p-8 max-w-2xl mx-auto">
             <p className="text-slate-700 dark:text-slate-300 mb-8 leading-relaxed">
               Whether you&apos;re looking for a solutions engineer who can own complex enterprise engagements end-to-end, or you&apos;re curious about how AI can accelerate your workflow — I&apos;d love to talk.
             </p>
@@ -125,7 +118,7 @@ export default function Home() {
               "I&apos;m most effective in environments where the problem space is evolving and the path to deployment isn&apos;t fully defined."
             </p>
             <div className="flex justify-center mt-6">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setShowContactForm(true)}>
+              <Button size="lg" className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white" onClick={() => setShowContactForm(true)}>
                 <Mail className="w-4 h-4 mr-2" />
                 Contact Me
               </Button>

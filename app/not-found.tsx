@@ -48,7 +48,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="px-6 py-3 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
+          className="px-6 py-3 rounded bg-neutral-900 text-white hover:bg-neutral-800 transition"
         >
           Abort Mission
         </Link>

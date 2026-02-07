@@ -117,7 +117,7 @@ This setup pays for itself in four months. It gives me more control, better flex
               <div className="mt-1 ml-4 border-l-2 border-green-400 pl-4">{block.prompt}</div>
             </div>
             <div>
-              <span className="font-bold text-blue-700 dark:text-blue-400">ChatGPT:</span>
+              <span className="font-bold text-blue-700 dark:text-amber-400">ChatGPT:</span>
               <div className="mt-1 ml-4 border-l-2 border-blue-400 pl-4">
                 <pre className="bg-black text-white p-4 rounded overflow-x-auto">
                   <code className="language-powershell whitespace-pre-wrap">{block.response}</code>
@@ -146,7 +146,7 @@ This setup pays for itself in four months. It gives me more control, better flex
             alt={image.alt}
             width={1200}
             height={800}
-            className="rounded shadow-xl w-full max-h-[80vh] object-contain"
+            className="rounded shadow-sm w-full max-h-[80vh] object-contain"
             priority
           />
         </div>
@@ -163,12 +163,12 @@ This setup pays for itself in four months. It gives me more control, better flex
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
-          <Link href="/blog" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8">
+          <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
           </Link>
 
-          <Card className="glass border-0 shadow-xl mb-8">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               <Badge variant="secondary" className="mb-4">{content.category}</Badge>
               <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 dark:text-gray-100">{content.title}</h1>
@@ -196,7 +196,7 @@ This setup pays for itself in four months. It gives me more control, better flex
                   alt={content.title}
                   width={800}
                   height={400}
-                  className="w-full h-auto object-contain rounded-lg transition-transform hover:scale-105 duration-200"
+                  className="w-full h-auto object-contain rounded-lg transition-transform hover:scale-[1.02] duration-200"
                   sizes="(max-width: 768px) 100vw, 800px"
                   priority
                 />
@@ -206,7 +206,7 @@ This setup pays for itself in four months. It gives me more control, better flex
             </CardContent>
           </Card>
 
-          <Card className="glass border-0 shadow-xl mb-8">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               <div className="prose prose-lg max-w-none dark:text-gray-400 dark:prose-invert whitespace-pre-wrap">
                 {renderBody()}
@@ -215,7 +215,7 @@ This setup pays for itself in four months. It gives me more control, better flex
           </Card>
 
           <div className="flex justify-between items-center">
-            <Link href="/blog" className="text-blue-600 hover:text-blue-700">
+            <Link href="/blog" className="text-amber-700 hover:text-amber-800">
               ← Back to all posts
             </Link>
           </div>

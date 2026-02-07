@@ -398,7 +398,7 @@ function ClockPageContent() {
 
              {/* Dropdown */}
              {showSearch && searchResults.length > 0 && (
-                 <div className="absolute top-full mt-2 w-full bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-[300px] overflow-y-auto">
+                 <div className="absolute top-full mt-2 w-full bg-card border border-border rounded-xl shadow-md overflow-hidden max-h-[300px] overflow-y-auto">
                      {searchResults.map((city, i) => (
                          <button
                             key={i}
@@ -423,7 +423,7 @@ function ClockPageContent() {
         </div>
 
         {/* MAIN GRID UI */}
-        <div className="bg-card rounded-xl border border-border/50 shadow-xl overflow-hidden flex flex-col md:flex-row relative">
+        <div className="bg-card rounded-xl border border-border/50 shadow-sm overflow-hidden flex flex-col md:flex-row relative">
 
             {/* Left Column: Locations */}
             <div className="w-full md:w-[260px] flex-shrink-0 bg-background/50 backdrop-blur z-20 border-r border-border flex flex-col">

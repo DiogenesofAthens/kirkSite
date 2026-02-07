@@ -156,14 +156,14 @@ export function MemoryGame({ onGameWin }: MemoryGameProps) {
 
   if (!isMounted) {
       return (
-          <div className="w-full max-w-4xl mx-auto p-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl min-h-[500px] flex items-center justify-center">
+          <div className="w-full max-w-4xl mx-auto p-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm min-h-[500px] flex items-center justify-center">
               <div className="text-slate-500 animate-pulse">Loading Game...</div>
           </div>
       )
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl">
+    <div className="w-full max-w-4xl mx-auto p-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
       <div className="text-center space-y-4 mb-6">
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
           Memory Game
@@ -184,7 +184,7 @@ export function MemoryGame({ onGameWin }: MemoryGameProps) {
            <Button
              size="sm"
              onClick={() => resetGame()}
-             className="bg-blue-600 hover:bg-blue-700 text-white ml-2"
+             className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white ml-2"
            >
              <RotateCcw className="w-4 h-4 mr-2" /> Reset
            </Button>
@@ -222,7 +222,7 @@ export function MemoryGame({ onGameWin }: MemoryGameProps) {
                 disabled={card.isMatched || card.isFlipped || isChecking}
                 className={clsx(
                   "aspect-square relative rounded-xl border-2 flex items-center justify-center text-3xl sm:text-4xl shadow-md",
-                  "transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95",
+                  "transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-95",
                   card.isFlipped || card.isMatched
                     ? "bg-white dark:bg-slate-800 border-blue-400 dark:border-blue-500 rotate-y-180"
                     : "bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 border-blue-600 dark:border-blue-700",
@@ -247,7 +247,7 @@ export function MemoryGame({ onGameWin }: MemoryGameProps) {
 
           {gameWon && (
             <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-              <div className="text-center text-white p-8 bg-black/80 backdrop-blur-md rounded-2xl shadow-2xl pointer-events-auto border border-white/10 animate-in zoom-in-50 duration-300">
+              <div className="text-center text-white p-8 bg-black/80 backdrop-blur-md rounded-2xl shadow-md pointer-events-auto border border-white/10 animate-in zoom-in-50 duration-300">
                 <h3 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 mb-2">🎉 Victory!</h3>
                 <p className="text-lg mb-6">You won in <strong className="text-white">{moves}</strong> moves!</p>
                 <Button

@@ -41,7 +41,7 @@ interface GameScoreHistoryProps {
 
 export function GameScoreHistory({ history }: GameScoreHistoryProps) {
   return (
-    <div className="w-full max-w-md mx-auto mt-8 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl">
+    <div className="w-full max-w-md mx-auto mt-8 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-sm">
       <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-white">
         <Trophy className="w-5 h-5 text-yellow-500" />
         <h3 className="font-bold text-lg">Recent Attempts</h3>
@@ -63,7 +63,7 @@ export function GameScoreHistory({ history }: GameScoreHistoryProps) {
                   <Calendar className="w-3 h-3 opacity-50" />
                   <span>{entry.date}</span>
                 </div>
-                <div className="font-mono font-bold text-slate-900 dark:text-blue-400">
+                <div className="font-mono font-bold text-slate-900 dark:text-amber-400">
                   {entry.score} pts
                 </div>
               </div>

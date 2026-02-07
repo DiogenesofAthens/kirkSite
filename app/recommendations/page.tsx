@@ -5,18 +5,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Award, Bot, Linkedin, ArrowRight } from "lucide-react"
 import { TimezoneClock } from "@/components/timezone-clock"
-import Lottie from "@/components/lottie-client"
-import animationData from "@/public/images/reviews-ani.json"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 export default function Recommendations() {
   const highlights = [
     {
-      stat: "#1 Globally",
-      label: "Quota Attainment (2x)",
-      description: "Ranked first across an 80-person Solutions Engineering organization — not once, but twice.",
-      color: "text-blue-600 dark:text-blue-400",
+      stat: "Top SE",
+      label: "Consistently Top-Performing",
+      description: "Consistently among the highest-performing Solutions Engineers across an 80-person global SE organization.",
+      color: "text-amber-700 dark:text-amber-400",
     },
     {
       stat: "$10M+",
@@ -40,28 +38,17 @@ export default function Recommendations() {
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
       <FloatingNav />
       <TimezoneClock />
 
-      <div className="pt-20 pb-6 flex justify-center">
-        <div className="w-40 sm:w-48 md:w-56">
-          <Lottie animationData={animationData} loop autoplay />
-        </div>
-      </div>
-
-      <div className="pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="pt-32 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Career Highlights</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               A track record of delivering results across solutions engineering, product management, and enterprise data platforms.
             </p>
-            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
+            <p className="text-lg text-amber-700 dark:text-amber-400 font-medium italic mt-4">
               &quot;I build systems that work in the real world — not just on paper.&quot;
             </p>
           </div>
@@ -71,7 +58,7 @@ export default function Recommendations() {
             {highlights.map((highlight, index) => (
               <Card
                 key={index}
-                className="glass border-0 shadow-xl transition-all duration-300 h-full flex flex-col animate-fade-in"
+                className="glass border-0 shadow-sm transition-all duration-300 h-full flex flex-col animate-fade-in"
               >
                 <CardHeader>
                   <div className="flex items-center gap-2 mb-2">
@@ -90,10 +77,10 @@ export default function Recommendations() {
           </div>
 
           {/* Vibe-Coded Section */}
-          <div className="glass rounded-3xl p-8 md:p-12 shadow-xl mb-16">
+          <div className="glass rounded-2xl p-8 md:p-12 shadow-sm mb-16">
             <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-6">
-                <Bot className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-6">
+                <Bot className="w-6 h-6 text-amber-700 dark:text-amber-400" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-50 mb-4">
                 This Site Was Vibe-Coded with Claude
@@ -108,9 +95,9 @@ export default function Recommendations() {
           </div>
 
           {/* LinkedIn CTA */}
-          <div className="glass rounded-3xl p-8 shadow-xl text-center">
+          <div className="glass rounded-2xl p-8 shadow-sm text-center">
             <div className="flex flex-col items-center">
-              <Linkedin className="w-10 h-10 text-blue-600 dark:text-blue-400 mb-4" />
+              <Linkedin className="w-10 h-10 text-amber-700 dark:text-amber-400 mb-4" />
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">
                 Connect on LinkedIn
               </h2>
@@ -118,7 +105,7 @@ export default function Recommendations() {
                 Want to know what colleagues and clients say about working with me? Check out my LinkedIn profile for endorsements, recommendations, and more.
               </p>
               <a href="https://www.linkedin.com/in/kwessman" target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+                <Button size="lg" className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white">
                   <Linkedin className="w-4 h-4 mr-2" />
                   View LinkedIn Profile
                   <ArrowRight className="w-4 h-4 ml-2" />

@@ -164,7 +164,7 @@ export function TowerOfHanoi({ onGameWin }: TowerOfHanoiProps) {
         animate={{ y: 0, opacity: 1 }}
         className="relative z-50 mb-8"
       >
-        <div className="mx-auto max-w-2xl bg-slate-900/5 dark:bg-white/10 backdrop-blur-xl border border-slate-900/10 dark:border-white/20 rounded-2xl p-4 shadow-xl flex flex-col md:flex-row items-center justify-between text-slate-900 dark:text-white transition-colors duration-300 gap-4">
+        <div className="mx-auto max-w-2xl bg-slate-900/5 dark:bg-white/10 backdrop-blur-xl border border-slate-900/10 dark:border-white/20 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between text-slate-900 dark:text-white transition-colors duration-300 gap-4">
           <div className="flex flex-col items-center md:items-start">
             <span className="text-xs text-slate-500 dark:text-white/60 font-semibold tracking-wider uppercase transition-colors">Difficulty</span>
             <div className="flex gap-1 mt-1">
@@ -218,7 +218,7 @@ export function TowerOfHanoi({ onGameWin }: TowerOfHanoiProps) {
       <div className="relative h-[300px] md:h-[400px] flex items-end justify-center perspective-origin-bottom">
 
           {/* Base Platform */}
-          <div className="absolute bottom-0 w-[95%] md:w-[85%] h-12 bg-neutral-800 rounded-lg shadow-2xl transform-style-3d rotate-x-12 origin-bottom overflow-hidden">
+          <div className="absolute bottom-0 w-[95%] md:w-[85%] h-12 bg-neutral-800 rounded-lg shadow-md transform-style-3d rotate-x-12 origin-bottom overflow-hidden">
              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
              <div className="absolute top-0 w-full h-[2px] bg-white/10" />
           </div>
@@ -301,7 +301,7 @@ export function TowerOfHanoi({ onGameWin }: TowerOfHanoiProps) {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
           >
-              <div className="bg-black/50 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-2xl text-center pointer-events-auto">
+              <div className="bg-black/50 backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-md text-center pointer-events-auto">
                   <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 mb-4 drop-shadow-sm">
                       VICTORY!
                   </h2>

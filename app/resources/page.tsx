@@ -8,8 +8,6 @@ import { GameSelector } from "@/components/game-selector"
 import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign, Sparkles, Code2, Home, Rocket, Crown, ExternalLink, Compass, Tv, Pizza, Sandwich } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
-import Lottie from "@/components/lottie-client"
-import animationData from "@/public/images/resources-ani.json"
 import { ContactModal } from "@/components/contact-modal"
 import { aiTools, utilityTools } from "@/lib/tools-config"
 
@@ -74,28 +72,17 @@ export default function Resources() {
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
       <FloatingNav />
       <TimezoneClock />
 
-      <div className="pt-28 pb-2 flex justify-center">
-        <div className="w-40 sm:w-48 md:w-56">
-          <Lottie animationData={animationData} loop autoplay />
-        </div>
-      </div>
-
-      <div className="pt-8 pb-20 px-4 sm:px-6 lg:px-8 relative">
+      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mt-2 mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-6">Resources</h1>
             <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-4">
               Helpful tools, guides, and insights for business technology and sales optimization
             </p>
-            <p className="text-lg text-blue-600 dark:text-blue-400 font-medium italic mt-4">
+            <p className="text-lg text-amber-700 dark:text-amber-400 font-medium italic mt-4">
               "Solutions engineer. Product thinker. AI enthusiast. I turn complexity into solutions."
             </p>
           </div>
@@ -111,12 +98,12 @@ export default function Resources() {
 
                 return (
                   <Link key={guide.id} href={guide.link}>
-                    <Card className="bg-white dark:bg-[#111827] border-slate-200 dark:border-slate-800 shadow-xl hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 cursor-pointer group h-full flex flex-col p-2 text-center">
+                    <Card className="bg-white dark:bg-[#111827] border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-amber-500/30 transition-all duration-300 cursor-pointer group h-full flex flex-col p-2 text-center">
                       <CardHeader className="flex-1 p-6 flex flex-col items-center">
-                        <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 transition-colors">
-                            <Icon className="w-6 h-6 text-blue-600 dark:text-blue-500" />
+                        <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-50 dark:group-hover:bg-amber-900/10 transition-colors">
+                            <Icon className="w-6 h-6 text-amber-700 dark:text-blue-500" />
                         </div>
-                        <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
                           {guide.title}
                         </CardTitle>
                         <CardDescription className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
@@ -128,7 +115,7 @@ export default function Resources() {
                             <DonationIcon className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                             {guide.funText}
                         </span>
-                        <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-500 font-medium opacity-100 transition-opacity">
+                        <div className="flex items-center gap-1.5 text-amber-700 dark:text-blue-500 font-medium opacity-100 transition-opacity">
                             <Heart className="w-4 h-4" />
                             <span>View Guide</span>
                         </div>
@@ -149,10 +136,10 @@ export default function Resources() {
                 const Icon = iconMap[tool.icon] || Sparkles
                 return (
                   <Link key={tool.id} href={tool.link}>
-                    <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50 text-center">
+                    <Card className="glass border-0 shadow-lg hover:shadow-sm transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50 text-center">
                       <CardHeader className="flex flex-col items-center">
-                        <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                          <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                          <Icon className="w-5 h-5 text-amber-700 dark:text-amber-400" />
                         </div>
                         <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{tool.title}</CardTitle>
                         <CardDescription className="text-slate-700 dark:text-slate-300">
@@ -175,9 +162,9 @@ export default function Resources() {
                 const Icon = iconMap[tool.icon] || FileText
                 return (
                   <Link key={tool.id} href={tool.link}>
-                    <Card className="glass border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50 text-center">
+                    <Card className="glass border-0 shadow-lg hover:shadow-sm transition-all duration-300 cursor-pointer group h-full hover:bg-white/50 dark:hover:bg-slate-800/50 text-center">
                       <CardHeader className="flex flex-col items-center">
-                        <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                        <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                           <Icon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                         </div>
                         <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{tool.title}</CardTitle>
@@ -196,7 +183,7 @@ export default function Resources() {
             <GameSelector />
           </div>
 
-          <div className="glass rounded-3xl p-8 shadow-xl text-center">
+          <div className="glass rounded-2xl p-8 shadow-sm text-center">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Get In Touch</h2>
               <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
@@ -207,7 +194,7 @@ export default function Resources() {
             <div className="flex justify-center">
               <Button
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+                className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white"
                 onClick={() => setShowContactForm(true)}
               >
                 <Mail className="w-4 h-4 mr-2" />

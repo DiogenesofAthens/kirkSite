@@ -12,7 +12,7 @@ export default function ApiDocsPage() {
       <div className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-2 flex items-center gap-3">
-            <Terminal className="w-8 h-8 text-blue-600" />
+            <Terminal className="w-8 h-8 text-amber-700" />
             Entity Extraction API
             </h1>
             <p className="text-slate-500 dark:text-slate-400 text-lg">
@@ -21,7 +21,7 @@ export default function ApiDocsPage() {
         </div>
         <div className="flex gap-2">
             <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-800">Operational</Badge>
-            <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800">v1.0.0</Badge>
+            <Badge variant="outline" className="text-amber-700 border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800">v1.0.0</Badge>
         </div>
       </div>
 
@@ -37,7 +37,7 @@ export default function ApiDocsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
              <div className="flex items-center gap-2 p-4 bg-slate-100 dark:bg-slate-900 rounded-lg font-mono text-sm border border-slate-200 dark:border-slate-800">
-               <Badge variant="default" className="bg-blue-600 hover:bg-blue-700">POST</Badge>
+               <Badge variant="default" className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900">POST</Badge>
                <span className="text-slate-700 dark:text-slate-300 font-medium">https://kirkwessman.com/api/extract</span>
              </div>
 

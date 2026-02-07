@@ -36,7 +36,7 @@ export function QrCodeGenerator() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto glass shadow-xl">
+    <Card className="w-full max-w-md mx-auto glass shadow-sm">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Link2 className="w-6 h-6 text-primary" /> QR Code Generator

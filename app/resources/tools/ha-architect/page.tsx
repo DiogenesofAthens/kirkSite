@@ -107,7 +107,7 @@ export default function HomeAssistantArchitect() {
         <div className="flex flex-col items-center justify-center mb-2 gap-2 text-center">
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-3 flex-wrap justify-center">
               Home Assistant Architect
-              <span className="text-xs font-normal bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-800">
+              <span className="text-xs font-normal bg-amber-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-800">
                 YAML Generator & Debugger
               </span>
             </h1>
@@ -136,7 +136,7 @@ export default function HomeAssistantArchitect() {
                             <Button
                                 onClick={handleGenerate}
                                 disabled={loading || !input.trim()}
-                                className="flex-1 md:flex-none bg-blue-600 hover:bg-blue-700 text-white shadow-md min-w-[140px]"
+                                className="flex-1 md:flex-none bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white shadow-md min-w-[140px]"
                             >
                                 {loading ? (
                                     <>
@@ -252,7 +252,7 @@ export default function HomeAssistantArchitect() {
                 {/* Explanation Card */}
                 <Card className="p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
                     <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-3 flex items-center gap-2">
-                        <Info className="w-5 h-5 text-blue-600" />
+                        <Info className="w-5 h-5 text-amber-700" />
                         Architect Notes
                     </h3>
                     <div className="prose prose-slate dark:prose-invert max-w-none text-sm text-slate-600 dark:text-slate-300 whitespace-pre-wrap">

@@ -36,7 +36,7 @@ export function FloatingNav() {
                     "flex items-center space-x-1 sm:space-x-2 px-1.5 sm:px-3 py-2 rounded-full transition-all duration-200 text-xs sm:text-sm font-medium",
                     "hover:bg-slate-100 dark:hover:bg-slate-800",
                     isActive
-                      ? "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
+                      ? "bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-white"
                       : "text-slate-700 dark:text-slate-300",
                   )}
                   title={item.label}

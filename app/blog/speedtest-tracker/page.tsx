@@ -224,8 +224,6 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-800/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-800/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <FloatingNav />
@@ -235,12 +233,12 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
-          <Link href="/blog" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8">
+          <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
           </Link>
 
-          <Card className="glass border-0 shadow-xl mb-8">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               <div className="mb-6">
                 <Badge variant="secondary" className="mb-4">
@@ -288,7 +286,7 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
             </CardContent>
           </Card>
 
-          <Card className="glass border-0 shadow-xl mb-8">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               <div className="prose prose-lg max-w-none dark:prose-invert">
                 {content.content.split("\n").map((paragraph, index) => {
@@ -333,7 +331,7 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
             </CardContent>
           </Card>
 
-          <Card className="glass border-0 shadow-xl mb-8">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">Article Images</h3>
@@ -417,7 +415,7 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
           </Card>
 
           <div className="flex justify-between items-center">
-            <Link href="/blog" className="text-blue-600 hover:text-blue-700">
+            <Link href="/blog" className="text-amber-700 hover:text-amber-800">
               ← Back to all posts
             </Link>
           </div>

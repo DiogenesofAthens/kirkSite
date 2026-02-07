@@ -62,7 +62,7 @@ export function Chatbot() {
 
   if (!isOpen) {
     return (
-      <Button onClick={() => setIsOpen(true)} className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg z-50" size="icon">
+      <Button onClick={() => setIsOpen(true)} className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 shadow-lg z-50" size="icon">
         <MessageCircle className="h-6 w-6" />
       </Button>
     )
@@ -70,14 +70,14 @@ export function Chatbot() {
 
   return (
     <>
-      <Card className="fixed bottom-6 right-6 w-96 h-[540px] shadow-xl z-50 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800 backdrop-blur-md bg-white/70 dark:bg-slate-900/70">
-        <CardHeader className="flex flex-row items-center justify-between bg-blue-600 text-white rounded-t-2xl px-4 py-3">
+      <Card className="fixed bottom-6 right-6 w-96 h-[540px] shadow-sm z-50 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-800 backdrop-blur-md bg-white/70 dark:bg-slate-900/70">
+        <CardHeader className="flex flex-row items-center justify-between bg-neutral-900 text-white rounded-t-2xl px-4 py-3">
           <CardTitle className="text-lg">Chat with Kirk&apos;s AI</CardTitle>
           <div className="flex gap-2">
-            <Button variant="ghost" size="icon" onClick={handleResetChat} className="text-white hover:bg-blue-700">
+            <Button variant="ghost" size="icon" onClick={handleResetChat} className="text-white hover:bg-neutral-800">
               <RefreshCw className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-white hover:bg-blue-700">
+            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-white hover:bg-neutral-800">
               <X className="h-4 w-4" />
             </Button>
           </div>
@@ -87,12 +87,12 @@ export function Chatbot() {
             {messages.map((message) => (
               <div key={message.id} className={cn("flex gap-2", message.role === 'assistant' ? "justify-start" : "justify-end")}>
                 {message.role === 'assistant' && (
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-4 h-4 text-blue-600" />
+                  <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
+                    <Bot className="w-4 h-4 text-amber-700" />
                   </div>
                 )}
                 <div className={cn("max-w-[75%] rounded-lg px-3 py-2 text-sm break-words transition-all duration-200",
-                  message.role === 'assistant' ? "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100" : "bg-blue-600 text-white")}
+                  message.role === 'assistant' ? "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100" : "bg-neutral-900 text-white")}
                 >
                   <div className="whitespace-pre-wrap">
                     {message.content || (message as any).parts?.map((part: any, i: number) =>
@@ -109,8 +109,8 @@ export function Chatbot() {
             ))}
             {isLoading && (
               <div className="flex gap-2 justify-start">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                  <Bot className="w-4 h-4 text-blue-600" />
+                <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
+                  <Bot className="w-4 h-4 text-amber-700" />
                 </div>
                 <div className="max-w-[75%] rounded-lg px-3 py-2 text-sm bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 animate-pulse">
                   Typing...
