@@ -7,10 +7,11 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 const navItems = [
   { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
   { href: "/my-expertise", label: "Expertise" },
   { href: "/resume", label: "Resume" },
   { href: "/recommendations", label: "Highlights" },
-  { href: "/blog", label: "Journal" },
+  { href: "/blog", label: "Writings" },
 ]
 
 export function FloatingNav() {

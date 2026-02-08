@@ -16,11 +16,8 @@ export default function Expertise() {
             <h1 className="font-serif text-5xl md:text-6xl font-normal tracking-tight text-foreground mb-8">
               My Expertise
             </h1>
-            <p className="text-lg leading-relaxed text-muted-foreground mb-6">
+            <p className="text-lg leading-relaxed text-muted-foreground">
               Customer-facing technical leader designing, prototyping, and deploying complex API- and data-driven systems.
-            </p>
-            <p className="text-base italic text-muted-foreground">
-              "Translating ambiguous requirements into production-grade solutions."
             </p>
           </div>
 

@@ -50,6 +50,14 @@ export const utilityTools = [
 
 export const blogPosts = [
     {
+      title: "The Capability Overhang: AI Can Already Do More Than You Think",
+      excerpt: "There is a growing gap between what AI systems can do and what most people believe they can do. The bottleneck to adoption isn't capability — it's imagination.",
+      date: "2026-02-05",
+      readTime: "8 min read",
+      category: "AI & Technology",
+      slug: "capability-overhang",
+    },
+    {
       title: "What I Learned Vibe-Coding This Site with Claude",
       excerpt: "I didn't write a single line of code by hand. Here's what happened when I paired domain expertise with an AI coding partner to build a personal site from scratch.",
       date: "2026-02-01",
