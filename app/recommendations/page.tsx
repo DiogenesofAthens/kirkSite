@@ -36,11 +36,8 @@ export default function Recommendations() {
             <h1 className="font-serif font-normal tracking-tight text-5xl md:text-6xl text-foreground mb-8">
               Career Highlights
             </h1>
-            <p className="text-lg leading-relaxed text-foreground mb-6">
+            <p className="text-lg leading-relaxed text-muted-foreground">
               A track record of delivering results across solutions engineering, product management, and enterprise data platforms.
-            </p>
-            <p className="text-base leading-relaxed text-muted-foreground italic">
-              &quot;I build systems that work in the real world — not just on paper.&quot;
             </p>
           </section>
 

@@ -78,7 +78,7 @@ If you have domain expertise and clear taste, AI coding tools can get you from z
         <div className="max-w-3xl mx-auto">
           <Link href="/blog" className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground mb-12 inline-block transition-colors">
             <ArrowLeft className="w-4 h-4 inline mr-2" />
-            Back to Blog
+            Back to Writings
           </Link>
 
           <header className="mb-12">
@@ -95,7 +95,7 @@ If you have domain expertise and clear taste, AI coding tools can get you from z
 
           <div className="mt-12 pt-8 border-t border-muted">
             <Link href="/blog" className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors">
-              &larr; Back to all posts
+              &larr; Back to all writings
             </Link>
           </div>
         </div>
