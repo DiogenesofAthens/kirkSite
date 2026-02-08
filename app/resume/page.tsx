@@ -135,11 +135,8 @@ export default function Resume() {
               <h1 className="font-serif text-5xl md:text-6xl font-normal tracking-tight text-foreground mb-4">
                 Resume
               </h1>
-              <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 15+ years spanning solutions engineering, product management, and enterprise data platforms
-              </p>
-              <p className="text-base text-muted-foreground italic">
-                "I'm most effective in environments where the problem space is evolving and the path to deployment isn't fully defined."
               </p>
             </div>
 

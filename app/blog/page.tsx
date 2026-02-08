@@ -92,7 +92,7 @@ export default function Journal() {
           {/* Footer with contact link */}
           <div className="mt-20 pt-12 border-t border-border">
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Have thoughts or questions? I'd be interested in discussing these ideas further.{" "}
+              Thoughts or questions?{" "}
               <button
                 onClick={() => setShowContactForm(true)}
                 className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity inline"
