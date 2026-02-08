@@ -1,7 +1,6 @@
 "use client"
 
 import { FloatingNav } from "@/components/floating-nav"
-import { Linkedin } from "lucide-react"
 import { TimezoneClock } from "@/components/timezone-clock"
 
 export default function Recommendations() {
@@ -74,17 +73,13 @@ export default function Recommendations() {
 
           {/* LinkedIn CTA Section */}
           <section className="border-t border-border pt-12">
-            <p className="text-base text-muted-foreground mb-6">
-              Want to know what colleagues and clients say about working with me? Connect on LinkedIn.
-            </p>
             <a
               href="https://www.linkedin.com/in/kwessman"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
             >
-              <Linkedin className="w-4 h-4" />
-              View LinkedIn Profile
+              Connect on LinkedIn
             </a>
           </section>
         </div>
