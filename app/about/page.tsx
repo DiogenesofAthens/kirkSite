@@ -50,6 +50,16 @@ export default function About() {
             </p>
           </div>
 
+          {/* About This Site */}
+          <div className="mt-16 pt-12 border-t border-border">
+            <h2 className="font-serif text-2xl font-normal tracking-tight text-foreground mb-4">
+              About This Site
+            </h2>
+            <p className="text-base leading-relaxed text-muted-foreground">
+              This site was built using AI coding tools from the frontier labs — a practical exercise in pairing domain expertise with modern tooling to ship something real, fast.
+            </p>
+          </div>
+
           {/* Links */}
           <div className="mt-12 pt-12 border-t border-border flex gap-8">
             <Link

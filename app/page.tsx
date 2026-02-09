@@ -151,7 +151,7 @@ export default function Home() {
             &copy; {year || 2026} Kirk Wessman
           </div>
           <div className="text-xs text-muted-foreground/50 tracking-wide">
-            Built with Claude
+            Built with AI
           </div>
         </div>
       </footer>

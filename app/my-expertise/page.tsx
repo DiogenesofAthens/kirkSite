@@ -27,13 +27,13 @@ export default function Expertise() {
               Solution Architecture & Enterprise Engagement
             </h2>
             <p className="text-base leading-relaxed text-muted-foreground mb-8">
-              Deep experience leading complex enterprise engagements from discovery through deployment. I design systems that work in the real world — not just on paper — through close collaboration with product, engineering, and executive stakeholders.
+              I lead the technical sale from first call to signed contract — scoping architecture, mapping integrations, building proof-of-concepts, and designing deployment strategies that derisk enterprise rollouts. My approach pairs deep technical fluency with a product-minded eye for what will actually scale.
             </p>
             <div className="space-y-2 text-muted-foreground">
               <p className="text-sm">Enterprise Solution Design</p>
               <p className="text-sm">API & Data Architecture</p>
-              <p className="text-sm">Technical Discovery</p>
-              <p className="text-sm">POC Development</p>
+              <p className="text-sm">Technical Discovery & POC Development</p>
+              <p className="text-sm">Technical RFP/RFI Execution</p>
             </div>
           </div>
 
@@ -43,94 +43,31 @@ export default function Expertise() {
               Product Management & Data Platforms
             </h2>
             <p className="text-base leading-relaxed text-muted-foreground mb-8">
-              Led product strategy for enterprise API and data-feed platforms with eight-figure recurring revenue. Hands-on PM who works directly with engineering and with the world&apos;s largest financial institutions.
+              At S&P Global, I owned roadmap, pricing, and go-to-market for enterprise data delivery platforms. I&apos;ve been in the room where product and engineering negotiate tradeoffs — and I know how to broker outcomes that serve both the business and the client.
             </p>
             <div className="space-y-2 text-muted-foreground">
-              <p className="text-sm">Product Strategy</p>
-              <p className="text-sm">API & Data Feeds</p>
-              <p className="text-sm">Go-to-Market Strategy</p>
+              <p className="text-sm">Product Strategy & Roadmap Ownership</p>
+              <p className="text-sm">API & Data Feed Platforms</p>
+              <p className="text-sm">Go-to-Market Execution</p>
               <p className="text-sm">Revenue Lifecycle Optimization</p>
             </div>
           </div>
 
           {/* AI & Emerging Technology Section */}
-          <div className="mb-20 pb-20 border-b border-muted-foreground/20">
+          <div>
             <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground mb-6">
               AI & Emerging Technology
             </h2>
             <p className="text-base leading-relaxed text-muted-foreground mb-8">
-              Applying AI and LLMs to real business problems — from workflow automation to rapid prototyping of production-grade tools.
+              I use AI as a force multiplier — building functional prototypes, automating workflows, and exploring how large language models can reshape enterprise operations. The live tools on the{" "}
+              <Link href="/blog" className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity">Portfolio</Link>{" "}
+              page are working examples.
             </p>
             <div className="space-y-2 text-muted-foreground">
-              <p className="text-sm">Artificial Intelligence</p>
-              <p className="text-sm">Large Language Models</p>
-              <p className="text-sm">Generative AI</p>
+              <p className="text-sm">Large Language Models & Generative AI</p>
+              <p className="text-sm">Rapid Prototyping</p>
               <p className="text-sm">Workflow Automation</p>
-            </div>
-          </div>
-
-          {/* Strengths at a Glance Section */}
-          <div className="mb-20 pb-20 border-b border-muted-foreground/20">
-            <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground mb-10">
-              Strengths at a Glance
-            </h2>
-            <p className="text-base text-muted-foreground mb-12">
-              These are the skills I draw from every day — whether architecting enterprise solutions, managing data platforms, or exploring what&apos;s next with AI.
-            </p>
-            <div className="grid md:grid-cols-2 gap-12">
-              <div>
-                <h3 className="font-serif text-xl font-normal tracking-tight text-foreground mb-6">Technical Leadership</h3>
-                <ul className="space-y-3 text-muted-foreground text-sm">
-                  <li>Solution Architecture</li>
-                  <li>API & Data System Design</li>
-                  <li>Cross-Functional Collaboration</li>
-                  <li>Complex Enterprise Engagements</li>
-                  <li>Technical RFP/RFI Execution</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-serif text-xl font-normal tracking-tight text-foreground mb-6">Business & Strategy</h3>
-                <ul className="space-y-3 text-muted-foreground text-sm">
-                  <li>Product Management</li>
-                  <li>Client Relationship Management</li>
-                  <li>Strategic Account Growth</li>
-                  <li>Revenue Lifecycle Optimization</li>
-                  <li>Go-to-Market Strategy</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Live AI Portfolio Section */}
-          <div>
-            <h2 className="font-serif text-3xl font-normal tracking-tight text-foreground mb-12">
-              Live AI Portfolio
-            </h2>
-            <div className="space-y-8">
-              <div>
-                <Link href="/tools/extractor" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
-                  Entity Extractor
-                </Link>
-                <p className="text-muted-foreground text-sm mt-3">
-                  AI-powered document analysis converting unstructured text to JSON.
-                </p>
-              </div>
-              <div>
-                <Link href="/tools/translator" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
-                  Code Translator
-                </Link>
-                <p className="text-muted-foreground text-sm mt-3">
-                  Legacy code modernization tool using LLMs for architectural translation.
-                </p>
-              </div>
-              <div>
-                <Link href="/tools/ha-architect" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
-                  HA Architect
-                </Link>
-                <p className="text-muted-foreground text-sm mt-3">
-                  Natural language to YAML generator for Home Assistant automations.
-                </p>
-              </div>
+              <p className="text-sm">AI-Assisted Development</p>
             </div>
           </div>
 
