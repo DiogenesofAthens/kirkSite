@@ -179,7 +179,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
           {/* Back Button */}
           <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Blog
+            Back to Writing
           </Link>
 
           {/* Edit Toggle */}

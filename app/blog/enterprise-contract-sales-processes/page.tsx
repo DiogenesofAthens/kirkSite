@@ -228,7 +228,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
         <div className="max-w-4xl mx-auto">
           <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Blog
+            Back to Writing
           </Link>
 
           <div className="mb-6 flex justify-end">

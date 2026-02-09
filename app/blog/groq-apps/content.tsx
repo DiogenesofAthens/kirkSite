@@ -276,7 +276,7 @@ If you have a website, a smart home, or just a messy folder of code, grab an API
         <div className="max-w-4xl mx-auto">
           <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Blog
+            Back to Writing
           </Link>
 
           <Card className="glass border-0 shadow-sm mb-8">

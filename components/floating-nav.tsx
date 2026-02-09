@@ -7,11 +7,9 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/my-expertise", label: "Expertise" },
+  { href: "/work", label: "Work" },
   { href: "/resume", label: "Resume" },
-  { href: "/recommendations", label: "Highlights" },
-  { href: "/blog", label: "Portfolio" },
+  { href: "/blog", label: "Writing" },
 ]
 
 export function FloatingNav() {
@@ -21,7 +19,7 @@ export function FloatingNav() {
     <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
       <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 py-5">
         <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4 sm:gap-8 overflow-x-auto scrollbar-hide -mx-1 px-1">
+          <div className="flex items-center gap-6 sm:gap-8">
             {navItems.map((item) => {
               const isActive = pathname === item.href || (item.href === "/blog" && pathname.startsWith("/blog"))
 
@@ -30,7 +28,7 @@ export function FloatingNav() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "text-xs sm:text-sm tracking-wide uppercase transition-opacity duration-200 whitespace-nowrap flex-shrink-0",
+                    "text-xs sm:text-sm tracking-wide uppercase transition-opacity duration-200 whitespace-nowrap",
                     isActive
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground",

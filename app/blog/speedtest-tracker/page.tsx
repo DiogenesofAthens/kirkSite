@@ -235,7 +235,7 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
         <div className="max-w-4xl mx-auto">
           <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Blog
+            Back to Writing
           </Link>
 
           <Card className="glass border-0 shadow-sm mb-8">
