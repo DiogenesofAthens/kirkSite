@@ -4,30 +4,16 @@ import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { ContactModal } from "@/components/contact-modal"
 import Link from "next/link"
-import { useState, useRef } from "react"
+import { useState } from "react"
 import { blogPosts } from "@/lib/tools-config"
 
 export default function Portfolio() {
   const [showContactForm, setShowContactForm] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const audioRef = useRef<HTMLAudioElement>(null)
-
   const sortedPosts = [...blogPosts].sort((a, b) => {
     const dateA = new Date(a.date).getTime()
     const dateB = new Date(b.date).getTime()
     return dateB - dateA
   })
-
-  const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause()
-      } else {
-        audioRef.current.play()
-      }
-      setIsPlaying(!isPlaying)
-    }
-  }
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -57,47 +43,30 @@ export default function Portfolio() {
                 The Conga Rap
               </h3>
               <p className="text-base text-muted-foreground leading-relaxed mb-8 max-w-xl">
-                Conga-themed rap produced for a past sales kickoff&apos;s main stage. Artist credit:{" "}
+                Conga-themed rap produced for a past sales kickoff&apos;s main stage. Combines ChatGPT/Gemini for voice and lyrics with audio samples and custom chord progressions. Artist credit:{" "}
                 <a
                   href="https://www.linkedin.com/in/rgrobins/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity"
                 >
-                  Notorious RR
+                  Notorious RGR
                 </a>
-                . Combines ChatGPT/Gemini for voice and lyrics with audio samples and custom chord progressions.
+                .
               </p>
 
-              {/* Audio Player */}
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={togglePlay}
-                  className="w-10 h-10 rounded-full border border-foreground flex items-center justify-center hover:opacity-60 transition-opacity flex-shrink-0"
-                  aria-label={isPlaying ? "Pause" : "Play"}
-                >
-                  {isPlaying ? (
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                      <rect x="2" y="1" width="3.5" height="12" rx="0.5" />
-                      <rect x="8.5" y="1" width="3.5" height="12" rx="0.5" />
-                    </svg>
-                  ) : (
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                      <polygon points="3,1 13,7 3,13" />
-                    </svg>
-                  )}
-                </button>
-                <span className="text-sm text-muted-foreground tracking-wide uppercase">
-                  {isPlaying ? "Now Playing" : "Play"}
-                </span>
+              {/* SoundCloud Embed */}
+              <div className="max-w-xl">
+                <iframe
+                  width="100%"
+                  height="166"
+                  scrolling="no"
+                  frameBorder="no"
+                  allow="autoplay"
+                  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/kw_sc/cr&color=%23333333&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+                  className="rounded"
+                />
               </div>
-
-              <audio
-                ref={audioRef}
-                src="/audio/conga-sko.mp3"
-                onEnded={() => setIsPlaying(false)}
-                preload="metadata"
-              />
             </div>
           </section>
 
