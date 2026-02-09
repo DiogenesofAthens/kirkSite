@@ -59,7 +59,7 @@ export default function Expertise() {
               AI & Emerging Technology
             </h2>
             <p className="text-base leading-relaxed text-muted-foreground mb-8">
-              Passionate about AI, LLMs, and generative AI. This website itself was vibe-coded with Claude — a testament to what&apos;s possible when you pair domain expertise with modern AI tools.
+              Applying AI and LLMs to real business problems — from workflow automation to rapid prototyping of production-grade tools.
             </p>
             <div className="space-y-2 text-muted-foreground">
               <p className="text-sm">Artificial Intelligence</p>

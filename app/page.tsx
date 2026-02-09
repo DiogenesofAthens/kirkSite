@@ -84,7 +84,7 @@ export default function Home() {
                 AI & Emerging Technology
               </h3>
               <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-                Building at the frontier of AI tooling — this site itself was vibe-coded with Claude as a collaborative partner.
+                Applying AI and LLMs to real business problems — from workflow automation to rapid prototyping of production-grade tools.
               </p>
             </div>
           </div>

@@ -48,9 +48,6 @@ export default function About() {
             <p>
               I hold a B.S. Cum Laude in Business Administration from the University of Southern California — Marshall School of Business, where I was inducted into Phi Beta Kappa and named a Presidential Scholar.
             </p>
-            <p>
-              This site was built with Claude as a collaborative coding partner — a small example of pairing domain expertise with modern AI tools to produce real results, fast.
-            </p>
           </div>
 
           {/* Links */}

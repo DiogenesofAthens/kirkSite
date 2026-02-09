@@ -56,19 +56,14 @@ export default function Recommendations() {
             </div>
           </section>
 
-          {/* Vibe-Coded Section */}
+          {/* About This Site */}
           <section className="mb-16 border-t border-border pt-12">
             <h2 className="font-serif font-normal tracking-tight text-3xl text-foreground mb-6">
-              This Site Was Vibe-Coded with Claude
+              About This Site
             </h2>
-            <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
-              <p>
-                I didn&apos;t just update a template — I used Claude (Anthropic&apos;s AI) as a collaborative coding partner to transform a friend&apos;s Next.js site into my own professional presence. From rewriting data models to restructuring pages to crafting copy, every change was a conversation between domain expertise and AI capability.
-              </p>
-              <p>
-                It&apos;s a small example of something I believe deeply: the best results come from pairing human judgment with the right tools. That&apos;s true whether you&apos;re architecting an enterprise CPQ deployment or building a personal website.
-              </p>
-            </div>
+            <p className="text-base leading-relaxed text-muted-foreground">
+              This site was built using AI-assisted development — a practical exercise in pairing domain expertise with modern tooling to ship something real, fast.
+            </p>
           </section>
 
           {/* LinkedIn CTA Section */}
