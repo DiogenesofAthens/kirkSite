@@ -20,7 +20,7 @@ export async function submitContactForm(formData: FormData) {
     // Note: Resend SDK returns { data, error } instead of throwing on API errors
     const { data, error } = await resend.emails.send({
       from: "Kirk Wessman Site <onboarding@resend.dev>",
-      to: "kwessman+inbound@gmail.com",
+      to: "kwessman@gmail.com",
       subject: `New Contact Form Submission from ${contactData.name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -54,7 +54,7 @@ export async function submitContactForm(formData: FormData) {
       console.error("Resend API error:", error)
       return {
         success: false,
-        message: "Something went wrong sending your message. Please try again or email kwessman@gmail.com directly.",
+        message: "Something went wrong sending your message. Please try again or use the contact details on my LinkedIn.",
       }
     }
 
