@@ -7,15 +7,15 @@ import Link from "next/link"
 
 export default function VibeCodingWithClaude() {
   const content = {
-    title: "What I Learned Vibe-Coding This Site with Claude",
+    title: "What I Learned Vibe-Coding This Site with AI",
     publishDate: "2026-02-01",
     readTime: "5 min read",
     body: [
       {
         type: "markdown",
-        text: `# What I Learned Vibe-Coding This Site with Claude
+        text: `# What I Learned Vibe-Coding This Site with AI
 
-I didn't write a single line of code by hand. Every file, every component, every CSS change on this site was the result of a conversation between me and Claude — Anthropic's AI. Here's what that process looked like, and what it taught me about where AI-assisted development actually is right now.`
+I didn't write a single line of code by hand. Every file, every component, every CSS change on this site was built using AI coding tools from the frontier labs. Here's what that process looked like, and what it taught me about where AI-assisted development actually is right now.`
       },
       {
         type: "markdown",
@@ -27,7 +27,7 @@ A friend of mine, Grant Glazer, built a personal site on Next.js that I admired.
         type: "markdown",
         text: `## What "Vibe Coding" Actually Means
 
-I've seen the term thrown around, and it can mean a lot of things. For me it meant this: I described what I wanted in plain language, reviewed what Claude produced, gave feedback, and iterated. I never opened a code editor. I never wrote a function. But I was deeply involved in every decision — what content to surface, how to structure the narrative, what felt right and what didn't.
+I've seen the term thrown around, and it can mean a lot of things. For me it meant this: I described what I wanted in plain language, reviewed what the AI produced, gave feedback, and iterated. I never opened a code editor. I never wrote a function. But I was deeply involved in every decision — what content to surface, how to structure the narrative, what felt right and what didn't.
 
 It's not "AI did it for me." It's closer to directing a very fast, very literal collaborator who happens to know TypeScript.`
       },
