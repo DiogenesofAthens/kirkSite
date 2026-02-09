@@ -7,7 +7,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { blogPosts } from "@/lib/tools-config"
 
-export default function Portfolio() {
+export default function Writing() {
   const [showContactForm, setShowContactForm] = useState(false)
 
   const sortedPosts = [...blogPosts].sort((a, b) => {
@@ -26,10 +26,10 @@ export default function Portfolio() {
           {/* Header */}
           <div className="mb-16">
             <h1 className="font-serif text-5xl md:text-6xl font-normal tracking-tight text-foreground mb-4">
-              Portfolio
+              Writing
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Selected work, writing, and the occasional creative detour.
+              Essays, notes, and technical observations from the field.
             </p>
           </div>
 
