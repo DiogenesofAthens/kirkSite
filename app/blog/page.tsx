@@ -32,6 +32,40 @@ export default function Portfolio() {
             </p>
           </div>
 
+          {/* Live AI Tools Section */}
+          <section className="mb-20">
+            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
+              Live AI Tools
+            </h2>
+
+            <div className="space-y-8 pb-10 border-b border-border">
+              <div>
+                <Link href="/tools/extractor" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
+                  Entity Extractor
+                </Link>
+                <p className="text-muted-foreground text-sm mt-3">
+                  AI-powered document analysis converting unstructured text to JSON.
+                </p>
+              </div>
+              <div>
+                <Link href="/tools/translator" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
+                  Code Translator
+                </Link>
+                <p className="text-muted-foreground text-sm mt-3">
+                  Legacy code modernization tool using LLMs for architectural translation.
+                </p>
+              </div>
+              <div>
+                <Link href="/tools/ha-architect" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
+                  HA Architect
+                </Link>
+                <p className="text-muted-foreground text-sm mt-3">
+                  Natural language to YAML generator for Home Assistant automations.
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* Media Section */}
           <section className="mb-20">
             <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">

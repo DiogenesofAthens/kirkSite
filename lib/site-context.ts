@@ -140,7 +140,7 @@ Led product strategy for enterprise API and data-feed platforms with eight-figur
 - Revenue Lifecycle Management
 
 AI & Emerging Technology:
-Passionate about AI, LLMs, and generative AI. This website itself was vibe-coded with Claude — a testament to what's possible when you pair domain expertise with modern AI tools.
+Applying AI and LLMs to real business problems — from workflow automation to rapid prototyping of production-grade tools. This website itself was built using AI coding tools from the frontier labs.
 - Artificial Intelligence (AI)
 - Large Language Models (LLMs)
 - Generative AI
@@ -193,7 +193,7 @@ export const SITE_CONTEXT = `
     Kirk Wessman is a Principal Solutions Engineer at Conga based in Santa Monica, CA.
     He holds a B.S. Cum Laude in Business Administration from USC Marshall School of Business, where he was Phi Beta Kappa and a Presidential Scholar.
     Before Conga, Kirk spent 6 years at S&P Global in product management and relationship management roles, and also worked as an independent strategy consultant.
-    He built this site by vibe-coding with Claude (Anthropic's AI) — adapting a friend's Next.js template into his own professional presence.
+    He built this site using AI coding tools from the frontier labs — adapting a friend's Next.js template into his own professional presence.
     Kirk is passionate about AI, LLMs, and building things at the intersection of technology and business.
   </additional_info>
 </site_data>
