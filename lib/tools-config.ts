@@ -58,8 +58,8 @@ export const blogPosts = [
       slug: "capability-overhang",
     },
     {
-      title: "What I Learned Vibe-Coding This Site with Claude",
-      excerpt: "I didn't write a single line of code by hand. Here's what happened when I paired domain expertise with an AI coding partner to build a personal site from scratch.",
+      title: "What I Learned Vibe-Coding This Site with AI",
+      excerpt: "I didn't write a single line of code by hand. Here's what happened when I paired domain expertise with AI coding tools from the frontier labs to build a personal site from scratch.",
       date: "2026-02-01",
       readTime: "5 min read",
       category: "AI & Technology",
