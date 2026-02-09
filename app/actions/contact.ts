@@ -18,7 +18,7 @@ export async function submitContactForm(formData: FormData) {
   try {
     // Send email using Resend
     const emailResult = await resend.emails.send({
-      from: "contact@kirkwessman.com", // You'll need to verify this domain with Resend
+      from: "Kirk Wessman Site <onboarding@resend.dev>",
       to: "kwessman+inbound@gmail.com",
       subject: `New Contact Form Submission from ${contactData.name}`,
       html: `
@@ -58,12 +58,9 @@ export async function submitContactForm(formData: FormData) {
   } catch (error) {
     console.error("Error sending email:", error)
 
-    // Fallback: Log the contact data for manual follow-up
-    console.log("Contact form submission (email failed):", contactData)
-
     return {
-      success: true,
-      message: "Thank you for your message! Kirk will get back to you within 24 hours.",
+      success: false,
+      message: "Something went wrong sending your message. Please try again or email kwessman@gmail.com directly.",
     }
   }
 }
