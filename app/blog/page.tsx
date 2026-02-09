@@ -56,11 +56,17 @@ export default function Portfolio() {
               <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-3">
                 The Conga Rap
               </h3>
-              <p className="text-sm text-muted-foreground mb-2">
-                Sales Kickoff &middot; Co-written with AI
-              </p>
               <p className="text-base text-muted-foreground leading-relaxed mb-8 max-w-xl">
-                A rap about Conga&apos;s Quote-to-Cash platform, co-authored with AI for a past sales kickoff. Equal parts product knowledge and irreverence.
+                Conga-themed rap produced for a past sales kickoff&apos;s main stage. Artist credit:{" "}
+                <a
+                  href="https://www.linkedin.com/in/rgrobins/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity"
+                >
+                  Notorious RR
+                </a>
+                . Combines ChatGPT/Gemini for voice and lyrics with audio samples and custom chord progressions.
               </p>
 
               {/* Audio Player */}
