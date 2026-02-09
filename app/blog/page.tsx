@@ -32,80 +32,8 @@ export default function Portfolio() {
             </p>
           </div>
 
-          {/* Live AI Tools Section */}
-          <section className="mb-20">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Live AI Tools
-            </h2>
-
-            <div className="space-y-8 pb-10 border-b border-border">
-              <div>
-                <Link href="/tools/extractor" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
-                  Entity Extractor
-                </Link>
-                <p className="text-muted-foreground text-sm mt-3">
-                  AI-powered document analysis converting unstructured text to JSON.
-                </p>
-              </div>
-              <div>
-                <Link href="/tools/translator" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
-                  Code Translator
-                </Link>
-                <p className="text-muted-foreground text-sm mt-3">
-                  Legacy code modernization tool using LLMs for architectural translation.
-                </p>
-              </div>
-              <div>
-                <Link href="/tools/ha-architect" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
-                  HA Architect
-                </Link>
-                <p className="text-muted-foreground text-sm mt-3">
-                  Natural language to YAML generator for Home Assistant automations.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* Media Section */}
-          <section className="mb-20">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Media
-            </h2>
-
-            <div className="py-10 border-t border-border">
-              <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-3">
-                The Conga Rap
-              </h3>
-              <p className="text-base text-muted-foreground leading-relaxed mb-8 max-w-xl">
-                Conga-themed rap produced for a past sales kickoff&apos;s main stage. Combines ChatGPT/Gemini for voice and lyrics with audio samples and custom chord progressions. Artist credit:{" "}
-                <a
-                  href="https://www.linkedin.com/in/rgrobins/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity"
-                >
-                  Notorious RGR
-                </a>
-                .
-              </p>
-
-              {/* SoundCloud Embed */}
-              <div className="max-w-xl">
-                <iframe
-                  width="100%"
-                  height="166"
-                  scrolling="no"
-                  frameBorder="no"
-                  allow="autoplay"
-                  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/kw_sc/cr&color=%23333333&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
-                  className="rounded"
-                />
-              </div>
-            </div>
-          </section>
-
           {/* Writings Section */}
-          <section>
+          <section className="mb-20">
             <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
               Writings
             </h2>
@@ -152,6 +80,78 @@ export default function Portfolio() {
                   <p>No posts yet.</p>
                 </div>
               )}
+            </div>
+          </section>
+
+          {/* Media Section */}
+          <section className="mb-20">
+            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
+              Media
+            </h2>
+
+            <div className="py-10 border-t border-border">
+              <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-3">
+                The Conga Rap
+              </h3>
+              <p className="text-base text-muted-foreground leading-relaxed mb-8 max-w-xl">
+                Conga-themed rap produced for a past sales kickoff&apos;s main stage. Combines ChatGPT/Gemini for voice and lyrics with audio samples and custom chord progressions. Artist credit:{" "}
+                <a
+                  href="https://www.linkedin.com/in/rgrobins/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity"
+                >
+                  Notorious RGR
+                </a>
+                .
+              </p>
+
+              {/* SoundCloud Embed */}
+              <div className="max-w-xl">
+                <iframe
+                  width="100%"
+                  height="166"
+                  scrolling="no"
+                  frameBorder="no"
+                  allow="autoplay"
+                  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/kw_sc/cr&color=%23333333&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+                  className="rounded"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Live AI Tools Section */}
+          <section>
+            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
+              Live AI Tools
+            </h2>
+
+            <div className="space-y-8 border-t border-border pt-10">
+              <div>
+                <Link href="/resources/tools/extractor" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
+                  Entity Extractor
+                </Link>
+                <p className="text-muted-foreground text-sm mt-3">
+                  AI-powered document analysis converting unstructured text to JSON.
+                </p>
+              </div>
+              <div>
+                <Link href="/tools/translator" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
+                  Code Translator
+                </Link>
+                <p className="text-muted-foreground text-sm mt-3">
+                  Legacy code modernization tool using LLMs for architectural translation.
+                </p>
+              </div>
+              <div>
+                <Link href="/resources/tools/ha-architect" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
+                  HA Architect
+                </Link>
+                <p className="text-muted-foreground text-sm mt-3">
+                  Natural language to YAML generator for Home Assistant automations.
+                </p>
+              </div>
             </div>
           </section>
 
