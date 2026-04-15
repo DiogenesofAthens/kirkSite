@@ -121,6 +121,34 @@ export default function Portfolio() {
             </div>
           </section>
 
+          {/* Projects Section */}
+          <section className="mb-20">
+            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
+              Projects
+            </h2>
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Analytics
+              </div>
+
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                StatTrack
+              </h3>
+
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library. Surfaces real-time player stats, scoring trends, and automated insight alerts.
+              </p>
+
+              <Link
+                href="/projects/stattrack"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+          </section>
+
           {/* Live AI Tools Section */}
           <section>
             <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
