@@ -32,10 +32,69 @@ export default function Portfolio() {
             </p>
           </div>
 
-          {/* Writings Section */}
+          {/* Projects Section */}
           <section className="mb-20">
             <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Writings
+              Projects
+            </h2>
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Analytics
+              </div>
+
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                StatTrack
+              </h3>
+
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library. Surfaces real-time player stats, scoring trends, and automated insight alerts.
+              </p>
+
+              <Link
+                href="/projects/stattrack"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+
+            <div className="py-10 border-t border-border">
+              <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-3">
+                The Conga Rap
+              </h3>
+              <p className="text-base text-muted-foreground leading-relaxed mb-8 max-w-xl">
+                Conga-themed rap produced for a past sales kickoff&apos;s main stage. Combines ChatGPT/Gemini for voice and lyrics with audio samples and custom chord progressions. Artist credit:{" "}
+                <a
+                  href="https://www.linkedin.com/in/rgrobins/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity"
+                >
+                  Notorious RGR
+                </a>
+                .
+              </p>
+
+              {/* SoundCloud Embed */}
+              <div className="max-w-xl">
+                <iframe
+                  width="100%"
+                  height="166"
+                  scrolling="no"
+                  frameBorder="no"
+                  allow="autoplay"
+                  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/kw_sc/cr&color=%23333333&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+                  className="rounded"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Articles Section */}
+          <section className="mb-20">
+            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
+              Articles
             </h2>
             <p className="text-sm text-muted-foreground/60 italic mb-10">
               Not my writings so much as my machine analogue&apos;s — these are placeholder articles entirely written by AI. Human ones coming soon.
@@ -80,72 +139,6 @@ export default function Portfolio() {
                   <p>No posts yet.</p>
                 </div>
               )}
-            </div>
-          </section>
-
-          {/* Media Section */}
-          <section className="mb-20">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Media
-            </h2>
-
-            <div className="py-10 border-t border-border">
-              <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-3">
-                The Conga Rap
-              </h3>
-              <p className="text-base text-muted-foreground leading-relaxed mb-8 max-w-xl">
-                Conga-themed rap produced for a past sales kickoff&apos;s main stage. Combines ChatGPT/Gemini for voice and lyrics with audio samples and custom chord progressions. Artist credit:{" "}
-                <a
-                  href="https://www.linkedin.com/in/rgrobins/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity"
-                >
-                  Notorious RGR
-                </a>
-                .
-              </p>
-
-              {/* SoundCloud Embed */}
-              <div className="max-w-xl">
-                <iframe
-                  width="100%"
-                  height="166"
-                  scrolling="no"
-                  frameBorder="no"
-                  allow="autoplay"
-                  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/kw_sc/cr&color=%23333333&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
-                  className="rounded"
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* Projects Section */}
-          <section className="mb-20">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Projects
-            </h2>
-
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Analytics
-              </div>
-
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                StatTrack
-              </h3>
-
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library. Surfaces real-time player stats, scoring trends, and automated insight alerts.
-              </p>
-
-              <Link
-                href="/projects/stattrack"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
             </div>
           </section>
 
