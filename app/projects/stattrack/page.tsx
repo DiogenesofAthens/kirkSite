@@ -29,7 +29,7 @@ export default function StatTrack() {
             </p>
             <div className="flex flex-wrap gap-6">
               <a
-                href="https://stattrack-sandy.vercel.app/"
+                href="https://stattrack.kirkwessman.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"

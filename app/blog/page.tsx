@@ -32,54 +32,31 @@ export default function Portfolio() {
             </p>
           </div>
 
-          {/* Writings Section */}
+          {/* Projects Section */}
           <section className="mb-20">
             <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Writings
+              Projects
             </h2>
-            <p className="text-sm text-muted-foreground/60 italic mb-10">
-              Not my writings so much as my machine analogue&apos;s — these are placeholder articles entirely written by AI. Human ones coming soon.
-            </p>
 
-            <div className="space-y-0">
-              {sortedPosts.length > 0 ? (
-                sortedPosts.map((post, index) => (
-                  <div key={post.slug}>
-                    <div className="py-12 border-t border-border">
-                      <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                        {post.category}
-                      </div>
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Analytics
+              </div>
 
-                      <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                        {post.title}
-                      </h3>
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                StatTrack
+              </h3>
 
-                      <div className="text-sm text-muted-foreground mb-4">
-                        {new Date(post.date + "T12:00:00").toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </div>
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library. Surfaces real-time player stats, scoring trends, and automated insight alerts.
+              </p>
 
-                      <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                        {post.excerpt}
-                      </p>
-
-                      <Link
-                        href={`/blog/${post.slug}`}
-                        className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-                      >
-                        Read
-                      </Link>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-12 text-muted-foreground">
-                  <p>No posts yet.</p>
-                </div>
-              )}
+              <Link
+                href="/projects/stattrack"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
             </div>
           </section>
 
@@ -121,31 +98,50 @@ export default function Portfolio() {
             </div>
           </section>
 
-          {/* Projects Section */}
+          {/* Writings Section */}
           <section className="mb-20">
             <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Projects
+              Writings
             </h2>
+            <div className="space-y-0">
+              {sortedPosts.length > 0 ? (
+                sortedPosts.map((post, index) => (
+                  <div key={post.slug}>
+                    <div className="py-12 border-t border-border">
+                      <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                        {post.category}
+                      </div>
 
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Analytics
-              </div>
+                      <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                        {post.title}
+                      </h3>
 
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                StatTrack
-              </h3>
+                      <div className="text-sm text-muted-foreground mb-4">
+                        {new Date(post.date + "T12:00:00").toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </div>
 
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library. Surfaces real-time player stats, scoring trends, and automated insight alerts.
-              </p>
+                      <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                        {post.excerpt}
+                      </p>
 
-              <Link
-                href="/projects/stattrack"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+                      >
+                        Read
+                      </Link>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-12 text-muted-foreground">
+                  <p>No posts yet.</p>
+                </div>
+              )}
             </div>
           </section>
 

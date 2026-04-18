@@ -50,7 +50,7 @@ export const utilityTools = [
 
 export const blogPosts = [
     {
-      title: "NBA analytics dashboard in two sessions with Claude Code",
+      title: "NBA Analytics Dashboard in Two Sessions With Claude Code",
       excerpt: "The goal was something concrete — not a tutorial, not a template. An agentic coding tool, two sessions, and a live product. Here's what that looked like.",
       date: "2026-04-18",
       readTime: "7 min read",

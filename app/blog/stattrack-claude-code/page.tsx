@@ -7,13 +7,13 @@ import Link from "next/link"
 
 export default function StatTrackClaudeCode() {
   const content = {
-    title: "NBA analytics dashboard in two sessions with Claude Code",
+    title: "NBA Analytics Dashboard in Two Sessions With Claude Code",
     publishDate: "2026-04-18",
     readTime: "7 min read",
     body: [
       {
         type: "markdown",
-        text: `# NBA analytics dashboard in two sessions with Claude Code`
+        text: `# NBA Analytics Dashboard in Two Sessions With Claude Code`
       },
       {
         type: "markdown",
