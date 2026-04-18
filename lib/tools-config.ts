@@ -50,6 +50,14 @@ export const utilityTools = [
 
 export const blogPosts = [
     {
+      title: "I built a live NBA analytics dashboard in two sessions with Claude Code",
+      excerpt: "The goal was something concrete — not a tutorial, not a template. An agentic coding tool, two sessions, and a live product. Here's what that looked like.",
+      date: "2026-04-18",
+      readTime: "7 min read",
+      category: "AI & Technology",
+      slug: "stattrack-claude-code",
+    },
+    {
       title: "The Capability Overhang: AI Can Already Do More Than You Think",
       excerpt: "There is a growing gap between what AI systems can do and what most people believe they can do. The bottleneck to adoption isn't capability — it's imagination.",
       date: "2026-02-05",
