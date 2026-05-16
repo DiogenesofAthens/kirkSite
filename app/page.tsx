@@ -5,6 +5,7 @@ import { FloatingNav } from "@/components/floating-nav"
 import { ContactModal } from "@/components/contact-modal"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Link from "next/link"
+import { Github } from "lucide-react"
 import { blogPosts } from "@/lib/tools-config"
 
 export default function Home() {
@@ -42,8 +43,9 @@ export default function Home() {
               href="https://github.com/DiogenesofAthens"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              className="inline-flex items-center gap-2 text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
             >
+              <Github className="h-4 w-4" />
               GitHub
             </a>
           </div>
@@ -165,8 +167,9 @@ export default function Home() {
               href="https://github.com/DiogenesofAthens"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-muted-foreground/50 tracking-wide hover:text-muted-foreground transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/50 tracking-wide hover:text-muted-foreground transition-colors"
             >
+              <Github className="h-3.5 w-3.5" />
               GitHub
             </a>
             <div className="text-xs text-muted-foreground/50 tracking-wide">
