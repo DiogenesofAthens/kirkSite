@@ -37,6 +37,16 @@ export default function Home() {
           <p className="text-lg text-muted-foreground/70 leading-relaxed max-w-xl">
             Translating ambiguous requirements into production-grade solutions — then shipping them.
           </p>
+          <div className="mt-10">
+            <a
+              href="https://github.com/DiogenesofAthens"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+            >
+              GitHub
+            </a>
+          </div>
         </div>
       </section>
 
@@ -150,8 +160,18 @@ export default function Home() {
           <div className="text-sm text-muted-foreground">
             &copy; {year || 2026} Kirk Wessman
           </div>
-          <div className="text-xs text-muted-foreground/50 tracking-wide">
-            Built with AI
+          <div className="flex items-center gap-6">
+            <a
+              href="https://github.com/DiogenesofAthens"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted-foreground/50 tracking-wide hover:text-muted-foreground transition-colors"
+            >
+              GitHub
+            </a>
+            <div className="text-xs text-muted-foreground/50 tracking-wide">
+              Built with AI
+            </div>
           </div>
         </div>
       </footer>

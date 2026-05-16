@@ -131,17 +131,122 @@ export default function Portfolio() {
               <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
                 Analytics
               </div>
-
               <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
                 StatTrack
               </h3>
-
               <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
                 Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library. Surfaces real-time player stats, scoring trends, and automated insight alerts.
               </p>
-
               <Link
                 href="/projects/stattrack"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Automation
+              </div>
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                fareTrader
+              </h3>
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Autonomous Python agent that monitors Delta Air Lines first-class fares and auto-books when prices drop below a configured threshold — using eCredits as zero-cost options on premium seats.
+              </p>
+              <Link
+                href="/projects/faretrader"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Blockchain / Civic Tech
+              </div>
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                Save the State
+              </h3>
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Blockchain-anchored land covenant registry targeting county government. Covenants are recorded as immutable on-chain transactions; SQLite serves as a queryable enrichment layer.
+              </p>
+              <Link
+                href="/projects/savethestate"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Infrastructure
+              </div>
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                ResourXe
+              </h3>
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                GPU compute routing engine that queries cloud marketplaces and scores instances by price and carbon intensity — find the cheapest compute, the greenest, or any blend in between.
+              </p>
+              <Link
+                href="/projects/resourxe"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Fintech
+              </div>
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                PortKey
+              </h3>
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Mortgage portability neobank prototype. Lets homeowners carry an existing low-rate mortgage to a new property instead of refinancing at today&apos;s rates. Your rate moves with you.
+              </p>
+              <Link
+                href="/projects/portkey"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Civic
+              </div>
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                re-open.us
+              </h3>
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Civic engagement landing page challenging political apathy and calling for renewed democratic participation. Static Next.js site with a canvas-animated waving flag.
+              </p>
+              <Link
+                href="/projects/reopen"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Creative
+              </div>
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                Prince of Mulberry
+              </h3>
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Coming soon page for a Nolita-based film production company. Full-screen video, canvas film grain, and a Cormorant Garamond editorial aesthetic — in a single dependency-free HTML file.
+              </p>
+              <Link
+                href="/projects/pmp"
                 className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
               >
                 View Project
