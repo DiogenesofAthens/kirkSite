@@ -5,15 +5,9 @@ import { TimezoneClock } from "@/components/timezone-clock"
 import { ContactModal } from "@/components/contact-modal"
 import Link from "next/link"
 import { useState } from "react"
-import { blogPosts } from "@/lib/tools-config"
 
 export default function Portfolio() {
   const [showContactForm, setShowContactForm] = useState(false)
-  const sortedPosts = [...blogPosts].sort((a, b) => {
-    const dateA = new Date(a.date).getTime()
-    const dateB = new Date(b.date).getTime()
-    return dateB - dateA
-  })
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
@@ -28,7 +22,7 @@ export default function Portfolio() {
               Portfolio
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Selected work, writing, and the occasional creative detour.
+              Selected work and the occasional creative detour.
             </p>
           </div>
 
@@ -200,57 +194,6 @@ export default function Portfolio() {
                   className="rounded"
                 />
               </div>
-            </div>
-          </section>
-
-          {/* Writings Section */}
-          <section className="mb-20">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Writings
-            </h2>
-            <p className="text-sm text-muted-foreground/60 italic mb-10">
-              Not my writings so much as my machine analogue&apos;s — these are placeholder articles entirely written by AI. Human ones coming soon.
-            </p>
-
-            <div className="space-y-0">
-              {sortedPosts.length > 0 ? (
-                sortedPosts.map((post, index) => (
-                  <div key={post.slug}>
-                    <div className="py-12 border-t border-border">
-                      <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                        {post.category}
-                      </div>
-
-                      <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                        {post.title}
-                      </h3>
-
-                      <div className="text-sm text-muted-foreground mb-4">
-                        {new Date(post.date + "T12:00:00").toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </div>
-
-                      <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                        {post.excerpt}
-                      </p>
-
-                      <Link
-                        href={`/blog/${post.slug}`}
-                        className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-                      >
-                        Read
-                      </Link>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-12 text-muted-foreground">
-                  <p>No posts yet.</p>
-                </div>
-              )}
             </div>
           </section>
 
