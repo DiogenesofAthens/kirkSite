@@ -60,7 +60,7 @@ export default function Expertise() {
             </h2>
             <p className="text-base leading-relaxed text-muted-foreground mb-8">
               I use AI as a force multiplier — building functional prototypes, automating workflows, and exploring how large language models can reshape enterprise operations. The live tools on the{" "}
-              <Link href="/blog" className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity">Portfolio</Link>{" "}
+              <Link href="/portfolio" className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity">Portfolio</Link>{" "}
               page are working examples.
             </p>
             <div className="space-y-2 text-muted-foreground">

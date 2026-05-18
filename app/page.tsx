@@ -6,8 +6,6 @@ import { ContactModal } from "@/components/contact-modal"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Link from "next/link"
 import { Github } from "lucide-react"
-import { blogPosts } from "@/lib/tools-config"
-
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false)
   const [year, setYear] = useState<number | null>(null)
@@ -15,10 +13,6 @@ export default function Home() {
   useEffect(() => {
     setYear(new Date().getFullYear())
   }, [])
-
-  const latestPost = [...blogPosts].sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  )[0]
 
   return (
     <div className="min-h-screen bg-background relative">
@@ -107,36 +101,6 @@ export default function Home() {
       <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="border-t border-border" />
       </div>
-
-      {/* Latest Writing */}
-      {latestPost && (
-        <>
-          <section className="py-24 px-6 sm:px-8 lg:px-12">
-            <div className="max-w-3xl mx-auto">
-              <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-6">
-                Latest
-              </p>
-              <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-4">
-                {latestPost.title}
-              </h3>
-              <p className="text-base text-muted-foreground leading-relaxed mb-8 max-w-xl">
-                {latestPost.excerpt}
-              </p>
-              <Link
-                href={`/blog/${latestPost.slug}`}
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                Read
-              </Link>
-            </div>
-          </section>
-
-          {/* Divider */}
-          <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
-            <div className="border-t border-border" />
-          </div>
-        </>
-      )}
 
       {/* Contact */}
       <section className="py-24 px-6 sm:px-8 lg:px-12">

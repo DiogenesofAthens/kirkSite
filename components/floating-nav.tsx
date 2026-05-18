@@ -10,7 +10,7 @@ const navItems = [
   { href: "/about", label: "About" },
   { href: "/my-expertise", label: "Expertise" },
   { href: "/resume", label: "Resume" },
-  { href: "/blog", label: "Portfolio" },
+  { href: "/portfolio", label: "Portfolio" },
 ]
 
 export function FloatingNav() {
@@ -22,7 +22,7 @@ export function FloatingNav() {
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 sm:gap-8 overflow-x-auto scrollbar-hide -mx-1 px-1">
             {navItems.map((item) => {
-              const isActive = pathname === item.href || (item.href === "/blog" && pathname.startsWith("/blog"))
+              const isActive = pathname === item.href || (item.href === "/portfolio" && pathname.startsWith("/portfolio"))
 
               return (
                 <Link
