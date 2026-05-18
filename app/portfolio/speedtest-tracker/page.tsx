@@ -233,7 +233,7 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
-          <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
+          <Link href="/portfolio" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
           </Link>
@@ -415,7 +415,7 @@ Have your own speed logging setup? Drop a comment or reach out—I'd love to com
           </Card>
 
           <div className="flex justify-between items-center">
-            <Link href="/blog" className="text-amber-700 hover:text-amber-800">
+            <Link href="/portfolio" className="text-amber-700 hover:text-amber-800">
               ← Back to all posts
             </Link>
           </div>

@@ -97,7 +97,7 @@ The overhang is real. The question is whether you're the one closing it or the o
 
       <div className="pt-32 pb-20 px-6 sm:px-8 lg:px-12 relative">
         <div className="max-w-3xl mx-auto">
-          <Link href="/blog" className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground mb-12 inline-block transition-colors">
+          <Link href="/portfolio" className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground mb-12 inline-block transition-colors">
             <ArrowLeft className="w-4 h-4 inline mr-2" />
             Back to Portfolio
           </Link>
@@ -115,7 +115,7 @@ The overhang is real. The question is whether you're the one closing it or the o
           </article>
 
           <div className="mt-12 pt-8 border-t border-muted">
-            <Link href="/blog" className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/portfolio" className="text-sm tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors">
               &larr; Back to all posts
             </Link>
           </div>

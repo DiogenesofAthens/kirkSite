@@ -16,7 +16,7 @@ export default function BlogPost() {
   const [content, setContent] = useState({
     title: "Selling Enterprise Contract Management Software: Strategy, Discovery, and Results",
     excerpt: "How to uncover pain, match solutions to problems, and deliver ROI with modern CLM platforms.",
-    category: "Enterprise Sales",
+    category: "Sales",
     readTime: "6 min read",
     publishDate: "2024-01-05",
     heroImage: "/images/clm-hero.png",
@@ -226,7 +226,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
-          <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
+          <Link href="/portfolio" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
           </Link>
@@ -261,16 +261,16 @@ In this space, you’re not just selling automation—you’re helping teams reg
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   {isEditing ? (
-                    <input
-                      type="date"
-                      value={content.publishDate}
-                      onChange={(e) => setContent((prev) => ({ ...prev, publishDate: e.target.value }))}
-                      className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
-                    />
-                  ) : (
-                    new Date(content.publishDate).toLocaleDateString()
-                  )}
-                </div>
+                  <input
+                  type="date"
+                  value={content.publishDate}
+                  onChange={(e) => setContent((prev) => ({ ...prev, publishDate: e.target.value }))}
+                  className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
+                />
+              ) : (
+                new Date(content.publishDate + "T12:00:00").toLocaleDateString()
+              )}
+            </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4" />
                   {isEditing ? (
@@ -318,9 +318,9 @@ In this space, you’re not just selling automation—you’re helping teams reg
                       alt={content.title}
                       width={800}
                       height={400}
-                      className="w-full h-64 object-cover rounded-lg transition-transform hover:scale-[1.02] duration-200"
-                      sizes="(max-width: 768px) 100vw, 800px"
-                      priority
+                  className="w-full h-auto object-contain rounded-lg transition-transform hover:scale-[1.02] duration-200"
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  priority
                     />
                   </button>
                 )}
@@ -447,7 +447,6 @@ In this space, you’re not just selling automation—you’re helping teams reg
                           width={600}
                           height={300}
                           className="w-full h-48 object-cover rounded-lg transition-transform hover:scale-[1.02] duration-200"
-                          sizes="(max-width: 768px) 100vw, 600px"
                         />
                       </button>
                     )}
@@ -493,7 +492,7 @@ In this space, you’re not just selling automation—you’re helping teams reg
           </Card>
 
           <div className="flex justify-between items-center">
-            <Link href="/blog" className="text-amber-700 hover:text-amber-800">
+            <Link href="/portfolio" className="text-amber-700 hover:text-amber-800">
               ← Back to all posts
             </Link>
           </div>

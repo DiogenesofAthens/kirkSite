@@ -14,90 +14,141 @@ export default function BlogPost() {
   const [isEditing, setIsEditing] = useState(false)
   const [modalImage, setModalImage] = useState<null | { url: string; alt: string }>(null)
   const [content, setContent] = useState({
-    title: "The Future of SaaS Sales: Trends to Watch in 2024",
-    excerpt:
-      "Exploring emerging trends in software sales and how businesses can adapt to changing customer expectations.",
-    category: "Sales",
-    readTime: "5 min read",
-    publishDate: "2024-01-15",
-    heroImage: "/images/ai-sales.png",
+    title: "Selling Enterprise Contract Management Software: Strategy, Discovery, and Results",
+    excerpt: "How to uncover pain, match solutions to problems, and deliver ROI with modern CLM platforms.",
+    category: "Enterprise Sales",
+    readTime: "6 min read",
+    publishDate: "2024-01-05",
+    heroImage: "/images/clm-hero.png",
     content: `
-# The Future of SaaS Sales: Trends to Watch in 2024
+# Selling Enterprise Contract Management Software: Strategy, Discovery, and Results
 
-The SaaS industry is evolving faster than ever, and sales teams must keep pace to remain effective. In 2024, several emerging trends are redefining how software is sold, from AI-driven insights to deeply integrated product strategies.
+Selling contract lifecycle management (CLM) software in the enterprise space means understanding process bottlenecks, uncovering operational risk, and translating feature sets into business outcomes. After years of working with complex CLM implementations, one thing is clear—every buyer has a contract problem. Your job is to map your solution to that problem in a way that delivers measurable value.
 
-## 1. AI-Powered Sales Intelligence
+## Understanding the CLM Buying Journey
 
-AI is no longer a futuristic add-on—it's the engine behind modern sales success. Top sales organizations are using AI to:
+Contract management isn’t owned by one department. It's a shared challenge across legal, procurement, sales, finance, and IT. That means different stakeholders will evaluate your solution through different lenses.
 
-- Surface high-potential prospects quickly  
-- Personalize outreach at scale with contextual insights  
-- Forecast deal outcomes more accurately  
-- Automate repetitive tasks, freeing reps to focus on human connection  
+Most CLM sales cycles follow a predictable pattern:
 
-AI isn't replacing sellers—it's augmenting them with superpowers.
+1. Request and discovery  
+2. Process mapping and solution alignment  
+3. Validation through demos or pilot programs  
+4. Proposal and negotiation  
+5. Implementation and success planning  
 
-## 2. Product-Led Growth (PLG) Meets Sales
+Winning requires positioning your platform not just as a tool, but as a strategic enabler of efficiency, compliance, and risk reduction.
 
-The PLG model is maturing, and smart sales teams are learning to ride the wave rather than compete against it. Instead of a separate sales funnel, the product itself becomes the starting point:
+## Discovery: Understand the Entire Contract Lifecycle
 
-- Self-service trials evolve into sales-assisted conversions  
-- Product usage data triggers perfectly timed outreach  
-- In-app behavior fuels smarter, more relevant sales conversations  
+Discovery is where the real sale happens. You're not just asking about features—they're buying a process fix. A few key areas to explore:
 
-When PLG and sales are aligned, customer acquisition becomes seamless.
+### Request and Intake
 
-## 3. Value-Based Selling, Reimagined
+- How are contract requests submitted today?
+- Are requests standardized or handled ad hoc?
+- Is there a formal intake form or queue?
+- How are contracts prioritized and routed?
 
-Today's buyers want more than a feature checklist—they want outcomes. To win deals, sales teams are moving beyond generic pitches to deliver quantifiable business value:
+A solid CLM solution should streamline intake with structured request workflows, templates, and automated routing logic.
 
-- Deeper, more strategic discovery conversations  
-- Tailored ROI models and impact projections  
-- Industry-specific case studies and benchmarks  
-- POCs that deliver quick wins and prove long-term value  
+### Creation vs. Third-Party Paper (3PP)
 
-It's not about selling software—it's about solving real problems.
+- Are most agreements authored internally or based on third-party templates?
+- How is third-party paper reviewed and reconciled?
+- Is clause negotiation manual or automated?
 
-## 4. Remote-First Is the New Normal
+A mature platform must support both native contract generation and robust third-party document ingestion, including redlining and comparison tools.
 
-The pandemic redefined how sales happen, and there’s no going back. High-performing teams have embraced a remote-first approach that blends flexibility with effectiveness:
+### Metadata and Obligation Tracking
 
-- Building trust and rapport over video  
-- Using digital sales rooms to collaborate with buyers  
-- Leaning into asynchronous tools for faster deal cycles  
-- Knowing when to go in-person to close strategic accounts  
+- Can they report on what’s inside their contracts?
+- How are key fields like renewal dates, termination clauses, and payment terms tracked?
+- Are obligations monitored after execution?
 
-Virtual selling isn't just efficient—it's now a competitive advantage.
+CLM isn’t just about drafting—it’s about knowing what you’ve committed to. Metadata tagging, custom fields, obligation alerts, and post-signature dashboards are key differentiators.
 
-## Key Takeaways
+### Approvals and Workflow Automation
 
-SaaS sales in 2024 demands agility, insight, and alignment across the business. To stay ahead:
+- What’s the approval process for each contract type?
+- Who signs off on legal, commercial, and finance?
+- Are approvals based on thresholds or conditions?
 
-1. Leverage AI to work smarter, not harder  
-2. Collaborate with product teams to harness user data  
-3. Focus on outcomes, not features  
-4. Get fluent in remote-first selling—without losing the personal touch  
+Dynamic approval workflows based on contract metadata (value, type, region, etc.) save time, reduce errors, and improve visibility.
 
-The future belongs to sales teams that combine technology, empathy, and agility in equal measure.
+### eSignature Integration
+
+- What platform is used for execution (DocuSign, Adobe, etc.)?
+- Is eSign integrated directly or handled separately?
+- How is the final, signed copy stored and tracked?
+
+Tight eSignature integration ensures a seamless transition from approval to execution with no manual steps or version confusion.
+
+### Versioning and Clause Management
+
+- How are versions tracked during negotiation?
+- Is there a standard clause library?
+- Are fallback positions defined and reusable?
+
+Version control and clause libraries bring consistency to legal language and reduce redline cycles. Advanced solutions also support clause-level insights across agreements.
+
+## Leveraging AI for Contract Discovery
+
+AI in CLM is no longer hype—it’s practical. Ask how they're currently handling:
+
+- Legacy contract discovery  
+- Third-party document classification  
+- Metadata extraction  
+- Risk flagging or clause comparison  
+
+AI accelerates onboarding by analyzing executed contracts, extracting key terms, and populating fields automatically. It also enables quick audit and compliance checks across thousands of agreements.
+
+## Matching Solution to Problem
+
+The best sales reps don’t pitch—they prescribe. Once you’ve understood the pain, tailor your demo, proposal, and business case accordingly.
+
+### Common Pain Points and How to Solve Them
+
+- Long cycle times: Address with self-service templates, smart workflows, and eSign  
+- Low visibility: Offer a searchable repository, metadata-driven dashboards, and alerts  
+- Risk and non-compliance: Use standardized language, automated approval logic, and obligation tracking  
+- Manual processes: Eliminate spreadsheets and emails with automation and integration  
+
+Every feature should be tied back to a specific outcome—faster execution, reduced risk, improved compliance, or better insights.
+
+## Proposal, Value, and Implementation
+
+When presenting your solution:
+
+- Quantify ROI with real metrics: average days saved per agreement, hours reduced for legal, faster revenue recognition  
+- Speak their language: legal wants control, sales wants speed, finance wants data  
+- Position implementation as a partnership with a clear success plan  
+
+Your value doesn’t stop at the sale. It compounds through adoption.
+
+## Final Thoughts
+
+Enterprise CLM sales require depth, patience, and precision. Buyers aren’t looking for software—they’re looking for solutions to broken processes. Lead with curiosity, build trust through discovery, and guide them to a better contracting future.
+
+In this space, you’re not just selling automation—you’re helping teams regain control of one of the most critical assets in their business: their contracts.
     `,
     images: [
       {
         id: 1,
-        url: "/images/sales-dash.png",
-        caption: "AI-powered sales dashboard example",
-        alt: "Sales dashboard showing AI insights",
+        url: "/images/clm-process.png",
+        caption: "CLM Project process flow",
+        alt: "Flowchart showing CLM selling process",
       },
       {
         id: 2,
-        url: "/images/plg-fun.png",
-        caption: "Product-led growth funnel visualization",
-        alt: "PLG funnel diagram",
+        url: "/images/clm-roi.png",
+        caption: "ROI examples of a CLM solution",
+        alt: "Value that CLM brings",
       },
     ],
   })
 
   const handleImageUpload = (imageId: number, file: File) => {
-    // In a real implementation, you'd upload to your storage service
     const imageUrl = URL.createObjectURL(file)
     setContent((prev) => ({
       ...prev,
@@ -163,7 +214,6 @@ The future belongs to sales teams that combine technology, empathy, and agility 
 
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
-      {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
       </div>
 
@@ -176,21 +226,18 @@ The future belongs to sales teams that combine technology, empathy, and agility 
 
       <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto">
-          {/* Back Button */}
-          <Link href="/blog" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
+          <Link href="/portfolio" className="inline-flex items-center text-amber-700 hover:text-amber-800 mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
           </Link>
 
-          {/* Edit Toggle */}
           <div className="mb-6 flex justify-end">
             <Button onClick={() => setIsEditing(!isEditing)} variant={isEditing ? "default" : "outline"}>
               {isEditing ? "Save Changes" : "Edit Post"}
             </Button>
           </div>
 
-          {/* Article Header */}
-          <Card className="glass border-0 shadow-sm">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               <div className="mb-6">
                 <Badge variant="secondary" className="mb-4">
@@ -201,16 +248,16 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                     type="text"
                     value={content.title}
                     onChange={(e) => setContent((prev) => ({ ...prev, title: e.target.value }))}
-                    className="w-full p-2 border border-gray-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                    className="w-full text-3xl font-bold text-slate-900 bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
                   />
                 ) : (
-                  <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-4">
+                  <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 dark:text-gray-100">
                     {content.title}
                   </h1>
                 )}
               </div>
 
-              <div className="flex items-center gap-6 text-sm text-slate-600 dark:text-slate-400 mb-6">
+              <div className="flex items-center gap-6 text-sm text-slate-600 mb-6 dark:text-gray-400">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   {isEditing ? (
@@ -218,7 +265,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                       type="date"
                       value={content.publishDate}
                       onChange={(e) => setContent((prev) => ({ ...prev, publishDate: e.target.value }))}
-                      className="w-full p-2 border border-gray-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                      className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
                     />
                   ) : (
                     new Date(content.publishDate).toLocaleDateString()
@@ -231,7 +278,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                       type="text"
                       value={content.readTime}
                       onChange={(e) => setContent((prev) => ({ ...prev, readTime: e.target.value }))}
-                      className="w-full p-2 border border-gray-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                      className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:text-gray-100 dark:border-gray-700 dark:focus:border-blue-500"
                     />
                   ) : (
                     content.readTime
@@ -239,10 +286,9 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                 </div>
               </div>
 
-              {/* Hero Image */}
               <div className="mb-6">
                 {isEditing ? (
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 dark:border-gray-700">
                     <input
                       type="file"
                       accept="image/*"
@@ -253,9 +299,9 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                           setContent((prev) => ({ ...prev, heroImage: imageUrl }))
                         }
                       }}
-                      className="mb-2"
+                      className="mb-2 dark:text-gray-100"
                     />
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       Upload hero image (recommended: 800x400px)
                     </p>
                   </div>
@@ -272,7 +318,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                       alt={content.title}
                       width={800}
                       height={400}
-                  className="w-full h-auto object-contain rounded-lg transition-transform hover:scale-[1.02] duration-200"
+                      className="w-full h-64 object-cover rounded-lg transition-transform hover:scale-[1.02] duration-200"
                       sizes="(max-width: 768px) 100vw, 800px"
                       priority
                     />
@@ -280,33 +326,31 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                 )}
               </div>
 
-              {/* Excerpt */}
               {isEditing ? (
                 <textarea
                   value={content.excerpt}
                   onChange={(e) => setContent((prev) => ({ ...prev, excerpt: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                   rows={3}
                   placeholder="Article excerpt..."
                 />
               ) : (
-                <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">{content.excerpt}</p>
+                <p className="text-lg text-slate-600 leading-relaxed dark:text-gray-400">{content.excerpt}</p>
               )}
             </CardContent>
           </Card>
 
-          {/* Article Content */}
-          <Card className="glass border-0 shadow-sm">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               {isEditing ? (
                 <textarea
                   value={content.content}
                   onChange={(e) => setContent((prev) => ({ ...prev, content: e.target.value }))}
-                  className="w-full h-96 p-2 border border-gray-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono text-sm"
+                  className="w-full h-96 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                   placeholder="Write your article content in Markdown..."
                 />
               ) : (
-                <div className="prose prose-lg max-w-none">
+                <div className="prose prose-lg max-w-none dark:text-gray-400 dark:prose-invert">
                   {content.content.split("\n").map((paragraph, index) => {
                     if (paragraph.startsWith("# ")) {
                       return (
@@ -320,6 +364,13 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                         <h2 key={index} className="text-2xl font-bold mt-6 mb-3">
                           {paragraph.slice(3)}
                         </h2>
+                      )
+                    }
+                    if (paragraph.startsWith("### ")) {
+                      return (
+                        <h3 key={index} className="text-xl font-bold mt-4 mb-2">
+                          {paragraph.slice(4)}
+                        </h3>
                       )
                     }
                     if (paragraph.startsWith("- ")) {
@@ -343,11 +394,10 @@ The future belongs to sales teams that combine technology, empathy, and agility 
             </CardContent>
           </Card>
 
-          {/* Images Section */}
-          <Card className="glass border-0 shadow-sm">
+          <Card className="glass border-0 shadow-sm mb-8">
             <CardContent className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50">Article Images</h3>
+                <h3 className="text-xl font-bold dark:text-gray-100">Article Images</h3>
                 {isEditing && (
                   <Button onClick={addNewImage} variant="outline" size="sm">
                     <Upload className="w-4 h-4 mr-2" />
@@ -361,7 +411,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                   <div key={image.id} className="space-y-3">
                     {isEditing && (
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Image {image.id}</span>
+                        <span className="text-sm font-medium dark:text-gray-100">Image {image.id}</span>
                         <Button onClick={() => removeImage(image.id)} variant="outline" size="sm">
                           <X className="w-4 h-4" />
                         </Button>
@@ -369,7 +419,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                     )}
 
                     {isEditing ? (
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 dark:border-gray-700">
                         <input
                           type="file"
                           accept="image/*"
@@ -377,15 +427,13 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                             const file = e.target.files?.[0]
                             if (file) handleImageUpload(image.id, file)
                           }}
-                          className="mb-2"
+                          className="mb-2 dark:text-gray-100"
                         />
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
                           Upload image (recommended: 600x300px)
                         </p>
                       </div>
-                    ) : null}
-
-                    {!isEditing ? (
+                    ) : (
                       <button
                         type="button"
                         className="w-full"
@@ -402,15 +450,6 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                           sizes="(max-width: 768px) 100vw, 600px"
                         />
                       </button>
-                    ) : (
-                      <Image
-                        src={image.url || "/placeholder.svg"}
-                        alt={image.alt}
-                        width={600}
-                        height={300}
-                        className="w-full h-48 object-cover rounded-lg"
-                        sizes="(max-width: 768px) 100vw, 600px"
-                      />
                     )}
 
                     {isEditing ? (
@@ -427,7 +466,7 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                             }))
                           }
                           placeholder="Image caption"
-                          className="w-full p-2 border border-gray-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                         />
                         <input
                           type="text"
@@ -441,11 +480,11 @@ The future belongs to sales teams that combine technology, empathy, and agility 
                             }))
                           }
                           placeholder="Alt text for accessibility"
-                          className="w-full p-2 border border-gray-300 dark:border-slate-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                         />
                       </div>
                     ) : (
-                      <p className="text-sm text-slate-600 dark:text-slate-400 italic">{image.caption}</p>
+                      <p className="text-sm text-gray-600 italic dark:text-gray-400">{image.caption}</p>
                     )}
                   </div>
                 ))}
@@ -453,9 +492,8 @@ The future belongs to sales teams that combine technology, empathy, and agility 
             </CardContent>
           </Card>
 
-          {/* Navigation */}
           <div className="flex justify-between items-center">
-            <Link href="/blog" className="text-amber-700 hover:text-amber-800">
+            <Link href="/portfolio" className="text-amber-700 hover:text-amber-800">
               ← Back to all posts
             </Link>
           </div>
