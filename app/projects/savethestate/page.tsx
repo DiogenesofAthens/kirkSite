@@ -4,6 +4,7 @@ import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { ContactModal } from "@/components/contact-modal"
 import { useState } from "react"
+import { Github } from "lucide-react"
 
 export default function SaveTheState() {
   const [showContactForm, setShowContactForm] = useState(false)
@@ -40,8 +41,9 @@ export default function SaveTheState() {
                 href="https://github.com/DiogenesofAthens/saveTheState"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm tracking-wide uppercase text-muted-foreground border-b border-muted-foreground pb-1 hover:opacity-60 transition-opacity"
+                className="inline-flex items-center gap-2 text-sm tracking-wide uppercase text-muted-foreground border-b border-muted-foreground pb-1 hover:opacity-60 transition-opacity"
               >
+                <Github className="h-4 w-4" />
                 View on GitHub
               </a>
             </div>
