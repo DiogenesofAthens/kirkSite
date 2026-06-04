@@ -6,6 +6,37 @@ import { ContactModal } from "@/components/contact-modal"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Link from "next/link"
 import { Github } from "lucide-react"
+
+const FEATURED_PROJECTS = [
+  {
+    category: "Automation",
+    title: "fareTrader",
+    description:
+      "Autonomous Python agent that monitors Delta Air Lines first-class fares and auto-books when prices drop below a configured threshold — using eCredits as zero-cost options on premium seats.",
+    href: "/projects/faretrader",
+  },
+  {
+    category: "Fintech",
+    title: "PortKey",
+    description:
+      "Mortgage portability neobank prototype. Homeowners carry their existing low-rate mortgage to a new property instead of refinancing at today's rates. Your rate moves with you.",
+    href: "/projects/portkey",
+  },
+  {
+    category: "Civic / GovTech",
+    title: "Save the State",
+    description:
+      "Blockchain-anchored land covenant registry targeting county government. Every covenant is an immutable on-chain transaction — tamper-proof and publicly verifiable without a central authority.",
+    href: "/projects/savethestate",
+  },
+  {
+    category: "Infrastructure",
+    title: "ResourXe",
+    description:
+      "GPU compute routing engine that scores cloud instances by price and carbon intensity. Find the cheapest compute, the greenest, or any blend in between.",
+    href: "/projects/resourxe",
+  },
+]
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false)
   const [year, setYear] = useState<number | null>(null)
@@ -93,6 +124,46 @@ export default function Home() {
                 Applying AI and LLMs to real business problems — from workflow automation to rapid prototyping of production-grade tools.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="border-t border-border" />
+      </div>
+
+      {/* Projects */}
+      <section className="py-24 px-6 sm:px-8 lg:px-12">
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-14">
+            {FEATURED_PROJECTS.map((project) => (
+              <div key={project.href}>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-2">
+                  {project.category}
+                </p>
+                <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-4">
+                  {project.title}
+                </h3>
+                <p className="text-base text-muted-foreground leading-relaxed max-w-xl mb-5">
+                  {project.description}
+                </p>
+                <Link
+                  href={project.href}
+                  className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+                >
+                  View Project
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div className="mt-16">
+            <Link
+              href="/portfolio"
+              className="text-sm tracking-wide uppercase text-muted-foreground border-b border-muted-foreground pb-1 hover:opacity-60 transition-opacity"
+            >
+              View full portfolio
+            </Link>
           </div>
         </div>
       </section>
