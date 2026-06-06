@@ -136,6 +136,9 @@ export default function Home() {
       {/* Projects */}
       <section className="py-24 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
+          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-16">
+            Ventures
+          </h2>
           <div className="space-y-14">
             {FEATURED_PROJECTS.map((project) => (
               <div key={project.href}>
