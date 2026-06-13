@@ -1,0 +1,39 @@
+# Kirk Wessman
+
+> Solutions Engineer and Technical Leader with 15+ years of experience across Wall Street data platforms and enterprise SaaS. Based in Santa Monica, CA. Building entrepreneurial ventures alongside his day job using AI-assisted prototyping.
+
+## About Kirk
+
+Kirk Wessman is a customer-facing technical leader specializing in designing, prototyping, and deploying complex API- and data-driven systems. He translates ambiguous requirements into production-grade solutions through close collaboration with product, engineering, and executive stakeholders.
+
+He has deep experience with:
+- Enterprise software: CPQ (Configure Price Quote), CLM (Contract Lifecycle Management), and complex deal structures
+- Data platforms and Wall Street-grade financial systems
+- AI/LLM tooling and AI-assisted development
+- Full-stack prototyping: Next.js/TypeScript, Python/FastAPI, Solidity/blockchain
+
+GitHub: https://github.com/DiogenesofAthens
+
+## Site Sections
+
+- **Home** (https://kirkwessman.com) — Overview and featured projects
+- **About** (https://kirkwessman.com/about) — Background and bio
+- **Resume** (https://kirkwessman.com/resume) — Career history
+- **Portfolio** (https://kirkwessman.com/portfolio) — Projects and prototypes
+- **My Expertise** (https://kirkwessman.com/my-expertise) — Technical and domain skills
+- **Resources** (https://kirkwessman.com/resources) — Curated tools and references
+- **Sales Playbook** (https://kirkwessman.com/sales-playbook) — Enterprise sales methodology
+- **Launchpad** (https://kirkwessman.com/launchpad) — Venture portfolio overview
+- **Recommendations** (https://kirkwessman.com/recommendations) — Peer recommendations
+- **Arcade** (https://kirkwessman.com/arcade) — Interactive demos and experiments
+
+## Ventures
+
+Kirk is building a portfolio of entrepreneurial ventures:
+
+- **PortKey** (https://portkey-one.vercel.app) — Mortgage portability neobank. Homeowners carry their existing low-rate mortgage to a new property instead of refinancing.
+- **fareTrader** (https://fare-trader.vercel.app) — Autonomous Python agent that monitors Delta Air Lines first-class fares and auto-books when prices drop below a configured threshold.
+- **ResourXe** (https://resourxe.vercel.app) — GPU compute routing engine. Scores cloud GPU instances by price and carbon intensity using live data from Vast.ai and WattTime.
+- **Save the State** (https://save-the-state.vercel.app) — Blockchain-anchored land covenant registry targeting county government.
+- **Re-Open** (https://re-open.us) — Civic engagement platform focused on renewing American society.
+- **Prince of Mulberry Productions** (https://princeofmulberry.com) — Film and media production company.
