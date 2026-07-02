@@ -2,35 +2,35 @@
 /**
  * Demo URL health monitor.
  *
- * Checks each project's live demo URL and sends an email alert via SMTP
- * when any of them returns a non-2xx response or fails to connect.
+ * Checks each project's live demo URL (and key API health endpoints) and
+ * sends an email alert when any of them returns a non-2xx response or
+ * fails to connect. Exits 1 on any failure so CI schedulers (GitHub
+ * Actions) also flag the run.
  *
- * Required environment variables:
- *   SMTP_HOST       e.g. smtp.gmail.com
- *   SMTP_PORT       e.g. 587
- *   SMTP_USER       your sending email address
- *   SMTP_PASS       your SMTP password / app password
- *   ALERT_TO        email address to receive alerts
+ * Alert transport — first available wins:
+ *   1. Resend  — set RESEND_API_KEY (+ optional ALERT_TO, default kwessman@gmail.com)
+ *   2. SMTP    — set SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS / ALERT_TO
  *
  * Run manually:
  *   node scripts/check-demos.mjs
  *
- * Run on a schedule (cron example — every 30 minutes):
- *   */30 * * * * cd /path/to/kirkSite && node scripts/check-demos.mjs >> logs/demo-monitor.log 2>&1
+ * Runs nightly via .github/workflows/demo-monitor.yml
  */
 
-import nodemailer from "nodemailer"
-
 const DEMOS = [
-  { name: "StatTrack",      url: "https://stattrack-sandy.vercel.app/" },
-  { name: "fareTrader",     url: "https://fare-trader.vercel.app/" },
-  { name: "ResourXe",       url: "https://resourxe.vercel.app/" },
-  { name: "Save the State", url: "https://save-the-state.vercel.app/" },
-  { name: "PortKey",        url: "https://portkey-one.vercel.app/" },
-  { name: "re-open.us",     url: "https://reopen.us" },
+  { name: "kirkwessman.com",          url: "https://kirkwessman.com" },
+  { name: "StatTrack",                url: "https://stattrack-sandy.vercel.app/" },
+  { name: "fareTrader",               url: "https://fare-trader.vercel.app/" },
+  { name: "ResourXe",                 url: "https://resourxe.vercel.app/" },
+  { name: "ResourXe API",             url: "https://resourxe.vercel.app/api/health" },
+  { name: "Save the State",           url: "https://save-the-state.vercel.app/" },
+  { name: "Save the State API",       url: "https://save-the-state.vercel.app/api/health" },
+  { name: "PortKey",                  url: "https://portkey-one.vercel.app/" },
+  { name: "re-open.us",               url: "https://reopen.us" },
+  { name: "Prince of Mulberry",       url: "https://www.princeofmulberry.com/" },
 ]
 
-const TIMEOUT_MS = 10_000
+const TIMEOUT_MS = 15_000
 
 async function checkUrl(name, url) {
   const controller = new AbortController()
@@ -49,13 +49,40 @@ async function checkUrl(name, url) {
   }
 }
 
-async function sendAlert(failures) {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ALERT_TO } = process.env
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !ALERT_TO) {
-    console.error("Missing SMTP env vars — skipping email alert.")
-    return
+function buildAlertBody(failures) {
+  const lines = failures.map(f => `• ${f.name}: ${f.reason}\n  ${f.url}`).join("\n\n")
+  return {
+    subject: `[kirkwessman.com] ${failures.length} demo${failures.length > 1 ? "s" : ""} down`,
+    text: `The following live demo${failures.length > 1 ? "s are" : " is"} unreachable:\n\n${lines}\n\nChecked at ${new Date().toISOString()}`,
   }
+}
 
+async function sendViaResend(failures) {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) return false
+
+  const to = process.env.ALERT_TO || "kwessman@gmail.com"
+  const { subject, text } = buildAlertBody(failures)
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: "Demo Monitor <onboarding@resend.dev>",
+      to,
+      subject,
+      html: `<pre style="font-family:monospace;">${text}</pre>`,
+    }),
+  })
+  if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`)
+  console.log(`Alert sent via Resend to ${to}`)
+  return true
+}
+
+async function sendViaSmtp(failures) {
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ALERT_TO } = process.env
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !ALERT_TO) return false
+
+  const { default: nodemailer } = await import("nodemailer")
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port: Number(SMTP_PORT) || 587,
@@ -63,12 +90,16 @@ async function sendAlert(failures) {
     auth: { user: SMTP_USER, pass: SMTP_PASS },
   })
 
-  const lines = failures.map(f => `• ${f.name}: ${f.reason}\n  ${f.url}`).join("\n\n")
-  const subject = `[kirkwessman.com] ${failures.length} demo${failures.length > 1 ? "s" : ""} down`
-  const text = `The following live demo${failures.length > 1 ? "s are" : " is"} unreachable:\n\n${lines}\n\nChecked at ${new Date().toISOString()}`
-
+  const { subject, text } = buildAlertBody(failures)
   await transporter.sendMail({ from: SMTP_USER, to: ALERT_TO, subject, text })
-  console.log(`Alert sent to ${ALERT_TO}`)
+  console.log(`Alert sent via SMTP to ${ALERT_TO}`)
+  return true
+}
+
+async function sendAlert(failures) {
+  if (await sendViaResend(failures)) return
+  if (await sendViaSmtp(failures)) return
+  console.error("No alert transport configured (set RESEND_API_KEY or SMTP_* env vars) — skipping email alert.")
 }
 
 async function main() {
@@ -83,9 +114,9 @@ async function main() {
   if (failures.length > 0) {
     console.log(`\n${failures.length} failure(s) detected. Sending alert...`)
     await sendAlert(failures)
-  } else {
-    console.log("\nAll demos healthy.")
+    process.exit(1)
   }
+  console.log("\nAll demos healthy.")
 }
 
 main().catch(err => {
