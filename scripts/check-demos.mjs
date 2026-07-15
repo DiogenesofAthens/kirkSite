@@ -32,6 +32,76 @@ const DEMOS = [
 
 const TIMEOUT_MS = 15_000
 
+// Lead-capture endpoints: POSTing an invalid email must return 400.
+// Proves the route exists, the handler runs, and validation works —
+// without sending any real email.
+const LEAD_ENDPOINTS = [
+  { name: "PortKey waitlist API",        url: "https://portkey-one.vercel.app/api/waitlist" },
+  { name: "fareTrader lead API",         url: "https://fare-trader.vercel.app/api/lead" },
+  { name: "ResourXe lead API",           url: "https://resourxe.vercel.app/api/lead" },
+  { name: "Save the State leads API",    url: "https://save-the-state.vercel.app/api/leads" },
+  { name: "re-open.us subscribe API",    url: "https://www.reopen.us/api/subscribe" },
+  { name: "PMP subscribe API",           url: "https://www.princeofmulberry.com/api/subscribe" },
+]
+
+const SNAPSHOT_URL = "https://fare-trader.vercel.app/data.json"
+const SNAPSHOT_MAX_AGE_H = 26   // scanner runs every 6h; >26h means 4+ missed runs
+const MAX_TRIGGER_RATE = 0.9    // a scan where ~everything is a bargain is a broken scan
+
+async function fetchWithTimeout(url, options = {}) {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
+  try {
+    return await fetch(url, { ...options, signal: controller.signal, redirect: "follow" })
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
+async function checkLeadEndpoint(name, url) {
+  try {
+    const res = await fetchWithTimeout(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "not-an-email" }),
+    })
+    if (res.status !== 400) {
+      return { name, url, ok: false, reason: `Expected 400 for invalid email, got HTTP ${res.status}` }
+    }
+    return { name, url, ok: true }
+  } catch (err) {
+    const reason = err.name === "AbortError" ? `Timed out after ${TIMEOUT_MS / 1000}s` : err.message
+    return { name, url, ok: false, reason }
+  }
+}
+
+async function checkFareSnapshot() {
+  const name = "fareTrader scan snapshot"
+  const url = SNAPSHOT_URL
+  try {
+    const res = await fetchWithTimeout(url)
+    if (!res.ok) return { name, url, ok: false, reason: `HTTP ${res.status}` }
+    const snap = await res.json()
+
+    const ageH = (Date.now() - new Date(snap.generated_at).getTime()) / 3_600_000
+    if (!Number.isFinite(ageH) || ageH > SNAPSHOT_MAX_AGE_H) {
+      return { name, url, ok: false, reason: `Snapshot is stale (${ageH.toFixed(1)}h old, max ${SNAPSHOT_MAX_AGE_H}h) — is the fare-scan workflow running?` }
+    }
+
+    const lastScan = (snap.scan_log || []).find(s => s.dates_checked > 0)
+    if (lastScan) {
+      const rate = lastScan.trigger_count / lastScan.dates_checked
+      if (rate > MAX_TRIGGER_RATE) {
+        return { name, url, ok: false, reason: `Implausible scan data: ${(rate * 100).toFixed(0)}% of dates triggered — scraper is likely recording wrong-cabin prices` }
+      }
+    }
+    return { name, url, ok: true }
+  } catch (err) {
+    const reason = err.name === "AbortError" ? `Timed out after ${TIMEOUT_MS / 1000}s` : err.message
+    return { name, url, ok: false, reason }
+  }
+}
+
 async function checkUrl(name, url) {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
@@ -52,8 +122,8 @@ async function checkUrl(name, url) {
 function buildAlertBody(failures) {
   const lines = failures.map(f => `• ${f.name}: ${f.reason}\n  ${f.url}`).join("\n\n")
   return {
-    subject: `[kirkwessman.com] ${failures.length} demo${failures.length > 1 ? "s" : ""} down`,
-    text: `The following live demo${failures.length > 1 ? "s are" : " is"} unreachable:\n\n${lines}\n\nChecked at ${new Date().toISOString()}`,
+    subject: `[kirkwessman.com] ${failures.length} health check${failures.length > 1 ? "s" : ""} failing`,
+    text: `The following health check${failures.length > 1 ? "s are" : " is"} failing:\n\n${lines}\n\nChecked at ${new Date().toISOString()}`,
   }
 }
 
@@ -103,8 +173,13 @@ async function sendAlert(failures) {
 }
 
 async function main() {
-  console.log(`[${new Date().toISOString()}] Checking ${DEMOS.length} demo URLs...`)
-  const results = await Promise.all(DEMOS.map(d => checkUrl(d.name, d.url)))
+  const total = DEMOS.length + LEAD_ENDPOINTS.length + 1
+  console.log(`[${new Date().toISOString()}] Running ${total} health checks...`)
+  const results = await Promise.all([
+    ...DEMOS.map(d => checkUrl(d.name, d.url)),
+    ...LEAD_ENDPOINTS.map(e => checkLeadEndpoint(e.name, e.url)),
+    checkFareSnapshot(),
+  ])
 
   for (const r of results) {
     console.log(`  ${r.ok ? "✓" : "✗"} ${r.name}${r.ok ? "" : ` — ${r.reason}`}`)
