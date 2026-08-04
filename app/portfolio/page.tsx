@@ -34,6 +34,24 @@ export default function Portfolio() {
 
             <div className="py-12 border-t border-border">
               <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Fintech
+              </div>
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                PortKey
+              </h3>
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Mortgage portability neobank prototype. Lets homeowners carry an existing low-rate mortgage to a new property instead of refinancing at today&apos;s rates. Your rate moves with you.
+              </p>
+              <Link
+                href="/projects/portkey"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
                 Automation
               </div>
               <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
@@ -80,24 +98,6 @@ export default function Portfolio() {
               </p>
               <Link
                 href="/projects/resourxe"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
-            </div>
-
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Fintech
-              </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                PortKey
-              </h3>
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Mortgage portability neobank prototype. Lets homeowners carry an existing low-rate mortgage to a new property instead of refinancing at today&apos;s rates. Your rate moves with you.
-              </p>
-              <Link
-                href="/projects/portkey"
                 className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
               >
                 View Project
