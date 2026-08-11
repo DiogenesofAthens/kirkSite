@@ -26,7 +26,10 @@ export default function StatTrack() {
               StatTrack
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mb-10">
-              A live NBA analytics dashboard that surfaces real-time player performance data, scoring trends, and automated insight alerts — built to demonstrate a full-stack sports data pipeline from raw API to interactive UI.
+              A live NBA analytics dashboard built around a FastAPI pipeline, translating NBA data into player summaries, scoring views, and an alert-ready interface from raw API to interactive UI.
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl mb-10">
+              The FastAPI service runs on free-tier hosting, and the unofficial NBA stats API can rate-limit cloud IPs, so live data may be intermittent—especially in the offseason.
             </p>
             <div className="flex flex-wrap gap-6">
               <a
@@ -96,26 +99,26 @@ export default function StatTrack() {
             <div className="space-y-10">
               <div>
                 <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-3">
-                  Real-Time Player Stats
+                  Player Data Pipeline
                 </h3>
                 <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-                  Live lookup of per-game averages, efficiency metrics, and season totals for any active NBA player — pulled directly from the NBA stats API on demand.
+                  Player requests move from the Next.js interface through FastAPI to the NBA data source, with clear loading and availability states when the upstream feed cannot respond.
                 </p>
               </div>
               <div>
                 <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-3">
-                  Scoring Trends
+                  Scoring Snapshot
                 </h3>
                 <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-                  Visual breakdowns of scoring trajectories across a season, making it easy to spot hot streaks, slumps, and inflection points in a player&apos;s performance.
+                  A focused leaderboard view turns available season scoring data into a quick, scan-friendly comparison across players.
                 </p>
               </div>
               <div>
                 <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-3">
-                  Insight Alerts
+                  Insight Framework
                 </h3>
                 <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-                  Automated surface-level analysis that flags notable statistical outliers — career highs, efficiency drops, or unusual usage patterns — without requiring manual interpretation.
+                  An alert-ready section makes room for anomaly insights as live game data becomes available, with honest empty states when the feed is quiet or unavailable.
                 </p>
               </div>
             </div>
