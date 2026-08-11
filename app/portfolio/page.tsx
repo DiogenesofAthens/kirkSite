@@ -148,7 +148,7 @@ export default function Portfolio() {
                 StatTrack
               </h3>
               <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library. Surfaces real-time player stats, scoring trends, and automated insight alerts.
+                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library, with transparent availability states for free-tier backend wake-ups and cloud API rate limits.
               </p>
               <Link
                 href="/projects/stattrack"
