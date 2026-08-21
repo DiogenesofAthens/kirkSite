@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/oai",
+        destination: "https://portkey-one.vercel.app/demo",
+        permanent: false,
+      },
+    ]
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
