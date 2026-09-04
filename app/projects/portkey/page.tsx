@@ -4,7 +4,6 @@ import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { ContactModal } from "@/components/contact-modal"
 import { useState } from "react"
-import { Github } from "lucide-react"
 
 export default function Portkey() {
   const [showContactForm, setShowContactForm] = useState(false)
@@ -36,15 +35,6 @@ export default function Portkey() {
                 className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
               >
                 View Live Demo
-              </a>
-              <a
-                href="https://github.com/DiogenesofAthens/portkey"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm tracking-wide uppercase text-muted-foreground border-b border-muted-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                <Github className="h-4 w-4" />
-                View on GitHub
               </a>
             </div>
           </div>
