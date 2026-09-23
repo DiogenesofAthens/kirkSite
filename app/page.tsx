@@ -50,7 +50,7 @@ export default function Home() {
       <TimezoneClock />
 
       {/* Hero */}
-      <section className="pt-40 sm:pt-48 pb-24 px-6 sm:px-8 lg:px-12">
+      <section className="pt-40 sm:pt-48 pb-16 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-normal tracking-tight text-foreground leading-[1.1] mb-8">
             Kirk Wessman
@@ -81,7 +81,7 @@ export default function Home() {
       </div>
 
       {/* Voice */}
-      <section className="py-20 px-6 sm:px-8 lg:px-12">
+      <section className="py-12 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <p className="text-lg sm:text-xl text-foreground leading-relaxed max-w-2xl mb-8">
             My focus extends well beyond signature. On a practical level, I own the customer&apos;s usage curve. On a human level, I care whether they&apos;re glad they bought it.
@@ -101,7 +101,7 @@ export default function Home() {
       </div>
 
       {/* Products */}
-      <section className="py-20 px-6 sm:px-8 lg:px-12">
+      <section className="pt-12 pb-20 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-12">
             What I&apos;m Building
@@ -125,7 +125,7 @@ export default function Home() {
               href="/portfolio"
               className="text-sm tracking-wide uppercase text-muted-foreground border-b border-muted-foreground pb-1 hover:opacity-60 transition-opacity"
             >
-              See all work
+              View full portfolio
             </Link>
           </div>
         </div>
