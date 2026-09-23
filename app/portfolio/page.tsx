@@ -19,7 +19,7 @@ export default function Portfolio() {
           {/* Header */}
           <div className="mb-16">
             <h1 className="font-serif text-5xl md:text-6xl font-normal tracking-tight text-foreground mb-4">
-              Portfolio
+              Work
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
               Selected work and the occasional creative detour.
@@ -40,7 +40,7 @@ export default function Portfolio() {
                 PortKey
               </h3>
               <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Mortgage portability neobank prototype: homeowners carry their existing low-rate mortgage to a new property instead of refinancing at today&apos;s rates. Full product build, architected and shipped solo by directing AI coding agents. Its AI intake demo runs on three model providers, measured under a layered eval harness with public results.
+                Mortgage portability neobank prototype: homeowners carry their existing low-rate mortgage to a new property instead of refinancing at today&apos;s rates. Built solo by directing AI coding agents, with an AI intake demo that runs on three model providers under a public eval harness.
               </p>
               <Link
                 href="/projects/portkey"

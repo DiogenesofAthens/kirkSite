@@ -7,6 +7,8 @@ const nextConfig = {
         destination: "https://portkey-one.vercel.app/demo",
         permanent: false,
       },
+      { source: "/my-expertise", destination: "/about", permanent: true },
+      { source: "/recommendations", destination: "/about", permanent: true },
     ]
   },
   typescript: {

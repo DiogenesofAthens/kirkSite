@@ -44,7 +44,7 @@ export default function About() {
             </p>
             <p>
               For the last year I&apos;ve also been building full-stack products solo, directing frontier coding agents through the whole dev cycle: architecture, API and data design, code review, and cloud deployment. Equal parts curiosity, skills development, and entrepreneurial streak. They&apos;re live on the{" "}
-              <Link href="/portfolio" className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity">Portfolio</Link>{" "}
+              <Link href="/portfolio" className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity">Work</Link>{" "}
               page. What I&apos;m working on now (Sep 2026): I&apos;ve taken one of them,{" "}
               <Link href="/projects/portkey" className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity">PortKey</Link>
               , swapped out the underlying model provider three times, and measured the changes under a layered eval harness: deterministic gates, a model judge under a locked rubric that never grades its own family, and a human calibration step. The results are on the app&apos;s{" "}

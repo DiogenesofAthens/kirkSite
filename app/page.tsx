@@ -7,36 +7,34 @@ import { TimezoneClock } from "@/components/timezone-clock"
 import Link from "next/link"
 import { Github } from "lucide-react"
 
-const FEATURED_PROJECTS = [
+const PRODUCTS = [
   {
-    category: "Automation",
-    title: "fareTrader",
-    description:
-      "Autonomous Python agent that monitors Delta first-class fares and auto-books when prices drop below a configured threshold — treating airline eCredits as zero-cost options on premium seats. Runs unattended with scheduled checks and booking safeguards.",
-    href: "/projects/faretrader",
-  },
-  {
-    category: "Fintech",
     title: "PortKey",
-    description:
-      "Mortgage portability neobank prototype: homeowners carry their existing low-rate mortgage to a new property instead of refinancing at today's rates. Its AI intake demo runs on three model providers, measured under a layered eval harness with public results.",
+    line: "Carry your low-rate mortgage to your next home. Three model providers, evaluated in public.",
     href: "/projects/portkey",
   },
   {
-    category: "Civic / GovTech",
+    title: "fareTrader",
+    line: "An agent that watches Delta first-class fares and books the drop.",
+    href: "/projects/faretrader",
+  },
+  {
+    title: "ResourXe",
+    line: "Routes GPU workloads to the cheapest compute, the greenest, or a blend.",
+    href: "/projects/resourxe",
+  },
+  {
     title: "Save the State",
-    description:
-      "Blockchain-anchored land covenant registry, built as a proof of concept for county governments — every covenant recorded as an immutable, publicly verifiable on-chain transaction, no central authority required.",
+    line: "Land covenants on-chain, verifiable without a central authority.",
     href: "/projects/savethestate",
   },
   {
-    category: "Infrastructure",
-    title: "ResourXe",
-    description:
-      "GPU compute routing engine that scores cloud instances by price and carbon intensity — find the cheapest compute, the greenest, or any blend between. Built the scoring model, pricing ingestion, and routing logic end to end.",
-    href: "/projects/resourxe",
+    title: "StatTrack",
+    line: "Live NBA analytics, from raw API to interactive dashboard.",
+    href: "/projects/stattrack",
   },
 ]
+
 export default function Home() {
   const [showContactForm, setShowContactForm] = useState(false)
   const [year, setYear] = useState<number | null>(null)
@@ -82,12 +80,18 @@ export default function Home() {
         <div className="border-t border-border" />
       </div>
 
-      {/* Introduction */}
-      <section className="py-24 px-6 sm:px-8 lg:px-12">
+      {/* Voice */}
+      <section className="py-20 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
-          <p className="text-lg sm:text-xl text-foreground leading-relaxed max-w-2xl">
-            I run the whole customer lifecycle, from commercial and technical discovery through solution design, the demo or proof of concept, and security review. The mandate, as I see it, is that the solution works in production, not just on a whiteboard. My focus extends well beyond signature. On a practical level, I own the customer&apos;s usage curve. On a human level, I care whether they&apos;re glad they bought it.
+          <p className="text-lg sm:text-xl text-foreground leading-relaxed max-w-2xl mb-8">
+            My focus extends well beyond signature. On a practical level, I own the customer&apos;s usage curve. On a human level, I care whether they&apos;re glad they bought it.
           </p>
+          <Link
+            href="/about"
+            className="text-sm tracking-wide uppercase text-muted-foreground border-b border-muted-foreground pb-1 hover:opacity-60 transition-opacity"
+          >
+            More about me
+          </Link>
         </div>
       </section>
 
@@ -96,76 +100,32 @@ export default function Home() {
         <div className="border-t border-border" />
       </div>
 
-      {/* Focus Areas */}
-      <section className="py-24 px-6 sm:px-8 lg:px-12">
+      {/* Products */}
+      <section className="py-20 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
-          <div className="space-y-16">
-            <div>
-              <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-4">
-                Solution Architecture
-              </h3>
-              <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-                Leading complex enterprise engagements from discovery through deployment — designing systems that work in the real world, not just on paper.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-4">
-                Product & Data Platforms
-              </h3>
-              <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-                Former product lead for enterprise API and data-feed platforms with eight-figure recurring revenue, serving the world&apos;s largest financial institutions.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-4">
-                AI & Emerging Technology
-              </h3>
-              <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-                Applying AI and LLMs to real business problems — from workflow automation to rapid prototyping of production-grade tools.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="border-t border-border" />
-      </div>
-
-      {/* Projects */}
-      <section className="py-24 px-6 sm:px-8 lg:px-12">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-16">
+          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-12">
             What I&apos;m Building
           </h2>
-          <div className="space-y-14">
-            {FEATURED_PROJECTS.map((project) => (
-              <div key={project.href}>
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-2">
-                  {project.category}
-                </p>
-                <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-4">
-                  {project.title}
-                </h3>
-                <p className="text-base text-muted-foreground leading-relaxed max-w-xl mb-5">
-                  {project.description}
-                </p>
-                <Link
-                  href={project.href}
-                  className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-                >
-                  View Project
+          <ul className="space-y-8">
+            {PRODUCTS.map((product) => (
+              <li key={product.href}>
+                <Link href={product.href} className="group block">
+                  <span className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground group-hover:opacity-60 transition-opacity">
+                    {product.title}
+                  </span>
+                  <span className="block text-base text-muted-foreground leading-relaxed mt-1">
+                    {product.line}
+                  </span>
                 </Link>
-              </div>
+              </li>
             ))}
-          </div>
-          <div className="mt-16">
+          </ul>
+          <div className="mt-14">
             <Link
               href="/portfolio"
               className="text-sm tracking-wide uppercase text-muted-foreground border-b border-muted-foreground pb-1 hover:opacity-60 transition-opacity"
             >
-              View full portfolio
+              See all work
             </Link>
           </div>
         </div>
@@ -177,7 +137,7 @@ export default function Home() {
       </div>
 
       {/* Contact */}
-      <section className="py-24 px-6 sm:px-8 lg:px-12">
+      <section className="py-20 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-6">
             Contact
