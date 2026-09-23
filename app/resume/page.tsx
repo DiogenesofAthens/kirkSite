@@ -74,11 +74,10 @@ export default function Resume() {
           location: "Los Angeles, CA",
           type: "Full-time",
           description:
-            "Managed an eight-figure portfolio of banking and private equity clients. Focused on mutually beneficial outcomes, embedding with clients to achieve their objectives while growing the book of business.",
+            "Managed a portfolio of banking and private equity clients. Focused on mutually beneficial outcomes, embedding with clients to achieve their objectives.",
           achievements: [
-            "Owned and grew a $10M+ portfolio across investment banks and private equity firms",
+            "Owned client relationships across investment banks and private equity firms",
             "Helped clients optimize analytics workflows and data access patterns",
-            "Earned internal distinction for portfolio growth and client relationship depth",
           ],
         },
         {
@@ -88,10 +87,9 @@ export default function Resume() {
           location: "New York, NY",
           type: "Full-time",
           description:
-            "Led product strategy for S&P's award-winning API and data-feed platforms, delivering equity and debt capital markets data to some of the world's largest financial institutions.",
+            "Led product strategy for S&P's API and data-feed platforms, delivering equity and debt capital markets data to some of the world's largest financial institutions.",
           achievements: [
-            "Managed award-winning enterprise delivery vehicle (FTP/API) for equity and debt capital markets data",
-            "Led product strategy for platforms with eight-figure recurring revenue",
+            "Managed the enterprise delivery vehicle (FTP/API) for equity and debt capital markets data",
             "Owned roadmap, pricing, and go-to-market execution in partnership with engineering",
             "Worked directly with the world's largest financial institutions as a hands-on PM",
           ],
