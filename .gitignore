@@ -25,3 +25,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Working copy docs
+kirkSite-site-copy.docx
+
+# LinkedIn captures (contain private analytics)
+*LinkedIn*.pdf

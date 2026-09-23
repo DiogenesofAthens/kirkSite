@@ -29,7 +29,7 @@ export default function Portfolio() {
           {/* Projects Section */}
           <section className="mb-20">
             <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Projects
+              Live Products
             </h2>
 
             <div className="py-12 border-t border-border">
@@ -40,7 +40,7 @@ export default function Portfolio() {
                 PortKey
               </h3>
               <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Mortgage portability neobank prototype. Lets homeowners carry an existing low-rate mortgage to a new property instead of refinancing at today&apos;s rates. Your rate moves with you.
+                Mortgage portability neobank prototype: homeowners carry their existing low-rate mortgage to a new property instead of refinancing at today&apos;s rates. Full product build, architected and shipped solo by directing AI coding agents. Its AI intake demo runs on three model providers, measured under a layered eval harness with public results.
               </p>
               <Link
                 href="/projects/portkey"
@@ -58,7 +58,7 @@ export default function Portfolio() {
                 fareTrader
               </h3>
               <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Autonomous Python agent that monitors Delta Air Lines first-class fares and auto-books when prices drop below a configured threshold — using eCredits as zero-cost options on premium seats.
+                Autonomous Python agent that monitors Delta first-class fares and auto-books when prices drop below a configured threshold — treating airline eCredits as zero-cost options on premium seats. Runs unattended with scheduled checks and booking safeguards.
               </p>
               <Link
                 href="/projects/faretrader"
@@ -76,7 +76,7 @@ export default function Portfolio() {
                 Save the State
               </h3>
               <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Blockchain-anchored land covenant registry targeting county government. Covenants are recorded as immutable on-chain transactions; SQLite serves as a queryable enrichment layer.
+                Blockchain-anchored land covenant registry, built as a proof of concept for county governments — every covenant recorded as an immutable, publicly verifiable on-chain transaction, no central authority required.
               </p>
               <Link
                 href="/projects/savethestate"
@@ -94,7 +94,7 @@ export default function Portfolio() {
                 ResourXe
               </h3>
               <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                GPU compute routing engine that queries cloud marketplaces and scores instances by price and carbon intensity — find the cheapest compute, the greenest, or any blend in between.
+                GPU compute routing engine that scores cloud instances by price and carbon intensity — find the cheapest compute, the greenest, or any blend between. Built the scoring model, pricing ingestion, and routing logic end to end.
               </p>
               <Link
                 href="/projects/resourxe"
@@ -103,6 +103,33 @@ export default function Portfolio() {
                 View Project
               </Link>
             </div>
+
+
+
+            <div className="py-12 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
+                Analytics
+              </div>
+              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
+                StatTrack
+              </h3>
+              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
+                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library, with transparent availability states for free-tier backend wake-ups and cloud API rate limits.
+              </p>
+              <Link
+                href="/projects/stattrack"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                View Project
+              </Link>
+            </div>
+          </section>
+
+          {/* Also Built Section */}
+          <section className="mb-20">
+            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
+              Also Built
+            </h2>
 
             <div className="py-12 border-t border-border">
               <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
@@ -134,24 +161,6 @@ export default function Portfolio() {
               </p>
               <Link
                 href="/projects/pmp"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
-            </div>
-
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Analytics
-              </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                StatTrack
-              </h3>
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library, with transparent availability states for free-tier backend wake-ups and cloud API rate limits.
-              </p>
-              <Link
-                href="/projects/stattrack"
                 className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
               >
                 View Project

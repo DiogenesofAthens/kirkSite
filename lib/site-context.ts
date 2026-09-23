@@ -6,29 +6,28 @@ export const EXPERIENCES = [
       positions: [
         {
           title: "Principal Solutions Engineer",
-          duration: "2019 - Present · 7 yrs",
-          location: "Santa Monica, CA",
+          duration: "Sep 2022 - Aug 2026 · 4 yrs",
+          location: "Los Angeles, CA",
           type: "Full-time",
-          description:
-            "Lead solution architect on complex enterprise engagements, owning discovery, system design, and deployment strategy for Conga's Quote-to-Cash and CLM platform. Build custom demos and proof-of-concepts integrating APIs, data models, and workflow automation.",
           responsibilities: [
-            "Leading solution architecture on complex enterprise engagements",
-            "Owning discovery, system design, and deployment strategy",
-            "Building custom demos and proof-of-concepts integrating APIs, data models, and workflow automation",
-            "Partnering with product and engineering to translate customer needs into deployable architectures",
-            "Completing technical RFP/RFI responses for strategic accounts",
-          ],
-          achievements: [
-            "Consistently among the top-performing Solutions Engineers across an 80-person global SE org",
-            "Lead solution architect on the most complex enterprise engagements",
-            "Built production-ready demos and POCs integrating APIs, data models, and workflow automation",
-            "Partnered directly with product and engineering to shape product direction",
+            "Enterprise solutions engineering for accounts in financial services, software, and health and life sciences, architected on the Salesforce platform.",
+            "Ran technical discovery and solution design; built the custom demos, prototypes, and proofs of concept (APIs, data model, workflow automation); carried the security and compliance workstream (InfoSec questionnaires, SOC 2, data residency) with our internal security team through to production.",
+            "AI co-lead for the SE organization: sold and demoed the product's AI capabilities and built customer demonstrations using MCP and Claude Code to orchestrate multi-system enterprise workflows.",
+            "Worked with product and engineering to turn one-off customer solutions into reusable integration patterns, guides, and documentation.",
           ],
           certifications: [
             "Apttus CPQ Levels 1 & 2",
             "Apttus Billing Management",
             "Conga Grid Certified",
           ],
+        },
+        {
+          title: "Senior Solutions Engineer",
+          duration: "Mar 2019 - Aug 2022 · 3 yrs 6 mos",
+          location: "Los Angeles, CA",
+          type: "Full-time",
+          description:
+            "Solutions engineering for enterprise accounts across the same verticals: discovery, solution design, demo and proof-of-concept build, security review.",
         },
       ],
     },
@@ -39,7 +38,7 @@ export const EXPERIENCES = [
         {
           title: "Senior Relationship Manager — Investment Banking & Private Equity",
           duration: "2017 · 1 yr",
-          location: "Santa Monica, CA",
+          location: "Los Angeles, CA",
           type: "Full-time",
           description:
             "Managed an eight-figure portfolio of banking and private equity clients. Focused on mutually beneficial outcomes, embedding with clients to achieve their objectives while growing the book of business.",
@@ -51,7 +50,7 @@ export const EXPERIENCES = [
         },
         {
           title: "Associate Director, Product Management — Enterprise Feeds / APIs",
-          duration: "2013 - 2015 · 3 yrs",
+          duration: "2012 - 2015 · 3 yrs",
           location: "New York, NY",
           type: "Full-time",
           description:
@@ -86,10 +85,10 @@ export const EXPERIENCES = [
       logo: "IC",
       positions: [
         {
-          title: "Strategy Adviser",
+          title: "Strategy Consultant",
           duration: "2016 - 2019 · 3 yrs",
-          location: "New Orleans, LA & Santa Monica, CA",
-          type: "Contract",
+          location: "New Orleans, LA & Los Angeles, CA",
+          type: "Self-employed",
           description:
             "Advised startups, public-sector organizations, and political campaigns in ill-defined problem spaces. Delivered strategy and analytical frameworks across finance, operations, and communications.",
           achievements: [
@@ -163,15 +162,16 @@ Business & Strategy:
 `;
 
 export const ABOUT_ME = `
-Summary:
-Customer-facing technical leader with 15+ years of experience spanning solutions engineering, product management, and enterprise data platforms.
-"Translating ambiguous requirements into production-grade solutions — in environments where the problem space is evolving."
+Summary (Kirk's own words):
+I'm a customer-facing solutions engineer. I spent the last seven-plus years at Conga, a top-two Salesforce ISV, in the space between enterprise customers and the product: cross-vertical, with the most depth in financial services, tech, and health and life sciences.
 
-Key Stats:
-- Top-Performing SE across 80-person global org
-- Sophisticated Client Management — global investment banks, PE firms, Fortune 500 pharma/biomedical companies
-- 15+ Years Experience
-- Phi Beta Kappa, USC
+I run the whole customer lifecycle, from commercial and technical discovery through solution design, the demo or proof of concept, and security review. The mandate, as I see it, is that the solution works in production, not just on a whiteboard. Focus does not wander after signature - I own the customer's usage curve as well.
+
+For the last year I've also been building full-stack products solo, directing frontier coding agents through the whole dev cycle: architecture, API and data design, code review, and cloud deployment. What I'm working on now (Sep 2026): I've taken one of them, PortKey, swapped out the underlying model provider three times, and measured the changes under a layered eval harness - deterministic gates, a model judge under a locked rubric that never grades its own family, and a human calibration step. The results are on the app's evals page.
+
+I do my best work in dynamic, sometimes ambiguous environments, building new things rather than simply maintaining what exists. I'm an extrovert and a collaborator at heart, energized by the work between engineering, product, and the customer.
+
+Los Angeles, with a lot of time in San Francisco and New York.
 `;
 
 export const SITE_CONTEXT = `
@@ -190,10 +190,10 @@ export const SITE_CONTEXT = `
     ${BLOG_CONTEXT}
   </resources>
   <additional_info>
-    Kirk Wessman is a Principal Solutions Engineer at Conga based in Santa Monica, CA.
-    He holds a B.S. Cum Laude in Business Administration from USC Marshall School of Business, where he was Phi Beta Kappa and a Presidential Scholar.
-    Before Conga, Kirk spent 6 years at S&P Global in product management and relationship management roles, and also worked as an independent strategy consultant.
-    He built this site using AI coding tools from the frontier labs — adapting a friend's Next.js template into his own professional presence.
+    Kirk Wessman is a solutions engineer based in Los Angeles. He was at Conga from March 2019 to August 2026, most recently as Principal Solutions Engineer.
+    He holds a B.S. Cum Laude in Business Administration from USC Marshall School of Business, where he was Phi Beta Kappa and a full merit scholarship recipient.
+    Before Conga, Kirk spent six years at S&P Global in product management and relationship management roles, and also worked as an independent strategy consultant.
+    He built this site and five live products (PortKey, fareTrader, ResourXe, Save the State, StatTrack) by directing AI coding agents.
     Kirk is passionate about AI, LLMs, and building things at the intersection of technology and business.
   </additional_info>
 </site_data>

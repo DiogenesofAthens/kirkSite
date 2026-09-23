@@ -20,10 +20,10 @@ const personJsonLd = {
   url: "https://kirkwessman.com",
   jobTitle: "Solutions Engineer",
   description:
-    "Customer-facing technical leader specializing in designing, prototyping, and deploying complex API- and data-driven systems.",
+    "Customer-facing solutions engineer for enterprise AI systems: discovery, architecture, evals, and security review.",
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Santa Monica",
+    addressLocality: "Los Angeles",
     addressRegion: "CA",
     addressCountry: "US",
   },
@@ -34,16 +34,16 @@ const personJsonLd = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kirkwessman.com"),
-  title: "Kirk Wessman — Solutions Engineer & Technical Leader",
+  title: "Kirk Wessman — Solutions Engineer, Enterprise AI Systems",
   description:
-    "Customer-facing technical leader specializing in designing, prototyping, and deploying complex API- and data-driven systems. Based in Santa Monica, CA.",
+    "Customer-facing solutions engineer for enterprise AI systems: discovery, architecture, evals, and security review. Five live products built by directing AI coding agents. Based in Los Angeles.",
   keywords:
-    "solutions engineer, technical leader, API, data platforms, enterprise, CPQ, CLM, AI, Santa Monica",
+    "solutions engineer, technical leader, API, data platforms, enterprise, CPQ, CLM, AI, evals, Los Angeles",
   authors: [{ name: "Kirk Wessman", url: "https://kirkwessman.com" }],
   openGraph: {
-    title: "Kirk Wessman — Solutions Engineer & Technical Leader",
+    title: "Kirk Wessman — Solutions Engineer, Enterprise AI Systems",
     description:
-      "Translating ambiguous requirements into production-grade solutions through close collaboration with product, engineering, and executive stakeholders.",
+      "Solutions engineer for enterprise AI systems: discovery, architecture, evals, and security review. Five live products built by directing AI coding agents.",
     url: "https://kirkwessman.com",
     siteName: "Kirk Wessman",
     type: "website",
@@ -52,15 +52,15 @@ export const metadata: Metadata = {
         url: "/images/kirk_wessman.jpg",
         width: 1200,
         height: 630,
-        alt: "Kirk Wessman — Solutions Engineer & Technical Leader",
+        alt: "Kirk Wessman — Solutions Engineer, Enterprise AI Systems",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kirk Wessman — Solutions Engineer & Technical Leader",
+    title: "Kirk Wessman — Solutions Engineer, Enterprise AI Systems",
     description:
-      "Translating ambiguous requirements into production-grade solutions through close collaboration with product, engineering, and executive stakeholders.",
+      "Solutions engineer for enterprise AI systems: discovery, architecture, evals, and security review. Five live products built by directing AI coding agents.",
     images: ["/images/kirk_wessman.jpg"],
   },
 }

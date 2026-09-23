@@ -32,21 +32,29 @@ export default function About() {
             Kirk Wessman
           </h1>
           <p className="text-sm tracking-wide uppercase text-muted-foreground mb-12">
-            Santa Monica, California
+            Los Angeles, with a lot of time in San Francisco and New York
           </p>
 
           <div className="space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
             <p>
-              Customer-facing technical leader with 15+ years designing, prototyping, and deploying complex systems at the intersection of business and technology.
+              I&apos;m a customer-facing solutions engineer. I spent the last seven-plus years at Conga, a top-two Salesforce ISV, in the space between enterprise customers and the product: cross-vertical, with the most depth in financial services, tech, and health and life sciences.
             </p>
             <p>
-              I specialize in translating ambiguous requirements into production-grade solutions through close collaboration with product, engineering, and executive stakeholders. My background spans solution architecture, product management, and enterprise technical engagements — with a focus on building systems that work in the real world, not just on paper.
+              I run the whole customer lifecycle, from commercial and technical discovery through solution design, the demo or proof of concept, and security review. The mandate, as I see it, is that the solution works in production, not just on a whiteboard. Focus does not wander after signature. I own the customer&apos;s usage curve as well.
             </p>
             <p>
-              At Conga, I&apos;ve been consistently among the top-performing Solutions Engineers across an 80-person global organization, managing relationships with Fortune 500 pharmaceutical and biomedical companies. At S&P Global, I managed API products with eight-figure recurring revenue and a portfolio serving the world&apos;s largest investment banks and private equity firms.
+              For the last year I&apos;ve also been building full-stack products solo, directing frontier coding agents through the whole dev cycle: architecture, API and data design, code review, and cloud deployment. Equal parts curiosity, skills development, and entrepreneurial streak. They&apos;re live on the{" "}
+              <Link href="/portfolio" className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity">Portfolio</Link>{" "}
+              page. What I&apos;m working on now (Sep 2026): I&apos;ve taken one of them,{" "}
+              <Link href="/projects/portkey" className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity">PortKey</Link>
+              , swapped out the underlying model provider three times, and measured the changes under a layered eval harness: deterministic gates, a model judge under a locked rubric that never grades its own family, and a human calibration step. The results are on the app&apos;s{" "}
+              <a href="https://portkey-one.vercel.app/evals" target="_blank" rel="noopener noreferrer" className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity">evals page</a>.
             </p>
             <p>
-              I hold a B.S. Cum Laude in Business Administration from the University of Southern California — Marshall School of Business, where I was inducted into Phi Beta Kappa and named a Presidential Scholar.
+              I do my best work in dynamic, sometimes ambiguous environments, building new things rather than simply maintaining what exists. I&apos;m an extrovert and a collaborator at heart, energized by the work between engineering, product, and the customer.
+            </p>
+            <p>
+              Before Conga, I spent six years at S&amp;P Global, owning roadmap, pricing, and go-to-market for enterprise API and data-feed products, then managing a portfolio of investment banking and private equity clients. I hold a B.S. Cum Laude in Business Administration from USC Marshall, where I was Phi Beta Kappa and a full merit scholarship recipient.
             </p>
           </div>
 

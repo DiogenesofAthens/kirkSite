@@ -12,28 +12,28 @@ const FEATURED_PROJECTS = [
     category: "Automation",
     title: "fareTrader",
     description:
-      "Autonomous Python agent that monitors Delta Air Lines first-class fares and auto-books when prices drop below a configured threshold — using eCredits as zero-cost options on premium seats.",
+      "Autonomous Python agent that monitors Delta first-class fares and auto-books when prices drop below a configured threshold — treating airline eCredits as zero-cost options on premium seats. Runs unattended with scheduled checks and booking safeguards.",
     href: "/projects/faretrader",
   },
   {
     category: "Fintech",
     title: "PortKey",
     description:
-      "Mortgage portability neobank prototype. Homeowners carry their existing low-rate mortgage to a new property instead of refinancing at today's rates. Your rate moves with you.",
+      "Mortgage portability neobank prototype: homeowners carry their existing low-rate mortgage to a new property instead of refinancing at today's rates. Its AI intake demo runs on three model providers, measured under a layered eval harness with public results.",
     href: "/projects/portkey",
   },
   {
     category: "Civic / GovTech",
     title: "Save the State",
     description:
-      "Blockchain-anchored land covenant registry targeting county government. Every covenant is an immutable on-chain transaction — tamper-proof and publicly verifiable without a central authority.",
+      "Blockchain-anchored land covenant registry, built as a proof of concept for county governments — every covenant recorded as an immutable, publicly verifiable on-chain transaction, no central authority required.",
     href: "/projects/savethestate",
   },
   {
     category: "Infrastructure",
     title: "ResourXe",
     description:
-      "GPU compute routing engine that scores cloud instances by price and carbon intensity. Find the cheapest compute, the greenest, or any blend in between.",
+      "GPU compute routing engine that scores cloud instances by price and carbon intensity — find the cheapest compute, the greenest, or any blend between. Built the scoring model, pricing ingestion, and routing logic end to end.",
     href: "/projects/resourxe",
   },
 ]
@@ -58,10 +58,10 @@ export default function Home() {
             Kirk Wessman
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground font-light leading-relaxed max-w-2xl mb-4">
-            Solutions Engineer & Technical Leader
+            Solutions Engineer · Enterprise AI Systems
           </p>
           <p className="text-lg text-muted-foreground/70 leading-relaxed max-w-xl">
-            Translating ambiguous requirements into production-grade solutions — then shipping them.
+            Discovery, architecture, evals, and security review. Plus five live products, built by directing AI coding agents.
           </p>
           <div className="mt-10">
             <a
@@ -86,7 +86,7 @@ export default function Home() {
       <section className="py-24 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <p className="text-lg sm:text-xl text-foreground leading-relaxed max-w-2xl">
-            I design and deploy complex enterprise systems at the intersection of business strategy and technical architecture. Over 15 years — from Wall Street data platforms to enterprise SaaS — I&apos;ve worked with some of the most sophisticated organizations in the world, helping them close the gap between what they need and what their technology can do.
+            I run the whole customer lifecycle, from commercial and technical discovery through solution design, the demo or proof of concept, and security review. The mandate, as I see it, is that the solution works in production, not just on a whiteboard. Focus does not wander after signature. I own the customer&apos;s usage curve as well.
           </p>
         </div>
       </section>

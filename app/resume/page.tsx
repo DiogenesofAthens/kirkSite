@@ -5,41 +5,60 @@ import { FloatingNav } from "@/components/floating-nav";
 import { Calendar, MapPin, ChevronDown } from "lucide-react";
 import { TimezoneClock } from "@/components/timezone-clock";
 
+type Position = {
+  title: string;
+  startDate: string;
+  endDate: string;
+  location?: string;
+  type?: string;
+  description?: string;
+  responsibilities?: string[];
+  achievements?: string[];
+  certifications?: string[];
+};
+
+type Experience = {
+  company: string;
+  logo: string;
+  duration: string;
+  positions: Position[];
+};
+
 export default function Resume() {
   const [openCompanyIndex, setOpenCompanyIndex] = useState<number | null>(0);
 
-  const experiences = [
+  const experiences: Experience[] = [
     {
       company: "Conga",
       logo: "CG",
-      duration: "2019 - Present",
+      duration: "Mar 2019 - Aug 2026",
       positions: [
         {
           title: "Principal Solutions Engineer",
-          startDate: "2019",
-          endDate: "Present",
-          location: "Santa Monica, CA",
+          startDate: "Sep 2022",
+          endDate: "Aug 2026",
+          location: "Los Angeles, CA",
           type: "Full-time",
-          description:
-            "Lead solution architect on complex enterprise engagements, owning discovery, system design, and deployment strategy for Conga's Quote-to-Cash and CLM platform.",
           responsibilities: [
-            "Leading solution architecture on complex enterprise engagements",
-            "Owning discovery, system design, and deployment strategy",
-            "Building custom demos and proof-of-concepts integrating APIs, data models, and workflow automation",
-            "Partnering with product and engineering to translate customer needs into deployable architectures",
-            "Completing technical RFP/RFI responses for strategic accounts",
-          ],
-          achievements: [
-            "Consistently among the top-performing Solutions Engineers across an 80-person global SE org",
-            "Lead solution architect on the most complex enterprise engagements",
-            "Built production-ready demos and POCs integrating APIs, data models, and workflow automation",
-            "Partnered directly with product and engineering to shape product direction",
+            "Enterprise solutions engineering for accounts in financial services, software, and health and life sciences, architected on the Salesforce platform.",
+            "Ran technical discovery and solution design; built the custom demos, prototypes, and proofs of concept (APIs, data model, workflow automation); carried the security and compliance workstream (InfoSec questionnaires, SOC 2, data residency) with our internal security team through to production.",
+            "AI co-lead for the SE organization: sold and demoed the product's AI capabilities and built customer demonstrations using MCP and Claude Code to orchestrate multi-system enterprise workflows.",
+            "Worked with product and engineering to turn one-off customer solutions into reusable integration patterns, guides, and documentation.",
           ],
           certifications: [
             "Apttus CPQ Levels 1 & 2",
             "Apttus Billing Management",
             "Conga Grid Certified",
           ],
+        },
+        {
+          title: "Senior Solutions Engineer",
+          startDate: "Mar 2019",
+          endDate: "Aug 2022",
+          location: "Los Angeles, CA",
+          type: "Full-time",
+          description:
+            "Solutions engineering for enterprise accounts across the same verticals: discovery, solution design, demo and proof-of-concept build, security review.",
         },
       ],
     },
@@ -52,7 +71,7 @@ export default function Resume() {
           title: "Senior Relationship Manager — Investment Banking & Private Equity",
           startDate: "2017",
           endDate: "2017",
-          location: "Santa Monica, CA",
+          location: "Los Angeles, CA",
           type: "Full-time",
           description:
             "Managed an eight-figure portfolio of banking and private equity clients. Focused on mutually beneficial outcomes, embedding with clients to achieve their objectives while growing the book of business.",
@@ -64,7 +83,7 @@ export default function Resume() {
         },
         {
           title: "Associate Director, Product Management — Enterprise Feeds / APIs",
-          startDate: "2013",
+          startDate: "2012",
           endDate: "2015",
           location: "New York, NY",
           type: "Full-time",
@@ -103,11 +122,11 @@ export default function Resume() {
       duration: "2016 - 2019",
       positions: [
         {
-          title: "Strategy Adviser",
+          title: "Strategy Consultant",
           startDate: "2016",
           endDate: "2019",
-          location: "New Orleans, LA & Santa Monica, CA",
-          type: "Contract",
+          location: "New Orleans, LA & Los Angeles, CA",
+          type: "Self-employed",
           description:
             "Advised startups, public-sector organizations, and political campaigns in ill-defined problem spaces. Delivered strategy and analytical frameworks across finance, operations, and communications.",
           achievements: [
