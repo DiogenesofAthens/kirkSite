@@ -86,7 +86,7 @@ export default function Home() {
       <section className="py-24 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <p className="text-lg sm:text-xl text-foreground leading-relaxed max-w-2xl">
-            I run the whole customer lifecycle, from commercial and technical discovery through solution design, the demo or proof of concept, and security review. The mandate, as I see it, is that the solution works in production, not just on a whiteboard. Focus does not wander after signature. I own the customer&apos;s usage curve as well.
+            I run the whole customer lifecycle, from commercial and technical discovery through solution design, the demo or proof of concept, and security review. The mandate, as I see it, is that the solution works in production, not just on a whiteboard. My focus extends well beyond signature. On a practical level, I own the customer&apos;s usage curve. On a human level, I care whether they&apos;re glad they bought it.
           </p>
         </div>
       </section>

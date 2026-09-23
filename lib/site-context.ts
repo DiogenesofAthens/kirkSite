@@ -163,7 +163,7 @@ export const ABOUT_ME = `
 Summary (Kirk's own words):
 I'm a customer-facing solutions engineer. I spent the last seven-plus years at Conga, a top-two Salesforce ISV, in the space between enterprise customers and the product: cross-vertical, with the most depth in financial services, tech, and health and life sciences.
 
-I run the whole customer lifecycle, from commercial and technical discovery through solution design, the demo or proof of concept, and security review. The mandate, as I see it, is that the solution works in production, not just on a whiteboard. Focus does not wander after signature - I own the customer's usage curve as well.
+I run the whole customer lifecycle, from commercial and technical discovery through solution design, the demo or proof of concept, and security review. The mandate, as I see it, is that the solution works in production, not just on a whiteboard. My focus extends well beyond signature. On a practical level, I own the customer's usage curve. On a human level, I care whether they're glad they bought it.
 
 For the last year I've also been building full-stack products solo, directing frontier coding agents through the whole dev cycle: architecture, API and data design, code review, and cloud deployment. What I'm working on now (Sep 2026): I've taken one of them, PortKey, swapped out the underlying model provider three times, and measured the changes under a layered eval harness - deterministic gates, a model judge under a locked rubric that never grades its own family, and a human calibration step. The results are on the app's evals page.
 
