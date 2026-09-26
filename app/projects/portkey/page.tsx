@@ -2,12 +2,8 @@
 
 import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
-import { ContactModal } from "@/components/contact-modal"
-import { useState } from "react"
 
 export default function Portkey() {
-  const [showContactForm, setShowContactForm] = useState(false)
-
   return (
     <div className="min-h-screen gradient-bg relative overflow-hidden">
       <FloatingNav />
@@ -141,24 +137,8 @@ export default function Portkey() {
             </div>
           </section>
 
-          <div className="border-t border-border" />
-
-          <div className="mt-16 pt-12">
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Questions or feedback?{" "}
-              <button
-                onClick={() => setShowContactForm(true)}
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity inline"
-              >
-                Get in Touch
-              </button>
-            </p>
-          </div>
-
         </div>
       </div>
-
-      <ContactModal isOpen={showContactForm} onClose={() => setShowContactForm(false)} />
     </div>
   )
 }

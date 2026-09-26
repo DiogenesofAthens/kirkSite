@@ -3,12 +3,9 @@
 import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { GameSelector } from "@/components/game-selector"
 import { FileText, Coffee, Beer, Heart, Calculator, Mail, QrCode, Clock, DollarSign, Sparkles, Code2, Home, Rocket, Crown, ExternalLink, Compass, Tv, Pizza, Sandwich } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
-import { ContactModal } from "@/components/contact-modal"
 import { aiTools, utilityTools } from "@/lib/tools-config"
 
 const iconMap = {
@@ -29,8 +26,6 @@ const iconMap = {
 const donationIconMap = { Coffee, Beer, Heart, Pizza, Sandwich, Home }
 
 export default function Resources() {
-  const [showContactForm, setShowContactForm] = useState(false)
-
   const guides = [
     {
       id: "sdr-process-guide",
@@ -182,30 +177,8 @@ export default function Resources() {
           <div className="mb-16">
             <GameSelector />
           </div>
-
-          <div className="glass rounded-2xl p-8 shadow-sm text-center">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">Get In Touch</h2>
-              <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
-                Have questions about business technology, sales optimization, or need consulting help? I'd love to hear
-                from you and discuss how I can help solve your challenges.
-              </p>
-            </div>
-            <div className="flex justify-center">
-              <Button
-                size="lg"
-                className="bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white"
-                onClick={() => setShowContactForm(true)}
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Contact Me
-              </Button>
-            </div>
-          </div>
         </div>
       </div>
-
-      <ContactModal isOpen={showContactForm} onClose={() => setShowContactForm(false)} />
     </div>
   )
 }

@@ -76,8 +76,8 @@ export default function Home() {
       </section>
 
       {/* Divider */}
-      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="border-t border-border" />
+      <div className="px-6 sm:px-8 lg:px-12">
+        <div className="max-w-3xl mx-auto border-t border-border" />
       </div>
 
       {/* Voice */}
@@ -96,8 +96,8 @@ export default function Home() {
       </section>
 
       {/* Divider */}
-      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="border-t border-border" />
+      <div className="px-6 sm:px-8 lg:px-12">
+        <div className="max-w-3xl mx-auto border-t border-border" />
       </div>
 
       {/* Products */}
@@ -132,25 +132,22 @@ export default function Home() {
       </section>
 
       {/* Divider */}
-      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="border-t border-border" />
+      <div className="px-6 sm:px-8 lg:px-12">
+        <div className="max-w-3xl mx-auto border-t border-border" />
       </div>
 
       {/* Contact */}
       <section className="py-20 px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mx-auto">
-          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground mb-6">
-            Contact
-          </h2>
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-xl">
-            If something here resonates, or you&apos;d like to discuss a problem worth solving, you&apos;re welcome to reach out.
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Thoughts or questions?{" "}
+            <button
+              onClick={() => setShowContactForm(true)}
+              className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity inline"
+            >
+              Get in Touch
+            </button>
           </p>
-          <button
-            onClick={() => setShowContactForm(true)}
-            className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-          >
-            Send a message
-          </button>
         </div>
       </section>
 
@@ -170,9 +167,6 @@ export default function Home() {
               <Github className="h-3.5 w-3.5" />
               GitHub
             </a>
-            <div className="text-xs text-muted-foreground/50 tracking-wide">
-              Built with AI
-            </div>
           </div>
         </div>
       </footer>

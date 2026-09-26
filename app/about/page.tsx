@@ -4,8 +4,12 @@ import { FloatingNav } from "@/components/floating-nav"
 import { TimezoneClock } from "@/components/timezone-clock"
 import Image from "next/image"
 import Link from "next/link"
+import { useState } from "react"
+import { ContactModal } from "@/components/contact-modal"
 
 export default function About() {
+  const [showContactForm, setShowContactForm] = useState(false)
+
   return (
     <div className="min-h-screen bg-background relative">
       <FloatingNav />
@@ -58,13 +62,16 @@ export default function About() {
             </p>
           </div>
 
-          {/* About This Site */}
+          {/* Contact */}
           <div className="mt-16 pt-12 border-t border-border">
-            <h2 className="font-serif text-2xl font-normal tracking-tight text-foreground mb-4">
-              About This Site
-            </h2>
-            <p className="text-base leading-relaxed text-muted-foreground">
-              This site was built using AI coding tools from the frontier labs — a practical exercise in pairing domain expertise with modern tooling to ship something real, fast.
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Thoughts or questions?{" "}
+              <button
+                onClick={() => setShowContactForm(true)}
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity inline"
+              >
+                Get in Touch
+              </button>
             </p>
           </div>
 
@@ -88,6 +95,8 @@ export default function About() {
 
         </div>
       </div>
+
+      <ContactModal isOpen={showContactForm} onClose={() => setShowContactForm(false)} />
     </div>
   )
 }
