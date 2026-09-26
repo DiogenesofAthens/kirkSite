@@ -42,7 +42,7 @@ Naturally, I decided to abuse this power to automate my life. Here are the four 
 
 When you are building a chatbot or a tool that needs to "think" in real-time, latency is the enemy. Waiting 5 seconds for a chatbot to reply feels like an eternity. Groq returns answers in milliseconds. It makes the AI feel like it's actually chatting, not buffering.
 
-• The Model: I mostly use llama-3.1-8b-instant for speed or llama-3.3-70b-versatile for complex logic.
+• The Model: I mostly use openai/gpt-oss-20b for speed or llama-3.3-70b-versatile for complex logic.
 • The Cost: $0 (up to reasonable rate limits, which I haven't hit yet).`
       },
       {
@@ -111,7 +111,7 @@ You don't need a PhD to use this.
 client = Groq(api_key="YOUR_API_KEY")
 
 completion = client.chat.completions.create(
-    model="llama-3.1-8b-instant",
+    model="openai/gpt-oss-20b",
     messages=[
         {"role": "user", "content": "Write a haiku about Home Assistant."}
     ]
