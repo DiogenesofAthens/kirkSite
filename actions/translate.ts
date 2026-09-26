@@ -77,7 +77,8 @@ ${sanitizedInput}
 
   try {
     const { text } = await generateText({
-      model: groq("llama-3.1-8b-instant"),
+      model: groq("openai/gpt-oss-20b"),
+      providerOptions: { groq: { reasoningFormat: "hidden", reasoningEffort: "low" } },
       system: SYSTEM_PROMPT,
       prompt: userPrompt,
       temperature: 0.1, // Lower temperature for more deterministic output
@@ -146,7 +147,8 @@ Question: ${question}
 
   try {
     const { text } = await generateText({
-      model: groq("llama-3.1-8b-instant"),
+      model: groq("openai/gpt-oss-20b"),
+      providerOptions: { groq: { reasoningFormat: "hidden", reasoningEffort: "low" } },
       system: systemPrompt,
       prompt: userPrompt,
     })

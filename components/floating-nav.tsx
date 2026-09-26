@@ -17,8 +17,8 @@ export function FloatingNav() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
-      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 py-5">
-        <div className="flex items-center justify-between gap-4">
+      <div className="px-6 sm:px-8 lg:px-12 py-5">
+        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 sm:gap-8 overflow-x-auto scrollbar-hide -mx-1 px-1">
             {navItems.map((item) => {
               const isActive = pathname === item.href || (item.href === "/portfolio" && pathname.startsWith("/portfolio"))

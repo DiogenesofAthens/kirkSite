@@ -236,7 +236,8 @@ ${text}
 
   try {
     const result = await generateText({
-      model: groq('llama-3.1-8b-instant'),
+      model: groq('openai/gpt-oss-20b'),
+      providerOptions: { groq: { reasoningFormat: 'hidden', reasoningEffort: 'low' } },
       system: systemPrompt,
       prompt: userPrompt,
     });
@@ -327,7 +328,8 @@ export async function answerDocumentQuery(docText: string, question: string) {
 
     try {
         const result = await generateText({
-            model: groq('llama-3.1-8b-instant'),
+            model: groq('openai/gpt-oss-20b'),
+            providerOptions: { groq: { reasoningFormat: 'hidden', reasoningEffort: 'low' } },
             system: systemPrompt,
             prompt: userPrompt,
         });

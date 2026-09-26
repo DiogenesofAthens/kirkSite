@@ -150,7 +150,8 @@ ${commonJsonInstruction}`;
       console.log(`[GenerateYAML] Attempt ${attempt}/${MAX_RETRIES}`);
 
       const { text } = await generateText({
-        model: groq("llama-3.1-8b-instant"),
+        model: groq("openai/gpt-oss-20b"),
+        providerOptions: { groq: { reasoningFormat: "hidden", reasoningEffort: "low" } },
         system: systemPrompt + (attempt > 1 ? " \n\nPREVIOUS ATTEMPT FAILED. ENSURE VALID JSON FORMAT." : ""),
         prompt: userMessage,
       });

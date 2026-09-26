@@ -46,7 +46,8 @@ export async function POST(req: Request) {
   });
 
   const result = streamText({
-    model: groq('llama-3.1-8b-instant'),
+    model: groq('openai/gpt-oss-20b'),
+    providerOptions: { groq: { reasoningFormat: 'hidden', reasoningEffort: 'low' } },
     system: `You are Kirk Wessman's AI Assistant.
 
 Priority: Use the <site_context> to answer questions about Kirk.
