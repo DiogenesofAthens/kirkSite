@@ -352,6 +352,18 @@ export default function Resume() {
                 </div>
               </div>
             </div>
+
+            {/* Links */}
+            <div className="mt-12 pt-12 border-t border-border">
+              <a
+                href="https://www.linkedin.com/in/kwessman"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
         </div>
       </div>

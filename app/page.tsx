@@ -143,9 +143,9 @@ export default function Home() {
             Thoughts or questions?{" "}
             <button
               onClick={() => setShowContactForm(true)}
-              className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity inline"
+              className="text-sm text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity inline"
             >
-              Get in Touch
+              Get in touch
             </button>
           </p>
         </div>
