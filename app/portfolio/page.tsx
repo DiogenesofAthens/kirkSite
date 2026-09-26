@@ -10,8 +10,8 @@ export default function Portfolio() {
       <FloatingNav />
       <TimezoneClock />
 
-      <div className="pt-32 pb-20 relative">
-        <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="pt-32 pb-20 relative px-6 sm:px-8 lg:px-12">
+        <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="mb-16">
             <h1 className="font-serif text-5xl md:text-6xl font-normal tracking-tight text-foreground mb-4">

@@ -9,8 +9,8 @@ export default function Portkey() {
       <FloatingNav />
       <TimezoneClock />
 
-      <div className="pt-32 pb-20 relative">
-        <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="pt-32 pb-20 relative px-6 sm:px-8 lg:px-12">
+        <div className="max-w-3xl mx-auto">
 
           {/* Hero */}
           <div className="mb-16">
