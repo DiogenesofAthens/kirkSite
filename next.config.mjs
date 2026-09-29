@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: "/oai",
-        destination: "https://portkey-one.vercel.app/demo",
+        destination: "https://portkey-one.vercel.app/demo?provider=openai",
         permanent: false,
       },
       { source: "/my-expertise", destination: "/about", permanent: true },

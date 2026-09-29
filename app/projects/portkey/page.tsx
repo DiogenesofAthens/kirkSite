@@ -33,6 +33,14 @@ export default function Portkey() {
                 View Live Demo
               </a>
               <a
+                href="https://portkey-one.vercel.app/demo?provider=openai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm tracking-wide uppercase text-muted-foreground border-b border-muted-foreground pb-1 hover:opacity-60 transition-opacity"
+              >
+                Try the AI Intake Demo
+              </a>
+              <a
                 href="https://portkey-one.vercel.app/evals"
                 target="_blank"
                 rel="noopener noreferrer"
