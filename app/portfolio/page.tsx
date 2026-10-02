@@ -1,242 +1,40 @@
-"use client"
+import type { Metadata } from "next"
+import { ProjectList } from "@/components/project-list"
+import { PostList } from "@/components/post-list"
+import { PROJECTS } from "@/lib/projects"
+import { getPosts } from "@/lib/writing"
 
-import { FloatingNav } from "@/components/floating-nav"
-import { TimezoneClock } from "@/components/timezone-clock"
-import Link from "next/link"
+export const metadata: Metadata = {
+  title: "Portfolio",
+  openGraph: { title: "Portfolio — Kirk Wessman", url: "/portfolio" },
+}
 
 export default function Portfolio() {
+  const posts = getPosts()
+
   return (
-    <div className="min-h-screen gradient-bg relative overflow-hidden">
-      <FloatingNav />
-      <TimezoneClock />
+    <div className="pb-6 pt-28 sm:pt-32">
+      <h1 className="mb-3 font-serif text-[40px] font-normal leading-[1.05] tracking-tight text-foreground sm:text-[44px]">
+        Portfolio
+      </h1>
+      <p className="mb-10 text-[17px] text-muted-foreground">Selected work and the occasional creative detour.</p>
 
-      <div className="pt-32 pb-20 relative px-6 sm:px-8 lg:px-12">
-        <div className="max-w-3xl mx-auto">
-          {/* Header */}
-          <div className="mb-16">
-            <h1 className="font-serif text-5xl md:text-6xl font-normal tracking-tight text-foreground mb-4">
-              Portfolio
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Selected work and the occasional creative detour.
-            </p>
-          </div>
+      <section className="border-t border-border py-10">
+        <h2 className="label mb-5">Projects</h2>
+        <ProjectList projects={PROJECTS.filter((p) => p.group === "projects")} />
+      </section>
 
-          {/* Projects Section */}
-          <section className="mb-20">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Live Products
-            </h2>
+      <section className="border-t border-border py-10">
+        <h2 className="label mb-5">Also built</h2>
+        <ProjectList projects={PROJECTS.filter((p) => p.group === "also")} />
+      </section>
 
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Fintech
-              </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                PortKey
-              </h3>
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Mortgage portability neobank prototype: homeowners carry their existing low-rate mortgage to a new property instead of refinancing at today&apos;s rates. Built solo by directing AI coding agents, with an AI intake demo that runs on three model providers under a public eval harness.
-              </p>
-              <Link
-                href="/projects/portkey"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
-            </div>
-
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Automation
-              </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                fareTrader
-              </h3>
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Autonomous Python agent that monitors Delta first-class fares and auto-books when prices drop below a configured threshold — treating airline eCredits as zero-cost options on premium seats. Runs unattended with scheduled checks and booking safeguards.
-              </p>
-              <Link
-                href="/projects/faretrader"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
-            </div>
-
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Blockchain / Civic Tech
-              </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                Save the State
-              </h3>
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Blockchain-anchored land covenant registry, built as a proof of concept for county governments — every covenant recorded as an immutable, publicly verifiable on-chain transaction, no central authority required.
-              </p>
-              <Link
-                href="/projects/savethestate"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
-            </div>
-
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Infrastructure
-              </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                ResourXe
-              </h3>
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                GPU compute routing engine that scores cloud instances by price and carbon intensity — find the cheapest compute, the greenest, or any blend between. Built the scoring model, pricing ingestion, and routing logic end to end.
-              </p>
-              <Link
-                href="/projects/resourxe"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
-            </div>
-
-
-
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Analytics
-              </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                StatTrack
-              </h3>
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Live NBA analytics dashboard built with Next.js, FastAPI, and the nba_api library, with transparent availability states for free-tier backend wake-ups and cloud API rate limits.
-              </p>
-              <Link
-                href="/projects/stattrack"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
-            </div>
-          </section>
-
-          {/* Also Built Section */}
-          <section className="mb-20">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Also Built
-            </h2>
-
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Civic
-              </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                re-open.us
-              </h3>
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Civic engagement landing page challenging political apathy and calling for renewed democratic participation. Static Next.js site with a canvas-animated waving flag.
-              </p>
-              <Link
-                href="/projects/reopen"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
-            </div>
-
-            <div className="py-12 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-3">
-                Creative
-              </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-foreground mb-3">
-                Prince of Mulberry
-              </h3>
-              <p className="text-base text-foreground leading-relaxed mb-6 max-w-2xl">
-                Coming soon page for a Nolita-based film production company. Full-screen video, canvas film grain, and a Cormorant Garamond editorial aesthetic — in a single dependency-free HTML file.
-              </p>
-              <Link
-                href="/projects/pmp"
-                className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity"
-              >
-                View Project
-              </Link>
-            </div>
-          </section>
-
-          {/* Media Section */}
-          <section className="mb-20">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Media
-            </h2>
-
-            <div className="py-10 border-t border-border">
-              <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground mb-3">
-                The Conga Rap
-              </h3>
-              <p className="text-base text-muted-foreground leading-relaxed mb-8 max-w-xl">
-                Conga-themed rap produced for a past sales kickoff&apos;s main stage. Combines ChatGPT/Gemini for voice and lyrics with audio samples and custom chord progressions. Artist credit:{" "}
-                <a
-                  href="https://www.linkedin.com/in/rgrobins/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground border-b border-foreground/30 hover:opacity-60 transition-opacity"
-                >
-                  Notorious RGR
-                </a>
-                .
-              </p>
-
-              {/* SoundCloud Embed */}
-              <div className="max-w-xl">
-                <iframe
-                  width="100%"
-                  height="166"
-                  scrolling="no"
-                  frameBorder="no"
-                  allow="autoplay"
-                  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/kw_sc/cr&color=%23333333&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
-                  className="rounded"
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* Live AI Tools Section */}
-          <section>
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-10">
-              Live AI Tools
-            </h2>
-
-            <div className="space-y-8 border-t border-border pt-10">
-              <div>
-                <Link href="/resources/tools/extractor" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
-                  Entity Extractor
-                </Link>
-                <p className="text-muted-foreground text-sm mt-3">
-                  AI-powered document analysis converting unstructured text to JSON.
-                </p>
-              </div>
-              <div>
-                <Link href="/tools/translator" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
-                  Code Translator
-                </Link>
-                <p className="text-muted-foreground text-sm mt-3">
-                  Legacy code modernization tool using LLMs for architectural translation.
-                </p>
-              </div>
-              <div>
-                <Link href="/resources/tools/ha-architect" className="text-sm tracking-wide uppercase text-foreground border-b border-foreground pb-1 hover:opacity-60 transition-opacity">
-                  HA Architect
-                </Link>
-                <p className="text-muted-foreground text-sm mt-3">
-                  Natural language to YAML generator for Home Assistant automations.
-                </p>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
+      {posts.length > 0 && (
+        <section className="border-t border-border py-10">
+          <h2 className="label mb-5">Writing</h2>
+          <PostList posts={posts} />
+        </section>
+      )}
     </div>
   )
 }
