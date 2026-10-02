@@ -26,7 +26,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 # Working copy docs
-kirkSite-site-copy.docx
+kirkSite-site-copy*.docx
 
 # LinkedIn captures (contain private analytics)
 *LinkedIn*.pdf
+
+# OS files and local logs
+.DS_Store
+*.log

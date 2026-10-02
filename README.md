@@ -1,58 +1,42 @@
 # kirkwessman.com
 
-Personal portfolio and website for Kirk Wessman — Solutions Engineer and Technical Leader.
+Personal site of Kirk Wessman. Next.js (App Router), TypeScript and Tailwind CSS, deployed on Vercel.
 
-**Live site:** https://kirkwessman.com &nbsp;·&nbsp; **GitHub:** https://github.com/DiogenesofAthens/kirkSite
-
----
-
-## Tech Stack
-
-- **Next.js** — App Router, TypeScript
-- **Tailwind CSS** — utility-first styling with a custom minimalist design system
-- **shadcn/ui** — accessible component primitives
-- **Lucide React** — icons
-- **Groq** — LLM backend for the live AI tools (Code Translator, HA Architect, Entity Extractor)
-- **Resend** — transactional email for the contact form
-
----
-
-## Running Locally
+## Run it
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build + type check + lint
+npm run dev     # http://localhost:3000
+npm run build   # production build and type check
 ```
 
-Create a `.env.local` with:
+The contact form sends mail through Resend; set `RESEND_API_KEY` in `.env.local`.
 
-```
-RESEND_API_KEY=...
-GROQ_API_KEY=...
-```
+## Where things live
 
+| Path | What |
+|---|---|
+| `app/page.tsx` | Home |
+| `app/about`, `app/portfolio`, `app/resume` | The other pages |
+| `lib/projects.ts` | Project list: name, status, stack, links |
+| `content/projects.tsx` | Project page text |
+| `content/writing/*.md` | Posts |
+| `lib/og.tsx` | Generated share images |
+| `public/llms.txt` | Summary for AI agents; update it when projects change |
+
+## Writing
+
+Add `content/writing/<slug>.md`:
+
+```markdown
+---
+title: Post title
+date: 2026-10-04
+description: One sentence for the index and link previews.
+draft: true
 ---
 
-## Site Structure
+Body in Markdown. Tables are supported.
+```
 
-| Route | Description |
-|---|---|
-| `/` | Homepage — hero, focus areas, latest writing, contact |
-| `/about` | About page |
-| `/my-expertise` | Expertise areas |
-| `/resume` | Work history |
-| `/blog` | Portfolio — projects, media, writings, AI tools |
-| `/projects/stattrack` | StatTrack project detail |
-| `/projects/faretrader` | fareTrader project detail |
-| `/projects/portkey` | PortKey project detail |
-| `/projects/savethestate` | Save the State project detail |
-| `/projects/resourxe` | ResourXe project detail |
-| `/projects/reopen` | re-open.us project detail |
-| `/projects/pmp` | Prince of Mulberry project detail |
-| `/tools/translator` | Code Translator (Groq-powered) |
-| `/resources/tools/extractor` | Entity Extractor (Groq-powered) |
-| `/resources/tools/ha-architect` | Home Assistant YAML Architect (Groq-powered) |
-| `/arcade` | Browser games (Simon, Tower of Hanoi, Memory) |
-| `/clock` | World timezone clock |
-| `/blog/[slug]` | Individual blog post pages |
+Drafts render only under `npm run dev`. Remove `draft: true` to publish. The Writing page, its nav link and the Home list appear once the first post is published.
