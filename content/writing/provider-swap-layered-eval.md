@@ -4,6 +4,8 @@ date: 2026-10-05
 description: A mortgage intake demo; 3 providers and layers of evaluation, with the attendant strengths and blind spots.
 draft: true
 ---
+**Summary.** I built a three-layer eval harness for a mortgage intake demo (code checks, a model judge from a different company than the model it grades, and my own blind grades with kappa against each judge) and ran the same eight cases through OpenAI, Anthropic, and Qwen. The first run's biggest provider difference was two bugs in my own setup, which the code layer caught and a judge would have scored as fine. The judges mostly disagreed with my grades: the two frontier judges disagree consistently, the open-weight judge also disagrees with itself, so unsupervised 1–5 judge scores are not usable here. With both frontier models passing everything, I audited the harness and found three flaws: an empty answer outscored a real model, a wrong number backed by a real quote reached the reviewer marked verified, and eight clean cases are consistent with a pass rate as low as 68%. The provider question was deliberately simple, a vehicle for building a first harness; the harness's own flaws were the real result. The next version I build will fix the model and test the whole workflow against its purpose: does it run reliably enough for Mortgage Maven to use? That comes down to the places where the model's output reaches a person unchecked.
+
 ## The premise
 
 The "Mortgage Maven" demo is a quick prototype mimicking the operations of the eponymous fictional mortgage fintech.
@@ -26,13 +28,9 @@ To follow the harness, it helps to know how the prototype works. The rough seque
 3. A deterministic rules engine pairs the borrower with the best fit from the three-lender network, based on each lender's underwriting standards. Keeping the LLM out of this step is, of course, by design.
 4. The model then explains the rules engine's decision.
 
-## The eval, in brief
+## The method
 
-I ran the same eight conversations through OpenAI, Anthropic, and Qwen, an open-weight model served on Groq. Three things came out of it. The biggest "provider difference" in the first run was two bugs in my own setup, which the harness found. The model judges mostly disagreed with my grades, and one disagreed with itself. And once both frontier models passed everything, the better question was what the harness wasn't seeing. Full tables are on [/evals](https://portkey-one.vercel.app/evals).
-
-## The method, in detail
-
-Three layers. Each catches what the one before it can't, and each costs more.
+I ran the same eight conversations through OpenAI, Anthropic, and Qwen, an open-weight model served on Groq, and graded the outputs in three layers. Each catches what the one before it can't, and each costs more. Full tables are on [/evals](https://portkey-one.vercel.app/evals).
 
 **Code.** Ten checks on every output: schema, every expected value present and correct, a source for each value, no number that wasn't in the input, the rules engine landing on the expected lender, and five more on /evals. A case passes only when every check that applies to it passes. Code is free and gives the same answer every time.
 
