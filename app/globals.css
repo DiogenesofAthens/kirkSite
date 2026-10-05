@@ -118,6 +118,19 @@
   .prose-body blockquote {
     @apply border-l-2 border-foreground pl-5 text-body;
   }
+  /* Standfirst: a summary the reader can stop at before the body begins */
+  .prose-body .summary {
+    @apply border-y border-border py-6;
+  }
+  .prose-body .summary .label {
+    @apply mb-3 block;
+  }
+  .prose-body .summary p {
+    @apply font-serif text-[19px] leading-[1.6] text-foreground sm:text-[20px];
+  }
+  .prose-body .summary + h2 {
+    @apply !mt-12;
+  }
   .prose-body code {
     @apply rounded bg-muted px-1 py-0.5 font-mono text-[0.85em];
   }
