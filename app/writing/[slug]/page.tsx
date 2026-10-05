@@ -41,7 +41,7 @@ export default async function Post({ params }: Props) {
       >
         ← Writing
       </Link>
-      <h1 className="mb-3 max-w-[40rem] font-serif text-[36px] font-normal leading-[1.1] tracking-tight text-foreground sm:text-[44px]">
+      <h1 className="mb-3 max-w-[40rem] font-serif text-[40px] font-normal leading-[1.05] tracking-tight text-foreground sm:text-[44px]">
         {post.title}
       </h1>
       <p className="meta mb-10">
