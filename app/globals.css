@@ -128,7 +128,10 @@
   .prose-body .summary p {
     @apply text-[16.5px] leading-[1.65] text-foreground sm:text-[17px];
   }
-  .prose-body .summary + h2 {
+  .prose-body .summary + .resources {
+    @apply !mt-4 text-[14px] leading-[1.6] text-muted-foreground;
+  }
+  .prose-body .resources + h2 {
     @apply !mt-12;
   }
   .prose-body code {
