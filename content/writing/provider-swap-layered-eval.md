@@ -4,21 +4,39 @@ date: 2026-10-05
 description: A mortgage intake demo; 3 providers and layers of evaluation, with the attendant strengths and blind spots.
 draft: true
 ---
+## The premise
+
 The "Mortgage Maven" demo is a quick prototype mimicking the operations of the eponymous fictional mortgage fintech.
 
 The basic idea - Mortgage Maven's raison d'etre - is to address the endemic "mortgage lock-in" facing the country at the moment: a housing market somewhat frozen on both ends by buyers and sellers unable to port their existing low-interest notes onto a different, more suitable property. Mortgage Maven solves the collective action problem technologically - creating a network of lenders, patching together municipal, state and federal statutes, and the like.
 
-The demo is focused on a simple workflow - an LLM-powered borrower intake conversation paired with a submitted monthly mortgage statement (synthetic data only). The model reads both, fills in the application with a source for every value, and explains which of three lenders the file goes to. It doesn't choose the lender; a rules engine does. Its job is to get the facts right and explain the decision.
+The demo is focused on a simple workflow: an AI-facilitated conversational intake on the Mortgage Maven website that gathers what's needed, quickly and pleasantly for the borrower, to pair them with the right lender for a refinance.
+
+The demo works, so the next task was two-fold:
+
+1. Use agentic coding to build an eval harness, since any AI app needs one before anyone should trust it in production.
+2. Start with a relatively simple question: how does swapping out the model provider affect the tool's reliability?
+
+## The workflow, under the hood
+
+To follow the harness, it helps to know how the prototype works. The rough sequence:
+
+1. A conversational intake asks the borrower for the required information and lets them upload a (synthetic, in this case) monthly mortgage statement.
+2. The model extracts values from both the conversation and the statement and fills in a new application object, each value with a source citation.
+3. A deterministic rules engine pairs the borrower with the best fit from the three-lender network, based on each lender's underwriting standards. Keeping the LLM out of this step is, of course, by design.
+4. The model then explains the rules engine's decision.
+
+## The eval, in brief
 
 I ran the same eight conversations through OpenAI, Anthropic, and Qwen, an open-weight model served on Groq. Three things came out of it. The biggest "provider difference" in the first run was two bugs in my own setup, which the harness found. The model judges mostly disagreed with my grades, and one disagreed with itself. And once both frontier models passed everything, the better question was what the harness wasn't seeing. Full tables are on [/evals](https://portkey-one.vercel.app/evals).
 
-## How I evaluated it
+## The method, in detail
 
 Three layers. Each catches what the one before it can't, and each costs more.
 
 **Code.** Ten checks on every output: schema, every expected value present and correct, a source for each value, no number that wasn't in the input, the rules engine landing on the expected lender, and five more on /evals. A case passes only when every check that applies to it passes. Code is free and gives the same answer every time.
 
-**A model judge.** Code can't tell whether a reply reads well to a homeowner or whether a loan officer could follow the explanation. A judge model scores four dimensions (faithfulness, clarity, tone, recommendation quality) on a locked 1–5 rubric, one dimension per call, always from a different company than the model it grades. Side-by-side comparisons run in both orders, because judges favor whichever answer they read first.
+**A model judge (aka "LLM-as-judge").** Code can't tell whether a reply reads well to a homeowner or whether a loan officer could follow the explanation. A judge model scores four dimensions (faithfulness, clarity, tone, recommendation quality) on a locked 1–5 rubric, one dimension per call, always from a different company than the model it grades. Side-by-side comparisons run in both orders, because judges favor whichever answer they read first.
 
 **Me.** I scored every judged output on the same rubric, 74 grades, shuffled, names hidden, then measured each judge's agreement with me using weighted Cohen's kappa (1 is perfect agreement, 0 is chance). One grader, so kappa measures agreement with me, not a panel. I didn't trust a judge until I had the number.
 
@@ -78,16 +96,16 @@ With both frontier models passing everything, I turned the checks on the harness
 
 The checklist fixed how v1 measures. It can't say what to measure. That takes knowing what goes wrong in a mortgage file.
 
-## What v2 tests instead
+## What I learned for my next eval harness
 
-Which provider is better was the wrong question for this app. The design already takes the decision away from the model, so the model matters only where its output reaches a person unchecked. v2 tests those places.
+Which provider is better was the wrong question for this app. It was a question for my own curiosity, not one a real deployment would ask. A real harness tests the workflow against its stated purpose, and here the design already takes the lender decision away from the model, so the model matters only where its output reaches a person unchecked. The next Mortgage Maven harness tests those places:
 
 1. **Silent errors.** A wrong value that reaches the reviewer looking verified, counted per 1,000 applications. Cases: self-corrections ("150, sorry, 165"), "about 150k", debts listed in parts, monthly income without the word "month".
 2. **What the assistant says.** Yes/no checks: does it imply approval, a rate, or eligibility? Does it discourage someone from applying? One failure fails the case.
 3. **Same facts, same treatment.** Matched pairs that change only the borrower's name, dialect, or language; the record should come out identical, which code can check. A planted bias is the control: the test has to catch one before I trust it to catch any.
 4. **The explanation matches the engine.** Every number and pass/fail claim in the routing narrative, checked by code against the engine.
 
-The set: 50–100 fixed cases from v1's failures, hand-written hard ones, and generated variants I approve; every should-pass case gets a should-fail twin; each runs three to five times, and compliance checks must pass every run. Judges get yes/no questions only, scored against my labels on catch rate and false-alarm rate, as [Husain and Shankar](https://hamel.dev/blog/posts/evals-faq/) recommend. The "$6.875%" re-grade is why I'm done with 1–5 scales.
+The specifics will change once I start building, but the current plan: 50–100 fixed cases from v1's failures, hand-written hard ones, and generated variants I approve; every should-pass case gets a should-fail twin; each runs three to five times, and compliance checks must pass every run. Judges get yes/no questions only, scored against my labels on catch rate and false-alarm rate, as [Husain and Shankar](https://hamel.dev/blog/posts/evals-faq/) recommend. The "$6.875%" re-grade is why I'm done with 1–5 scales.
 
 Model choice becomes an optimization, not a contest: the cheapest setup that holds zero silent errors on cases it was never tuned on, with a second provider as a pass/fail check. The catch is scale: claiming silent errors under 1% takes about 300 clean, independent trials, roughly $25 on the Anthropic model at v1's usage before judging. That is why v2 needs both more cases and repeats.
 
