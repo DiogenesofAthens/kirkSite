@@ -91,13 +91,13 @@
     @apply mt-5;
   }
   .prose-body h2 {
-    @apply !mt-10 font-sans text-lg font-medium leading-snug text-foreground;
+    @apply !mt-10 font-sans text-xl font-semibold leading-snug text-foreground;
   }
   .prose-body h2 + * {
     @apply !mt-2;
   }
   .prose-body h3 {
-    @apply !mt-8 font-sans text-base font-medium text-foreground;
+    @apply !mt-8 font-sans text-base font-semibold text-foreground;
   }
   .prose-body a {
     @apply text-foreground underline decoration-underline decoration-1 underline-offset-4 hover:decoration-foreground;
