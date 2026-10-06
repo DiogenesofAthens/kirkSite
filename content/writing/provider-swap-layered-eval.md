@@ -2,6 +2,7 @@
 title: Layered eval of model providers against a mortgage lending use case
 date: 2026-10-06
 description: A mortgage intake demo; 3 providers and layers of evaluation, with the attendant strengths and blind spots.
+tiles: 3 = providers | 8 = cases | 74 = blind grades | 148 = judge re-runs
 ---
 <div class="summary">
 <span class="label">Summary</span>

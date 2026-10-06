@@ -14,9 +14,12 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const { slug } = await params
   const post = getPost(slug)
   return ogCard({
-    eyebrow: post?.date ? `kirkwessman.com · ${formatDate(post.date)}` : "kirkwessman.com",
+    theme: "dark",
+    eyebrow: post?.date ? `Writing · kirkwessman.com · ${formatDate(post.date)}` : "Writing · kirkwessman.com",
     title: post?.title ?? "Writing",
     subtitle: post?.description || undefined,
+    tiles: post?.tiles,
     footerLeft: "Kirk Wessman",
+    footerRight: "Solutions Engineer · Enterprise AI Systems",
   })
 }

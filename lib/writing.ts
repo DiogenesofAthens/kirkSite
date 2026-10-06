@@ -10,6 +10,7 @@ import { marked } from "marked"
  *   date: 2026-10-04
  *   description: One sentence for link previews and the index.
  *   draft: true            # optional; drafts render in `next dev` only
+ *   tiles: 3 = providers | 8 = cases   # optional; up to four "value = label" stats for the share card
  *   ---
  */
 export type Post = {
@@ -18,6 +19,7 @@ export type Post = {
   date: string
   description: string
   draft: boolean
+  tiles: { value: string; label: string }[]
   html: string
 }
 
@@ -50,8 +52,22 @@ function readPost(file: string): Post {
     date: meta.date || "",
     description: meta.description || "",
     draft: meta.draft === "true",
+    tiles: parseTiles(meta.tiles),
     html: wrapTables(marked.parse(body, { async: false, gfm: true }) as string),
   }
+}
+
+/** "3 = providers | 8 = cases" → [{ value: "3", label: "providers" }, …], at most four */
+function parseTiles(raw?: string) {
+  if (!raw) return []
+  return raw
+    .split("|")
+    .map((part) => {
+      const [value, ...rest] = part.split("=")
+      return { value: value.trim(), label: rest.join("=").trim() }
+    })
+    .filter((t) => t.value && t.label)
+    .slice(0, 4)
 }
 
 /** Full-width tables that scroll sideways on narrow screens instead of widening the page */

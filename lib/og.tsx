@@ -4,12 +4,23 @@ import { join } from "node:path"
 
 export const OG_SIZE = { width: 1200, height: 630 }
 
+type Tile = { value: string; label: string }
+
 type Card = {
   eyebrow: string
   title: string
   subtitle?: string
   footerLeft: string
   footerRight?: string
+  /** "dark" = ink background, paper type; the default stays the site's light page */
+  theme?: "light" | "dark"
+  /** Up to four stats shown as tiles in place of the subtitle */
+  tiles?: Tile[]
+}
+
+const THEMES = {
+  light: { bg: "#ffffff", ink: "#1a1a1a", body: "#333333", muted: "#666666", rule: "#eae8e6", tileBg: "#f7f5f3", tileBorder: "#eae8e6" },
+  dark: { bg: "#0f0f0f", ink: "#ece8e3", body: "#cfc9c2", muted: "#9b958e", rule: "#2a2a2a", tileBg: "#161616", tileBorder: "#2a2a2a" },
 }
 
 /** A typographic share card in the site's own type and colors. */
@@ -21,8 +32,10 @@ export async function ogCard(card: Card) {
 }
 
 // Cached so each card renders once, at build time where possible.
-async function renderCard({ eyebrow, title, subtitle, footerLeft, footerRight }: Card): Promise<Uint8Array> {
+async function renderCard({ eyebrow, title, subtitle, footerLeft, footerRight, theme = "light", tiles = [] }: Card): Promise<Uint8Array> {
   "use cache"
+  const c = THEMES[theme]
+  const hasTiles = tiles.length > 0
   const serif = readFileSync(join(process.cwd(), "assets/fonts/PlayfairDisplay-Regular.ttf"))
   const sans = readFileSync(join(process.cwd(), "assets/fonts/Inter-Regular.ttf"))
 
@@ -35,28 +48,55 @@ async function renderCard({ eyebrow, title, subtitle, footerLeft, footerRight }:
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#ffffff",
-          color: "#1a1a1a",
-          padding: "72px 84px",
+          background: c.bg,
+          color: c.ink,
+          padding: hasTiles ? "64px 84px 56px" : "72px 84px",
           fontFamily: "Inter",
         }}
       >
-        <div style={{ display: "flex", fontSize: 26, color: "#666666" }}>{eyebrow}</div>
+        <div style={{ display: "flex", fontSize: hasTiles ? 22 : 26, letterSpacing: hasTiles ? "0.12em" : undefined, color: c.muted }}>
+          {hasTiles ? eyebrow.toUpperCase() : eyebrow}
+        </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
               display: "flex",
               fontFamily: "Playfair Display",
-              fontSize: title.length > 48 ? 60 : title.length > 28 ? 72 : 88,
+              fontSize: title.length > 48 ? (hasTiles ? 58 : 60) : title.length > 28 ? 72 : 88,
               lineHeight: 1.08,
               letterSpacing: "-0.02em",
+              maxWidth: 1032,
             }}
           >
             {title}
           </div>
-          {subtitle ? (
-            <div style={{ display: "flex", marginTop: 26, fontSize: 30, lineHeight: 1.4, color: "#333333", maxWidth: 960 }}>
+          {subtitle && !hasTiles ? (
+            <div style={{ display: "flex", marginTop: 26, fontSize: 30, lineHeight: 1.4, color: c.body, maxWidth: 960 }}>
               {subtitle}
+            </div>
+          ) : null}
+          {hasTiles ? (
+            <div style={{ display: "flex", marginTop: 44 }}>
+              {tiles.map((t, i) => (
+                <div
+                  key={t.label}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    flex: 1,
+                    marginLeft: i === 0 ? 0 : 16,
+                    padding: "22px 26px 20px",
+                    background: c.tileBg,
+                    border: `1px solid ${c.tileBorder}`,
+                    borderRadius: 10,
+                  }}
+                >
+                  <div style={{ display: "flex", fontFamily: "Playfair Display", fontSize: 54, lineHeight: 1, color: c.ink }}>{t.value}</div>
+                  <div style={{ display: "flex", marginTop: 12, fontSize: 19, letterSpacing: "0.08em", color: c.muted }}>
+                    {t.label.toUpperCase()}
+                  </div>
+                </div>
+              ))}
             </div>
           ) : null}
         </div>
@@ -64,10 +104,10 @@ async function renderCard({ eyebrow, title, subtitle, footerLeft, footerRight }:
           style={{
             display: "flex",
             justifyContent: "space-between",
-            borderTop: "1px solid #eae8e6",
-            paddingTop: 26,
-            fontSize: 24,
-            color: "#666666",
+            borderTop: `1px solid ${c.rule}`,
+            paddingTop: hasTiles ? 22 : 26,
+            fontSize: hasTiles ? 22 : 24,
+            color: c.muted,
           }}
         >
           <span>{footerLeft}</span>

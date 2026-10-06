@@ -21,10 +21,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.description || undefined,
       url: `/writing/${post.slug}`,
+      siteName: "Kirk Wessman",
       type: "article",
       publishedTime: post.date || undefined,
     },
-    twitter: { title: post.title, description: post.description || undefined },
+    twitter: { card: "summary_large_image", title: post.title, description: post.description || undefined },
   }
 }
 
