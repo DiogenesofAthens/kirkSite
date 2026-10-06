@@ -1,8 +1,7 @@
 ---
 title: Layered eval of model providers against a mortgage lending use case
-date: 2026-10-05
+date: 2026-10-06
 description: A mortgage intake demo; 3 providers and layers of evaluation, with the attendant strengths and blind spots.
-draft: true
 ---
 <div class="summary">
 <span class="label">Summary</span>
@@ -114,4 +113,4 @@ The specifics will change once I start building, but the current plan: 50–100 
 
 Model choice becomes an optimization, not a contest: the cheapest setup that holds zero silent errors on cases it was never tuned on, with a second provider as a pass/fail check. The catch is scale: claiming silent errors under 1% takes about 300 clean, independent trials, so v2 needs both more cases and repeats. That is roughly $25 on the Anthropic model at v1's usage before judging; all of v1, every live call approved against a printed cost estimate first, came to about $10.50.
 
-The provider question got me a harness. The harness got me a better question: not which model is best, but where a model's word reaches a person unchecked, and how often it is wrong there. That is what v2 measures. v1's results stay on [/evals](https://portkey-one.vercel.app/evals) as they ran; v2's go up next to them.
+The provider question got me a harness. The harness got me a better question: not which model is best, but where a model's word reaches a person unchecked, and how often it is wrong there. That is what v2 measures. v1's results stay on [/evals](https://portkey-one.vercel.app/evals) as they ran; v2's will go up next to them.
