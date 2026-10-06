@@ -54,7 +54,7 @@ async function renderCard({ eyebrow, title, subtitle, footerLeft, footerRight, t
           fontFamily: "Inter",
         }}
       >
-        <div style={{ display: "flex", fontSize: hasTiles ? 22 : 26, letterSpacing: hasTiles ? "0.12em" : undefined, color: c.muted }}>
+        <div style={{ display: "flex", fontSize: hasTiles ? 22 : 26, color: c.muted, ...(hasTiles ? { letterSpacing: "0.12em" } : {}) }}>
           {hasTiles ? eyebrow.toUpperCase() : eyebrow}
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
