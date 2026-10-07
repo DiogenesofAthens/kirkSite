@@ -27,7 +27,7 @@ function PortKey() {
       </p>
       <h2>Evals</h2>
       <p>
-        Every provider change runs through three layers: nine deterministic gates per case, a model judge from a
+        Every provider change runs through three layers: ten deterministic gates per case, a model judge from a
         different model family scoring against a locked rubric, and a human calibration step that checks the judge
         against my own blind labels. Results are published as static JSON on the evals page, which makes no model
         calls. Offline unit tests cover the app and the eval harness itself.

@@ -44,7 +44,7 @@ export default function Home() {
             Swapping model providers under a layered eval harness ↗
           </span>
           <span className="mt-1.5 block text-base leading-relaxed text-body">
-            Three providers, nine deterministic gates, a cross-family judge run in both orderings. Results as static
+            Three providers, ten deterministic gates, a cross-family judge run in both orderings. Results as static
             JSON; the page makes no model calls.
           </span>
           <span className="meta mt-2 block">PortKey · September 2026</span>
