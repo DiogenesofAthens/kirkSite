@@ -10,18 +10,18 @@ tiles: 8 = tasks | 11 = checks per run | 3 = AI providers | $2.10 = all 18 test 
 <span class="label">Summary</span>
 <p>Most AI apps follow a fixed script: the AI does one job at each step, and ordinary code decides what happens next. An AI agent is different. You give the model a goal and a set of tools, and it decides which steps to take. I built one from scratch for back-office mortgage work, ran it on models from Anthropic, OpenAI and an open-weight provider, and graded every step it took, not just its final answer.</p>
 <p>The first lesson: a working agent is easy. The basic loop is short, and today's models are good at using tools. A good agent is hard. Most of my code went to the parts that catch it when it goes wrong, and to checks that read every step, and the checks needed debugging too. The most useful result was a run that gave the right answer, said honestly how it got there, and still failed, because a document check the task required never ran.</p>
-<p>The surprise came from outside the AI. Building the agent turned up a gap in my deterministic rules engine, the part of the demo I trusted most: on files with conflicting documents, it still recommends a lender. The agent was covering for it.</p>
+<p>The surprise came from outside the AI parts of the app. Building the agent turned up a gap in my deterministic rules engine, the part of the demo I trusted most: on files with conflicting documents, it still recommends a lender. The agent caught it, because its instructions say to stop when a needed fact conflicts.</p>
 </div>
 
-<p class="resources">Background: <a href="/writing/provider-swap-layered-eval">my first write-up on the same demo</a>. The agent runs on my machine and isn't deployed yet; I'm happy to walk through the code.</p>
+<p class="resources">Background: <a href="/writing/provider-swap-layered-eval">my first write-up on the same demo</a>.</p>
 
 ## Why build an agent
 
-Mortgage Maven is a demo I built of a fictional mortgage fintech. A borrower chats with an AI intake assistant and uploads a mortgage statement, and a rules engine matches them with the best of three lenders for a refinance. In my [first write-up](/writing/provider-swap-layered-eval) I tested how reliable that AI was across providers. It ended on a better question than which model is best: where does the AI's word reach a person unchecked, and how often is it wrong there?
+Mortgage Maven is a demo I built of a fictional mortgage fintech. A borrower chats with an AI intake assistant and uploads a mortgage statement, and a rules engine matches them with the best of three lenders for a refinance. In my [first write-up](/writing/provider-swap-layered-eval) I tested how reliable that AI was across providers. It ended on a better question than the one I started with: not which model is best, but where a model's word reaches a person unchecked. An agent makes that question bigger. Could AI reliably do real back-office work, and know when to stop?
 
-The demo makes that question easy, because it's a script. The AI fills in a form, code decides the order of everything, and nothing surprising happens between steps. Real loan operations work isn't like that. A loan officer asks whether a policy allows something. A document needs re-checking. Someone wants an exception. The work comes in no fixed order, and sometimes the right move is to stop and hand the file to a person. That's the job an agent does, and an agent's word reaches people in many more places.
+The demo can't answer that, because it's a script. The AI fills in a form, code decides the order of everything, and nothing surprising happens between steps. Real loan operations work isn't like that. A loan officer asks whether a policy allows something. A document needs re-checking. Someone wants an exception. The work comes in no fixed order, and sometimes the right move is to stop and hand the file to a person. That's the job an agent does, and an agent's word reaches people in many more places.
 
-A friend who builds AI systems for a living told me the way to learn this deeply is to build your own agent harness, one that can run multiple models, because it forces you to understand every part. I built mine without a framework, which meant handling the hard parts myself.
+A friend who builds AI systems for a living told me the way to learn this deeply is to build your own agent harness, one that can run multiple models, because it forces you to understand every part. I built mine without a framework, which meant handling the hard parts myself. (Lesson zero: as much as I relish X, Techmeme and other online resources for self-directed learning, it's still hard to beat a flesh-and-blood expert.)
 
 ## The easy part
 
@@ -80,7 +80,7 @@ Every value was right, and the caveat was honest. It still failed, because the t
 
 The finding I didn't expect wasn't about the AI at all. My rules engine, the deterministic code at the center of the demo, doesn't look at whether the evidence behind a value conflicts. On two test files with conflicting documents, it still recommends a lender. In the task that asks whether one of those files is ready to submit, the agent escalated only because it read "Conflicting evidence" in the application record and stopped. The AI was covering for the part of the demo I trusted most, and I trusted it because it isn't AI.
 
-I found it while building the agent, which is the point of building one. I built the agent not to touch the existing demo, so the gap is still there; fixing it is first on my list.
+I found it while building the agent, which is the point of building one. So the agent was worth building twice: for what it does, and for handing me my next to-do on the demo itself.
 
 ## Under the hood, for builders
 
@@ -98,4 +98,4 @@ The hardest part was carrying each provider's reasoning across tool calls: Claud
 - Groq's free tier is too rate-limited for Qwen to run the whole agent, only the document step.
 - I wrote the spec and made the design calls; Claude Code wrote the code.
 
-Next: run every task several times, fix the rules-engine gap, and add the agent's results and a step-by-step trace viewer to [/evals](https://portkey-one.vercel.app/evals). What a first attempt taught me: a working agent is easy, and a good one is hard. Keep the decision in code, let the agent decide when to ask, and grade what it did, not just what it said.
+Next: run every task several times, fix the rules-engine gap, and add the agent's results and a step-by-step trace viewer to [/evals](https://portkey-one.vercel.app/evals). What a first attempt taught me: understand how an agent loop works, even if a model writes the code. That understanding goes into the spec, and the spec is the difference between an agent that works in a demo and one that holds up when runs go wrong. (A real fintech would be a heavier lift, obviously.) For anyone putting an agent into regulated work: keep the decision in code, let the agent decide when to ask, and grade what it did, not just what it said.
