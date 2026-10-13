@@ -8,6 +8,7 @@ import { marked } from "marked"
  *   ---
  *   title: What I learned swapping model providers
  *   date: 2026-10-04
+ *   subtitle: Optional line under the title on the page.
  *   description: One sentence for link previews and the index.
  *   draft: true            # optional; drafts render in `next dev` only
  *   tiles: 3 = providers | 8 = cases   # optional; up to four "value = label" stats for the share card
@@ -16,6 +17,7 @@ import { marked } from "marked"
 export type Post = {
   slug: string
   title: string
+  subtitle: string
   date: string
   description: string
   draft: boolean
@@ -49,6 +51,7 @@ function readPost(file: string): Post {
   return {
     slug,
     title: meta.title || slug,
+    subtitle: meta.subtitle || "",
     date: meta.date || "",
     description: meta.description || "",
     draft: meta.draft === "true",

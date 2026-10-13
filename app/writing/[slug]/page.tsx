@@ -45,6 +45,9 @@ export default async function Post({ params }: Props) {
       <h1 className="mb-3 max-w-[40rem] font-serif text-[40px] font-normal leading-[1.05] tracking-tight text-foreground sm:text-[44px]">
         {post.title}
       </h1>
+      {post.subtitle && (
+        <p className="mb-4 max-w-[40rem] text-lg leading-snug text-muted-foreground">{post.subtitle}</p>
+      )}
       <p className="meta mb-10">
         {formatDate(post.date)}
         {post.draft && " · Draft"}
