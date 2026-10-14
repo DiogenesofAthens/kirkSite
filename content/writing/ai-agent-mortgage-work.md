@@ -1,6 +1,6 @@
 ---
 title: The vicissitudes of agent building
-subtitle: A first attempt revealed interesting insights: it's easier to create a mediocre agent than one would think, yet harder to build a good one. And as always with building anything, unexpected insights result. In this case, building an agent loop surfaced an exogenous error, one in my deterministic code.
+subtitle: A first attempt revealed interesting insights: broadly, it's easier to create a mediocre agent than one would think, yet harder to build a good one. More narrowly, building the agent surfaced an exogenous error – one in my deterministic code.
 date: 2026-10-14
 description: What a first attempt at an AI agent for mortgage work taught me. A working agent is easy, a good one is hard, and building it found a bug in my non-AI code.
 tiles: 8 = tasks | 11 = checks per run | 3 = AI providers | $2.10 = all 18 test runs
@@ -8,11 +8,9 @@ tiles: 8 = tasks | 11 = checks per run | 3 = AI providers | $2.10 = all 18 test 
 <div class="summary">
 <span class="label">Summary</span>
 <p>Most AI apps follow a fixed script: the AI does one job at each step, and ordinary code decides what happens next. An AI agent is different. You give the model a goal and a set of tools, and it decides which steps to take. I built one from scratch for back-office mortgage work, ran it on models from Anthropic, OpenAI and an open-weight provider, and graded every step it took, not just its final answer.</p>
-<p>The first lesson: a working agent is easy. The basic loop is short, and today's models are good at using tools. A good agent is hard to build on purpose. You might get lucky and one-shot one, but you can't count on it, so most of my code went to the parts that catch it when it goes wrong, and to checks that read every step. The checks needed debugging too. Ironically, the most useful result was a run that gave the right answer, said honestly how it got there, and still failed, because a required document check never ran.</p>
+<p>The first lesson: a working agent is easy. The basic loop is short, and today's models are good at using tools. A good agent is hard to build on purpose. You might get lucky and one-shot it, but you can't count on that, so most of my code went to the parts that catch it when it goes wrong, and to checks that read every step. The checks needed debugging too. Ironically, the most useful result was a run that gave the right answer, said honestly how it got there, and still failed, because a required document check never ran.</p>
 <p>Another theme: many of the lessons came from outside the AI parts of the app. The first gap I found was in my deterministic rules engine: on files with conflicting documents, it still recommends a lender. The agent caught it, because its instructions say to stop when a fact it needs is missing or conflicting.</p>
 </div>
-
-<p class="resources">Background: <a href="/writing/provider-swap-layered-eval">my first write-up on the same demo</a>.</p>
 
 ## Why build an agent
 
@@ -20,7 +18,7 @@ Mortgage Maven is a demo I built of a fictional mortgage fintech. A borrower cha
 
 The demo alone couldn't answer that, because it's a script. The AI fills in a form, code decides the order of everything, and nothing surprising happens between steps. Real loan operations work, of course, isn't like that. A loan officer asks whether a policy allows something. A document needs re-checking. Someone wants an exception. The work comes in no fixed order, and sometimes the right move is to stop and hand the file to a person.
 
-A friend who builds AI systems for a living told me the way to learn this deeply is to build your own agent harness, one that can run multiple models, because it forces you to understand every part. I built mine without a framework, which meant handling the hard parts myself. (Lesson zero: as much as I relish X, Techmeme and other online resources for self-directed learning, it's still hard to beat a flesh-and-blood expert.)
+A friend who builds AI systems for a living told me the way to learn this deeply is to build your own agent harness, one that can run multiple models, because it forces you to understand every part. I built mine without a framework, which meant handling the hard parts myself. (Lesson zero: as much as I relish X, [Techmeme](https://www.techmeme.com) and other online resources for self-directed learning, it's still hard to beat a flesh-and-blood expert.)
 
 ## The easy part
 
@@ -103,4 +101,4 @@ The hardest part was carrying each provider's reasoning across tool calls: Claud
 
 Next on my to-do list: run every task several times, fix the rules-engine gap, and add the agent's results and a step-by-step trace viewer to [/evals](https://portkey-one.vercel.app/evals).
 
-What a first attempt taught me: it's valuable to understand how an agent loop works conceptually, even if a model writes the code. That understanding goes into the spec, and the spec is the difference between an agent that works in a demo and one that holds up when runs go wrong. (A real fintech would be a heavier lift, obviously.) For anyone putting an agent into regulated work: keeping the decision in code is well-worn advice, and still good, but test that code as hard as you test the AI. Let the agent decide when to ask, and grade what it did, not just what it said.
+What a first attempt taught me: it's valuable to understand how an agent loop works conceptually, even if a model writes the code. That understanding goes into the spec, and the spec is the difference between an agent that works in a demo and one that holds up when runs go wrong. (A real fintech would be a heavier lift, obviously.) For anyone putting an agent into regulated work: keeping the decision in code is well-worn advice, and still good, but test that code as hard as you test the AI.
