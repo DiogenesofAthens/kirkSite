@@ -3,7 +3,6 @@ title: The vicissitudes of agent building
 subtitle: A first attempt revealed interesting insights: it's easier to create a mediocre agent than one would think, yet harder to build a good one. And as always with building anything, unexpected insights result. In this case, building an agent loop surfaced an exogenous error, one in my deterministic code.
 date: 2026-10-14
 description: What a first attempt at an AI agent for mortgage work taught me. A working agent is easy, a good one is hard, and building it found a bug in my non-AI code.
-draft: true
 tiles: 8 = tasks | 11 = checks per run | 3 = AI providers | $2.10 = all 18 test runs
 ---
 <div class="summary">
