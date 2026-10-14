@@ -1,7 +1,7 @@
 ---
 title: The vicissitudes of agent building
 subtitle: A first attempt revealed interesting insights: it's easier to create a mediocre agent than one would think, yet harder to build a good one. And as always with building anything, unexpected insights result. In this case, building an agent loop surfaced an exogenous error, one in my deterministic code.
-date: 2026-10-13
+date: 2026-10-14
 description: What a first attempt at an AI agent for mortgage work taught me. A working agent is easy, a good one is hard, and building it found a bug in my non-AI code.
 draft: true
 tiles: 8 = tasks | 11 = checks per run | 3 = AI providers | $2.10 = all 18 test runs
@@ -9,17 +9,17 @@ tiles: 8 = tasks | 11 = checks per run | 3 = AI providers | $2.10 = all 18 test 
 <div class="summary">
 <span class="label">Summary</span>
 <p>Most AI apps follow a fixed script: the AI does one job at each step, and ordinary code decides what happens next. An AI agent is different. You give the model a goal and a set of tools, and it decides which steps to take. I built one from scratch for back-office mortgage work, ran it on models from Anthropic, OpenAI and an open-weight provider, and graded every step it took, not just its final answer.</p>
-<p>The first lesson: a working agent is easy. The basic loop is short, and today's models are good at using tools. A good agent is hard. Most of my code went to the parts that catch it when it goes wrong, and to checks that read every step, and the checks needed debugging too. The most useful result was a run that gave the right answer, said honestly how it got there, and still failed, because a document check the task required never ran.</p>
-<p>The surprise came from outside the AI parts of the app. Building the agent turned up a gap in my deterministic rules engine, the part of the demo I trusted most: on files with conflicting documents, it still recommends a lender. The agent caught it, because its instructions say to stop when a needed fact conflicts.</p>
+<p>The first lesson: a working agent is easy. The basic loop is short, and today's models are good at using tools. A good agent is hard to build on purpose. You might get lucky and one-shot one, but you can't count on it, so most of my code went to the parts that catch it when it goes wrong, and to checks that read every step. The checks needed debugging too. Ironically, the most useful result was a run that gave the right answer, said honestly how it got there, and still failed, because a required document check never ran.</p>
+<p>Another theme: many of the lessons came from outside the AI parts of the app. The first gap I found was in my deterministic rules engine: on files with conflicting documents, it still recommends a lender. The agent caught it, because its instructions say to stop when a fact it needs is missing or conflicting.</p>
 </div>
 
 <p class="resources">Background: <a href="/writing/provider-swap-layered-eval">my first write-up on the same demo</a>.</p>
 
 ## Why build an agent
 
-Mortgage Maven is a demo I built of a fictional mortgage fintech. A borrower chats with an AI intake assistant and uploads a mortgage statement, and a rules engine matches them with the best of three lenders for a refinance. In my [first write-up](/writing/provider-swap-layered-eval) I tested how reliable that AI was across providers. It ended on a better question than the one I started with: not which model is best, but where a model's word reaches a person unchecked. An agent makes that question bigger. Could AI reliably do real back-office work, and know when to stop?
+Mortgage Maven is a demo I built of a fictional mortgage fintech. A borrower chats with an AI intake assistant and uploads a mortgage statement, and a rules engine matches them with the best of three lenders for a refinance. (It's based on a business idea for the endemic problem of mortgage lock-in, a subject for another time.) In my [previous post](/writing/provider-swap-layered-eval) I tested how reliable that workflow was across model providers. By the end I realized that which model is best is the easier question, and a solvable one. The more important one: once you've picked the best model, how often is it wrong where no person checks its work? An agent makes that question bigger, because it scales both the upside and the downside. Could an AI loop like this reliably do real back-office mortgage work, and know when to stop?
 
-The demo can't answer that, because it's a script. The AI fills in a form, code decides the order of everything, and nothing surprising happens between steps. Real loan operations work isn't like that. A loan officer asks whether a policy allows something. A document needs re-checking. Someone wants an exception. The work comes in no fixed order, and sometimes the right move is to stop and hand the file to a person. That's the job an agent does, and an agent's word reaches people in many more places.
+The demo alone couldn't answer that, because it's a script. The AI fills in a form, code decides the order of everything, and nothing surprising happens between steps. Real loan operations work, of course, isn't like that. A loan officer asks whether a policy allows something. A document needs re-checking. Someone wants an exception. The work comes in no fixed order, and sometimes the right move is to stop and hand the file to a person.
 
 A friend who builds AI systems for a living told me the way to learn this deeply is to build your own agent harness, one that can run multiple models, because it forces you to understand every part. I built mine without a framework, which meant handling the hard parts myself. (Lesson zero: as much as I relish X, Techmeme and other online resources for self-directed learning, it's still hard to beat a flesh-and-blood expert.)
 
@@ -46,7 +46,7 @@ My loop is one file of about 400 lines, and most of it handles what the basic ve
 5. Stops on the third identical tool call, so a model stuck in a loop can't spin forever. Otherwise it checks the arguments, runs the tool, checks the output, and sends any failure back to the model as a specific error it can fix. Three failures end the run.
 6. Ends only when the final answer passes validation.
 
-Then there's grading. I wrote eight tasks like the exception request. Four should end with the agent handing the file to a person instead of answering, because half the job in lending is knowing when not to. Every run is recorded step by step, and eleven automated checks grade the record. For example:
+Then there's grading. I wrote eight tasks like the exception request above. Four should end with the agent handing the file to a person instead of answering, because half the job in lending is knowing when not to reach for a quick answer. Every run is recorded step by step, and eleven automated checks grade the record. For example:
 
 - Did it recommend only the lender the rules engine chose, and report only the engine's numbers?
 - Did it avoid words like "approved," "declined" or "guaranteed"?
@@ -54,9 +54,13 @@ Then there's grading. I wrote eight tasks like the exception request. Four shoul
 - Did it use the tools the task required before answering?
 - Did it finish by submitting an answer, rather than running out of steps or budget?
 
-The checks needed as much debugging as the agent. A review before any live run found that example values in two of my prompts matched the test answers, so a prompt could have handed the model an answer. My check for decision words started out too blunt: it had to learn that quoting the loan officer's request isn't the agent approving anything, and that "granted," "waived" and "denied" count too. It still has known misses, and a test pins them. Then the first live runs showed two of my format checks were stricter than my own spec; one wanted three phrases in an order the instructions never asked for. Because the checks read a stored record, I fixed both and re-graded every past run for free, without calling a model again.
+The checks needed debugging too. Three examples:
 
-Cost was harder to predict than with a script: the model chooses how many steps to take, every step re-sends everything before it, and Claude's thinking is billed as output. On the exception request, the input grew from 3,866 tokens on the first step to 7,361 on the fourth. My estimate for the first live runs, a smoke test plus the 18 below, was $1.59. They cost $2.31.
+- **Leaked answers.** My prompts show the model sample outputs, so it knows the expected format. A code review before the first live run found that two of the samples used the same values as the correct test answers. A model could have copied a sample and passed without doing the work. I changed the samples.
+- **A word check that was too blunt.** One check fails any run where the agent uses decision words like "approved." At first it couldn't tell the agent approving something from the agent repeating the request ("you asked me to get this approved"). It also missed synonyms: an exception "granted" or a limit "waived" is an approval in all but name. I rewrote it to handle both. It still misses some phrasings, and a test keeps a list of them, so I know exactly where it falls short.
+- **Format checks that were too strict.** In the first live runs, two format checks failed answers my own instructions allowed. One demanded three phrases in an exact order the instructions never asked for. Because every run is stored, I fixed both checks and re-graded all the past runs for free, without calling a model again.
+
+Cost was harder to predict than with a script: the model chooses how many steps to take, every step re-sends everything before it, and Claude's thinking is billed as output. On the exception request, the input grew from 3,866 tokens on the first step to 7,361 by the fourth. My estimate for the first live runs was $1.59: a smoke test (one quick run to make sure nothing is broken before the full set) plus the 18 below. They cost $2.31.
 
 ## Results
 
@@ -68,34 +72,36 @@ I ran each task once with Anthropic's model and once with OpenAI's, then twice m
 | Anthropic claude-opus-5 in both roles | 7 of 8 | 81 of 82 | $1.30 |
 | Claude, with Qwen reading documents (two tasks) | 1 of 2 | 21 of 22 | $0.24 |
 
-Claude's one miss was formatting. A draft message to a borrower had to end by saying the lender would review the completed package. Claude's said it, then added a note for the loan specialist below it, which the instructions rule out. It's one of the two checks I'd had to loosen, and this was a fair fail: the fixed check still requires that line to come last. With one run per task, the table isn't a ranking. It's a reason to run each task several more times, which is next.
+Claude's one miss was formatting. A draft message to a borrower had to end by saying the lender would review the completed package. Claude's said it, then added a note for the loan specialist below it, which the instructions rule out. It's one of the two checks I'd had to loosen, and this was a legitimate fail: the fixed check still requires that line to come last. With one run per task, the table isn't a ranking. It's a reason to run each task several more times.
 
 ## The right answer that failed
 
 In the failed Qwen run, Claude handed the mortgage statement to Qwen to pull out three values: the borrower's name, the loan balance and the interest rate. Qwen returned nothing. Claude then read the statement itself, built a tidy table showing all three matched the application, and added: "The comparison above is based on my direct read of the statement text, not on a completed automated evidence check." Then it marked the task complete.
 
-Every value was right, and the caveat was honest. It still failed, because the task required the automated check to actually run, and it hadn't. A test that grades only the final answer would have passed it. In a regulated workflow, the record has to show that the verification happened, not that the AI was confident it would have passed. That's the gap between a mediocre agent and a good one: both give right answers, and only one can show the work behind them.
+Every value was right, and the caveat was honest. It still failed, because the task required the automated check to actually run, and it hadn't. Claude simply worked around it. A test that grades only the final answer would have passed it. In a regulated workflow, the record has to show that the verification happened, not that the AI was confident it would have passed. Outside regulated work, an agent that works around a broken step might be exactly what you want. In lending, it's the gap between a mediocre agent and a good one: both give right answers, and only one can show the work behind them.
 
 ## The surprise: a bug outside the AI
 
-The finding I didn't expect wasn't about the AI at all. My rules engine, the deterministic code at the center of the demo, doesn't look at whether the evidence behind a value conflicts. On two test files with conflicting documents, it still recommends a lender. In the task that asks whether one of those files is ready to submit, the agent escalated only because it read "Conflicting evidence" in the application record and stopped. The AI was covering for the part of the demo I trusted most, and I trusted it because it isn't AI.
+The finding I didn't expect wasn't about the AI at all. My rules engine, the deterministic code at the center of the demo, doesn't look at whether the evidence behind a value conflicts. On two test files with conflicting documents, it still recommends a lender. In the task that asks whether one of those files is ready to submit, the agent escalated only because it read "Conflicting evidence" in the application record and stopped. The AI was covering for the part of the demo I trusted most and checked least. It's deterministic code; how could it fail?
 
-I found it while building the agent, which is the point of building one. So the agent was worth building twice: for what it does, and for handing me my next to-do on the demo itself.
+I found it only because I built the agent. So the agent was worth building twice: for what it does, and for handing me my next to-do on the demo itself.
 
 ## Under the hood, for builders
 
-Anthropic's [guide to building agents](https://www.anthropic.com/engineering/building-effective-agents) suggests starting with the model APIs directly, because frameworks "can obscure the underlying prompts and responses." I took that literally. The same loop runs unchanged on Anthropic's Messages API, OpenAI's Responses API and Groq's Chat Completions.
+Anthropic's [guide to building agents](https://www.anthropic.com/engineering/building-effective-agents) suggests starting with the model APIs directly, because frameworks "can obscure the underlying prompts and responses." I took that to heart. The same loop runs unchanged on Anthropic's Messages API, OpenAI's Responses API and Groq's Chat Completions.
 
 The hardest part was carrying each provider's reasoning across tool calls: Claude's thinking blocks have to go back unchanged and in order, OpenAI's encrypted reasoning has to be requested and replayed, and Groq doesn't carry reasoning across turns at all. Next came schemas, which each provider enforces differently, so zod checks every tool call on all three. I turned the SDKs' own retries off, so the loop's retries are the only ones and every retry shows in the record.
 
-107 offline tests drive the loop with a scripted model, and any accidental network call fails the suite. The live runs never hit a budget or loop limit, so those tests are the evidence the guardrails work. Every live run showed its worst-case cost first and waited for my go-ahead.
+107 offline tests drive the loop with a scripted model, and any accidental network call fails the suite. The live runs never hit a budget or loop limit, so those tests provided evidence the guardrails are working as intended. Every live run showed its worst-case cost first and waited for my go-ahead.
 
 ## Limits, and what's next
 
-- One run per task, so how much the results vary is still unmeasured.
-- Eight small, synthetic tasks. The inputs were small enough that trimming never kicked in.
-- It runs on my machine, with no public demo or trace viewer yet.
+- There was only one run per task, so how much the results vary is still unmeasured.
+- These were eight small, synthetic tasks. The inputs were small enough that trimming never kicked in.
+- The agent runs on my machine, with no public demo or trace viewer yet.
 - Groq's free tier is too rate-limited for Qwen to run the whole agent, only the document step.
 - I wrote the spec and made the design calls; Claude Code wrote the code.
 
-Next: run every task several times, fix the rules-engine gap, and add the agent's results and a step-by-step trace viewer to [/evals](https://portkey-one.vercel.app/evals). What a first attempt taught me: understand how an agent loop works, even if a model writes the code. That understanding goes into the spec, and the spec is the difference between an agent that works in a demo and one that holds up when runs go wrong. (A real fintech would be a heavier lift, obviously.) For anyone putting an agent into regulated work: keep the decision in code, let the agent decide when to ask, and grade what it did, not just what it said.
+Next on my to-do list: run every task several times, fix the rules-engine gap, and add the agent's results and a step-by-step trace viewer to [/evals](https://portkey-one.vercel.app/evals).
+
+What a first attempt taught me: it's valuable to understand how an agent loop works conceptually, even if a model writes the code. That understanding goes into the spec, and the spec is the difference between an agent that works in a demo and one that holds up when runs go wrong. (A real fintech would be a heavier lift, obviously.) For anyone putting an agent into regulated work: keeping the decision in code is well-worn advice, and still good, but test that code as hard as you test the AI. Let the agent decide when to ask, and grade what it did, not just what it said.
